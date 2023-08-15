@@ -29,7 +29,7 @@ namespace AmplifyShaderEditor
 
 		private static readonly string IconGUID = "2c6536772776dd84f872779990273bfc";
 
-		public static readonly string ChangelogURL = "http://amplify.pt/Banner/ASEchangelog.json";
+		public static readonly string ChangelogURL = "https://amplify.pt/Banner/ASEchangelog.json";
 
 		private static readonly string ManualURL = "http://wiki.amplify.pt/index.php?title=Unity_Products:Amplify_Shader_Editor/Manual";
 		private static readonly string BasicURL = "http://wiki.amplify.pt/index.php?title=Unity_Products:Amplify_Shader_Editor/Tutorials#Official_-_Basics";
@@ -186,33 +186,24 @@ namespace AmplifyShaderEditor
 			{
 				m_infoDownloaded = true;
 
-#if UNITY_2022_1_OR_NEWER
-				if ( PlayerSettings.insecureHttpOption == InsecureHttpOption.NotAllowed )
+				StartBackgroundTask( StartRequest( ChangelogURL, () =>
 				{
-					Debug.LogWarning( "[AmplifyShaderEditor] " + OnlineVersionWarning );
-				}
-				else
-#endif
-				{
-					StartBackgroundTask( StartRequest( ChangelogURL, () =>
+					var temp = ChangeLogInfo.CreateFromJSON( www.downloadHandler.text );
+					if( temp != null && temp.Version >= m_changeLog.Version )
 					{
-						var temp = ChangeLogInfo.CreateFromJSON( www.downloadHandler.text );
-						if( temp != null && temp.Version >= m_changeLog.Version )
-						{
-							m_changeLog = temp;
-						}
+						m_changeLog = temp;
+					}
 
-						int version = m_changeLog.Version;
-						int major = version / 10000;
-						int minor = version / 1000 - major * 10;
-						int release = version / 100 - ( version / 1000 ) * 10;
-						int revision = version - ( version / 100 ) * 100;
+					int version = m_changeLog.Version;
+					int major = version / 10000;
+					int minor = version / 1000 - major * 10;
+					int release = version / 100 - ( version / 1000 ) * 10;
+					int revision = version - ( version / 100 ) * 100;
 
-						m_newVersion = major + "." + minor + "." + release + ( revision > 0 ? "." + revision : "" );
+					m_newVersion = major + "." + minor + "." + release + ( revision > 0 ? "." + revision : "" );
 
-						Repaint();
-					} ) );
-				}
+					Repaint();
+				} ) );
 			}
 
 			if( m_buttonStyle == null )
