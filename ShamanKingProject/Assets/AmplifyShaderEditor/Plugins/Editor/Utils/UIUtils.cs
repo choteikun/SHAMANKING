@@ -1221,7 +1221,7 @@ namespace AmplifyShaderEditor
 			MinusStyle.imagePosition = ImagePosition.ImageOnly;
 			MinusStyle.overflow = new RectOffset( -2 , 0 , -4 , 0 );
 
-		#if UNITY_2022_3_OR_NEWER
+		#if UNITY_2021_3_OR_NEWER
 			ToolbarSearchTextfield = new GUIStyle((GUIStyle)"ToolbarSearchTextField");
 			ToolbarSearchCancelButton = new GUIStyle((GUIStyle)"ToolbarSearchCancelButton");
 		#else
