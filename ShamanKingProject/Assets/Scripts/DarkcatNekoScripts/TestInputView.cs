@@ -7,7 +7,7 @@ public class TestInputView : MonoBehaviour
 {   
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             GameManager.Instance.MainGameEvent.Send(new TestInputCommand() { CommandCount = 0 });
         }
