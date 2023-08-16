@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Gamemanager;
 
-public class ControllerView : MonoBehaviour
+public class GamepadControllerView : MonoBehaviour
 {
     void OnPlayerControl(InputValue value)
     {
