@@ -8,5 +8,6 @@ using System;
 public class MainGameEventPack : GameEventPack
 {
     public IObservable<TestInputCommand> OnTestInput => getSubject<TestInputCommand>();
+    public IObservable<PlayerControllerMovementCommand> OnPlayerControllerMovement => getSubject<PlayerControllerMovementCommand>();
 
 }
