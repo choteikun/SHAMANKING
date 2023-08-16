@@ -8,5 +8,13 @@ namespace Gamemanager
         public int CommandCount;
     }
 
+    /// <summary>
+    /// 玩家手把操作移動
+    /// </summary>
+    public class PlayerControllerMovementCommand : GameEventMessageBase
+    {
+        public bool IsSmallMove = false;
+        public Vector2 Direction;
+    }
 
 }

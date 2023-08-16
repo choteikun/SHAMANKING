@@ -8,4 +8,5 @@ using System;
 public class MainGameEventPack : GameEventPack
 {
     public IObservable<TestInputCommand> OnTestInput => getSubject<TestInputCommand>();
+
 }
