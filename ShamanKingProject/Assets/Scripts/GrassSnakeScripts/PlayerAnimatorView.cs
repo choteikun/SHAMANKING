@@ -1,7 +1,10 @@
+using Gamemanager;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UniRx;
 
 public enum PlayerAnimState
 {
@@ -15,15 +18,15 @@ public class PlayerAnimatorView : MonoBehaviour
     //readonly int h_HurtFromX = Animator.StringToHash("HurtFromX");
     //readonly int h_HurtFromY = Animator.StringToHash("HurtFromY");
 
-    //readonly int h_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
+    readonly int h_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
 
-    //readonly int h_AnimMoveSpeed = Animator.StringToHash("AnimMoveSpeed");
+    readonly int h_AnimMoveSpeed = Animator.StringToHash("AnimMoveSpeed");
 
-    //readonly int h_InputDetected = Animator.StringToHash("InputDetected");
-    //readonly int h_Grounded = Animator.StringToHash("Grounded");
-    //readonly int h_Airborne = Animator.StringToHash("Airborne");
+    readonly int h_InputDetected = Animator.StringToHash("InputDetected");
+    readonly int h_Grounded = Animator.StringToHash("Grounded");
+    readonly int h_Airborne = Animator.StringToHash("Airborne");//空中降落，下降是true，上升是false
 
-    //readonly int h_Idle = Animator.StringToHash("Idle");
+    readonly int h_Idle = Animator.StringToHash("Idle");
     //readonly int h_Jump = Animator.StringToHash("Jump");
     #endregion
 
@@ -45,20 +48,20 @@ public class PlayerAnimatorView : MonoBehaviour
     private float idleTimeOut;
     //Idle動畫計時器(跳轉至隨機動畫)
     private float idleTimer;
+
     //Move狀態中回到idle的計時器(避免方向鍵切換時角色回到idle狀態)
-    //private float _moveToIdleTimer;
+    private float _moveToIdleTimer;
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
+        GameManager.Instance.MainGameEvent.OnPlayerControllerMovement.Subscribe(getAnimMoveSpeed);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        player_horizontalVel = inputValue.Get<Vector2>().magnitude;
+        
 
 
         //TimeoutToIdle();
@@ -101,6 +104,11 @@ public class PlayerAnimatorView : MonoBehaviour
     }
     #endregion
 
+    void getAnimMoveSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
+    {
+        player_horizontalVel = playerControllerMovementCommand.Direction.magnitude;
+        animator.SetFloat(h_AnimMoveSpeed, player_horizontalVel);
+    }
 
     #region - Animation Events -
 
