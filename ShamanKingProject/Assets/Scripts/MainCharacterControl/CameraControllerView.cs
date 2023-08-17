@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gamemanager;
+using UnityEditor.Rendering;
+using UnityEngine.Android;
 
 public class CameraControllerView : MonoBehaviour
 {
@@ -30,7 +32,11 @@ public class CameraControllerView : MonoBehaviour
     void rotateCameraFollowedObject()
     {
         var rotateAngle = rotateValue_ * Time.deltaTime * rotateSpeed_ + cameraFollowedObject_.transform.rotation.eulerAngles;
-        rotateAngle = new Vector3(Mathf.Clamp(rotateAngle.x, 0, 75), rotateAngle.y, rotateAngle.z);
+        Debug.Log(rotateAngle);
+        if (rotateAngle.x >= 75 && rotateAngle.x < 90)
+        {
+            rotateAngle.x = 75;
+        }
         var rotateQuaternion = Quaternion.Euler(rotateAngle);
         cameraFollowedObject_.transform.rotation = rotateQuaternion;
     }
