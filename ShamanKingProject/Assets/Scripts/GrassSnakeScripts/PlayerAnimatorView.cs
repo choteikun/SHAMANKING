@@ -107,6 +107,11 @@ public class PlayerAnimatorView : MonoBehaviour
     void getAnimMoveSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
         player_horizontalVel = playerControllerMovementCommand.Direction.magnitude;
+        //if (playerControllerMovementCommand.Direction != Vector2.zero)
+        //{
+        //    player_horizontalVel = inputValue.Get<Vector2>().magnitude;
+        //}
+
         animator.SetFloat(h_AnimMoveSpeed, player_horizontalVel);
     }
 
