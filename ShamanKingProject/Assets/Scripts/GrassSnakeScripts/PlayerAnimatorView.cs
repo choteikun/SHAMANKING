@@ -112,7 +112,8 @@ public class PlayerAnimatorView : MonoBehaviour
     void getAnimMoveSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
         //player_horizontalVel = playerControllerMovementCommand.Direction.magnitude;
-        player_targetAnimSpeed = playerControllerMovementCommand.Direction.magnitude * 1.0f;
+        var clampedDirection = Mathf.Clamp(playerControllerMovementCommand.Direction.magnitude, 0, 1);
+        player_targetAnimSpeed = clampedDirection * 1.0f;
     }
 
     #region - Animation Events -
