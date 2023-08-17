@@ -12,4 +12,5 @@ public class GameManager : ToSingletonMonoBehavior<GameManager>
         base.init();
         MainGameMediator = new MainGameMediator();
     }
+
 }

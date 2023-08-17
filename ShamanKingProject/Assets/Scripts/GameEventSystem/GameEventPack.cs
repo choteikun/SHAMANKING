@@ -46,12 +46,12 @@ namespace Gamemanager
             throw new UnityException($"Get Subject Error, Msg Type: {typeof(T)}");
         }
 
-        //public IDisposable SetSubscribe<T>(IObservable<T> target, Action<T> action)
-        //{
-        //    var disposable = target.Subscribe(action);
-        //    GameManager.Instance.MainGameMediator.AddToDisposables(disposable);
-        //    return disposable;
-        //}
+        public IDisposable SetSubscribe<T>(IObservable<T> target, Action<T> action)
+        {
+            var disposable = target.Subscribe(action);
+            GameManager.Instance.MainGameMediator.AddToDisposables(disposable);
+            return disposable;
+        }
     }
 
     interface IGameMessageObservable<T>

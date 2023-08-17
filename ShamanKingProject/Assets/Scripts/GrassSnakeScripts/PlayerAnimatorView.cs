@@ -38,9 +38,9 @@ public class PlayerAnimatorView : MonoBehaviour
 
     //檢測按鈕
     private bool inputDetected;
-    //角色水平速度
-    private float player_horizontalVel;
-    //角色垂直速度
+    //角色動畫水平速度
+    private float player_horizontalAnimVel;
+    //角色動畫垂直速度
     private float player_verticalVel;
 
 
@@ -52,17 +52,22 @@ public class PlayerAnimatorView : MonoBehaviour
     //Move狀態中回到idle的計時器(避免方向鍵切換時角色回到idle狀態)
     private float _moveToIdleTimer;
 
+    //接收玩家移動指令所計算用的動畫速度
+    private float player_targetAnimSpeed;
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        GameManager.Instance.MainGameEvent.OnPlayerControllerMovement.Subscribe(getAnimMoveSpeed);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getAnimMoveSpeed);
     }
 
     void Update()
     {
-        
 
+        player_horizontalAnimVel = Mathf.Lerp(player_horizontalAnimVel, player_targetAnimSpeed, Time.deltaTime * 10.0f);
+        if (player_horizontalAnimVel < 0.01f) player_horizontalAnimVel = 0f;
+
+        animator.SetFloat(h_AnimMoveSpeed, player_horizontalAnimVel);
 
         //TimeoutToIdle();
 
@@ -106,13 +111,8 @@ public class PlayerAnimatorView : MonoBehaviour
 
     void getAnimMoveSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
-        player_horizontalVel = playerControllerMovementCommand.Direction.magnitude;
-        //if (playerControllerMovementCommand.Direction != Vector2.zero)
-        //{
-        //    player_horizontalVel = inputValue.Get<Vector2>().magnitude;
-        //}
-
-        animator.SetFloat(h_AnimMoveSpeed, player_horizontalVel);
+        //player_horizontalVel = playerControllerMovementCommand.Direction.magnitude;
+        player_targetAnimSpeed = playerControllerMovementCommand.Direction.magnitude * 1.0f;
     }
 
     #region - Animation Events -

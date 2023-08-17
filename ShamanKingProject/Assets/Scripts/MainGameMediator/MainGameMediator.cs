@@ -6,9 +6,13 @@ using UniRx;
 
 public class MainGameMediator
 {
-    public CompositeDisposable Disposable = new CompositeDisposable();
+    CompositeDisposable disposable_ = new CompositeDisposable();
     public void DisposeObserber()
     {
-        Disposable.Dispose();
+        disposable_.Dispose();
+    }
+    public void AddToDisposables(IDisposable disposable)
+    {
+        disposable_.Add(disposable);
     }
 }
