@@ -16,5 +16,9 @@ namespace Gamemanager
         public bool IsSmallMove = false;
         public Vector2 Direction;
     }
-
+    
+    public class PlayerControllerCameraRotateCommand:GameEventMessageBase
+    {
+        public Vector2 RotateValue;
+    }
 }
