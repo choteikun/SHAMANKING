@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Gamemanager;
-using UnityEditor.Rendering;
-using UnityEngine.Android;
+using UnityEngine;
 
 public class CameraControllerView : MonoBehaviour
 {
@@ -12,7 +8,9 @@ public class CameraControllerView : MonoBehaviour
     [SerializeField]
     GameObject cameraFollowedObject_;
     [SerializeField]
-    float rotateSpeed_ = 20f;
+    float rotateSpeed_X_ = 50f;
+    [SerializeField]
+    float rotateSpeed_Y_ = 10f;
 
     Vector3 rotateValue_ => new Vector3(nowRotateGamepadValue_.y, nowRotateGamepadValue_.x, 0);
     private void Start()
@@ -31,8 +29,8 @@ public class CameraControllerView : MonoBehaviour
 
     void rotateCameraFollowedObject()
     {
-        var rotateAngle = rotateValue_ * Time.deltaTime * rotateSpeed_ + cameraFollowedObject_.transform.rotation.eulerAngles;
-        Debug.Log(rotateAngle);
+        var sensitiveRotateValue = new Vector3(rotateValue_.x * Time.deltaTime * rotateSpeed_Y_, rotateValue_.y * Time.deltaTime * rotateSpeed_X_, 0);
+        var rotateAngle = sensitiveRotateValue + cameraFollowedObject_.transform.rotation.eulerAngles;
         if (rotateAngle.x >= 75 && rotateAngle.x < 90)
         {
             rotateAngle.x = 75;

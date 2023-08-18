@@ -40,11 +40,11 @@ public class TestCameraController : MonoBehaviour
         else if (rotateAngle_ >= 270 && rotateAngle_ <= 360)
         {
             thirdPersonFollow_.CameraDistance = 2.7f - (360 - rotateAngle_) * 2.7f / 90;
-            if (rotateAngle_ >= 270 && rotateAngle_ <= 335)
-            {
-                thirdPersonFollow_.VerticalArmLength = 0.01f + (rotateAngle_ - 270) * 0.99f / 65;
-                thirdPersonFollow_.ShoulderOffset.y =-0.1f+ (rotateAngle_ - 270) * 0.1f / 65;
-            }
+            //if (rotateAngle_ >= 270 && rotateAngle_ <= 360)
+            //{
+                thirdPersonFollow_.VerticalArmLength = 0.01f + (rotateAngle_ - 270) * 0.99f / 90;
+                thirdPersonFollow_.ShoulderOffset.y =-0.1f+ (rotateAngle_ - 270) * 0.1f /90;
+            //}
         }
     }
 
