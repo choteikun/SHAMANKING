@@ -7,6 +7,7 @@ public class GamepadControllerView : MonoBehaviour
 {
 
     [SerializeField] PlayerInput input_;
+    [SerializeField] int mouse_X_Horrzontal_sensitivity_ = 5;
     private async void Start()
     {
         Debug.Log("start");
@@ -56,7 +57,7 @@ public class GamepadControllerView : MonoBehaviour
         var inputX = Input.GetAxis("Mouse X");
         var inputY = -Input.GetAxis("Mouse Y");
         //Debug.Log(mouseInput);
-        inputX = Mathf.Clamp(inputX, -3, 3);
+        inputX = Mathf.Clamp(inputX, -mouse_X_Horrzontal_sensitivity_, mouse_X_Horrzontal_sensitivity_);
         inputY = Mathf.Clamp(inputY, -3, 3);
         //if (Mathf.Abs(inputX) < 0.25f)
         //{

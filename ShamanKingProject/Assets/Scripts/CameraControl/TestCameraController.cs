@@ -17,6 +17,8 @@ public class TestCameraController : MonoBehaviour
     Cinemachine3rdPersonFollow thirdPersonFollow_;
     CinemachineComposer composer_;
 
+    
+
     private void Start()
     {
         thirdPersonFollow_ = virtualCamera_.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
