@@ -58,16 +58,13 @@ public class PlayerAnimatorView : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getAnimMoveSpeed);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetTargetAnimSpeed);
     }
 
     void Update()
     {
 
-        player_horizontalAnimVel = Mathf.Lerp(player_horizontalAnimVel, player_targetAnimSpeed, Time.deltaTime * 10.0f);
-        if (player_horizontalAnimVel < 0.01f) player_horizontalAnimVel = 0f;
-
-        animator.SetFloat(h_AnimMoveSpeed, player_horizontalAnimVel);
+        SetHorizontalAnimVel();
 
         //TimeoutToIdle();
 
@@ -109,12 +106,22 @@ public class PlayerAnimatorView : MonoBehaviour
     }
     #endregion
 
-    void getAnimMoveSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
+    #region - 動畫參數計算 -
+
+    void GetTargetAnimSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
-        //player_horizontalVel = playerControllerMovementCommand.Direction.magnitude;
+        float targetSpeed = 1.0f;
         var clampedDirection = Mathf.Clamp(playerControllerMovementCommand.Direction.magnitude, 0, 1);
-        player_targetAnimSpeed = clampedDirection * 1.0f;
+        player_targetAnimSpeed = clampedDirection * targetSpeed;
     }
+    void SetHorizontalAnimVel()//設置動畫水平速度給LocomtionBlendTree
+    {
+        player_horizontalAnimVel = Mathf.Lerp(player_horizontalAnimVel, player_targetAnimSpeed, Time.deltaTime * 10.0f);
+        if (player_horizontalAnimVel < 0.01f) player_horizontalAnimVel = 0f;
+
+        animator.SetFloat(h_AnimMoveSpeed, player_horizontalAnimVel);
+    }
+    #endregion
 
     #region - Animation Events -
 
