@@ -29,13 +29,32 @@ public class CameraControllerView : MonoBehaviour
 
     void rotateCameraFollowedObject()
     {
+        //Debug.Log(rotateValue_);
+
         var sensitiveRotateValue = new Vector3(rotateValue_.x * Time.deltaTime * rotateSpeed_Y_, rotateValue_.y * Time.deltaTime * rotateSpeed_X_, 0);
-        var rotateAngle = sensitiveRotateValue + cameraFollowedObject_.transform.rotation.eulerAngles;
-        if (rotateAngle.x >= 75 && rotateAngle.x < 90)
+        // 根據 rotateValue_ 的 x 和 y 分量來計算旋轉角度
+        float rotationX = sensitiveRotateValue.x;
+        float rotationY = sensitiveRotateValue.y;
+
+
+        var finalAngle = cameraFollowedObject_.transform.rotation;
+        // 根據計算出的旋轉角度來旋轉物體
+       finalAngle *= Quaternion.Euler(rotationX, rotationY, 0f);
+
+        // 取得物體的歐拉角度
+        Vector3 eulerAngles = finalAngle.eulerAngles;
+
+        // 將旋轉角度限制在 75 到 -90 的範圍內
+        if (eulerAngles.x > 180f)
         {
-            rotateAngle.x = 75;
+            eulerAngles.x -= 360f;
         }
-        var rotateQuaternion = Quaternion.Euler(rotateAngle);
-        cameraFollowedObject_.transform.rotation = rotateQuaternion;
+        eulerAngles.x = Mathf.Clamp(eulerAngles.x, -60, 75f);
+        eulerAngles.z = 0;
+        // 將歐拉角度設定回物體的旋轉
+        cameraFollowedObject_.transform.eulerAngles = eulerAngles;
+
+
+        
     }
 }

@@ -246,7 +246,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: MainGameplay
+  m_DefaultActionMap: Freeze
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!4 &181671205
@@ -276,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4ef98f86245034d8429f8e279f06ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input_: {fileID: 181671204}
 --- !u!1 &198619577
 GameObject:
   m_ObjectHideFlags: 3
@@ -500,7 +501,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.084344655, y: 0.006033509, z: 0.0005107235, w: 0.9964183}
+  m_LocalRotation: {x: -0.084344655, y: 0.0060323128, z: 0.0005106222, w: 0.9964183}
   m_LocalPosition: {x: -6.49, y: 1, z: -2.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -509,7 +510,7 @@ Transform:
   - {fileID: 836895999}
   m_Father: {fileID: 1822848462}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0.694, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -9.692, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,7 +718,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456681961}
-  m_LocalRotation: {x: -0, y: -4.656613e-10, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -900,8 +901,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nowRotateGamepadValue_: {x: 0, y: 0}
   cameraFollowedObject_: {fileID: 593271159}
-  rotateSpeed_X_: 70
-  rotateSpeed_Y_: 20
+  rotateSpeed_X_: 110
+  rotateSpeed_Y_: 80
 --- !u!1 &633131540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,6 +1467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1447408693}
   - component: {fileID: 1447408692}
+  - component: {fileID: 1447408694}
   m_Layer: 0
   m_Name: characterTestController
   m_TagString: Untagged
@@ -1485,6 +1487,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05c043c1a16d20488bfbb3394e5c83a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  SprintSpeed: 5.335
+  SpeedChangeRate: 10
+  TurnSmoothTime: 0.15
   playerOBj_: {fileID: 2032240285794918005}
 --- !u!4 &1447408693
 Transform:
@@ -1501,6 +1507,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &1447408694
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447408691}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1499766404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,8 +1786,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2046935861}
   - component: {fileID: 2046935864}
-  - component: {fileID: 2046935863}
   - component: {fileID: 2046935862}
+  - component: {fileID: 2046935865}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1812,8 +1836,20 @@ MonoBehaviour:
   m_SoftZoneHeight: 0.8
   m_BiasX: -0.00000014901161
   m_BiasY: 0
-  m_CenterOnActivate: 1
---- !u!114 &2046935863
+  m_CenterOnActivate: 0
+--- !u!114 &2046935864
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046935860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2046935865
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1837,18 +1873,6 @@ MonoBehaviour:
   CameraRadius: 0.2
   DampingIntoCollision: 0
   DampingFromCollision: 2
---- !u!114 &2046935864
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2046935860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6314068328238608
 GameObject:
   m_ObjectHideFlags: 0

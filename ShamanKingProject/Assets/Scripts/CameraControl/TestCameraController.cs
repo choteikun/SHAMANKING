@@ -24,8 +24,7 @@ public class TestCameraController : MonoBehaviour
     }
 
     private void Update()
-    {       
-        
+    {
         rotateAngle_ = lookedObject.transform.rotation.eulerAngles.x;
         if (rotateAngle_ == 0)
         {

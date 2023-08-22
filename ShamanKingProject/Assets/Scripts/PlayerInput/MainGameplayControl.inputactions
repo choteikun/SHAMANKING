@@ -33,6 +33,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "MouseCameraControl",
+                    "type": "Value",
+                    "id": "e93217ce-81fa-4840-b93f-99ff33baec24",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "PlayerAim",
                     "type": "Button",
                     "id": "eb996077-6a1d-42b5-97b2-6469ef2da13b",
@@ -141,15 +150,26 @@
                     "action": "PlayerAim",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be3bad12-2bf7-4aa5-8b3c-f826b35f8d79",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseCameraControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Freeze",
+            "id": "c622bc37-6145-42fc-a35e-94b5932c3142",
+            "actions": [],
+            "bindings": []
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "New control scheme",
-            "bindingGroup": "New control scheme",
-            "devices": []
-        }
-    ]
+    "controlSchemes": []
 }
