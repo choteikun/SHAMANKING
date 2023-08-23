@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input_: {fileID: 181671204}
+  mouse_X_Horrzontal_sensitivity_: 1.05
 --- !u!1 &198619577
 GameObject:
   m_ObjectHideFlags: 3
@@ -501,7 +502,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.084344655, y: 0.0060323128, z: 0.0005106222, w: 0.9964183}
+  m_LocalRotation: {x: -0.08434465, y: 0.006035528, z: 0.0005108944, w: 0.99641824}
   m_LocalPosition: {x: -6.49, y: 1, z: -2.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -703,7 +704,6 @@ GameObject:
   m_Component:
   - component: {fileID: 456681962}
   - component: {fileID: 456681963}
-  - component: {fileID: 456681964}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -765,21 +765,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 2046935861}
---- !u!114 &456681964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 456681961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b0fb43f2a4c08141a45a836afc7a385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateAngle_: 0
-  virtualCamera_: {fileID: 456681963}
-  lookedObject: {fileID: 593271159}
 --- !u!1 &475522657
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +888,14 @@ MonoBehaviour:
   cameraFollowedObject_: {fileID: 593271159}
   rotateSpeed_X_: 110
   rotateSpeed_Y_: 80
+  maxHeadAngle_: 75
+  minHeadAngle_: -60
+  cMCameraController_:
+    rotateAngle_: 0
+    virtualCamera_: {fileID: 456681963}
+    lookedObject: {fileID: 593271159}
+    basicCameraDistance_: 2.7
+    upperCameraDistance_: 3
 --- !u!1 &633131540
 GameObject:
   m_ObjectHideFlags: 0
@@ -2364,6 +2357,7 @@ GameObject:
   - component: {fileID: 1691144993474544847}
   - component: {fileID: 2032240285794918007}
   - component: {fileID: 2032240285794918006}
+  - component: {fileID: 2032240285794918008}
   m_Layer: 0
   m_Name: TestCharacter
   m_TagString: Untagged
@@ -2404,6 +2398,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!143 &2032240285794918008
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032240285794918005}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &2065920413576546234
 Transform:
   m_ObjectHideFlags: 0
