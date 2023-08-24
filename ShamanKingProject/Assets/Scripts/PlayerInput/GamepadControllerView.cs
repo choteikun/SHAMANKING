@@ -37,7 +37,6 @@ public class GamepadControllerView : MonoBehaviour
         var gamepadInput = value.Get<Vector2>();
         var inputX = gamepadInput.x;
         var inputY = -gamepadInput.y;
-        //Debug.Log(gamepadInput);
         if (Mathf.Abs(inputX) < 0.2f)
         {
             inputX = 0;
@@ -47,7 +46,6 @@ public class GamepadControllerView : MonoBehaviour
             inputY = 0;
         }
         var output = new Vector2(inputX, inputY);
-        //Debug.Log(gamepadInput);
         GameManager.Instance.MainGameEvent.Send(new PlayerControllerCameraRotateCommand() { RotateValue = output });
     }
 
@@ -57,19 +55,9 @@ public class GamepadControllerView : MonoBehaviour
         var inputX = Input.GetAxis("Mouse X")* mouse_X_Horrzontal_sensitivity_;
         var inputY = -Input.GetAxis("Mouse Y");
         Debug.Log(inputX);
-        //Debug.Log(mouseInput);
         inputX = Mathf.Clamp(inputX, -5, 5);
         inputY = Mathf.Clamp(inputY, -3, 3);
-        //if (Mathf.Abs(inputX) < 0.25f)
-        //{
-        //    inputX = 0;
-        //}
-        //if (Mathf.Abs(inputY) < 0.25f)
-        //{
-        //    inputY = 0;
-        //}
         var output = new Vector2(inputX, inputY);
-        //Debug.Log(gamepadInput);
         GameManager.Instance.MainGameEvent.Send(new PlayerControllerCameraRotateCommand() { RotateValue = output });
     }
     private void Update()
