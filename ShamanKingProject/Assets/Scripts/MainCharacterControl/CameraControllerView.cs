@@ -89,6 +89,10 @@ public class CameraControllerView : MonoBehaviour
     }
     Vector3 clampAimCameraRotateAngle(Vector3 target)
     {
+        if (target.x > 180f)
+        {
+            target.x -= 360f;
+        }
         target.x = Mathf.Clamp(target.x, -25, 25);
         target.z = 0;
         return target;
