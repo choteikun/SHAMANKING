@@ -21,4 +21,15 @@ namespace Gamemanager
     {
         public Vector2 RotateValue;
     }
+
+    public class PlayerAimingButtonCommand : GameEventMessageBase
+    {
+        public bool AimingButtonIsPressed = false;
+    }
+
+    public class PlayerRollingButtonCommand : GameEventMessageBase
+    {
+
+    }
+
 }

@@ -44,7 +44,7 @@ public class CMCameraController
         }
         if (rotateAngle_ >= 0 && rotateAngle_ <= maxHeadAngle)
         {
-            thirdPersonFollow_.CameraDistance = basicCameraDistance_ + rotateAngle_ * upperCameraDistance_ / maxHeadAngle;
+           thirdPersonFollow_.CameraDistance = basicCameraDistance_ + rotateAngle_ * upperCameraDistance_ / maxHeadAngle;
             composer_.m_ScreenY = 1 - rotateAngle_ * 0.5f / maxHeadAngle;
 
         }

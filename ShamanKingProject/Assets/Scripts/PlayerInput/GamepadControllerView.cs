@@ -24,12 +24,12 @@ public class GamepadControllerView : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.MainGameEvent.Send(new PlayerControllerMovementCommand() { IsSmallMove = false, Direction = controllerDirection }); ;
+            GameManager.Instance.MainGameEvent.Send(new PlayerControllerMovementCommand() { IsSmallMove = false, Direction = controllerDirection }); 
         }
     }
     void OnPlayerRoll()
     {
-        Debug.Log("Roll");
+        GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());
     }
 
     void OnCameraControl(InputValue value)
@@ -52,16 +52,17 @@ public class GamepadControllerView : MonoBehaviour
     void OnMouseCameraControl(InputValue value)
     {
         var mouseInput = value.Get<Vector2>();
-        var inputX = Input.GetAxis("Mouse X")* mouse_X_Horrzontal_sensitivity_;
+        var inputX = Input.GetAxis("Mouse X") * mouse_X_Horrzontal_sensitivity_;
         var inputY = -Input.GetAxis("Mouse Y");
-        Debug.Log(inputX);
+        //Debug.Log(inputX);
         inputX = Mathf.Clamp(inputX, -5, 5);
         inputY = Mathf.Clamp(inputY, -3, 3);
         var output = new Vector2(inputX, inputY);
         GameManager.Instance.MainGameEvent.Send(new PlayerControllerCameraRotateCommand() { RotateValue = output });
     }
-    private void Update()
-    {
 
+    void OnPlayerAim(InputValue value)
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
     }
 }
