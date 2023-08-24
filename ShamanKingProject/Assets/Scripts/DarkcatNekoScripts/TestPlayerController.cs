@@ -31,6 +31,8 @@ public class TestPlayerController : MonoBehaviour
 
     //--------------------------------------------------------------------------------------------------------------
 
+    private const float speedOffset = 0.01f;
+
     private CharacterController player_CC;
     private GameObject _mainCamera;
 
@@ -76,7 +78,6 @@ public class TestPlayerController : MonoBehaviour
         //玩家當前水平速度的引用
         float currentHorizontalSpeed = new Vector3(player_CC.velocity.x, 0.0f, player_CC.velocity.z).magnitude;
 
-        float speedOffset = 0.1f;
         //為了提供一個容錯範圍。當當前速度與目標速度之間的差值小於容錯範圍時，就不需要進行加速或減速操作，
         //因為這時候已經非常接近目標速度了，再進行微小的變化可能會導致速度上下抖動，產生不良的遊戲體驗。
         //因此，這個容錯範圍可以幫助確保角色在接近目標速度時保持穩定。
@@ -86,7 +87,7 @@ public class TestPlayerController : MonoBehaviour
         if (currentHorizontalSpeed < targetSpeed - speedOffset ||
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
-            // 改善速度變化，計算速度為曲線結果而不是線性結果
+            // 改善速度變化，計算速度為滑順的而不是線性結果
             player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
                 Time.deltaTime * SpeedChangeRate);
 
