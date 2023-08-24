@@ -18,21 +18,22 @@ public class PlayerAnimatorView : MonoBehaviour
     //readonly int h_HurtFromX = Animator.StringToHash("HurtFromX");
     //readonly int h_HurtFromY = Animator.StringToHash("HurtFromY");
 
-    readonly int h_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
+    readonly int animID_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
 
-    readonly int h_AnimMoveSpeed = Animator.StringToHash("AnimMoveSpeed");
+    readonly int animID_AnimMoveSpeed = Animator.StringToHash("AnimMoveSpeed");
 
-    readonly int h_InputDetected = Animator.StringToHash("InputDetected");
-    readonly int h_Grounded = Animator.StringToHash("Grounded");
-    readonly int h_Airborne = Animator.StringToHash("Airborne");//空中降落，下降是true，上升是false
+    readonly int animID_InputDetected = Animator.StringToHash("InputDetected");
+    readonly int animID_Grounded = Animator.StringToHash("Grounded");
+    readonly int animID_Airborne = Animator.StringToHash("Airborne");//空中降落，下降是true，上升是false
 
-    readonly int h_Idle = Animator.StringToHash("Idle");
+    readonly int animID_Idle = Animator.StringToHash("Idle");
     //readonly int h_Jump = Animator.StringToHash("Jump");
     #endregion
 
     //當前狀態
     private PlayerAnimState playerAnimState;
 
+    private TestPlayerController playerController;
     private Animator animator;
     private InputValue inputValue;
 
@@ -58,6 +59,7 @@ public class PlayerAnimatorView : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        playerController = GetComponentInParent<TestPlayerController>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetTargetAnimSpeed);
     }
 
@@ -65,6 +67,7 @@ public class PlayerAnimatorView : MonoBehaviour
     {
 
         SetHorizontalAnimVel();
+        SetPlayer_animID_Grounded();
 
         //TimeoutToIdle();
 
@@ -119,7 +122,11 @@ public class PlayerAnimatorView : MonoBehaviour
         player_horizontalAnimVel = Mathf.Lerp(player_horizontalAnimVel, player_targetAnimSpeed, Time.deltaTime * 10.0f);
         if (player_horizontalAnimVel < 0.01f) player_horizontalAnimVel = 0f;
 
-        animator.SetFloat(h_AnimMoveSpeed, player_horizontalAnimVel);
+        animator.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel);
+    }
+    void SetPlayer_animID_Grounded()
+    {
+        animator.SetBool(animID_Grounded, playerController.Grounded);
     }
     #endregion
 
