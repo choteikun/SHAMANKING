@@ -30,10 +30,10 @@ public class TestPlayerController : MonoBehaviour
     public float TurnSmoothTime = 0.15f;
 
     [Tooltip("就算是粗糙的地面也能接受的偵測範圍")]
-    public float GroundedOffset = -0.14f;
+    public float GroundedOffset = -0.15f;
 
     [Tooltip("地板檢查的半徑。 應與CharacterControlle的半徑匹配")]
-    public float GroundedRadius = 0.28f;
+    public float GroundedRadius = 0.3f;
 
     [Tooltip("角色使用哪些Layer作為地面")]
     public LayerMask GroundLayers;

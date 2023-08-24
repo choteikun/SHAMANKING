@@ -502,7 +502,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.084344044, y: 0.007115147, z: 0.0006022818, w: 0.99641114}
+  m_LocalRotation: {x: -0.084345, y: 0.00530446, z: 0.00044901104, w: 0.9964224}
   m_LocalPosition: {x: -5, y: 1.15, z: -2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1343,6 +1343,12 @@ MonoBehaviour:
   SprintSpeed: 5.335
   SpeedChangeRate: 10
   TurnSmoothTime: 0.15
+  GroundedOffset: -0.14
+  GroundedRadius: 0.28
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  Grounded: 1
   playerOBj_: {fileID: 0}
 --- !u!4 &1447408693
 Transform:
@@ -1527,6 +1533,37 @@ Transform:
   - {fileID: 975124745}
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1829284379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1829284380}
+  m_Layer: 0
+  m_Name: AimingCameraFollowTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1829284380
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829284379}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3497504711293922294}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1894750244
 GameObject:
@@ -2572,7 +2609,7 @@ Transform:
   - {fileID: 542632715388343598}
   - {fileID: 8996486496712362850}
   m_Father: {fileID: 3497504711293922294}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2878228320141301192
 Transform:
@@ -2618,13 +2655,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 330de7fad088cc049888c24c6506e244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowRotateGamepadValue_: {x: 0, y: 0}
+  movementVirtualCamera_: {fileID: 456681961}
+  aimVirtualCamera_: {fileID: 836895998}
   cameraFollowedObject_: {fileID: 2878228320141301193}
+  aimCameraFollowedObject_: {fileID: 1829284379}
   rotateSpeed_X_: 110
   rotateSpeed_Y_: 80
   maxHeadAngle_: 75
   minHeadAngle_: -60
-  cMCameraController_:
+  cmCameraController_:
     rotateAngle_: 0
     virtualCamera_: {fileID: 456681963}
     lookedObject: {fileID: 2878228320141301193}
@@ -2727,6 +2766,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2878228320141301192}
+  - {fileID: 1829284380}
   - {fileID: 2878228319814590511}
   m_Father: {fileID: 0}
   m_RootOrder: 14
@@ -3060,9 +3100,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 2
-  SprintSpeed: 5.335
+  SprintSpeed: 5.5
   SpeedChangeRate: 10
   TurnSmoothTime: 0.15
+  GroundedOffset: -0.15
+  GroundedRadius: 0.3
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  Grounded: 1
   playerOBj_: {fileID: 4306130283328811340}
 --- !u!4 &4353525413068123188
 Transform:
