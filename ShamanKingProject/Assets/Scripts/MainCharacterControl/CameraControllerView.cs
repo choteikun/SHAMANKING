@@ -33,6 +33,11 @@ public class CameraControllerView : MonoBehaviour
 
     [SerializeField]
     CMCameraController cmCameraController_;
+
+    [Header("頭頂旋轉速度限制量")]
+    [SerializeField]
+    float headRotateSpeedLimitValue_ = 0.7f;
+
     Vector3 rotateValue_ => new Vector3(nowRotateGamepadValue_.y, nowRotateGamepadValue_.x, 0);
     private void Awake()
     {
@@ -55,11 +60,12 @@ public class CameraControllerView : MonoBehaviour
     }
 
     void rotateCameraFollowedObject()
-    {
-        var sensitiveRotateValue = new Vector3(rotateValue_.x * Time.deltaTime * rotateSpeed_Y_, rotateValue_.y * Time.deltaTime * rotateSpeed_X_, 0);
+    {        
+        var sensitiveRotateValue = getSensitiveRotateValue();
+        
         // 根據 rotateValue_ 的 x 和 y 分量來計算旋轉角度
-        float rotationX = sensitiveRotateValue.x;
-        float rotationY = sensitiveRotateValue.y;
+        var rotationX = sensitiveRotateValue.x;
+        var rotationY = sensitiveRotateValue.y;
 
 
         var finalAngle = cameraFollowedObject_.transform.rotation;
@@ -75,6 +81,20 @@ public class CameraControllerView : MonoBehaviour
         // 將歐拉角度設定回物體的旋轉
         cameraFollowedObject_.transform.eulerAngles = mainCameraEulerAngles;        
         aimCameraFollowedObject_.transform.eulerAngles = aimCameraEulerAngles;
+    }
+    Vector3 getSensitiveRotateValue()
+    {
+        if (cameraFollowedObject_.transform.rotation.eulerAngles.x>=0 && cameraFollowedObject_.transform.rotation.eulerAngles.x <=76)
+        {
+            var y_limiter = 1 - headRotateSpeedLimitValue_ / maxHeadAngle_ * cameraFollowedObject_.transform.rotation.eulerAngles.x;
+            var sensitiveRotateValue = new Vector3(rotateValue_.x * Time.deltaTime * rotateSpeed_Y_, rotateValue_.y * Time.deltaTime * rotateSpeed_X_*y_limiter, 0);
+            return sensitiveRotateValue;
+        }
+        else
+        {
+            var sensitiveRotateValue = new Vector3(rotateValue_.x * Time.deltaTime * rotateSpeed_Y_, rotateValue_.y * Time.deltaTime * rotateSpeed_X_, 0);
+            return sensitiveRotateValue;
+        }
     }
     Vector3 clampMainCameraRotateAngle(Vector3 target)
     {
@@ -97,6 +117,7 @@ public class CameraControllerView : MonoBehaviour
         target.z = 0;
         return target;
     }
+
     void changeCamera(PlayerAimingButtonCommand command)
     {
         if (command.AimingButtonIsPressed)
