@@ -31,35 +31,35 @@ public class PlayerAnimatorView : MonoBehaviour
     #endregion
 
     //當前狀態
-    private PlayerAnimState playerAnimState;
+    private PlayerAnimState playerAnimState_;
 
-    private TestPlayerController playerController;
-    private Animator animator;
-    private InputValue inputValue;
+    private TestPlayerController playerController_;
+    private Animator animator_;
+    private InputValue inputValue_;
 
     //檢測按鈕
-    private bool inputDetected;
+    private bool inputDetected_;
     //角色動畫水平速度
-    private float player_horizontalAnimVel;
+    private float player_horizontalAnimVel_;
     //角色動畫垂直速度
-    private float player_verticalVel;
+    private float player_verticalVel_;
 
 
     [SerializeField, Tooltip("過渡到隨機Idle動畫所需要花的時間")]
-    private float idleTimeOut;
+    private float idleTimeOut_;
     //Idle動畫計時器(跳轉至隨機動畫)
-    private float idleTimer;
+    private float idleTimer_;
 
     //Move狀態中回到idle的計時器(避免方向鍵切換時角色回到idle狀態)
-    private float _moveToIdleTimer;
+    private float moveToIdleTimer_;
 
     //接收玩家移動指令所計算用的動畫速度
-    private float player_targetAnimSpeed;
+    private float player_targetAnimSpeed_;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-        playerController = GetComponentInParent<TestPlayerController>();
+        animator_ = GetComponent<Animator>();
+        playerController_ = GetComponentInParent<TestPlayerController>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetTargetAnimSpeed);
     }
 
@@ -72,7 +72,7 @@ public class PlayerAnimatorView : MonoBehaviour
         //TimeoutToIdle();
 
         #region - 簡易動畫狀態管理 
-        switch (playerAnimState)
+        switch (playerAnimState_)
         {
             case PlayerAnimState.Idle:
                 //animator.SetBool(h_Idle, true);
@@ -90,19 +90,19 @@ public class PlayerAnimatorView : MonoBehaviour
     #region - 待機動畫處理 -
     void TimeoutToIdle()
     {
-        if (playerAnimState == PlayerAnimState.Idle)
+        if (playerAnimState_ == PlayerAnimState.Idle)
         {
-            idleTimer += Time.deltaTime;
+            idleTimer_ += Time.deltaTime;
 
-            if (idleTimer >= idleTimeOut)
+            if (idleTimer_ >= idleTimeOut_)
             {
-                idleTimer = 0f;
+                idleTimer_ = 0f;
                 //animator.SetTrigger(h_TimeOutToIdle);
             }
         }
         else
         {
-            idleTimer = 0f;
+            idleTimer_ = 0f;
             //animator.ResetTrigger(h_TimeOutToIdle);
         }
         //animator.SetBool(h_InputDetected, inputDetected);
@@ -115,18 +115,18 @@ public class PlayerAnimatorView : MonoBehaviour
     {
         float targetSpeed = 1.0f;
         var clampedDirection = Mathf.Clamp(playerControllerMovementCommand.Direction.magnitude, 0, 1);
-        player_targetAnimSpeed = clampedDirection * targetSpeed;
+        player_targetAnimSpeed_ = clampedDirection * targetSpeed;
     }
     void SetHorizontalAnimVel()//設置動畫水平速度給LocomtionBlendTree
     {
-        player_horizontalAnimVel = Mathf.Lerp(player_horizontalAnimVel, player_targetAnimSpeed, Time.deltaTime * 10.0f);
-        if (player_horizontalAnimVel < 0.01f) player_horizontalAnimVel = 0f;
+        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_targetAnimSpeed_, Time.deltaTime * 10.0f);
+        if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;
 
-        animator.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel);
+        animator_.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel_);
     }
     void SetPlayer_animID_Grounded()
     {
-        animator.SetBool(animID_Grounded, playerController.Grounded);
+        animator_.SetBool(animID_Grounded, playerController_.Grounded);
     }
     #endregion
 

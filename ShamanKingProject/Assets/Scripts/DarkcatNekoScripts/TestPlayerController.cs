@@ -47,42 +47,41 @@ public class TestPlayerController : MonoBehaviour
 
     private const float speedOffset = 0.01f;
 
-    private CharacterController player_CC;
-    private GameObject characterAnimator;
-    private GameObject _mainCamera;
+    private CharacterController player_CC_;
+    private Transform model_Transform_;
+    private GameObject mainCamera_;
 
-    private bool player_SprintStatus;
+    private bool player_SprintStatus_;
 
-    private float player_Speed;
-    private float player_TargetRotation = 0.0f;
+    private float player_Speed_;
+    private float player_TargetRotation_ = 0.0f;
 
-    private float turnSmoothVelocity;
-    private float verticalVelocity;
+    private float turnSmoothVelocity_;
+    private float verticalVelocity_;
 
-    private Vector2 player_Dir;
+    private Vector2 player_Dir_;
 
     void Start()
     {
-        // get a reference to our main camera
-        if (_mainCamera == null)
+        if (mainCamera_ == null)
         {
-            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            mainCamera_ = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
-        player_CC = GetComponent<CharacterController>();
+        player_CC_ = GetComponent<CharacterController>();
 
-        //characterAnimator = GameObject.Find("CharacterAnimator").gameObject;
+        model_Transform_ = GetComponentInChildren<Animator>().transform;
 
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetPlayer_Direction);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_Direction);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetPlayer_SprintStatus);
     }
 
     void Update()
     {
-        GroundedCheck();
-        Move();
+        groundedCheck();
+        move();
     }
-    void GroundedCheck()
+    void groundedCheck()
     {
         //設置球的偵測位置
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
@@ -91,20 +90,20 @@ public class TestPlayerController : MonoBehaviour
             QueryTriggerInteraction.Ignore);
 
     }
-    void Move()
+    void move()
     {
 
         //根據移動速度、衝刺速度以及是否按下衝刺設置目標速度
-        float targetSpeed = player_SprintStatus ? SprintSpeed : MoveSpeed;
+        float targetSpeed = player_SprintStatus_ ? SprintSpeed : MoveSpeed;
 
         //如果沒有輸入，則將目標速度設置為0
-        if (player_Dir == Vector2.zero) targetSpeed = 0.0f;
+        if (player_Dir_ == Vector2.zero) targetSpeed = 0.0f;
 
         //玩家當前水平速度的引用
-        float currentHorizontalSpeed = new Vector3(player_CC.velocity.x, 0.0f, player_CC.velocity.z).magnitude;
+        float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
 
         
-        float inputMagnitude = player_Dir.magnitude;
+        float inputMagnitude = player_Dir_.magnitude;
 
         //為了提供一個容錯範圍。當當前速度與目標速度之間的差值小於容錯範圍時，就不需要進行加速或減速操作，
         //因為這時候已經非常接近目標速度了，再進行微小的變化可能會導致速度上下抖動，產生不良的遊戲體驗。
@@ -113,48 +112,49 @@ public class TestPlayerController : MonoBehaviour
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             // 改善速度變化，計算速度為滑順的而不是線性結果
-            player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
+            player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
                 Time.deltaTime * SpeedChangeRate);
 
             //去除3位小數點之後的數字
-            player_Speed = Mathf.Round(player_Speed * 1000f) / 1000f;
+            player_Speed_ = Mathf.Round(player_Speed_ * 1000f) / 1000f;
         }
         else
         {
-            player_Speed = targetSpeed;
+            player_Speed_ = targetSpeed;
         }
 
-        // 單位化，防止同時兩個方向移動，速度變快
-        Vector3 inputDirection = new Vector3(player_Dir.x, 0.0f, player_Dir.y).normalized;
+        //單位化，防止同時兩個方向移動，速度變快
+        Vector3 inputDirection = new Vector3(player_Dir_.x, 0.0f, player_Dir_.y).normalized;
 
         //玩家移動中
-        if (player_Dir != Vector2.zero)
+        if (player_Dir_ != Vector2.zero)
         {
-            player_TargetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, player_TargetRotation, ref turnSmoothVelocity, TurnSmoothTime);
+            //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
+            player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
+            //旋轉平滑用的插值運算
+            float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
 
-            //旋轉至相對於相機位置的輸入方向
-            //characterAnimator.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            //將模型旋轉至相對於相機位置的輸入方向
+            model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 
         }
 
-        Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation, 0.0f) * Vector3.forward;
+        Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
 
-        player_CC.Move(targetDirection.normalized * (player_Speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+        player_CC_.Move(targetDirection.normalized * (player_Speed_ * Time.deltaTime) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
     }
-    void JumpAndFall()
+    void jumpAndFall()
     {
         if (Grounded)
         {
             //角色在地面上的操作
         }
     }
-    void GetPlayer_Direction(PlayerControllerMovementCommand playerControllerMovementCommand)
+    void getPlayer_Direction(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
-        player_Dir = playerControllerMovementCommand.Direction;
+        player_Dir_ = playerControllerMovementCommand.Direction;
     }
-    void GetPlayer_SprintStatus(PlayerControllerMovementCommand playerControllerMovementCommand)
+    void getPlayer_SprintStatus(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
         //player_SprintStatus = playerControllerMovementCommand.Sprint;
     }
