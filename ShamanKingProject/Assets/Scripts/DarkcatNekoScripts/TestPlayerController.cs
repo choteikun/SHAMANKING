@@ -1,4 +1,5 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityCharacterController;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using Gamemanager;
 using Obi;
 using StarterAssets;
@@ -42,13 +43,12 @@ public class TestPlayerController : MonoBehaviour
     [Tooltip("地板檢查，這不是CharacterController自帶的isGrounded，那東西是大便")]
     public bool Grounded = true;
 
-    [SerializeField] GameObject playerOBj_;
-
     //--------------------------------------------------------------------------------------------------------------
 
     private const float speedOffset = 0.01f;
 
     private CharacterController player_CC;
+    private GameObject characterAnimator;
     private GameObject _mainCamera;
 
     private bool player_SprintStatus;
@@ -70,6 +70,8 @@ public class TestPlayerController : MonoBehaviour
         }
 
         player_CC = GetComponent<CharacterController>();
+
+        //characterAnimator = GameObject.Find("CharacterAnimator").gameObject;
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetPlayer_Direction);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetPlayer_SprintStatus);
@@ -122,17 +124,18 @@ public class TestPlayerController : MonoBehaviour
             player_Speed = targetSpeed;
         }
 
-        // 歸一化輸入方向
+        // 單位化，防止同時兩個方向移動，速度變快
         Vector3 inputDirection = new Vector3(player_Dir.x, 0.0f, player_Dir.y).normalized;
 
         //玩家移動中
         if (player_Dir != Vector2.zero)
         {
             player_TargetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-            //float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, player_TargetRotation, ref turnSmoothVelocity, TurnSmoothTime);
+            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, player_TargetRotation, ref turnSmoothVelocity, TurnSmoothTime);
 
             //旋轉至相對於相機位置的輸入方向
-            //transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            //characterAnimator.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 
         }
 
