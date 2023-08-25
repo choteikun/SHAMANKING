@@ -78,7 +78,7 @@ public class TestPlayerController : MonoBehaviour
 
     void Update()
     {
-        groundedCheck();
+        //groundedCheck();
         move();
     }
     void groundedCheck()

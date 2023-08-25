@@ -63,7 +63,7 @@ public class PlayerAnimatorView : MonoBehaviour
         animator_ = GetComponent<Animator>();
         animOSM_Trigger_ = animator_.GetBehaviour<ObservableStateMachineTrigger>();
         playerController_ = GetComponentInParent<TestPlayerController>();
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetTargetAnimSpeed);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getTargetAnimSpeed);
 
         //範例
         IObservable<ObservableStateMachineTrigger.OnStateInfo> idleStart = animOSM_Trigger_.OnStateEnterAsObservable().Where(x => x.StateInfo.IsName("Idle"));
@@ -75,7 +75,7 @@ public class PlayerAnimatorView : MonoBehaviour
     void Update()
     {
 
-        SetHorizontalAnimVel();
+        setHorizontalAnimVel();
         SetPlayer_animID_Grounded();
 
         //TimeoutToIdle();
@@ -120,15 +120,15 @@ public class PlayerAnimatorView : MonoBehaviour
 
     #region - 動畫參數計算 -
 
-    void GetTargetAnimSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
+    void getTargetAnimSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
-        float targetSpeed = 1.0f;
+        float targetSpeed = playerController_.MoveSpeed;
         var clampedDirection = Mathf.Clamp(playerControllerMovementCommand.Direction.magnitude, 0, 1);
         player_targetAnimSpeed_ = clampedDirection * targetSpeed;
     }
-    void SetHorizontalAnimVel()//設置動畫水平速度給LocomtionBlendTree
+    void setHorizontalAnimVel()//設置動畫水平速度給LocomtionBlendTree
     {
-        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_targetAnimSpeed_, Time.deltaTime * 10.0f);
+        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_targetAnimSpeed_, Time.deltaTime * playerController_.SpeedChangeRate);
         if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;
 
         animator_.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel_);
