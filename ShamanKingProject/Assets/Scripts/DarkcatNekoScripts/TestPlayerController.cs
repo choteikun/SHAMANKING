@@ -101,9 +101,10 @@ public class TestPlayerController : MonoBehaviour
 
         //玩家當前水平速度的引用
         float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
-
         
+
         float inputMagnitude = player_Dir_.magnitude;
+        
 
         //為了提供一個容錯範圍。當當前速度與目標速度之間的差值小於容錯範圍時，就不需要進行加速或減速操作，
         //因為這時候已經非常接近目標速度了，再進行微小的變化可能會導致速度上下抖動，產生不良的遊戲體驗。
@@ -117,10 +118,24 @@ public class TestPlayerController : MonoBehaviour
 
             //去除3位小數點之後的數字
             player_Speed_ = Mathf.Round(player_Speed_ * 1000f) / 1000f;
+            Debug.Log("進入運動插值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + inputMagnitude);
         }
         else
         {
-            player_Speed_ = targetSpeed;
+            if (inputMagnitude == 1)
+            {
+                player_Speed_ = targetSpeed;
+                Debug.Log("沒進入差值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + inputMagnitude);  
+            }
+            else
+            {
+                // 改善速度變化，計算速度為滑順的而不是線性結果
+                player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
+                    Time.deltaTime * SpeedChangeRate);
+                //去除3位小數點之後的數字
+                player_Speed_ = Mathf.Round(player_Speed_ * 1000f) / 1000f;
+                Debug.Log("持續運動插值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + inputMagnitude);
+            }
         }
 
         //單位化，防止同時兩個方向移動，速度變快
