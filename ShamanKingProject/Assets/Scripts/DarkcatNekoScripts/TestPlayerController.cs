@@ -18,7 +18,7 @@ public class TestPlayerController : MonoBehaviour
 {
     [Header("Player")]
     [Tooltip("玩家移動速度")]
-    public float MoveSpeed = 2.0f;
+    public float MoveSpeed = 3.5f;
 
     [Tooltip("玩家衝刺速度")]
     public float SprintSpeed = 5.5f;
@@ -28,7 +28,7 @@ public class TestPlayerController : MonoBehaviour
 
     [Tooltip("角色轉向面對運動方向的速度有多快")]
     [Range(0.0f, 0.3f)]
-    public float TurnSmoothTime = 0.15f;
+    public float TurnSmoothTime = 0.1f;
 
     [Tooltip("就算是粗糙的地面也能接受的偵測範圍")]
     public float GroundedOffset = -0.15f;

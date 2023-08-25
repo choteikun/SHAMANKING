@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UniRx;
+using UniRx.Triggers;
 
 public enum PlayerAnimState
 {
@@ -35,6 +36,7 @@ public class PlayerAnimatorView : MonoBehaviour
 
     private TestPlayerController playerController_;
     private Animator animator_;
+    private ObservableStateMachineTrigger animOSM_Trigger_;
     private InputValue inputValue_;
 
     //ÀË´ú«ö¶s
@@ -59,8 +61,15 @@ public class PlayerAnimatorView : MonoBehaviour
     void Start()
     {
         animator_ = GetComponent<Animator>();
+        animOSM_Trigger_ = animator_.GetBehaviour<ObservableStateMachineTrigger>();
         playerController_ = GetComponentInParent<TestPlayerController>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetTargetAnimSpeed);
+
+        //½d¨Ò
+        IObservable<ObservableStateMachineTrigger.OnStateInfo> idleStart = animOSM_Trigger_.OnStateEnterAsObservable().Where(x => x.StateInfo.IsName("Idle"));
+        IObservable<ObservableStateMachineTrigger.OnStateInfo> idleEnd = animOSM_Trigger_.OnStateExitAsObservable().Where(x => x.StateInfo.IsName("Idle"));
+
+        this.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(this).Subscribe(x => { Debug.Log("Idle¤¤"); }).AddTo(this);
     }
 
     void Update()
