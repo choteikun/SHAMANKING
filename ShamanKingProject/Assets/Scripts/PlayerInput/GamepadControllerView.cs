@@ -15,6 +15,10 @@ public class GamepadControllerView : MonoBehaviour
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
     }
+    void changeInpuMap(string map)
+    {
+        input_.SwitchCurrentActionMap(map);
+    }
     void OnPlayerControl(InputValue value)
     {
         var controllerDirection = value.Get<Vector2>();
@@ -24,7 +28,7 @@ public class GamepadControllerView : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.MainGameEvent.Send(new PlayerControllerMovementCommand() { IsSmallMove = false, Direction = controllerDirection }); 
+            GameManager.Instance.MainGameEvent.Send(new PlayerControllerMovementCommand() { IsSmallMove = false, Direction = controllerDirection });
         }
     }
     void OnPlayerRoll()
@@ -64,5 +68,13 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerAim(InputValue value)
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
+        if (value.isPressed)
+        {
+            input_.SwitchCurrentActionMap("AimGameplay");
+        }
+        else
+        {
+            input_.SwitchCurrentActionMap("MainGameplay");
+        }
     }
 }

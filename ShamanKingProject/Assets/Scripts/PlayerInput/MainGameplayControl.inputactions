@@ -47,7 +47,7 @@
                     "id": "eb996077-6a1d-42b5-97b2-6469ef2da13b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -159,6 +159,54 @@
                     "processors": "",
                     "groups": "",
                     "action": "MouseCameraControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "AimGameplay",
+            "id": "577a4216-58cb-42ed-b3b6-07ccfb059496",
+            "actions": [
+                {
+                    "name": "PlayerAim",
+                    "type": "Button",
+                    "id": "d84fb52f-eb6e-4948-801f-3bdcd16c61c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AimCameraControl",
+                    "type": "Value",
+                    "id": "f204fae7-e13e-4b13-82db-8aa236b0350d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3a394d74-adfe-4265-9504-ecd86c1b0d02",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerAim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "576824a0-c528-4f55-b1d6-27336c66e4ca",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "",
+                    "action": "AimCameraControl",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

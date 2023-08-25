@@ -7,6 +7,14 @@ using UniRx;
 public class MainGameMediator
 {
     CompositeDisposable disposable_ = new CompositeDisposable();
+
+    PlayerControllerModel playerControllerModel_ = new PlayerControllerModel();
+
+    public void MainGameMediatorInit()
+    {
+        playerControllerModel_.PlayerControllerModelInit();
+    }
+    
     public void DisposeObserber()
     {
         disposable_.Dispose();

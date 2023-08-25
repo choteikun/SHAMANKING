@@ -141,7 +141,7 @@ public class TestPlayerController : MonoBehaviour
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
 
-        player_CC_.Move(targetDirection.normalized * (player_Speed_ * Time.deltaTime) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
+        player_CC_.Move(targetDirection.normalized * (player_Speed_ * Time.deltaTime ) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
     }
     void jumpAndFall()
     {

@@ -21,6 +21,12 @@ namespace Gamemanager
     {
         public Vector2 RotateValue;
     }
+    public enum CameraType
+    {
+        MainCam,
+        AimCam,
+    }
+
 
     public class PlayerAimingButtonCommand : GameEventMessageBase
     {
@@ -31,5 +37,7 @@ namespace Gamemanager
     {
 
     }
+
+    
 
 }

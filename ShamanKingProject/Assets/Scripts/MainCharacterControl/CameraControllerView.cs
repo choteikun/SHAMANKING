@@ -38,6 +38,7 @@ public class CameraControllerView : MonoBehaviour
     [SerializeField]
     float headRotateSpeedLimitValue_ = 0.7f;
 
+
     Vector3 rotateValue_ => new Vector3(nowRotateGamepadValue_.y, nowRotateGamepadValue_.x, 0);
     private void Awake()
     {
