@@ -17,30 +17,30 @@ public enum PlayerState
 public class TestPlayerController : MonoBehaviour
 {
     [Header("Player")]
-    [Tooltip("ª±®a²¾°Ê³t«×")]
+    [Tooltip("ç©å®¶ç§»å‹•é€Ÿåº¦")]
     public float MoveSpeed = 3.5f;
 
-    [Tooltip("ª±®a½Ä¨ë³t«×")]
+    [Tooltip("ç©å®¶è¡åˆºé€Ÿåº¦")]
     public float SprintSpeed = 5.5f;
 
-    [Tooltip("¹B°Ê³t«×¹F¨ì³Ì¤j­È¤§«eªº³t«×¼Æ­È¡A¼Æ­È¶V¤j¹F¨ì³Ì¤j­Èªº®É¶¡¶V§Ö")]
+    [Tooltip("é‹å‹•é€Ÿåº¦é”åˆ°æœ€å¤§å€¼ä¹‹å‰çš„é€Ÿåº¦æ•¸å€¼ï¼Œæ•¸å€¼è¶Šå¤§é”åˆ°æœ€å¤§å€¼çš„æ™‚é–“è¶Šå¿«")]
     public float SpeedChangeRate = 10.0f;
 
-    [Tooltip("¨¤¦âÂà¦V­±¹ï¹B°Ê¤è¦Vªº³t«×¦³¦h§Ö")]
+    [Tooltip("è§’è‰²è½‰å‘é¢å°é‹å‹•æ–¹å‘çš„é€Ÿåº¦æœ‰å¤šå¿«")]
     [Range(0.0f, 0.3f)]
     public float TurnSmoothTime = 0.1f;
 
-    [Tooltip("´Nºâ¬O²ÊÁWªº¦a­±¤]¯à±µ¨üªº°»´ú½d³ò")]
+    [Tooltip("å°±ç®—æ˜¯ç²—ç³™çš„åœ°é¢ä¹Ÿèƒ½æ¥å—çš„åµæ¸¬ç¯„åœ")]
     public float GroundedOffset = -0.15f;
 
-    [Tooltip("¦aªOÀË¬dªº¥b®|¡C À³»PCharacterControlleªº¥b®|¤Ç°t")]
+    [Tooltip("åœ°æ¿æª¢æŸ¥çš„åŠå¾‘ã€‚ æ‡‰èˆ‡CharacterControlleçš„åŠå¾‘åŒ¹é…")]
     public float GroundedRadius = 0.3f;
 
-    [Tooltip("¨¤¦â¨Ï¥Î­ş¨ÇLayer§@¬°¦a­±")]
+    [Tooltip("è§’è‰²ä½¿ç”¨å“ªäº›Layerä½œç‚ºåœ°é¢")]
     public LayerMask GroundLayers;
 
     [Header("Player Grounded")]
-    [Tooltip("¦aªOÀË¬d¡A³o¤£¬OCharacterController¦Û±aªºisGrounded¡A¨ºªF¦è¬O¤j«K")]
+    [Tooltip("åœ°æ¿æª¢æŸ¥ï¼Œé€™ä¸æ˜¯CharacterControllerè‡ªå¸¶çš„isGroundedï¼Œé‚£æ±è¥¿æ˜¯å¤§ä¾¿")]
     public bool Grounded = true;
 
     //--------------------------------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public class TestPlayerController : MonoBehaviour
     }
     void groundedCheck()
     {
-        //³]¸m²yªº°»´ú¦ì¸m
+        //è¨­ç½®çƒçš„åµæ¸¬ä½ç½®
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
             transform.position.z);
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
@@ -93,64 +93,64 @@ public class TestPlayerController : MonoBehaviour
     void move()
     {
 
-        //®Ú¾Ú²¾°Ê³t«×¡B½Ä¨ë³t«×¥H¤Î¬O§_«ö¤U½Ä¨ë³]¸m¥Ø¼Ğ³t«×
+        //æ ¹æ“šç§»å‹•é€Ÿåº¦ã€è¡åˆºé€Ÿåº¦ä»¥åŠæ˜¯å¦æŒ‰ä¸‹è¡åˆºè¨­ç½®ç›®æ¨™é€Ÿåº¦
         float targetSpeed = player_SprintStatus_ ? SprintSpeed : MoveSpeed;
 
-        //¦pªG¨S¦³¿é¤J¡A«h±N¥Ø¼Ğ³t«×³]¸m¬°0
+        //å¦‚æœæ²’æœ‰è¼¸å…¥ï¼Œå‰‡å°‡ç›®æ¨™é€Ÿåº¦è¨­ç½®ç‚º0
         if (player_Dir_ == Vector2.zero) targetSpeed = 0.0f;
 
-        //ª±®a·í«e¤ô¥­³t«×ªº¤Ş¥Î
+        //ç©å®¶ç•¶å‰æ°´å¹³é€Ÿåº¦çš„å¼•ç”¨
         float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
         
         
 
-        //¬°¤F´£¨Ñ¤@­Ó®e¿ù½d³ò¡C·í·í«e³t«×»P¥Ø¼Ğ³t«×¤§¶¡ªº®t­È¤p©ó®e¿ù½d³ò®É¡A´N¤£»İ­n¶i¦æ¥[³t©Î´î³t¾Ş§@¡A
-        //¦]¬°³o®É­Ô¤w¸g«D±`±µªñ¥Ø¼Ğ³t«×¤F¡A¦A¶i¦æ·L¤pªºÅÜ¤Æ¥i¯à·|¾É­P³t«×¤W¤U§İ°Ê¡A²£¥Í¤£¨}ªº¹CÀ¸ÅéÅç¡C
-        //¦]¦¹¡A³o­Ó®e¿ù½d³ò¥i¥HÀ°§U½T«O¨¤¦â¦b±µªñ¥Ø¼Ğ³t«×®É«O«ùÃ­©w¡C
+        //ç‚ºäº†æä¾›ä¸€å€‹å®¹éŒ¯ç¯„åœã€‚ç•¶ç•¶å‰é€Ÿåº¦èˆ‡ç›®æ¨™é€Ÿåº¦ä¹‹é–“çš„å·®å€¼å°æ–¼å®¹éŒ¯ç¯„åœæ™‚ï¼Œå°±ä¸éœ€è¦é€²è¡ŒåŠ é€Ÿæˆ–æ¸›é€Ÿæ“ä½œï¼Œ
+        //å› ç‚ºé€™æ™‚å€™å·²ç¶“éå¸¸æ¥è¿‘ç›®æ¨™é€Ÿåº¦äº†ï¼Œå†é€²è¡Œå¾®å°çš„è®ŠåŒ–å¯èƒ½æœƒå°è‡´é€Ÿåº¦ä¸Šä¸‹æŠ–å‹•ï¼Œç”¢ç”Ÿä¸è‰¯çš„éŠæˆ²é«”é©—ã€‚
+        //å› æ­¤ï¼Œé€™å€‹å®¹éŒ¯ç¯„åœå¯ä»¥å¹«åŠ©ç¢ºä¿è§’è‰²åœ¨æ¥è¿‘ç›®æ¨™é€Ÿåº¦æ™‚ä¿æŒç©©å®šã€‚
         if (currentHorizontalSpeed < targetSpeed - speedOffset ||
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
-            // §ïµ½³t«×ÅÜ¤Æ¡A­pºâ³t«×¬°·Æ¶¶ªº¦Ó¤£¬O½u©Êµ²ªG
+            // æ”¹å–„é€Ÿåº¦è®ŠåŒ–ï¼Œè¨ˆç®—é€Ÿåº¦ç‚ºæ»‘é †çš„è€Œä¸æ˜¯ç·šæ€§çµæœ
             player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_Dir_.magnitude,
                 Time.deltaTime * SpeedChangeRate);
 
-            //¥h°£3¦ì¤p¼ÆÂI¤§«áªº¼Æ¦r
+            //å»é™¤3ä½å°æ•¸é»ä¹‹å¾Œçš„æ•¸å­—
             player_Speed_ = Mathf.Round(player_Speed_ * 1000f) / 1000f;
-            Debug.Log("¶i¤J¹B°Ê´¡­È­pºâplayer_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
+            Debug.Log("é€²å…¥é‹å‹•æ’å€¼è¨ˆç®—player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
         }
         else
         {
-            //°w¹ï¤â§â¾Ş§@§ïµ½
+            //é‡å°æ‰‹æŠŠæ“ä½œæ”¹å–„
             if (player_Dir_.magnitude >= 0.999)
             {
                 player_Speed_ = targetSpeed;
-                Debug.Log("¨S¶i¤J®t­È­pºâplayer_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
+                Debug.Log("æ²’é€²å…¥å·®å€¼è¨ˆç®—player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
             }
             else
             {
-                // §ïµ½³t«×ÅÜ¤Æ¡A­pºâ³t«×¬°·Æ¶¶ªº¦Ó¤£¬O½u©Êµ²ªG
+                // æ”¹å–„é€Ÿåº¦è®ŠåŒ–ï¼Œè¨ˆç®—é€Ÿåº¦ç‚ºæ»‘é †çš„è€Œä¸æ˜¯ç·šæ€§çµæœ
                 player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_Dir_.magnitude,
                     Time.deltaTime * SpeedChangeRate);
-                //¥h°£3¦ì¤p¼ÆÂI¤§«áªº¼Æ¦r
+                //å»é™¤3ä½å°æ•¸é»ä¹‹å¾Œçš„æ•¸å­—
                 player_Speed_ = Mathf.Round(player_Speed_ * 1000f) / 1000f;
-                Debug.Log("«ùÄò¹B°Ê´¡­È­pºâplayer_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
+                Debug.Log("æŒçºŒé‹å‹•æ’å€¼è¨ˆç®—player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
             }
             //player_Speed_ = targetSpeed;
-            //Debug.Log("¨S¶i¤J®t­È­pºâplayer_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + inputMagnitude);
+            //Debug.Log("æ²’é€²å…¥å·®å€¼è¨ˆç®—player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + inputMagnitude);
         }
 
-        //³æ¦ì¤Æ¡A¨¾¤î¦P®É¨â­Ó¤è¦V²¾°Ê¡A³t«×ÅÜ§Ö
+        //å–®ä½åŒ–ï¼Œé˜²æ­¢åŒæ™‚å…©å€‹æ–¹å‘ç§»å‹•ï¼Œé€Ÿåº¦è®Šå¿«
         Vector3 inputDirection = new Vector3(player_Dir_.x, 0.0f, player_Dir_.y).normalized;
 
-        //ª±®a²¾°Ê¤¤
+        //ç©å®¶ç§»å‹•ä¸­
         if (player_Dir_ != Vector2.zero)
         {
-            //­pºâ¿é¤Jºİ¿é¤J«á©Ò»İ­nªºÂà¦V¨¤«×¡A¥[¤W¬Û¾÷ªº¨¤«×¹ê²{¬Û¹ï¬Û¾÷ªº«e¤èªº²¾°Ê
+            //è¨ˆç®—è¼¸å…¥ç«¯è¼¸å…¥å¾Œæ‰€éœ€è¦çš„è½‰å‘è§’åº¦ï¼ŒåŠ ä¸Šç›¸æ©Ÿçš„è§’åº¦å¯¦ç¾ç›¸å°ç›¸æ©Ÿçš„å‰æ–¹çš„ç§»å‹•
             player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
-            //±ÛÂà¥­·Æ¥Îªº´¡­È¹Bºâ
+            //æ—‹è½‰å¹³æ»‘ç”¨çš„æ’å€¼é‹ç®—
             float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
 
-            //±N¼Ò«¬±ÛÂà¦Ü¬Û¹ï©ó¬Û¾÷¦ì¸mªº¿é¤J¤è¦V
+            //å°‡æ¨¡å‹æ—‹è½‰è‡³ç›¸å°æ–¼ç›¸æ©Ÿä½ç½®çš„è¼¸å…¥æ–¹å‘
             model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 
         }
@@ -163,7 +163,7 @@ public class TestPlayerController : MonoBehaviour
     {
         if (Grounded)
         {
-            //¨¤¦â¦b¦a­±¤Wªº¾Ş§@
+            //è§’è‰²åœ¨åœ°é¢ä¸Šçš„æ“ä½œ
         }
     }
     void getPlayer_Direction(PlayerControllerMovementCommand playerControllerMovementCommand)
