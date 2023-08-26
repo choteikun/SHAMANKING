@@ -15,7 +15,7 @@ public enum PlayerAnimState
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimatorView : MonoBehaviour
 {
-    #region ´£«eHash¶i¦æÀu¤Æ
+    #region æå‰Hashé€²è¡Œå„ªåŒ–
     //readonly int h_HurtFromX = Animator.StringToHash("HurtFromX");
     //readonly int h_HurtFromY = Animator.StringToHash("HurtFromY");
 
@@ -25,13 +25,13 @@ public class PlayerAnimatorView : MonoBehaviour
 
     readonly int animID_InputDetected = Animator.StringToHash("InputDetected");
     readonly int animID_Grounded = Animator.StringToHash("Grounded");
-    readonly int animID_Airborne = Animator.StringToHash("Airborne");//ªÅ¤¤­°¸¨¡A¤U­°¬Otrue¡A¤W¤É¬Ofalse
+    readonly int animID_Airborne = Animator.StringToHash("Airborne");//ç©ºä¸­é™è½ï¼Œä¸‹é™æ˜¯trueï¼Œä¸Šå‡æ˜¯false
 
     readonly int animID_Idle = Animator.StringToHash("Idle");
     //readonly int h_Jump = Animator.StringToHash("Jump");
     #endregion
 
-    //·í«eª¬ºA
+    //ç•¶å‰ç‹€æ…‹
     private PlayerAnimState playerAnimState_;
 
     private TestPlayerController playerController_;
@@ -39,23 +39,23 @@ public class PlayerAnimatorView : MonoBehaviour
     private ObservableStateMachineTrigger animOSM_Trigger_;
     private InputValue inputValue_;
 
-    //ÀË´ú«ö¶s
+    //æª¢æ¸¬æŒ‰éˆ•
     private bool inputDetected_;
-    //¨¤¦â°Êµe¤ô¥­³t«×
+    //è§’è‰²å‹•ç•«æ°´å¹³é€Ÿåº¦
     private float player_horizontalAnimVel_;
-    //¨¤¦â°Êµe««ª½³t«×
+    //è§’è‰²å‹•ç•«å‚ç›´é€Ÿåº¦
     private float player_verticalVel_;
 
 
-    [SerializeField, Tooltip("¹L´ç¨ìÀH¾÷Idle°Êµe©Ò»İ­nªáªº®É¶¡")]
+    [SerializeField, Tooltip("éæ¸¡åˆ°éš¨æ©ŸIdleå‹•ç•«æ‰€éœ€è¦èŠ±çš„æ™‚é–“")]
     private float idleTimeOut_;
-    //Idle°Êµe­p®É¾¹(¸õÂà¦ÜÀH¾÷°Êµe)
+    //Idleå‹•ç•«è¨ˆæ™‚å™¨(è·³è½‰è‡³éš¨æ©Ÿå‹•ç•«)
     private float idleTimer_;
 
-    //Moveª¬ºA¤¤¦^¨ìidleªº­p®É¾¹(Á×§K¤è¦VÁä¤Á´«®É¨¤¦â¦^¨ìidleª¬ºA)
+    //Moveç‹€æ…‹ä¸­å›åˆ°idleçš„è¨ˆæ™‚å™¨(é¿å…æ–¹å‘éµåˆ‡æ›æ™‚è§’è‰²å›åˆ°idleç‹€æ…‹)
     private float moveToIdleTimer_;
 
-    //±µ¦¬ª±®a²¾°Ê«ü¥O©Ò­pºâ¥Îªº°Êµe³t«×
+    //æ¥æ”¶ç©å®¶ç§»å‹•æŒ‡ä»¤æ‰€è¨ˆç®—ç”¨çš„å‹•ç•«é€Ÿåº¦
     private float player_targetAnimSpeed_;
 
     void Start()
@@ -65,11 +65,11 @@ public class PlayerAnimatorView : MonoBehaviour
         playerController_ = GetComponentInParent<TestPlayerController>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getTargetAnimSpeed);
 
-        //½d¨Ò
+        //ç¯„ä¾‹
         IObservable<ObservableStateMachineTrigger.OnStateInfo> idleStart = animOSM_Trigger_.OnStateEnterAsObservable().Where(x => x.StateInfo.IsName("Idle"));
         IObservable<ObservableStateMachineTrigger.OnStateInfo> idleEnd = animOSM_Trigger_.OnStateExitAsObservable().Where(x => x.StateInfo.IsName("Idle"));
 
-        this.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(this).Subscribe(x => { Debug.Log("Idle¤¤"); }).AddTo(this);
+        this.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(this).Subscribe(x => { Debug.Log("Idleä¸­"); }).AddTo(this);
     }
 
     void Update()
@@ -80,7 +80,7 @@ public class PlayerAnimatorView : MonoBehaviour
 
         //TimeoutToIdle();
 
-        #region - Â²©ö°Êµeª¬ºAºŞ²z 
+        #region - ç°¡æ˜“å‹•ç•«ç‹€æ…‹ç®¡ç† 
         switch (playerAnimState_)
         {
             case PlayerAnimState.Idle:
@@ -93,10 +93,10 @@ public class PlayerAnimatorView : MonoBehaviour
                 break;
         }
         #endregion
-        
+
     }
 
-    #region - «İ¾÷°Êµe³B²z -
+    #region - å¾…æ©Ÿå‹•ç•«è™•ç† -
     void TimeoutToIdle()
     {
         if (playerAnimState_ == PlayerAnimState.Idle)
@@ -118,7 +118,7 @@ public class PlayerAnimatorView : MonoBehaviour
     }
     #endregion
 
-    #region - °Êµe°Ñ¼Æ­pºâ -
+    #region - å‹•ç•«åƒæ•¸è¨ˆç®— -
 
     void getTargetAnimSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
@@ -126,7 +126,7 @@ public class PlayerAnimatorView : MonoBehaviour
         var clampedDirection = Mathf.Clamp(playerControllerMovementCommand.Direction.magnitude, 0, 1);
         player_targetAnimSpeed_ = clampedDirection * targetSpeed;
     }
-    void setHorizontalAnimVel()//³]¸m°Êµe¤ô¥­³t«×µ¹LocomtionBlendTree
+    void setHorizontalAnimVel()//è¨­ç½®å‹•ç•«æ°´å¹³é€Ÿåº¦çµ¦LocomtionBlendTree
     {
         player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_targetAnimSpeed_, Time.deltaTime * playerController_.SpeedChangeRate);
         if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;

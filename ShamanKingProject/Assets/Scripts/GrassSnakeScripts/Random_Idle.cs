@@ -4,43 +4,43 @@ using UnityEngine;
 
 public class Random_Idle : StateMachineBehaviour
 {
-    [Tooltip("³]¸mIdle¼Æ¶q")]
+    [Tooltip("è¨­ç½®Idleæ•¸é‡")]
     public int NumberOfIdleStates;
 
-    [Tooltip("³]¸m³Ì¤pÀH¾÷¸õÂà®É¶¡¡A«ØÄ³5¬í¥H¤W¬Ý°_¨Ó¤ñ¸û¥¿±`")]
+    [Tooltip("è¨­ç½®æœ€å°éš¨æ©Ÿè·³è½‰æ™‚é–“ï¼Œå»ºè­°5ç§’ä»¥ä¸Šçœ‹èµ·ä¾†æ¯”è¼ƒæ­£å¸¸")]
     [Range(5, 10)]
     public float minNormTime;
-    [Tooltip("³]¸m³Ì¤jÀH¾÷¸õÂà®É¶¡")]
+    [Tooltip("è¨­ç½®æœ€å¤§éš¨æ©Ÿè·³è½‰æ™‚é–“")]
     [Range(11, 15)]
     public float maxNormTime;
 
-    //­p®ÉIdle¼½©ñ¦h¤[
+    //è¨ˆæ™‚Idleæ’­æ”¾å¤šä¹…
     protected float IdleTimer;
-    //¶Ã¼Æ­p®É¾¹
+    //äº‚æ•¸è¨ˆæ™‚å™¨
     protected float randomTimer;
 
     readonly int m_HashRandomIdle = Animator.StringToHash("RandomIdle");
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //¤@­Ó½d³ò¤ºªºÀH¾÷¶Ã¼Æ­p®É¾¹
-        randomTimer = Random.Range(minNormTime, maxNormTime);//¤@­Ó½d³ò¤ºªºÀH¾÷¶Ã¼Æ­p®É¾¹
+        //ä¸€å€‹ç¯„åœå…§çš„éš¨æ©Ÿäº‚æ•¸è¨ˆæ™‚å™¨
+        randomTimer = Random.Range(minNormTime, maxNormTime);//ä¸€å€‹ç¯„åœå…§çš„éš¨æ©Ÿäº‚æ•¸è¨ˆæ™‚å™¨
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Debug.Log("randomIdleTime:" + randomIdleTime/60 + "     randomIdleTimer:" + randomIdleTimer);
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !animator.IsInTransition(0))//¦pªG·í«eª¬ºA¬Oidle¥B¤£³B©ó¹L´ç±ø¤U
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !animator.IsInTransition(0))//å¦‚æžœç•¶å‰ç‹€æ…‹æ˜¯idleä¸”ä¸è™•æ–¼éŽæ¸¡æ¢ä¸‹
         {
 
             IdleTimer++;
             if (IdleTimer >= randomTimer * 60)
             {
-                animator.SetInteger(m_HashRandomIdle, Random.Range(0, NumberOfIdleStates));//³]¸mÀH¾÷idle1,2,3,4µ¥...
+                animator.SetInteger(m_HashRandomIdle, Random.Range(0, NumberOfIdleStates));//è¨­ç½®éš¨æ©Ÿidle1,2,3,4ç­‰...
             }
             else
             {
-                animator.SetInteger(m_HashRandomIdle, -1);//°Ñ¼Æ³]¬°-1
+                animator.SetInteger(m_HashRandomIdle, -1);//åƒæ•¸è¨­ç‚º-1
             }
         }
         else
@@ -48,7 +48,7 @@ public class Random_Idle : StateMachineBehaviour
             IdleTimer = 0;
         }
 
-        ////¦pªGIdleª¬ºA¾÷¶W¥XÀH¾÷¨M©wªºÂk¤@¤Æ®É¶¡¨Ã¥B©|¥¼Âà´«¡A«h³]¸mÀH¾÷Idle
+        ////å¦‚æžœIdleç‹€æ…‹æ©Ÿè¶…å‡ºéš¨æ©Ÿæ±ºå®šçš„æ­¸ä¸€åŒ–æ™‚é–“ä¸¦ä¸”å°šæœªè½‰æ›ï¼Œå‰‡è¨­ç½®éš¨æ©ŸIdle
         //if (stateInfo.normalizedTime > m_RandomNormTime && !animator.IsInTransition(0))
         //{
         //    animator.SetInteger(m_HashRandomIdle, Random.Range(0, numberOfStates));

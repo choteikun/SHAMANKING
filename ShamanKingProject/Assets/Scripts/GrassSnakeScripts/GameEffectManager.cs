@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameEffectManager : MonoBehaviour
 {
-    //¯S®Ä¦À
+    //ç‰¹æ•ˆæ± 
     Dictionary<int, List<GameEffect>> effectPool = new Dictionary<int, List<GameEffect>>();
     // Start is called before the first frame update
     void Start()
@@ -17,11 +17,11 @@ public class GameEffectManager : MonoBehaviour
 
     }
     /// <summary>
-    /// ·s¼W¯S®Ä¨ì¥@¬É
+    /// æ–°å¢ç‰¹æ•ˆåˆ°ä¸–ç•Œ
     /// </summary>
     /// <returns>The world effect.</returns>
-    /// <param name="effectId">°t¸mªí¤¤ªºid.</param>
-    /// <param name="pos">¥X¥Í¦ì¸m.</param>
-    /// <param name="scale">¯S®Äªº¤Ø¤o.</param>
+    /// <param name="effectId">é…ç½®è¡¨ä¸­çš„id.</param>
+    /// <param name="pos">å‡ºç”Ÿä½ç½®.</param>
+    /// <param name="scale">ç‰¹æ•ˆçš„å°ºå¯¸.</param>
 
 }
