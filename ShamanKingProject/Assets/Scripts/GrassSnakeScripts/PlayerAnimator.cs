@@ -81,7 +81,7 @@ public class PlayerAnimator
 
     public void Update()
     {
-        setTargetAnimSpeed(player_Stats_);
+        //setTargetAnimSpeed(player_Stats_);
         setHorizontalAnimVel(player_Stats_);
         SetPlayer_animID_Grounded(player_Stats_);
 
@@ -127,16 +127,24 @@ public class PlayerAnimator
 
     #region - 動畫參數計算 -
 
-    void setTargetAnimSpeed(Player_Stats player_Stats)
-    {
-        float targetSpeed = player_Stats.Player_Speed;
-        player_targetAnimSpeed_ = player_Stats.Player_InputMagnitude * targetSpeed;
-    }
+    //void setTargetAnimSpeed(Player_Stats player_Stats)
+    //{
+    //    float targetSpeed = player_Stats.MoveSpeed;
+    //    player_targetAnimSpeed_ = player_Stats.Player_InputMagnitude * player_Stats.Player_TargetSpeed;
+    //}
     void setHorizontalAnimVel(Player_Stats player_Stats)//設置動畫水平速度給LocomtionBlendTree
     {
-        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_targetAnimSpeed_, Time.deltaTime * player_Stats.SpeedChangeRate);
-        if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;
+        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_Stats_.Player_Speed, Time.deltaTime * player_Stats.SpeedChangeRate);
 
+        //if (player_Stats_.Player_Speed <= 1.0f)
+        //{
+        //    player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_Stats_.Player_Speed * 2.0f, Time.deltaTime * player_Stats.SpeedChangeRate);
+        //}
+        //else
+        //{
+        //    player_horizontalAnimVel_ = player_Stats_.Player_Speed;
+        //}
+        if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;
         animator_.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel_);
     }
     void SetPlayer_animID_Grounded(Player_Stats player_Stats)

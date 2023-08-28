@@ -54,8 +54,10 @@ public class PlayerControllerMover
 
     private float player_TargetRotation_ = 0.0f;
 
+    //private float player_Speed_;
     private float turnSmoothVelocity_;
     private float verticalVelocity_;
+
 
     
 

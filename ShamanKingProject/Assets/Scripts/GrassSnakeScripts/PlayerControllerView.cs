@@ -45,7 +45,7 @@ public class PlayerControllerView : MonoBehaviour
 [Serializable]
 public class Player_Stats
 {
-    [Tooltip("角色速度")]
+    [Tooltip("玩家移動速度")]
     public float Player_Speed;
 
     [Tooltip("地板檢查，這不是CharacterController自帶的isGrounded，那東西是大便")]
