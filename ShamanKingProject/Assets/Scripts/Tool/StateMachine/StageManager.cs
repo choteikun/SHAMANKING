@@ -9,19 +9,19 @@ public class StageManager
     /// <summary>
     /// switch State
     /// </summary>
-    public void TransitionState(State_Enum type, StageData stageData)
+    public void TransitionState(string stateName, StageData stageData)
     {
         if (CurrentState != null)
         {
             CurrentState.OnExit();
         }
 
-        changeAndNewState(type,stageData);
+        changeAndNewState(stateName, stageData);
 
 
         CurrentState.OnEnter();
     }
-    public void TransitionState(State_Enum type)
+    public void TransitionState(string stateName)
     {
         var stagedata = new StageData();
         if (CurrentState != null)
@@ -29,7 +29,7 @@ public class StageManager
             CurrentState.OnExit();
         }
 
-        changeAndNewState(type, stagedata);
+        changeAndNewState(stateName, stagedata);
 
 
         CurrentState.OnEnter();
@@ -39,9 +39,9 @@ public class StageManager
     }
 
 
-    protected virtual void changeAndNewState(State_Enum type, StageData stageData)
+    protected virtual void changeAndNewState(string stateName, StageData stageData)
     {
-        switch (type)
+        switch (stateName)
         {
             //case State_Enum.Game_Init_State:
             //CurrentState = new GameInitState(this);
@@ -61,9 +61,9 @@ public class StageManager
         }
 
     }
-    protected virtual void StageManagerInit()
+    public virtual void StageManagerInit()
     {
-        TransitionState(State_Enum.Game_Init_State);
+        
     }
     public void StageManagerUpdate()
     {

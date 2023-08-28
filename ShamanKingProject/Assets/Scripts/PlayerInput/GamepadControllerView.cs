@@ -11,7 +11,7 @@ public class GamepadControllerView : MonoBehaviour
     private async void Start()
     {
         Debug.Log("start");
-        //¦pªG¨S¦³Âêªº¸Ü ·|¦³¼É½Äªº²{¶H
+        //ï¿½pï¿½Gï¿½Sï¿½ï¿½ï¿½êªºï¿½ï¿½ ï¿½|ï¿½ï¿½ï¿½É½Äªï¿½ï¿½{ï¿½H
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
     }

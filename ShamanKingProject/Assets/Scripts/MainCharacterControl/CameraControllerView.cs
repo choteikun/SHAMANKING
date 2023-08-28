@@ -1,4 +1,3 @@
-using Cinemachine;
 using Gamemanager;
 using UnityEngine;
 
@@ -10,10 +9,10 @@ public class CameraControllerView : MonoBehaviour
     [SerializeField]
     GameObject aimVirtualCamera_;
 
-    
+
     Vector2 nowRotateGamepadValue_ = new Vector2();
-    [SerializeField]
-    GameObject cameraFollowedObject_;
+    [field: SerializeField]
+    public GameObject CameraFollowedObject { get; private set; }
     [SerializeField]
     GameObject aimCameraFollowedObject_;
     [SerializeField]
@@ -27,7 +26,7 @@ public class CameraControllerView : MonoBehaviour
     int maxHeadAngle_ = 75;
 
     [Tooltip("最小攝影機角度")]
-    [Header("預設-60度")]    
+    [Header("預設-60度")]
     [SerializeField]
     int minHeadAngle_ = -60;
 
@@ -38,11 +37,17 @@ public class CameraControllerView : MonoBehaviour
     [SerializeField]
     float headRotateSpeedLimitValue_ = 0.7f;
 
+    CameraControllerStateMachine stateMachine_;
 
     Vector3 rotateValue_ => new Vector3(nowRotateGamepadValue_.y, nowRotateGamepadValue_.x, 0);
+
+    public Quaternion FinalQuaternion_ { get; private set; }
+
     private void Awake()
     {
+        stateMachine_ = new CameraControllerStateMachine(this);
         cmCameraController_.SetVirtualCamera();
+        stateMachine_.StageManagerInit();
     }
     private void Start()
     {
@@ -58,34 +63,33 @@ public class CameraControllerView : MonoBehaviour
     {
         rotateCameraFollowedObject();
         cmCameraController_.CMTVUpdater(maxHeadAngle_);
+        stateMachine_.StageManagerUpdate();
     }
 
     void rotateCameraFollowedObject()
-    {        
+    {
         var sensitiveRotateValue = getSensitiveRotateValue();
-        
+
         var rotationX = sensitiveRotateValue.x;
         var rotationY = sensitiveRotateValue.y;
 
 
-        var finalAngle = cameraFollowedObject_.transform.rotation;
-       finalAngle *= Quaternion.Euler(rotationX, rotationY, 0f);
+        FinalQuaternion_ = CameraFollowedObject.transform.rotation;
+        FinalQuaternion_ *= Quaternion.Euler(rotationX, rotationY, 0f);
 
-        var mainCameraEulerAngles = finalAngle.eulerAngles;
-        var aimCameraEulerAngles = finalAngle.eulerAngles;
 
-        mainCameraEulerAngles = clampMainCameraRotateAngle(mainCameraEulerAngles);
+        var aimCameraEulerAngles = FinalQuaternion_.eulerAngles;
+
         aimCameraEulerAngles = clampAimCameraRotateAngle(aimCameraEulerAngles);
 
-        cameraFollowedObject_.transform.eulerAngles = mainCameraEulerAngles;        
         aimCameraFollowedObject_.transform.eulerAngles = aimCameraEulerAngles;
     }
     Vector3 getSensitiveRotateValue()
     {
-        if (cameraFollowedObject_.transform.rotation.eulerAngles.x>=0 && cameraFollowedObject_.transform.rotation.eulerAngles.x <=76)
+        if (CameraFollowedObject.transform.rotation.eulerAngles.x >= 0 && CameraFollowedObject.transform.rotation.eulerAngles.x <= 76)
         {
-            var y_limiter = 1 - headRotateSpeedLimitValue_ / maxHeadAngle_ * cameraFollowedObject_.transform.rotation.eulerAngles.x;
-            var sensitiveRotateValue = new Vector3(rotateValue_.x * Time.deltaTime * rotateSpeed_Y_, rotateValue_.y * Time.deltaTime * rotateSpeed_X_*y_limiter, 0);
+            var y_limiter = 1 - headRotateSpeedLimitValue_ / maxHeadAngle_ * CameraFollowedObject.transform.rotation.eulerAngles.x;
+            var sensitiveRotateValue = new Vector3(rotateValue_.x * Time.deltaTime * rotateSpeed_Y_, rotateValue_.y * Time.deltaTime * rotateSpeed_X_ * y_limiter, 0);
             return sensitiveRotateValue;
         }
         else
@@ -94,7 +98,7 @@ public class CameraControllerView : MonoBehaviour
             return sensitiveRotateValue;
         }
     }
-    Vector3 clampMainCameraRotateAngle(Vector3 target)
+    public Vector3 ClampMainCameraRotateAngle(Vector3 target)
     {
         if (target.x > 180f)
         {

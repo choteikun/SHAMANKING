@@ -4,12 +4,7 @@ using UnityEngine;
 
 public abstract class StateBase 
 {
-    protected StageManager stateManager;
-    public StateBase(StageManager m)
-    {
-        stateManager = m;
-    }
-
+    protected StageManager stateManager;    
     public virtual void OnEnter()
     {
         Debug.Log("EnterFreePlay");
