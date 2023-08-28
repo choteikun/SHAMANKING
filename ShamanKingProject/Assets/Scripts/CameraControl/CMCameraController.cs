@@ -14,12 +14,12 @@ public class CMCameraController
     GameObject lookedObject;
 
 
-    [Header("Äá¼v¾÷¦ì¸m°Ñ¼Æ")]
-    [Tooltip("Äá¼v¾÷°òÂ¦¦ì¸m ¹w³]2.7")]
+    [Header("ä¸»æ”å½±æ©Ÿåƒæ•¸")]
+    [Tooltip("åŸºç¤Žæ”å½±æ©Ÿè·é›¢ é è¨­2.7")]
     [SerializeField]
     float basicCameraDistance_ = 2.7f;
 
-    [Tooltip("Äá¼v¾÷ÀY³»¼W°ª¶ZÂ÷ ¹w³]¬°3")]
+    [Tooltip("é ­é ‚æ”å½±æ©Ÿè·é›¢")]
     [SerializeField]
     float upperCameraDistance_ = 3;
 
@@ -48,7 +48,7 @@ public class CMCameraController
             composer_.m_ScreenY = 1 - rotateAngle_ * 0.5f / maxHeadAngle;
 
         }
-        else if (rotateAngle_ >= 270 && rotateAngle_ <= 360)//¦V¤U²¾°Ê¥d¦b90«×¤º ¤£¥i¶W¹L©Îµ¥©ó90
+        else if (rotateAngle_ >= 270 && rotateAngle_ <= 360)//ï¿½Vï¿½Uï¿½ï¿½ï¿½Ê¥dï¿½b90ï¿½×¤ï¿½ ï¿½ï¿½ï¿½iï¿½Wï¿½Lï¿½Îµï¿½ï¿½ï¿½90
         {
             thirdPersonFollow_.CameraDistance = basicCameraDistance_ - (360 - rotateAngle_) * basicCameraDistance_ / 90;
             thirdPersonFollow_.VerticalArmLength = 0.01f + (rotateAngle_ - 270) * 0.99f / 90;

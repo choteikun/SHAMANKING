@@ -21,20 +21,20 @@ public class CameraControllerView : MonoBehaviour
     [SerializeField]
     float rotateSpeed_Y_ = 10f;
 
-    [Tooltip("«ØÄ³¨¤«×¬°75«×")]
-    [Header("³Ì¤j¨¤«×")]
+    [Header("æœ€å¤§æ”å½±æ©Ÿè§’åº¦")]
+    [Tooltip("é è¨­75åº¦")]
     [SerializeField]
     int maxHeadAngle_ = 75;
 
-    [Tooltip("«ØÄ³¨¤«×¬°-60«×,½Ğ¤Å¤p©ó-89«×")]
-    [Header("³Ì¤p¨¤«×")]    
+    [Tooltip("æœ€å°æ”å½±æ©Ÿè§’åº¦")]
+    [Header("é è¨­-60åº¦")]    
     [SerializeField]
     int minHeadAngle_ = -60;
 
     [SerializeField]
     CMCameraController cmCameraController_;
 
-    [Header("ÀY³»±ÛÂà³t«×­­¨î¶q")]
+    [Header("æ”å½±æ©Ÿ")]
     [SerializeField]
     float headRotateSpeedLimitValue_ = 0.7f;
 
@@ -64,22 +64,22 @@ public class CameraControllerView : MonoBehaviour
     {        
         var sensitiveRotateValue = getSensitiveRotateValue();
         
-        // ®Ú¾Ú rotateValue_ ªº x ©M y ¤À¶q¨Ó­pºâ±ÛÂà¨¤«×
+        // ï¿½Ú¾ï¿½ rotateValue_ ï¿½ï¿½ x ï¿½M y ï¿½ï¿½ï¿½qï¿½Ó­pï¿½ï¿½ï¿½ï¿½à¨¤ï¿½ï¿½
         var rotationX = sensitiveRotateValue.x;
         var rotationY = sensitiveRotateValue.y;
 
 
         var finalAngle = cameraFollowedObject_.transform.rotation;
-        // ®Ú¾Ú­pºâ¥Xªº±ÛÂà¨¤«×¨Ó±ÛÂàª«Åé
+        // ï¿½Ú¾Ú­pï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½à¨¤ï¿½×¨Ó±ï¿½ï¿½àª«ï¿½ï¿½
        finalAngle *= Quaternion.Euler(rotationX, rotationY, 0f);
 
-        // ¨ú±oª«Åéªº¼Ú©Ô¨¤«×
+        // ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½éªºï¿½Ú©Ô¨ï¿½ï¿½ï¿½
         var mainCameraEulerAngles = finalAngle.eulerAngles;
         var aimCameraEulerAngles = finalAngle.eulerAngles;
 
         mainCameraEulerAngles = clampMainCameraRotateAngle(mainCameraEulerAngles);
         aimCameraEulerAngles = clampAimCameraRotateAngle(aimCameraEulerAngles);
-        // ±N¼Ú©Ô¨¤«×³]©w¦^ª«Åéªº±ÛÂà
+        // ï¿½Nï¿½Ú©Ô¨ï¿½ï¿½×³]ï¿½wï¿½^ï¿½ï¿½ï¿½éªºï¿½ï¿½ï¿½ï¿½
         cameraFollowedObject_.transform.eulerAngles = mainCameraEulerAngles;        
         aimCameraFollowedObject_.transform.eulerAngles = aimCameraEulerAngles;
     }
@@ -99,7 +99,7 @@ public class CameraControllerView : MonoBehaviour
     }
     Vector3 clampMainCameraRotateAngle(Vector3 target)
     {
-        // ±N±ÛÂà¨¤«×­­¨î¦b 75 ¨ì -90 ªº½d³ò¤º
+        // ï¿½Nï¿½ï¿½ï¿½à¨¤ï¿½×­ï¿½ï¿½ï¿½b 75 ï¿½ï¿½ -90 ï¿½ï¿½ï¿½dï¿½ï¿½
         if (target.x > 180f)
         {
             target.x -= 360f;

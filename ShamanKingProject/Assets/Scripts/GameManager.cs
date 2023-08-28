@@ -9,6 +9,8 @@ public class GameManager : ToSingletonMonoBehavior<GameManager>
 
     protected override void init()
     {
+        QualitySettings.vSyncCount = 0; 
+        Application.targetFrameRate = 120;
         base.init();
         MainGameMediator = new MainGameMediator();
     }
