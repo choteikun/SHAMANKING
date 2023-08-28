@@ -64,22 +64,19 @@ public class CameraControllerView : MonoBehaviour
     {        
         var sensitiveRotateValue = getSensitiveRotateValue();
         
-        // �ھ� rotateValue_ �� x �M y ���q�ӭp����ਤ��
         var rotationX = sensitiveRotateValue.x;
         var rotationY = sensitiveRotateValue.y;
 
 
         var finalAngle = cameraFollowedObject_.transform.rotation;
-        // �ھڭp��X�����ਤ�רӱ��ફ��
        finalAngle *= Quaternion.Euler(rotationX, rotationY, 0f);
 
-        // ���o���骺�کԨ���
         var mainCameraEulerAngles = finalAngle.eulerAngles;
         var aimCameraEulerAngles = finalAngle.eulerAngles;
 
         mainCameraEulerAngles = clampMainCameraRotateAngle(mainCameraEulerAngles);
         aimCameraEulerAngles = clampAimCameraRotateAngle(aimCameraEulerAngles);
-        // �N�کԨ��׳]�w�^���骺����
+
         cameraFollowedObject_.transform.eulerAngles = mainCameraEulerAngles;        
         aimCameraFollowedObject_.transform.eulerAngles = aimCameraEulerAngles;
     }
@@ -99,7 +96,6 @@ public class CameraControllerView : MonoBehaviour
     }
     Vector3 clampMainCameraRotateAngle(Vector3 target)
     {
-        // �N���ਤ�׭���b 75 �� -90 ���d��
         if (target.x > 180f)
         {
             target.x -= 360f;

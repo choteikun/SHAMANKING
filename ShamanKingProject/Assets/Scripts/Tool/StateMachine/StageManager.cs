@@ -39,7 +39,7 @@ public class StageManager
     }
 
 
-    private void changeAndNewState(State_Enum type, StageData stageData)
+    protected virtual void changeAndNewState(State_Enum type, StageData stageData)
     {
         switch (type)
         {
@@ -61,7 +61,7 @@ public class StageManager
         }
 
     }
-    public void StageManagerInit()
+    protected virtual void StageManagerInit()
     {
         TransitionState(State_Enum.Game_Init_State);
     }
