@@ -3,6 +3,7 @@ using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using Gamemanager;
 using Obi;
 using StarterAssets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,18 +14,16 @@ public enum PlayerState
 {
 
 }
+[Serializable]
 [RequireComponent(typeof(CharacterController))]
-public class TestPlayerController : MonoBehaviour
+public class PlayerControllerMover
 {
     [Header("Player")]
     [Tooltip("玩家移動速度")]
-    public float MoveSpeed = 3.5f;
+    [SerializeField] private float MoveSpeed = 5f;
 
     [Tooltip("玩家衝刺速度")]
     public float SprintSpeed = 5.5f;
-
-    [Tooltip("運動速度達到最大值之前的速度數值，數值越大達到最大值的時間越快")]
-    public float SpeedChangeRate = 10.0f;
 
     [Tooltip("角色轉向面對運動方向的速度有多快")]
     [Range(0.0f, 0.3f)]
@@ -39,58 +38,56 @@ public class TestPlayerController : MonoBehaviour
     [Tooltip("角色使用哪些Layer作為地面")]
     public LayerMask GroundLayers;
 
-    [Header("Player Grounded")]
-    [Tooltip("地板檢查，這不是CharacterController自帶的isGrounded，那東西是大便")]
-    public bool Grounded = true;
-
-    [HideInInspector]
-    public float player_InputMagnitude_;
-
     //--------------------------------------------------------------------------------------------------------------
+    private Player_Stats player_Stats_;
 
     private const float speedOffset = 0.01f;
 
     private CharacterController player_CC_;
     private Transform model_Transform_;
     private GameObject mainCamera_;
+    private GameObject characterControllerObj_;
+
 
     private bool player_SprintStatus_;
 
-    private float player_Speed_;
+
     private float player_TargetRotation_ = 0.0f;
 
     private float turnSmoothVelocity_;
     private float verticalVelocity_;
 
-    private Vector2 player_Dir_;
     
 
-    void Start()
+    public  PlayerControllerMover(GameObject controller)
     {
+        characterControllerObj_ = controller;
+    }
+    public void Start(Player_Stats player_Stats)
+    {
+        player_Stats_  = player_Stats;
         if (mainCamera_ == null)
         {
             mainCamera_ = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
-        player_CC_ = GetComponent<CharacterController>();
+        player_CC_ = characterControllerObj_.GetComponent<CharacterController>();
 
-        model_Transform_ = GetComponentInChildren<Animator>().transform;
+        model_Transform_ = characterControllerObj_.GetComponentInChildren<Animator>().transform;
 
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_Direction);
-        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, GetPlayer_SprintStatus);
     }
 
-    void Update()
+    public void Update()
     {
         //groundedCheck();
         move();
     }
-    void groundedCheck()
+    void groundedCheck(Player_Stats player_Stats)
     {
         //設置球的偵測位置
-        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
-            transform.position.z);
-        Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
+        Vector3 spherePosition = new Vector3(characterControllerObj_.transform.position.x, characterControllerObj_.transform.position.y - GroundedOffset,
+            characterControllerObj_.transform.position.z);
+        player_Stats.Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
 
     }
@@ -101,7 +98,7 @@ public class TestPlayerController : MonoBehaviour
         float targetSpeed = player_SprintStatus_ ? SprintSpeed : MoveSpeed;
 
         //如果沒有輸入，則將目標速度設置為0
-        if (player_Dir_ == Vector2.zero) targetSpeed = 0.0f;
+        if (player_Stats_.Player_Dir == Vector2.zero) targetSpeed = 0.0f;
 
         //玩家當前水平速度的引用
         float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;    
@@ -113,39 +110,39 @@ public class TestPlayerController : MonoBehaviour
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             // 改善速度變化，計算速度為滑順的而不是線性結果
-            player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_InputMagnitude_,
-                Time.deltaTime * SpeedChangeRate);
+            player_Stats_.Player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_Stats_.Player_InputMagnitude,
+                Time.deltaTime * player_Stats_.SpeedChangeRate);
 
             //去除3位小數點之後的數字
-            player_Speed_ = Mathf.Round(player_Speed_ * 1000f) / 1000f;
-            Debug.Log("進入運動插值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
+            player_Stats_.Player_Speed = Mathf.Round(player_Stats_.Player_Speed * 1000f) / 1000f;
+            Debug.Log("進入運動插值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
         }
         else
         {
             //針對手把操作改善
-            if (player_InputMagnitude_ >= 0.999)
+            if (player_Stats_.Player_InputMagnitude >= 0.999)
             {
-                player_Speed_ = targetSpeed;
-                Debug.Log("沒進入差值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
+                player_Stats_.Player_Speed = targetSpeed;
+                Debug.Log("沒進入差值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
             }
             else
             {
                 // 改善速度變化，計算速度為滑順的而不是線性結果
-                player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_InputMagnitude_,
-                    Time.deltaTime * SpeedChangeRate);
+                player_Stats_.Player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_Stats_.Player_InputMagnitude,
+                    Time.deltaTime * player_Stats_.SpeedChangeRate);
                 //去除3位小數點之後的數字
-                player_Speed_ = Mathf.Round(player_Speed_ * 1000f) / 1000f;
-                Debug.Log("持續運動插值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
+                player_Stats_.Player_Speed = Mathf.Round(player_Stats_.Player_Speed * 1000f) / 1000f;
+                Debug.Log("持續運動插值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
             }
             //player_Speed_ = targetSpeed;
             //Debug.Log("沒進入差值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + inputMagnitude);
         }
 
         //單位化，防止同時兩個方向移動，速度變快
-        Vector3 inputDirection = new Vector3(player_Dir_.x, 0.0f, player_Dir_.y).normalized;
+        Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
 
         //玩家移動中
-        if (player_Dir_ != Vector2.zero)
+        if (player_Stats_.Player_Dir != Vector2.zero)
         {
             //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
             player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
@@ -159,21 +156,16 @@ public class TestPlayerController : MonoBehaviour
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
 
-        player_CC_.Move(targetDirection.normalized * (player_Speed_ * Time.deltaTime ) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
+        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime ) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
     }
     void jumpAndFall()
     {
-        if (Grounded)
+        if (player_Stats_.Grounded)
         {
             //角色在地面上的操作
         }
     }
-    void getPlayer_Direction(PlayerControllerMovementCommand playerControllerMovementCommand)
-    {
-        player_Dir_ = playerControllerMovementCommand.Direction;
-        var clampedDirection = Mathf.Clamp(player_Dir_.magnitude, 0, 1);
-        player_InputMagnitude_ = clampedDirection;
-    }
+    
     void getPlayer_SprintStatus(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
         //player_SprintStatus = playerControllerMovementCommand.Sprint;
@@ -182,7 +174,7 @@ public class TestPlayerController : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (Grounded) 
+        if (player_Stats_.Grounded) 
         {
             Gizmos.color = Color.green;
         }
@@ -191,7 +183,7 @@ public class TestPlayerController : MonoBehaviour
             Gizmos.color = Color.red;
         }
         Gizmos.DrawSphere(
-            new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
+            new Vector3(characterControllerObj_.transform.position.x, characterControllerObj_.transform.position.y - GroundedOffset, characterControllerObj_.transform.position.z),
             GroundedRadius);
     }
 

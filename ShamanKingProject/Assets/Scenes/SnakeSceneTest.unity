@@ -502,7 +502,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.084345564, y: 0.0038599337, z: 0.00032673503, w: 0.996429}
+  m_LocalRotation: {x: -0.08434332, y: 0.008226393, z: 0.0006963464, w: 0.99640256}
   m_LocalPosition: {x: -5, y: 1.15, z: -2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1371,16 +1371,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05c043c1a16d20488bfbb3394e5c83a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 2
+  MoveSpeed: 3.5
   SprintSpeed: 5.335
-  SpeedChangeRate: 10
   TurnSmoothTime: 0.15
   GroundedOffset: -0.14
   GroundedRadius: 0.28
   GroundLayers:
-    serializedVersion: 2
     m_Bits: 0
-  Grounded: 1
+  player_Stats_:
+    Player_Speed: 0
+    Grounded: 1
+    SpeedChangeRate: 10
+    Player_InputMagnitude: 0
+    Player_Dir: {x: 0, y: 0}
+  player_CC_: {fileID: 0}
+  model_Transform_: {fileID: 0}
+  mainCamera_: {fileID: 0}
+  player_SprintStatus_: 0
+  player_TargetRotation_: 0
+  turnSmoothVelocity_: 0
+  verticalVelocity_: 0
 --- !u!4 &1447408693
 Transform:
   m_ObjectHideFlags: 0
@@ -2604,7 +2614,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2878228319814590511}
   - component: {fileID: 2878228319814590497}
-  - component: {fileID: 2878228319814590510}
   m_Layer: 0
   m_Name: CharacterAnimator
   m_TagString: Untagged
@@ -2612,19 +2621,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2878228319814590510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2878228319814590508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd761c538142b6c46958c0e6d52ea2d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  idleTimeOut_: 0
 --- !u!4 &2878228319814590511
 Transform:
   m_ObjectHideFlags: 0
@@ -3128,19 +3124,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 4306130283328811340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c05c043c1a16d20488bfbb3394e5c83a, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e2e4c56ea991ad4788eb35c090185ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
-  SprintSpeed: 5.5
-  SpeedChangeRate: 10
-  TurnSmoothTime: 0.1
-  GroundedOffset: -0.15
-  GroundedRadius: 0.3
-  GroundLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  Grounded: 1
+  player_Stats_:
+    Player_Speed: 0
+    Grounded: 1
+    SpeedChangeRate: 10
+    Player_InputMagnitude: 0
+    Player_Dir: {x: 0, y: 0}
+  playerAnimatorView_:
+    idleTimeOut_: 0
+  playerControllerMover_:
+    MoveSpeed: 0
+    SprintSpeed: 0
+    TurnSmoothTime: 0
+    GroundedOffset: 0
+    GroundedRadius: 0
+    GroundLayers:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!4 &4353525413068123188
 Transform:
   m_ObjectHideFlags: 0

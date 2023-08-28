@@ -11,9 +11,8 @@ public enum PlayerAnimState
 {
     Idle,
 }
-
-[RequireComponent(typeof(Animator))]
-public class PlayerAnimatorView : MonoBehaviour
+[Serializable]
+public class PlayerAnimator 
 {
     #region 提前Hash進行優化
     //readonly int h_HurtFromX = Animator.StringToHash("HurtFromX");
@@ -34,7 +33,6 @@ public class PlayerAnimatorView : MonoBehaviour
     //當前狀態
     private PlayerAnimState playerAnimState_;
 
-    private TestPlayerController playerController_;
     private Animator animator_;
     private ObservableStateMachineTrigger animOSM_Trigger_;
 
@@ -57,24 +55,35 @@ public class PlayerAnimatorView : MonoBehaviour
     //接收玩家移動指令所計算用的動畫速度
     private float player_targetAnimSpeed_;
 
-    void Start()
+    private Player_Stats player_Stats_;
+
+    private GameObject characterControllerObj_;
+
+
+
+    public PlayerAnimator(GameObject controller)
     {
-        animator_ = GetComponent<Animator>();
+        characterControllerObj_ = controller;
+    }
+    public void Start(Player_Stats player_Stats)
+    {
+        player_Stats_ = player_Stats;
+        var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
+        animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
         animOSM_Trigger_ = animator_.GetBehaviour<ObservableStateMachineTrigger>();
-        playerController_ = GetComponentInParent<TestPlayerController>();
 
         //範例
         IObservable<ObservableStateMachineTrigger.OnStateInfo> idleStart = animOSM_Trigger_.OnStateEnterAsObservable().Where(x => x.StateInfo.IsName("Idle"));
         IObservable<ObservableStateMachineTrigger.OnStateInfo> idleEnd = animOSM_Trigger_.OnStateExitAsObservable().Where(x => x.StateInfo.IsName("Idle"));
 
-        this.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(this).Subscribe(x => { Debug.Log("Idle中"); }).AddTo(this);
+        characterControllerObj_.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(characterControllerObj_).Subscribe(x => { Debug.Log("Idle中"); }).AddTo(characterControllerObj_);
     }
 
-    void Update()
+    public void Update()
     {
-        setTargetAnimSpeed();
-        setHorizontalAnimVel();
-        SetPlayer_animID_Grounded();
+        setTargetAnimSpeed(player_Stats_);
+        setHorizontalAnimVel(player_Stats_);
+        SetPlayer_animID_Grounded(player_Stats_);
 
         //TimeoutToIdle();
 
@@ -118,21 +127,21 @@ public class PlayerAnimatorView : MonoBehaviour
 
     #region - 動畫參數計算 -
 
-    void setTargetAnimSpeed()
+    void setTargetAnimSpeed(Player_Stats player_Stats)
     {
-        float targetSpeed = playerController_.MoveSpeed;
-        player_targetAnimSpeed_ = playerController_.player_InputMagnitude_ * targetSpeed;
+        float targetSpeed = player_Stats.Player_Speed;
+        player_targetAnimSpeed_ = player_Stats.Player_InputMagnitude * targetSpeed;
     }
-    void setHorizontalAnimVel()//設置動畫水平速度給LocomtionBlendTree
+    void setHorizontalAnimVel(Player_Stats player_Stats)//設置動畫水平速度給LocomtionBlendTree
     {
-        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_targetAnimSpeed_, Time.deltaTime * playerController_.SpeedChangeRate);
+        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_targetAnimSpeed_, Time.deltaTime * player_Stats.SpeedChangeRate);
         if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;
 
         animator_.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel_);
     }
-    void SetPlayer_animID_Grounded()
+    void SetPlayer_animID_Grounded(Player_Stats player_Stats)
     {
-        animator_.SetBool(animID_Grounded, playerController_.Grounded);
+        animator_.SetBool(animID_Grounded, player_Stats.Grounded);
     }
     #endregion
 
