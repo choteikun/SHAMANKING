@@ -43,6 +43,9 @@ public class TestPlayerController : MonoBehaviour
     [Tooltip("地板檢查，這不是CharacterController自帶的isGrounded，那東西是大便")]
     public bool Grounded = true;
 
+    [HideInInspector]
+    public float player_InputMagnitude_;
+
     //--------------------------------------------------------------------------------------------------------------
 
     private const float speedOffset = 0.01f;
@@ -60,6 +63,7 @@ public class TestPlayerController : MonoBehaviour
     private float verticalVelocity_;
 
     private Vector2 player_Dir_;
+    
 
     void Start()
     {
@@ -100,9 +104,7 @@ public class TestPlayerController : MonoBehaviour
         if (player_Dir_ == Vector2.zero) targetSpeed = 0.0f;
 
         //玩家當前水平速度的引用
-        float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
-        
-        
+        float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;    
 
         //為了提供一個容錯範圍。當當前速度與目標速度之間的差值小於容錯範圍時，就不需要進行加速或減速操作，
         //因為這時候已經非常接近目標速度了，再進行微小的變化可能會導致速度上下抖動，產生不良的遊戲體驗。
@@ -111,7 +113,7 @@ public class TestPlayerController : MonoBehaviour
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             // 改善速度變化，計算速度為滑順的而不是線性結果
-            player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_Dir_.magnitude,
+            player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_InputMagnitude_,
                 Time.deltaTime * SpeedChangeRate);
 
             //去除3位小數點之後的數字
@@ -121,7 +123,7 @@ public class TestPlayerController : MonoBehaviour
         else
         {
             //針對手把操作改善
-            if (player_Dir_.magnitude >= 0.999)
+            if (player_InputMagnitude_ >= 0.999)
             {
                 player_Speed_ = targetSpeed;
                 Debug.Log("沒進入差值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Dir_.magnitude);
@@ -129,7 +131,7 @@ public class TestPlayerController : MonoBehaviour
             else
             {
                 // 改善速度變化，計算速度為滑順的而不是線性結果
-                player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_Dir_.magnitude,
+                player_Speed_ = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_InputMagnitude_,
                     Time.deltaTime * SpeedChangeRate);
                 //去除3位小數點之後的數字
                 player_Speed_ = Mathf.Round(player_Speed_ * 1000f) / 1000f;
@@ -169,6 +171,8 @@ public class TestPlayerController : MonoBehaviour
     void getPlayer_Direction(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
         player_Dir_ = playerControllerMovementCommand.Direction;
+        var clampedDirection = Mathf.Clamp(player_Dir_.magnitude, 0, 1);
+        player_InputMagnitude_ = clampedDirection;
     }
     void getPlayer_SprintStatus(PlayerControllerMovementCommand playerControllerMovementCommand)
     {

@@ -37,7 +37,6 @@ public class PlayerAnimatorView : MonoBehaviour
     private TestPlayerController playerController_;
     private Animator animator_;
     private ObservableStateMachineTrigger animOSM_Trigger_;
-    private InputValue inputValue_;
 
     //檢測按鈕
     private bool inputDetected_;
@@ -63,7 +62,6 @@ public class PlayerAnimatorView : MonoBehaviour
         animator_ = GetComponent<Animator>();
         animOSM_Trigger_ = animator_.GetBehaviour<ObservableStateMachineTrigger>();
         playerController_ = GetComponentInParent<TestPlayerController>();
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getTargetAnimSpeed);
 
         //範例
         IObservable<ObservableStateMachineTrigger.OnStateInfo> idleStart = animOSM_Trigger_.OnStateEnterAsObservable().Where(x => x.StateInfo.IsName("Idle"));
@@ -74,7 +72,7 @@ public class PlayerAnimatorView : MonoBehaviour
 
     void Update()
     {
-
+        setTargetAnimSpeed();
         setHorizontalAnimVel();
         SetPlayer_animID_Grounded();
 
@@ -120,11 +118,10 @@ public class PlayerAnimatorView : MonoBehaviour
 
     #region - 動畫參數計算 -
 
-    void getTargetAnimSpeed(PlayerControllerMovementCommand playerControllerMovementCommand)
+    void setTargetAnimSpeed()
     {
         float targetSpeed = playerController_.MoveSpeed;
-        var clampedDirection = Mathf.Clamp(playerControllerMovementCommand.Direction.magnitude, 0, 1);
-        player_targetAnimSpeed_ = clampedDirection * targetSpeed;
+        player_targetAnimSpeed_ = playerController_.player_InputMagnitude_ * targetSpeed;
     }
     void setHorizontalAnimVel()//設置動畫水平速度給LocomtionBlendTree
     {
