@@ -502,7 +502,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.08434465, y: 0.006036797, z: 0.00051100185, w: 0.99641824}
+  m_LocalRotation: {x: -0.084344655, y: 0.006030891, z: 0.00051050185, w: 0.9964183}
   m_LocalPosition: {x: -5, y: 1.15, z: -2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2581,6 +2581,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2878228319814590511}
   - component: {fileID: 2878228319814590497}
+  - component: {fileID: 2878228319814590513}
+  - component: {fileID: 2878228319814590512}
   m_Layer: 0
   m_Name: CharacterAnimator
   m_TagString: Untagged
@@ -2605,6 +2607,106 @@ Transform:
   m_Father: {fileID: 3497504711293922294}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2878228319814590512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2878228319814590508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boneShape: 1
+  drawBones: 1
+  drawTripods: 0
+  boneSize: 1
+  tripodSize: 1
+  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
+  m_Transforms:
+  - {fileID: 8996486496712362850}
+  - {fileID: 1479278090480038430}
+  - {fileID: 6070212353642736320}
+  - {fileID: 1701105847411593772}
+  - {fileID: 7966733895948156083}
+  - {fileID: 1088338133408250213}
+  - {fileID: 5070034018825682013}
+  - {fileID: 8863577437648618183}
+  - {fileID: 4571762850673076833}
+  - {fileID: 2268308718827575989}
+  - {fileID: 6388201497771112983}
+  - {fileID: 8696742365901748465}
+  - {fileID: 2858859326254378009}
+  - {fileID: 3609618730796768370}
+  - {fileID: 1627297187554200809}
+  - {fileID: 7448588220359892773}
+  - {fileID: 5896437965708767972}
+  - {fileID: 7872151049680853470}
+  - {fileID: 2699011082098100209}
+  - {fileID: 6730242163852238933}
+  - {fileID: 5844554367755014694}
+  - {fileID: 4276760224890857603}
+  - {fileID: 5013369090696264693}
+  - {fileID: 7626188095676012087}
+  - {fileID: 1958477439091681792}
+  - {fileID: 6421836132804195107}
+  - {fileID: 8566103028950370712}
+  - {fileID: 7737104401525683114}
+  - {fileID: 2813491348020044113}
+  - {fileID: 3597177100786980439}
+  - {fileID: 7853237722488757314}
+  - {fileID: 2500794473299595822}
+  - {fileID: 460108654478187174}
+  - {fileID: 5008388371359961631}
+  - {fileID: 8146214686591647819}
+  - {fileID: 1717884136901832135}
+  - {fileID: 4130377702200447403}
+  - {fileID: 2277305357029227526}
+  - {fileID: 7885643292985544719}
+  - {fileID: 7414386194922404213}
+  - {fileID: 5745607759055027611}
+  - {fileID: 6142830326298424704}
+  - {fileID: 7225640445557166872}
+  - {fileID: 1481760783983507893}
+  - {fileID: 3366079764543271893}
+  - {fileID: 5054801101501582011}
+  - {fileID: 354866137672463382}
+  - {fileID: 8196098675353225055}
+  - {fileID: 6417299036732452288}
+  - {fileID: 424518410949861366}
+  - {fileID: 7999296582905385745}
+  - {fileID: 1974530429577901319}
+  - {fileID: 4353525413068123188}
+  - {fileID: 2846578864364848245}
+  - {fileID: 9047303046539277121}
+  - {fileID: 1518123789974610549}
+  - {fileID: 7151567311581070285}
+  - {fileID: 5300575964201200401}
+  - {fileID: 6971629918114753689}
+  - {fileID: 4047074624773195592}
+  - {fileID: 1676787705728264879}
+  - {fileID: 4771856586053163235}
+  - {fileID: 4965550306874487936}
+  - {fileID: 3228285041177869575}
+  - {fileID: 3765591611317415765}
+--- !u!114 &2878228319814590513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2878228319814590508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RigLayers:
+  - m_Rig: {fileID: 0}
+    m_Active: 1
+  m_Effectors: []
 --- !u!4 &2878228320141301192
 Transform:
   m_ObjectHideFlags: 0
@@ -3097,6 +3199,7 @@ MonoBehaviour:
   player_Stats_:
     Player_Speed: 0
     Grounded: 1
+    Aiming: 0
     SpeedChangeRate: 10
     Player_InputMagnitude: 0
     Player_Dir: {x: 0, y: 0}
