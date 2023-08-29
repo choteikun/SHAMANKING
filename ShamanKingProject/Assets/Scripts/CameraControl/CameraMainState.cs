@@ -7,18 +7,31 @@ public class CameraMainState : StateBase
 
     public override void OnEnter()
     {
-
+        replaceMainCameraFollowedObject();
     }
 
     public override void OnUpdate()
     {
         rotateMainCameraFollowedObject();
     }
+    void replaceMainCameraFollowedObject()
+    {
+
+        if (stateManager is CameraControllerStateMachine cameraController)
+        {
+            var aimCameraEulerAngles = cameraController.CameraControllerView_.AimQuaternion.eulerAngles;
+
+            aimCameraEulerAngles = cameraController.CameraControllerView_.ClampAimCameraRotateAngle(aimCameraEulerAngles);
+
+            cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles = aimCameraEulerAngles;
+
+        }
+    }
     void rotateMainCameraFollowedObject()
     {
         if (stateManager is CameraControllerStateMachine cameraController)
         {
-            var mainCameraEulerAngles = cameraController.CameraControllerView_.FinalQuaternion_.eulerAngles;
+            var mainCameraEulerAngles = cameraController.CameraControllerView_.MainCamQuaternion_.eulerAngles;
 
 
             mainCameraEulerAngles = cameraController.CameraControllerView_.ClampMainCameraRotateAngle(mainCameraEulerAngles);

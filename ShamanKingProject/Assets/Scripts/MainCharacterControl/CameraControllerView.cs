@@ -13,8 +13,8 @@ public class CameraControllerView : MonoBehaviour
     Vector2 nowRotateGamepadValue_ = new Vector2();
     [field: SerializeField]
     public GameObject CameraFollowedObject { get; private set; }
-    [SerializeField]
-    GameObject aimCameraFollowedObject_;
+    [field:SerializeField]
+    public GameObject AimCameraFollowedObject_ { get; private set; }
     [SerializeField]
     float rotateSpeed_X_ = 50f;
     [SerializeField]
@@ -41,7 +41,8 @@ public class CameraControllerView : MonoBehaviour
 
     Vector3 rotateValue_ => new Vector3(nowRotateGamepadValue_.y, nowRotateGamepadValue_.x, 0);
 
-    public Quaternion FinalQuaternion_ { get; private set; }
+    public Quaternion MainCamQuaternion_ { get; private set; }
+    public Quaternion AimQuaternion { get; private set; }
 
     private void Awake()
     {
@@ -74,15 +75,12 @@ public class CameraControllerView : MonoBehaviour
         var rotationY = sensitiveRotateValue.y;
 
 
-        FinalQuaternion_ = CameraFollowedObject.transform.rotation;
-        FinalQuaternion_ *= Quaternion.Euler(rotationX, rotationY, 0f);
+        MainCamQuaternion_ = CameraFollowedObject.transform.rotation;
+        MainCamQuaternion_ *= Quaternion.Euler(rotationX, rotationY, 0f);
+        AimQuaternion = AimCameraFollowedObject_.transform.rotation;
+        AimQuaternion *= Quaternion.Euler(rotationX, rotationY, 0f);
 
 
-        var aimCameraEulerAngles = FinalQuaternion_.eulerAngles;
-
-        aimCameraEulerAngles = clampAimCameraRotateAngle(aimCameraEulerAngles);
-
-        aimCameraFollowedObject_.transform.eulerAngles = aimCameraEulerAngles;
     }
     Vector3 getSensitiveRotateValue()
     {
@@ -108,13 +106,13 @@ public class CameraControllerView : MonoBehaviour
         target.z = 0;
         return target;
     }
-    Vector3 clampAimCameraRotateAngle(Vector3 target)
+    public Vector3 ClampAimCameraRotateAngle(Vector3 target)
     {
         if (target.x > 180f)
         {
             target.x -= 360f;
         }
-        target.x = Mathf.Clamp(target.x, -25, 25);
+        target.x = Mathf.Clamp(target.x, -15, 15);
         target.z = 0;
         return target;
     }
@@ -125,11 +123,13 @@ public class CameraControllerView : MonoBehaviour
         {
             movementVirtualCamera_.SetActive(false);
             aimVirtualCamera_.SetActive(true);
+            stateMachine_.TransitionState("Aim");
         }
         else
         {
             movementVirtualCamera_.SetActive(true);
             aimVirtualCamera_.SetActive(false);
+            stateMachine_.TransitionState("MainGame");
         }
     }
 }

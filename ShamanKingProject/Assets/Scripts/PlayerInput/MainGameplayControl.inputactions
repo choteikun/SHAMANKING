@@ -47,7 +47,7 @@
                     "id": "eb996077-6a1d-42b5-97b2-6469ef2da13b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 }
             ],
@@ -161,6 +161,17 @@
                     "action": "MouseCameraControl",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "16cc2054-ef6a-43f1-921c-c82aece2b5eb",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerAim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -169,15 +180,6 @@
             "id": "577a4216-58cb-42ed-b3b6-07ccfb059496",
             "actions": [
                 {
-                    "name": "PlayerAim",
-                    "type": "Button",
-                    "id": "d84fb52f-eb6e-4948-801f-3bdcd16c61c6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=1)",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "AimCameraControl",
                     "type": "Value",
                     "id": "f204fae7-e13e-4b13-82db-8aa236b0350d",
@@ -185,6 +187,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "PlayerAim",
+                    "type": "Button",
+                    "id": "d84fb52f-eb6e-4948-801f-3bdcd16c61c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

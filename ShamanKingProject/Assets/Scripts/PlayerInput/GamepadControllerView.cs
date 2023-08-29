@@ -67,14 +67,6 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerAim(InputValue value)
     {
-        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
-        if (value.isPressed)
-        {
-            input_.SwitchCurrentActionMap("AimGameplay");
-        }
-        else
-        {
-            input_.SwitchCurrentActionMap("MainGameplay");
-        }
-    }
+        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });        
+    }    
 }

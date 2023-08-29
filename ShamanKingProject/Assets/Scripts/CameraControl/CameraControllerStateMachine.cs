@@ -12,6 +12,9 @@ public class CameraControllerStateMachine : StageManager
             case "MainGame":
                 CurrentState = new CameraMainState(this);
                 return;
+            case "Aim":
+                CurrentState = new CameraAimState(this);
+                return;
                
         }
 
