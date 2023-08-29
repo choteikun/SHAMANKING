@@ -58,12 +58,17 @@ public class PlayerControllerMover
     private float turnSmoothVelocity_;
     private float verticalVelocity_;
 
-
+    private ControllerMoverStateMachine controllerMoverStateMachine_; 
     
 
     public  PlayerControllerMover(GameObject controller)
     {
         characterControllerObj_ = controller;
+    }
+    public void Awake()
+    {
+        controllerMoverStateMachine_ = new ControllerMoverStateMachine(this);
+        controllerMoverStateMachine_.StageManagerInit();
     }
     public void Start(Player_Stats player_Stats)
     {
@@ -83,6 +88,11 @@ public class PlayerControllerMover
     {
         //groundedCheck();
         move();
+        controllerMoverStateMachine_.StageManagerUpdate();
+    }
+    public void TransitionState(string state)
+    {
+        controllerMoverStateMachine_.TransitionState(state);
     }
     void groundedCheck(Player_Stats player_Stats)
     {

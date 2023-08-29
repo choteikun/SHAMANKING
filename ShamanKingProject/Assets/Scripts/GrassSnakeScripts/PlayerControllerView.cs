@@ -19,6 +19,7 @@ public class PlayerControllerView : MonoBehaviour
     {
         playerAnimatorView_ = new PlayerAnimator(this.gameObject);
         playerControllerMover_ =  new PlayerControllerMover(this.gameObject);
+        playerControllerMover_.Awake();
     }
     void Start()
     {
@@ -43,6 +44,14 @@ public class PlayerControllerView : MonoBehaviour
     void getPlayer_AimingState(PlayerAimingButtonCommand playerAimingButtonCommand)
     {
         player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
+        if (playerAimingButtonCommand.AimingButtonIsPressed)
+        {
+            playerControllerMover_.TransitionState("Aim");
+        }
+        else
+        {
+            playerControllerMover_.TransitionState("MainGame");
+        }
     }
 }
 
