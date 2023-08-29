@@ -10,13 +10,15 @@ using UniRx.Triggers;
 public enum PlayerAnimState
 {
     Idle,
+    BeAttack,
+    Dead
 }
 [Serializable]
 public class PlayerAnimator 
 {
     #region 提前Hash進行優化
-    //readonly int h_HurtFromX = Animator.StringToHash("HurtFromX");
-    //readonly int h_HurtFromY = Animator.StringToHash("HurtFromY");
+    readonly int animID_AimMoveX = Animator.StringToHash("AimMoveX");
+    readonly int animID_AimMoveY = Animator.StringToHash("AimMoveY");
 
     readonly int animID_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
 
@@ -24,6 +26,7 @@ public class PlayerAnimator
 
     readonly int animID_InputDetected = Animator.StringToHash("InputDetected");
     readonly int animID_Grounded = Animator.StringToHash("Grounded");
+    readonly int animID_Aiming = Animator.StringToHash("Aiming");
     readonly int animID_Airborne = Animator.StringToHash("Airborne");//空中降落，下降是true，上升是false
 
     readonly int animID_Idle = Animator.StringToHash("Idle");
@@ -79,8 +82,8 @@ public class PlayerAnimator
     public void Update()
     {
         setHorizontalAnimVel(player_Stats_);
-        SetPlayer_animID_Grounded(player_Stats_);
-
+        setPlayer_animID_Grounded(player_Stats_);
+        setPlayer_animID_Aiming(player_Stats_);
         //TimeoutToIdle();
 
         #region - 簡易動畫狀態管理 
@@ -138,9 +141,15 @@ public class PlayerAnimator
         if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;
         animator_.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel_);
     }
-    void SetPlayer_animID_Grounded(Player_Stats player_Stats)
+    void setPlayer_animID_Grounded(Player_Stats player_Stats)
     {
         animator_.SetBool(animID_Grounded, player_Stats.Grounded);
+    }
+    void setPlayer_animID_Aiming(Player_Stats player_Stats)
+    {
+        animator_.SetBool(animID_Aiming, player_Stats.Aiming);
+        animator_.SetFloat(animID_AimMoveX, player_Stats_.Player_Dir.x);
+        animator_.SetFloat(animID_AimMoveY, player_Stats_.Player_Dir.y);
     }
     #endregion
 

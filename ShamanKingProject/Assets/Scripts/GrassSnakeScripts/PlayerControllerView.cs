@@ -23,7 +23,8 @@ public class PlayerControllerView : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_Direction);
-        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintStatus);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, getPlayer_AimingState);
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
     }
@@ -39,7 +40,10 @@ public class PlayerControllerView : MonoBehaviour
         var clampedDirection = Mathf.Clamp(player_Stats_.Player_Dir.magnitude, 0, 1);
         player_Stats_.Player_InputMagnitude = clampedDirection;
     }
-
+    void getPlayer_AimingState(PlayerAimingButtonCommand playerAimingButtonCommand)
+    {
+        player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
+    }
 }
 
 
@@ -51,6 +55,9 @@ public class Player_Stats
 
     [Tooltip("地板檢查，這不是CharacterController自帶的isGrounded，那東西是大便")]
     public bool Grounded = true;
+
+    [Tooltip("玩家瞄準狀態")]
+    public bool Aiming = false;
 
     [Tooltip("運動速度達到最大值之前的速度數值，數值越大達到最大值的時間越快")]
     public float SpeedChangeRate = 10.0f;

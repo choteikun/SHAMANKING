@@ -95,7 +95,6 @@ public class PlayerControllerMover
     }
     void move()
     {
-
         //根據移動速度、衝刺速度以及是否按下衝刺設置目標速度
         float targetSpeed = player_SprintStatus_ ? SprintSpeed : MoveSpeed;
 
@@ -117,7 +116,7 @@ public class PlayerControllerMover
 
             //去除3位小數點之後的數字
             player_Stats_.Player_Speed = Mathf.Round(player_Stats_.Player_Speed * 1000f) / 1000f;
-            Debug.Log("進入運動插值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
+            //Debug.Log("進入運動插值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
         }
         else
         {
@@ -125,7 +124,7 @@ public class PlayerControllerMover
             if (player_Stats_.Player_InputMagnitude >= 0.999)
             {
                 player_Stats_.Player_Speed = targetSpeed;
-                Debug.Log("沒進入差值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
+                //Debug.Log("沒進入差值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
             }
             else
             {
@@ -134,7 +133,7 @@ public class PlayerControllerMover
                     Time.deltaTime * player_Stats_.SpeedChangeRate);
                 //去除3位小數點之後的數字
                 player_Stats_.Player_Speed = Mathf.Round(player_Stats_.Player_Speed * 1000f) / 1000f;
-                Debug.Log("持續運動插值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
+                //Debug.Log("持續運動插值計算player_Speed_ : " + player_Stats_.Player_Speed + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + player_Stats_.Player_Dir.magnitude);
             }
             //player_Speed_ = targetSpeed;
             //Debug.Log("沒進入差值計算player_Speed_ : " + player_Speed_ + " currentHorizontalSpeed : " + currentHorizontalSpeed + " inputMagnitude : " + inputMagnitude);
@@ -151,8 +150,16 @@ public class PlayerControllerMover
             //旋轉平滑用的插值運算
             float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
 
-            //將模型旋轉至相對於相機位置的輸入方向
-            model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            
+            if (!player_Stats_.Aiming)
+            {
+                //將模型旋轉至相對於相機位置的輸入方向
+                model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+            else
+            {
+
+            }
 
         }
 
@@ -167,13 +174,6 @@ public class PlayerControllerMover
             //角色在地面上的操作
         }
     }
-    
-    void getPlayer_SprintStatus(PlayerControllerMovementCommand playerControllerMovementCommand)
-    {
-        //player_SprintStatus = playerControllerMovementCommand.Sprint;
-    }
-
-
     private void OnDrawGizmosSelected()
     {
         if (player_Stats_.Grounded) 
