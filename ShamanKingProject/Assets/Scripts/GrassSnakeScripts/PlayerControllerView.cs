@@ -15,18 +15,24 @@ public class PlayerControllerView : MonoBehaviour
     [SerializeField]
     PlayerControllerMover playerControllerMover_;
 
-    private void Awake()
+    void Awake()
     {
         playerAnimatorView_ = new PlayerAnimator(this.gameObject);
         playerControllerMover_ =  new PlayerControllerMover(this.gameObject);
     }
-    private void Start()
+    void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_Direction);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintStatus);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
     }
+    void Update()
+    {
+        playerAnimatorView_.Update();
+        playerControllerMover_.Update();
+    }
+
     void getPlayer_Direction(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
         player_Stats_.Player_Dir = playerControllerMovementCommand.Direction;
@@ -34,11 +40,6 @@ public class PlayerControllerView : MonoBehaviour
         player_Stats_.Player_InputMagnitude = clampedDirection;
     }
 
-    private void Update()
-    {
-        playerAnimatorView_.Update();
-        playerControllerMover_.Update();
-    }
 }
 
 

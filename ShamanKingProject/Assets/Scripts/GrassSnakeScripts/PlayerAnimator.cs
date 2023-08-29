@@ -52,9 +52,6 @@ public class PlayerAnimator
     //Move狀態中回到idle的計時器(避免方向鍵切換時角色回到idle狀態)
     private float moveToIdleTimer_;
 
-    //接收玩家移動指令所計算用的動畫速度
-    private float player_targetAnimSpeed_;
-
     private Player_Stats player_Stats_;
 
     private GameObject characterControllerObj_;
@@ -73,15 +70,14 @@ public class PlayerAnimator
         animOSM_Trigger_ = animator_.GetBehaviour<ObservableStateMachineTrigger>();
 
         //範例
-        IObservable<ObservableStateMachineTrigger.OnStateInfo> idleStart = animOSM_Trigger_.OnStateEnterAsObservable().Where(x => x.StateInfo.IsName("Idle"));
-        IObservable<ObservableStateMachineTrigger.OnStateInfo> idleEnd = animOSM_Trigger_.OnStateExitAsObservable().Where(x => x.StateInfo.IsName("Idle"));
+        //IObservable<ObservableStateMachineTrigger.OnStateInfo> idleStart = animOSM_Trigger_.OnStateEnterAsObservable().Where(x => x.StateInfo.IsName("Idle"));
+        //IObservable<ObservableStateMachineTrigger.OnStateInfo> idleEnd = animOSM_Trigger_.OnStateExitAsObservable().Where(x => x.StateInfo.IsName("Idle"));
 
-        characterControllerObj_.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(characterControllerObj_).Subscribe(x => { Debug.Log("Idle中"); }).AddTo(characterControllerObj_);
+        //characterControllerObj_.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(characterControllerObj_).Subscribe(x => { Debug.Log("Idle中"); }).AddTo(characterControllerObj_);
     }
 
     public void Update()
     {
-        //setTargetAnimSpeed(player_Stats_);
         setHorizontalAnimVel(player_Stats_);
         SetPlayer_animID_Grounded(player_Stats_);
 
@@ -127,11 +123,6 @@ public class PlayerAnimator
 
     #region - 動畫參數計算 -
 
-    //void setTargetAnimSpeed(Player_Stats player_Stats)
-    //{
-    //    float targetSpeed = player_Stats.MoveSpeed;
-    //    player_targetAnimSpeed_ = player_Stats.Player_InputMagnitude * player_Stats.Player_TargetSpeed;
-    //}
     void setHorizontalAnimVel(Player_Stats player_Stats)//設置動畫水平速度給LocomtionBlendTree
     {
         player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_Stats_.Player_Speed, Time.deltaTime * player_Stats.SpeedChangeRate);
@@ -153,6 +144,8 @@ public class PlayerAnimator
     }
     #endregion
 
+
+    
     #region - Animation Events -
 
     #endregion
