@@ -6,6 +6,7 @@ using StarterAssets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.Windows;
@@ -160,7 +161,6 @@ public class PlayerControllerMover
             //旋轉平滑用的插值運算
             float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
 
-            
             if (!player_Stats_.Aiming)
             {
                 //將模型旋轉至相對於相機位置的輸入方向
