@@ -169,6 +169,16 @@ public class PlayerControllerMover
             float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
             //將模型旋轉至相對於相機位置的輸入方向
             model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            //if (!player_Stats_.Aiming)
+            //{
+            //    //將模型旋轉至相對於相機位置的輸入方向
+            //    model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            //}
+            //else
+            //{
+
+            //}
+
         }
         else
         {
@@ -177,7 +187,7 @@ public class PlayerControllerMover
                 //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
                 player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
                 //旋轉平滑用的插值運算
-                float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime / 10);
+                float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
                 //將模型旋轉至相對於相機位置的輸入方向
                 model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
