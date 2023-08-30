@@ -48,6 +48,8 @@ public class PlayerAnimator
     private bool aimMove_;
     //角色動畫水平速度
     private float player_horizontalAnimVel_;
+    private float player_horizontalAnimX;
+    private float player_horizontalAnimY;
     //角色動畫垂直速度
     private float player_verticalVel_;
 
@@ -65,7 +67,7 @@ public class PlayerAnimator
     private GameObject characterControllerObj_;
 
 
-
+    
 
     public PlayerAnimator(GameObject controller)
     {
@@ -161,8 +163,11 @@ public class PlayerAnimator
             aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
             if (aimMove_)
             {
-                animator_.SetFloat(animID_AimMoveX, player_Stats_.Player_Dir.x * player_horizontalAnimVel_);
-                animator_.SetFloat(animID_AimMoveY, player_Stats_.Player_Dir.y * player_horizontalAnimVel_);
+                player_horizontalAnimX = Mathf.Lerp(player_horizontalAnimX, player_Stats_.Player_Dir.x * player_Stats_.Player_Speed, Time.deltaTime * player_Stats.SpeedChangeRate);
+                player_horizontalAnimY = Mathf.Lerp(player_horizontalAnimY, player_Stats_.Player_Dir.y * player_Stats_.Player_Speed, Time.deltaTime * player_Stats.SpeedChangeRate);
+
+                animator_.SetFloat(animID_AimMoveX, player_horizontalAnimX);
+                animator_.SetFloat(animID_AimMoveY, player_horizontalAnimY);
 
                 animator_.SetBool(animID_AimIdle, false);
             }

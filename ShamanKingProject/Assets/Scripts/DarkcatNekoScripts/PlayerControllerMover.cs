@@ -1,5 +1,6 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityCharacterController;
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
 using Gamemanager;
 using Obi;
 using StarterAssets;
@@ -46,7 +47,10 @@ public class PlayerControllerMover
 
     private CharacterController player_CC_;
     private Transform model_Transform_;
+
     private GameObject mainCamera_;
+    private GameObject aimCamera_;
+
     private GameObject characterControllerObj_;
 
 
@@ -78,7 +82,10 @@ public class PlayerControllerMover
         {
             mainCamera_ = GameObject.FindGameObjectWithTag("MainCamera");
         }
-
+        if(aimCamera_ == null)
+        {
+            aimCamera_ = GameObject.Find("AimingCameraFollowTarget");
+        }
         player_CC_ = characterControllerObj_.GetComponent<CharacterController>();
 
         model_Transform_ = characterControllerObj_.GetComponentInChildren<Animator>().transform;
@@ -160,18 +167,22 @@ public class PlayerControllerMover
             player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
             //旋轉平滑用的插值運算
             float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
-
-            if (!player_Stats_.Aiming)
+            //將模型旋轉至相對於相機位置的輸入方向
+            model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+        }
+        else
+        {
+            if (player_Stats_.Aiming)
             {
+                //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
+                player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
+                //旋轉平滑用的插值運算
+                float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime / 10);
                 //將模型旋轉至相對於相機位置的輸入方向
                 model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
-            else
-            {
-
-            }
-
         }
+       
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
 
