@@ -1,25 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TestAimer : MonoBehaviour
 {
     [SerializeField]
-    GameObject mainCam_;
-
+    GameObject aimPoint_;
     [SerializeField]
-    GameObject aimCam_;
-    void Update()
+    LayerMask aimColloderLayerMask = new LayerMask();
+
+
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        if (Physics.Raycast(ray, out RaycastHit hit, 10f, aimColloderLayerMask))
         {
-            mainCam_.SetActive(false);
-            aimCam_.SetActive(true);
+            aimPoint_.transform.position = hit.point;
         }
-        if (Input.GetKeyDown(KeyCode.M))
+        else
         {
-            mainCam_.SetActive(true);
-            aimCam_.SetActive(false);
+            var endPoint = ray.origin + ray.direction * 10f;
+            aimPoint_.transform.position = endPoint;
+
         }
     }
 }
