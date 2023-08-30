@@ -17,6 +17,9 @@ public enum PlayerAnimState
 public class PlayerAnimator 
 {
     #region 提前Hash進行優化
+    readonly int animID_AimMove = Animator.StringToHash("AimMove");
+    readonly int animID_AimIdle = Animator.StringToHash("AimIdle");
+
     readonly int animID_AimMoveX = Animator.StringToHash("AimMoveX");
     readonly int animID_AimMoveY = Animator.StringToHash("AimMoveY");
 
@@ -26,7 +29,7 @@ public class PlayerAnimator
 
     readonly int animID_InputDetected = Animator.StringToHash("InputDetected");
     readonly int animID_Grounded = Animator.StringToHash("Grounded");
-    readonly int animID_Aiming = Animator.StringToHash("Aiming");
+
     readonly int animID_Airborne = Animator.StringToHash("Airborne");//空中降落，下降是true，上升是false
 
     readonly int animID_Idle = Animator.StringToHash("Idle");
@@ -41,6 +44,8 @@ public class PlayerAnimator
 
     //檢測按鈕
     private bool inputDetected_;
+    //瞄準下的移動狀態
+    private bool aimMove_;
     //角色動畫水平速度
     private float player_horizontalAnimVel_;
     //角色動畫垂直速度
@@ -58,6 +63,7 @@ public class PlayerAnimator
     private Player_Stats player_Stats_;
 
     private GameObject characterControllerObj_;
+
 
 
 
@@ -147,9 +153,29 @@ public class PlayerAnimator
     }
     void setPlayer_animID_Aiming(Player_Stats player_Stats)
     {
-        animator_.SetBool(animID_Aiming, player_Stats.Aiming);
-        animator_.SetFloat(animID_AimMoveX, player_Stats_.Player_Dir.x);
-        animator_.SetFloat(animID_AimMoveY, player_Stats_.Player_Dir.y);
+        
+        animator_.SetBool(animID_AimMove, aimMove_);
+
+        if (player_Stats.Aiming)
+        {
+            aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
+            if (aimMove_)
+            {
+                animator_.SetFloat(animID_AimMoveX, player_Stats_.Player_Dir.x * player_horizontalAnimVel_);
+                animator_.SetFloat(animID_AimMoveY, player_Stats_.Player_Dir.y * player_horizontalAnimVel_);
+
+                animator_.SetBool(animID_AimIdle, false);
+            }
+            else
+            {
+                animator_.SetBool(animID_AimIdle, true);
+            }
+        }
+        else
+        {
+            aimMove_ = false;
+            animator_.SetBool(animID_AimIdle, false);
+        }  
     }
     #endregion
 
