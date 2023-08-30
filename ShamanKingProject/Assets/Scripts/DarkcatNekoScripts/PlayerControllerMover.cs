@@ -39,6 +39,8 @@ public class PlayerControllerMover
 
     [Tooltip("角色使用哪些Layer作為地面")]
     public LayerMask GroundLayers;
+    [Tooltip("射線偵測所使用的Layer")]
+    public LayerMask aimColliderMask;
 
     //--------------------------------------------------------------------------------------------------------------
     private Player_Stats player_Stats_;
@@ -47,9 +49,9 @@ public class PlayerControllerMover
 
     private CharacterController player_CC_;
     private Transform model_Transform_;
+    private Transform aimDestination_Transform_;
 
     private GameObject mainCamera_;
-    private GameObject aimCamera_;
 
     private GameObject characterControllerObj_;
 
@@ -82,10 +84,9 @@ public class PlayerControllerMover
         {
             mainCamera_ = GameObject.FindGameObjectWithTag("MainCamera");
         }
-        if(aimCamera_ == null)
-        {
-            aimCamera_ = GameObject.Find("AimingCameraFollowTarget");
-        }
+
+        aimDestination_Transform_ = GameObject.Find("PlayerAimObject").transform;
+
         player_CC_ = characterControllerObj_.GetComponent<CharacterController>();
 
         model_Transform_ = characterControllerObj_.GetComponentInChildren<Animator>().transform;
@@ -96,6 +97,7 @@ public class PlayerControllerMover
     {
         //groundedCheck();
         move();
+        aimPointUpdate();
         controllerMoverStateMachine_.StageManagerUpdate();
     }
     public void TransitionState(string state)
@@ -165,38 +167,38 @@ public class PlayerControllerMover
         {
             //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
             player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
-            //旋轉平滑用的插值運算
-            float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
-            //將模型旋轉至相對於相機位置的輸入方向
-            model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            //if (!player_Stats_.Aiming)
-            //{
-            //    //將模型旋轉至相對於相機位置的輸入方向
-            //    model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            //}
-            //else
-            //{
-
-            //}
-
-        }
-        else
-        {
-            if (player_Stats_.Aiming)
+            
+            ////將模型旋轉至相對於相機位置的輸入方向
+            //model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            if (!player_Stats_.Aiming)
             {
-                //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
-                player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
                 //旋轉平滑用的插值運算
                 float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);
                 //將模型旋轉至相對於相機位置的輸入方向
                 model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
         }
-       
+        if (player_Stats_.Aiming)
+        {
+            Vector3 worldAimTarget = aimDestination_Transform_.position;
+            worldAimTarget.y = model_Transform_.position.y;
+            Vector3 aimdirection = (worldAimTarget - model_Transform_.position).normalized;
+            model_Transform_.forward = Vector3.Lerp(model_Transform_.forward, aimdirection, Time.deltaTime * 20f);
 
+        }
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
+        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
 
-        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime ) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
+
+    }
+    void aimPointUpdate()
+    {
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 9999f, aimColliderMask))
+        {
+            aimDestination_Transform_.position = raycastHit.point;
+        }
     }
     void jumpAndFall()
     {
