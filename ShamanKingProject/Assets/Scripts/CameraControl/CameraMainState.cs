@@ -1,6 +1,3 @@
-
-
-using System;
 using UnityEngine;
 
 public class CameraMainState : StateBase
@@ -25,11 +22,13 @@ public class CameraMainState : StateBase
         if (stateManager is CameraControllerStateMachine cameraController)
         {
             var aimCameraEulerAngles = cameraController.CameraControllerView_.AimQuaternion.eulerAngles;
-            var result = new UnityEngine.Vector3(aimCameraEulerAngles.x, Mathf.Clamp(aimCameraEulerAngles.y,-25f,25f), aimCameraEulerAngles.z);
-
-            aimCameraEulerAngles = cameraController.CameraControllerView_.ClampAimCameraRotateAngle(result);
-
-            cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles = aimCameraEulerAngles;
+            if (aimCameraEulerAngles.x > 180f)
+            {
+                aimCameraEulerAngles.x -= 360f;
+            }
+            var result = new UnityEngine.Vector3(Mathf.Clamp(aimCameraEulerAngles.x, -20f, 20f), aimCameraEulerAngles.y, aimCameraEulerAngles.z);
+            //aimCameraEulerAngles = cameraController.CameraControllerView_.ClampAimCameraRotateAngle(result);
+            cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles = result;
 
         }
     }
