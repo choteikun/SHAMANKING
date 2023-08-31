@@ -22,7 +22,7 @@ public class PlayerControllerMover
 {
     [Header("Player")]
     [Tooltip("玩家移動速度")]
-    [SerializeField] private float MoveSpeed = 5f;
+    public float MoveSpeed = 5f;
 
     [Tooltip("玩家衝刺速度")]
     public float SprintSpeed = 5.5f;

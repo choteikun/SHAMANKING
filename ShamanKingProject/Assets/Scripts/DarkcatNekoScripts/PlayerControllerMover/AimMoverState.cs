@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AimMoverState : StateBase
 {
+    private float player_speed_;
+    private float aimSpeed_ = 2.5f;
     public AimMoverState(StageManager m)
     {
         stateManager = m;
@@ -11,7 +13,11 @@ public class AimMoverState : StateBase
 
     public override void OnEnter()
     {
-        
+        if (stateManager is ControllerMoverStateMachine controllerMSM)
+        {
+            player_speed_ = controllerMSM.PlayerControllerMover.MoveSpeed;
+            controllerMSM.PlayerControllerMover.MoveSpeed = aimSpeed_;
+        }
     }    
 
     public override void OnUpdate()
@@ -24,6 +30,9 @@ public class AimMoverState : StateBase
 
     public override void OnExit()
     {
-
+        if (stateManager is ControllerMoverStateMachine controllerMSM)
+        {
+            controllerMSM.PlayerControllerMover.MoveSpeed = player_speed_;
+        }
     }
 }
