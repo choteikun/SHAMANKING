@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Windows;
 
 public enum PlayerState
@@ -49,6 +50,7 @@ public class PlayerControllerMover
 
     private CharacterController player_CC_;
     private Transform model_Transform_;
+
     private Transform aimDestination_Transform_;
 
     private GameObject mainCamera_;
@@ -85,7 +87,7 @@ public class PlayerControllerMover
             mainCamera_ = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
-        aimDestination_Transform_ = GameObject.Find("PlayerAimObject").transform;
+        aimDestination_Transform_ = GameObject.Find("AimingCameraFollowTarget").transform;
 
         player_CC_ = characterControllerObj_.GetComponent<CharacterController>();
 
@@ -185,18 +187,22 @@ public class PlayerControllerMover
     
     public void AimPointUpdate()
     {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        //Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        //Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 9999f, aimColliderMask))
-        {
-            aimDestination_Transform_.position = raycastHit.point;
-        }
+        //if (Physics.Raycast(ray, out RaycastHit raycastHit, 9999f, aimColliderMask))
+        //{
+        //    aimDestination_Transform_.position = raycastHit.point;
+        //}
 
-        Vector3 worldAimTarget = aimDestination_Transform_.position;
-        worldAimTarget.y = model_Transform_.position.y;
-        Vector3 aimdirection = (worldAimTarget - model_Transform_.position).normalized;
-        model_Transform_.forward = Vector3.Lerp(model_Transform_.forward, aimdirection, Time.deltaTime * 20f);
+        //Vector3 worldAimTarget = aimDestination_Transform_.position;
+        //worldAimTarget.y = model_Transform_.position.y;
+        //Vector3 aimdirection = (worldAimTarget - model_Transform_.position).normalized;
+        var result = new Vector3(0, aimDestination_Transform_.rotation.eulerAngles.y, 0);
+        var q_result = Quaternion.Euler(result);
+        Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 0.1f * Time.deltaTime);
+        model_Transform_.rotation = newRotation;
+        Debug.Log("update");
     }
     void jumpAndFall()
     {
