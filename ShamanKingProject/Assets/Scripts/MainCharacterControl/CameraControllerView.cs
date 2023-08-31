@@ -79,8 +79,6 @@ public class CameraControllerView : MonoBehaviour
         MainCamQuaternion_ *= Quaternion.Euler(rotationX, rotationY, 0f);
         AimQuaternion = AimCameraFollowedObject_.transform.rotation;
         AimQuaternion *= Quaternion.Euler(rotationX, rotationY, 0f);
-
-
     }
     Vector3 getSensitiveRotateValue()
     {

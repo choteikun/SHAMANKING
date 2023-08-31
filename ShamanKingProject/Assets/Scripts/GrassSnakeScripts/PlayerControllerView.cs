@@ -31,8 +31,12 @@ public class PlayerControllerView : MonoBehaviour
     }
     void Update()
     {
-        playerControllerMover_.Update();
         playerAnimatorView_.Update();
+        playerControllerMover_.Update();
+    }
+    private void FixedUpdate()
+    {
+        
     }
 
     void getPlayer_Direction(PlayerControllerMovementCommand playerControllerMovementCommand)
