@@ -56,6 +56,11 @@ namespace AmplifyShaderEditor
 		{
 			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "899e609c083c74c4ca567477c39edef0" );
 		}
+		[MenuItem( "Assets/Create/Amplify Shader/Templates/DoulePassUnlit", false, 85 )]
+		public static void ApplyTemplateTemplatesDoulePassUnlit()
+		{
+			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "52b2f80e275121c438241f25049517fc" );
+		}
 		[MenuItem( "Assets/Create/Amplify Shader/UI/Default", false, 85 )]
 		public static void ApplyTemplateUIDefault()
 		{
@@ -85,6 +90,11 @@ namespace AmplifyShaderEditor
 		public static void ApplyTemplateUniversalLit()
 		{
 			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "94348b07e5e8bab40bd6c8a1e3df54cd" );
+		}
+		[MenuItem( "Assets/Create/Amplify Shader/Universal/PASSUnlit", false, 85 )]
+		public static void ApplyTemplateUniversalPASSUnlit()
+		{
+			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "00bccb7ad05577341a8c0a124d492a24" );
 		}
 		[MenuItem( "Assets/Create/Amplify Shader/Universal/Unlit", false, 85 )]
 		public static void ApplyTemplateUniversalUnlit()
