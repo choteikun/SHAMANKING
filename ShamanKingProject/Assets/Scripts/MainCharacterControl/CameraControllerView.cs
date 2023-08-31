@@ -37,6 +37,10 @@ public class CameraControllerView : MonoBehaviour
     [SerializeField]
     float headRotateSpeedLimitValue_ = 0.7f;
 
+    [Header("瞄準角度限制")]
+    [SerializeField]
+    float aimClampAngle_;
+
     CameraControllerStateMachine stateMachine_;
 
     Vector3 rotateValue_ => new Vector3(nowRotateGamepadValue_.y, nowRotateGamepadValue_.x, 0);
@@ -110,7 +114,7 @@ public class CameraControllerView : MonoBehaviour
         {
             target.x -= 360f;
         }
-        target.x = Mathf.Clamp(target.x, -15, 15);
+        target.x = Mathf.Clamp(target.x, -aimClampAngle_, aimClampAngle_);
         target.z = 0;
         return target;
     }
