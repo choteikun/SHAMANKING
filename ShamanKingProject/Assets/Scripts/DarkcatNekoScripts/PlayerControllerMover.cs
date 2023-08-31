@@ -200,7 +200,7 @@ public class PlayerControllerMover
         //Vector3 aimdirection = (worldAimTarget - model_Transform_.position).normalized;
         var result = new Vector3(0, aimDestination_Transform_.rotation.eulerAngles.y, 0);
         var q_result = Quaternion.Euler(result);
-        Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 0.1f * Time.deltaTime);
+        Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 15f * Time.deltaTime);
         model_Transform_.rotation = newRotation;
         Debug.Log("update");
     }
