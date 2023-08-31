@@ -16,7 +16,10 @@ public class AimMoverState : StateBase
 
     public override void OnUpdate()
     {
-
+        if(stateManager is ControllerMoverStateMachine controllerMSM)
+        {
+            controllerMSM.PlayerControllerMover.AimPointUpdate();
+        }
     }
 
     public override void OnExit()

@@ -97,7 +97,6 @@ public class PlayerControllerMover
     {
         //groundedCheck();
         move();
-        aimPointUpdate();
         controllerMoverStateMachine_.StageManagerUpdate();
     }
     public void TransitionState(string state)
@@ -178,27 +177,26 @@ public class PlayerControllerMover
                 model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
         }
-        if (player_Stats_.Aiming)
-        {
-            Vector3 worldAimTarget = aimDestination_Transform_.position;
-            worldAimTarget.y = model_Transform_.position.y;
-            Vector3 aimdirection = (worldAimTarget - model_Transform_.position).normalized;
-            model_Transform_.forward = Vector3.Lerp(model_Transform_.forward, aimdirection, Time.deltaTime * 20f);
 
-        }
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
         player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
 
-
     }
-    void aimPointUpdate()
+    
+    public void AimPointUpdate()
     {
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 9999f, aimColliderMask))
         {
             aimDestination_Transform_.position = raycastHit.point;
         }
+
+        Vector3 worldAimTarget = aimDestination_Transform_.position;
+        worldAimTarget.y = model_Transform_.position.y;
+        Vector3 aimdirection = (worldAimTarget - model_Transform_.position).normalized;
+        model_Transform_.forward = Vector3.Lerp(model_Transform_.forward, aimdirection, Time.deltaTime * 20f);
     }
     void jumpAndFall()
     {
