@@ -9,10 +9,16 @@ public class GameManager : ToSingletonMonoBehavior<GameManager>
 
     protected override void init()
     {
+        hideCurser();
         QualitySettings.vSyncCount = 0; 
         Application.targetFrameRate = 120;
         base.init();
         MainGameMediator = new MainGameMediator();
+    }
+    void hideCurser()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 }
