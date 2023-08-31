@@ -1,3 +1,8 @@
+
+
+using System;
+using UnityEngine;
+
 public class CameraMainState : StateBase
 {
     public CameraMainState(StageManager m)
@@ -20,8 +25,9 @@ public class CameraMainState : StateBase
         if (stateManager is CameraControllerStateMachine cameraController)
         {
             var aimCameraEulerAngles = cameraController.CameraControllerView_.AimQuaternion.eulerAngles;
+            var result = new UnityEngine.Vector3(aimCameraEulerAngles.x, Mathf.Clamp(aimCameraEulerAngles.y,-25f,25f), aimCameraEulerAngles.z);
 
-            aimCameraEulerAngles = cameraController.CameraControllerView_.ClampAimCameraRotateAngle(aimCameraEulerAngles);
+            aimCameraEulerAngles = cameraController.CameraControllerView_.ClampAimCameraRotateAngle(result);
 
             cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles = aimCameraEulerAngles;
 
