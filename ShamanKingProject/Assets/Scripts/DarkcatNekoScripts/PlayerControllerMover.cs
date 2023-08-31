@@ -132,7 +132,7 @@ public class PlayerControllerMover
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             // 改善速度變化，計算速度為滑順的而不是線性結果
-            player_Stats_.Player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_Stats_.Player_InputMagnitude,
+            player_Stats_.Player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed,
                 Time.deltaTime * player_Stats_.SpeedChangeRate);
 
             //去除3位小數點之後的數字
@@ -150,7 +150,7 @@ public class PlayerControllerMover
             else
             {
                 // 改善速度變化，計算速度為滑順的而不是線性結果
-                player_Stats_.Player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * player_Stats_.Player_InputMagnitude,
+                player_Stats_.Player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed,
                     Time.deltaTime * player_Stats_.SpeedChangeRate);
                 //去除3位小數點之後的數字
                 player_Stats_.Player_Speed = Mathf.Round(player_Stats_.Player_Speed * 1000f) / 1000f;
