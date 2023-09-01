@@ -4,7 +4,9 @@ Shader "D2"
 {
 	Properties
 	{
-		
+		_Color0("Color 0", Color) = (1,1,1,1)
+		_Color1("Color 1", Color) = (1,0,0,1)
+
 	}
 	
 	SubShader
@@ -63,7 +65,8 @@ Shader "D2"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
-			
+			uniform float4 _Color0;
+
 			
 			v2f vert ( appdata v )
 			{
@@ -101,7 +104,7 @@ Shader "D2"
 				#endif
 				
 				
-				finalColor = fixed4(1,1,1,1);
+				finalColor = _Color0;
 				return finalColor;
 			}
 			ENDCG
@@ -143,7 +146,8 @@ Shader "D2"
 					UNITY_VERTEX_OUTPUT_STEREO
 				};
 
-				
+				uniform float4 _Color1;
+
 
 				v2f vert(appdata v )
 				{
@@ -181,7 +185,7 @@ Shader "D2"
 					#endif
 					
 
-					finalColor = fixed4(1,1,1,1);
+					finalColor = _Color1;
 					return finalColor;
 				}
 				ENDCG
@@ -197,5 +201,9 @@ Shader "D2"
 Version=19109
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;True;-1;2;ASEMaterialInspector;100;18;D2;52b2f80e275121c438241f25049517fc;True;Unlit;0;0;Unlit;2;False;True;0;1;False;;0;False;;0;1;False;;0;False;;True;0;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;RenderType=Opaque=RenderType;True;2;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;0;2;True;True;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;11;0,124;Float;False;False;-1;2;ASEMaterialInspector;100;18;New Amplify Shader;52b2f80e275121c438241f25049517fc;True;Second;0;1;Second;2;False;True;0;1;False;;0;False;;0;1;False;;0;False;;True;0;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;RenderType=Opaque=RenderType;True;2;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.ColorNode;12;-335,-27.5;Inherit;False;Property;_Color0;Color 0;0;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;13;-312,225.5;Inherit;False;Property;_Color1;Color 1;1;0;Create;True;0;0;0;False;0;False;1,0,0,1;1,0,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+WireConnection;10;0;12;0
+WireConnection;11;0;13;0
 ASEEND*/
-//CHKSM=CF00B2C53E3D3CF17BFB8C731C6CFF31C368C2B8
+//CHKSM=FD001891A58AE139FAE04BD94DADA8EA31D1F8D9
