@@ -1,17 +1,5 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityCharacterController;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
-using Gamemanager;
-using Obi;
-using StarterAssets;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Windows;
 
 public enum PlayerState
 {
@@ -67,10 +55,10 @@ public class PlayerControllerMover
     private float turnSmoothVelocity_;
     private float verticalVelocity_;
 
-    private ControllerMoverStateMachine controllerMoverStateMachine_; 
-    
+    private ControllerMoverStateMachine controllerMoverStateMachine_;
 
-    public  PlayerControllerMover(GameObject controller)
+
+    public PlayerControllerMover(GameObject controller)
     {
         characterControllerObj_ = controller;
     }
@@ -81,7 +69,7 @@ public class PlayerControllerMover
     }
     public void Start(Player_Stats player_Stats)
     {
-        player_Stats_  = player_Stats;
+        player_Stats_ = player_Stats;
         if (mainCamera_ == null)
         {
             mainCamera_ = GameObject.FindGameObjectWithTag("MainCamera");
@@ -123,7 +111,7 @@ public class PlayerControllerMover
         if (player_Stats_.Player_Dir == Vector2.zero) targetSpeed = 0.0f;
 
         //玩家當前水平速度的引用
-        float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;    
+        float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
 
         //為了提供一個容錯範圍。當當前速度與目標速度之間的差值小於容錯範圍時，就不需要進行加速或減速操作，
         //因為這時候已經非常接近目標速度了，再進行微小的變化可能會導致速度上下抖動，產生不良的遊戲體驗。
@@ -168,7 +156,7 @@ public class PlayerControllerMover
         {
             //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
             player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
-            
+
             ////將模型旋轉至相對於相機位置的輸入方向
             //model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             if (!player_Stats_.Aiming)
@@ -184,7 +172,7 @@ public class PlayerControllerMover
         player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
 
     }
-    
+
     public void AimPointUpdate()
     {
         //Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -213,7 +201,7 @@ public class PlayerControllerMover
     }
     private void OnDrawGizmosSelected()
     {
-        if (player_Stats_.Grounded) 
+        if (player_Stats_.Grounded)
         {
             Gizmos.color = Color.green;
         }
