@@ -48,8 +48,7 @@ public class CMCameraController
             composer_.m_ScreenY = 1 - rotateAngle_ * 0.5f / maxHeadAngle;
 
         }
-        //else if (rotateAngle_ >= 270 && rotateAngle_ <= 360)//�V�U���ʥd�b90�פ� ���i�W�L�ε���90
-        //{
+        //else if (rotateAngle_ >= 270 && rotateAngle_ <= 360)
         //    thirdPersonFollow_.CameraDistance = basicCameraDistance_ - (360 - rotateAngle_) * basicCameraDistance_ / 90;
         //    thirdPersonFollow_.VerticalArmLength = 0.01f + (rotateAngle_ - 270) * 0.99f / 90;
         //    thirdPersonFollow_.ShoulderOffset.y = -0.1f + (rotateAngle_ - 270) * 0.1f / 90;
