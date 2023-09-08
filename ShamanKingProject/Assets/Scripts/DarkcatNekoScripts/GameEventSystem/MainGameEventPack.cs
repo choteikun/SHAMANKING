@@ -16,4 +16,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerAimingButtonCommand> OnAimingButtonTrigger => getSubject<PlayerAimingButtonCommand>();
 
     public IObservable<PlayerRollingButtonCommand> OnPlayerRoll => getSubject<PlayerRollingButtonCommand>();
+
+    public IObservable<PlayerLunchGhostButtonCommand> OnPlayerLunchGhost => getSubject<PlayerLunchGhostButtonCommand>();
 }

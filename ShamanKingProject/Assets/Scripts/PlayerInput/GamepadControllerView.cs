@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Gamemanager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 public class GamepadControllerView : MonoBehaviour
 {
@@ -67,6 +68,11 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerAim(InputValue value)
     {
-        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });        
+        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
     }    
+
+    void OnPlayerLunch()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { });
+    }
 }

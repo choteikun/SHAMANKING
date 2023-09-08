@@ -196,6 +196,15 @@
                     "processors": "",
                     "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerLunch",
+                    "type": "Button",
+                    "id": "4b4e07c7-6832-4668-a7e4-68989060a1a8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -218,6 +227,17 @@
                     "processors": "StickDeadzone",
                     "groups": "",
                     "action": "AimCameraControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6226762a-d9ba-48be-a70e-022995e9ca1d",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerLunch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

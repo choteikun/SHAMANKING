@@ -35,6 +35,10 @@ namespace Gamemanager
 
     }
 
+    public class PlayerLunchGhostButtonCommand: GameEventMessageBase 
+    {
+
+    }
     
 
 }
