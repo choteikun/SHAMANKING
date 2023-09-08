@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Random_Idle : StateMachineBehaviour
+public class RandomState_Idle : StateMachineBehaviour
 {
     [Tooltip("設置Idle數量")]
     public int NumberOfIdleStates;

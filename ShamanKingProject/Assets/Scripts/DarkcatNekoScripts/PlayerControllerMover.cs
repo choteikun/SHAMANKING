@@ -190,7 +190,6 @@ public class PlayerControllerMover
         var q_result = Quaternion.Euler(result);
         Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 15f * Time.deltaTime);
         model_Transform_.rotation = newRotation;
-        Debug.Log("update");
     }
     void jumpAndFall()
     {
