@@ -73,6 +73,6 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerLunch()
     {
-        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { });
+        GameManager.Instance.MainGameEvent.Send(new PlayerLunchGhostButtonCommand() { });
     }
 }
