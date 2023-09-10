@@ -23,8 +23,8 @@ public class PlayerControllerView : MonoBehaviour
     }
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_Direction);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, getPlayer_AimingState);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, getPlayerAimingState);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
@@ -35,13 +35,13 @@ public class PlayerControllerView : MonoBehaviour
         playerControllerMover_.Update();
     }
 
-    void getPlayer_Direction(PlayerControllerMovementCommand playerControllerMovementCommand)
+    void getPlayerDirection(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
         player_Stats_.Player_Dir = playerControllerMovementCommand.Direction;
         var clampedDirection = Mathf.Clamp(player_Stats_.Player_Dir.magnitude, 0, 1);
         player_Stats_.Player_InputMagnitude = clampedDirection;
     }
-    void getPlayer_AimingState(PlayerAimingButtonCommand playerAimingButtonCommand)
+    void getPlayerAimingState(PlayerAimingButtonCommand playerAimingButtonCommand)
     {
         player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
         if (playerAimingButtonCommand.AimingButtonIsPressed)
