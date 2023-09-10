@@ -18,7 +18,7 @@ public class GhostController
     }
     public void Start(Ghost_Stats ghost_Stats)
     {
-
+        ghost_Stats_ = ghost_Stats;
     }
     public void Update() 
     {
