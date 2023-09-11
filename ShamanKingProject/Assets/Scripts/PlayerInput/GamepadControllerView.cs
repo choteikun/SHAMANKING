@@ -12,6 +12,7 @@ public class GamepadControllerView : MonoBehaviour
     [SerializeField] float mouse_X_Horrzontal_sensitivity_ = 1.2f;
 
     [SerializeField] bool isAiming_;
+    [SerializeField] bool isLaunching_;
     private async void Start()
     {
         Debug.Log("start");
@@ -25,6 +26,7 @@ public class GamepadControllerView : MonoBehaviour
     }
     void OnPlayerControl(InputValue value)
     {
+        if (isLaunching_) return;
         var controllerDirection = value.Get<Vector2>();
         if (controllerDirection.magnitude > 0.35f)
         {
@@ -42,6 +44,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnCameraControl(InputValue value)
     {
+        if (isLaunching_) return;
         var gamepadInput = value.Get<Vector2>();
         var inputX = gamepadInput.x;
         var inputY = -gamepadInput.y;
@@ -59,6 +62,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnMouseCameraControl(InputValue value)
     {
+        if (isLaunching_) return;
         var mouseInput = value.Get<Vector2>();
         var inputX = Input.GetAxis("Mouse X") * mouse_X_Horrzontal_sensitivity_;
         var inputY = -Input.GetAxis("Mouse Y");
@@ -71,7 +75,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerAim(InputValue value)
     {
-        if (value.isPressed == isAiming_) return;
+        if (value.isPressed == isAiming_ || (isLaunching_)) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
         isAiming_ = value.isPressed;
         Debug.Log("Aim" + isAiming_.ToString());
@@ -79,10 +83,10 @@ public class GamepadControllerView : MonoBehaviour
 
     
 
-    void OnPlayerLunch()
+    void OnPlayerLaunch()
     {
         if (!isAiming_) return;
-        GameManager.Instance.MainGameEvent.Send(new PlayerLunchGhostButtonCommand() { });
+        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchGhostButtonCommand() { });
         //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
         //isAiming_ =false;
     }

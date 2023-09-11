@@ -35,12 +35,12 @@ namespace Gamemanager
 
     }
 
-    public class PlayerLunchGhostButtonCommand: GameEventMessageBase 
+    public class PlayerLaunchGhostButtonCommand: GameEventMessageBase 
     {
 
     }
     
-    public class PlayerLunchFinishCommand: GameEventMessageBase
+    public class PlayerLaunchFinishCommand: GameEventMessageBase
     {
         public bool Hit = false;
     }
