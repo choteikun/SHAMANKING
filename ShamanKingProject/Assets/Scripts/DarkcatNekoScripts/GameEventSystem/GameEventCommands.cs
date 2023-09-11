@@ -40,5 +40,9 @@ namespace Gamemanager
 
     }
     
+    public class PlayerLunchFinishCommand: GameEventMessageBase
+    {
+        public bool Hit = false;
+    }
 
 }

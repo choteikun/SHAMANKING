@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Gamemanager;
+using Language.Lua;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI;
@@ -9,6 +10,8 @@ public class GamepadControllerView : MonoBehaviour
 
     [SerializeField] PlayerInput input_;
     [SerializeField] float mouse_X_Horrzontal_sensitivity_ = 1.2f;
+
+    [SerializeField] bool isAiming_;
     private async void Start()
     {
         Debug.Log("start");
@@ -68,11 +71,19 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerAim(InputValue value)
     {
+        if (value.isPressed == isAiming_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
+        isAiming_ = value.isPressed;
+        Debug.Log("Aim" + isAiming_.ToString());
     }    
+
+    
 
     void OnPlayerLunch()
     {
+        if (!isAiming_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerLunchGhostButtonCommand() { });
+        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
+        isAiming_ =false;
     }
 }
