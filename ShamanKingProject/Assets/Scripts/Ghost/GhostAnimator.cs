@@ -42,13 +42,25 @@ public class GhostAnimator
 
     public void Start(Ghost_Stats ghost_Stats)
     {
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, ghostShootButtonTrigger);
+
         ghost_Stats_ = ghost_Stats;
         animator_ = ghostControllerObj_.gameObject.transform.GetChild(0).GetComponent<Animator>();
         animOSM_Trigger_ = animator_.GetBehaviour<ObservableStateMachineTrigger>();
 
         ResetAllAnimations();
     }
-
+    void ghostShootButtonTrigger(PlayerLaunchGhostButtonCommand command)
+    {
+        if(ghost_Stats_.ghostCurrentState == GhostState.GHOST_MOVEMENT && !shootOut)
+        {
+            if (beingCaught)//擊發出去
+            {
+                shootOut = true;
+                animator_.SetBool(animID_ShootOut, shootOut);
+            }
+        }
+    }
     void ResetAllAnimations()
     {
         beingCaught = false; shootOut = false; possess = false;
@@ -67,22 +79,18 @@ public class GhostAnimator
 
                 if (!shootOut)//不是在被擊發的狀態下
                 {
-                    if (Input.GetMouseButtonDown(1) && !beingCaught)//如果是沒有被抓住的狀態下
+                    if (ghost_Stats_.Ghost_ReadyButton && !beingCaught)//如果是沒有被抓住的狀態下
                     {
                         beingCaught = true;
                         animator_.SetBool(animID_BeingCaught, beingCaught);
                     }
-                    else if (Input.GetMouseButtonUp(1))//取消抓住
+                    else if (!ghost_Stats_.Ghost_ReadyButton)//取消抓住
                     {
                         beingCaught = false;
                         animator_.SetBool(animID_BeingCaught, beingCaught);
                         ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
                     }
-                    if (Input.GetMouseButtonDown(0) && beingCaught)//擊發出去
-                    {
-                        shootOut = true;
-                        animator_.SetBool(animID_ShootOut, shootOut);
-                    }   
+                      
                 }
                 else
                 {

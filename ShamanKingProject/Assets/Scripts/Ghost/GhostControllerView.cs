@@ -38,7 +38,8 @@ public class GhostControllerView : MonoBehaviour
     }
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, ghostReady);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, ghostReadyButtonTrigger);
+       
 
         behaviorTree = GetComponent<BehaviorTree>();
 
@@ -48,28 +49,33 @@ public class GhostControllerView : MonoBehaviour
         ghostAnimator_.Start(ghost_Stats_);
         ghostController_.Start(ghost_Stats_);
     }
-    void ghostReady(PlayerAimingButtonCommand command)
+    void ghostReadyButtonTrigger(PlayerAimingButtonCommand command)
     {
         if (command.AimingButtonIsPressed && ghost_Stats_.ghostCurrentState == GhostState.GHOST_IDLE)
         {
             //behaviorTree.SendEvent("MOVEMENT SENDEVENT TEST");
             //behaviorTree.SendEvent<object>("MOVEMENT SENDEVENT TEST", (object)transform.position);
+            ghost_Stats_.Ghost_ReadyButton = true;
             switchExternalBehavior((int)GhostState.GHOST_MOVEMENT - 1);
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_MOVEMENT; 
         }
+        if (!command.AimingButtonIsPressed)
+        {
+            ghost_Stats_.Ghost_ReadyButton = false;
+        }
     }
-
+    
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Possessable"))
         {
-            GameManager.Instance.MainGameEvent.Send(new PlayerLunchFinishCommand() { Hit = true });
+            GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_POSSESSED;
         }
         else if (other.CompareTag("Unpossessed"))
         {
-            GameManager.Instance.MainGameEvent.Send(new PlayerLunchFinishCommand() { Hit = true });
+            GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
         }
 
@@ -109,4 +115,6 @@ public class Ghost_Stats
 
     public float Ghost_Timer;
 
+    public bool Ghost_ReadyButton;
+    public bool Ghost_ShootButton;
 }
