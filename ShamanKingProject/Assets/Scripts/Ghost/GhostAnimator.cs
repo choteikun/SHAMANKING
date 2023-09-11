@@ -29,8 +29,6 @@ public class GhostAnimator
     bool shootOut;
     bool possess;
 
-    bool moveOver;
-
     private Ghost_Stats ghost_Stats_;
     private GameObject ghostControllerObj_;
 
@@ -47,21 +45,52 @@ public class GhostAnimator
         ghost_Stats_ = ghost_Stats;
         animator_ = ghostControllerObj_.gameObject.transform.GetChild(0).GetComponent<Animator>();
         animOSM_Trigger_ = animator_.GetBehaviour<ObservableStateMachineTrigger>();
+
+        ResetAllAnimations();
     }
 
-
+    void ResetAllAnimations()
+    {
+        beingCaught = false; shootOut = false; possess = false;
+    }
     public void Update()
     {
         switch (ghost_Stats_.ghostCurrentState)
         {
             case GhostState.GHOST_IDLE:
-
+                animator_.SetBool(animID_Idle, true);
+                shootOut = false;
                 break;
             case GhostState.GHOST_MOVEMENT:
+                animator_.SetBool(animID_Idle, false);
 
+                if (!shootOut)//不是在被擊發的狀態下
+                {
+                    if (Input.GetMouseButtonDown(1) && !beingCaught)//如果是沒有被抓住的狀態下
+                    {
+                        beingCaught = true;
+                        animator_.SetBool(animID_BeingCaught, beingCaught);
+                    }
+                    else if (Input.GetMouseButtonUp(1))//取消抓住
+                    {
+                        beingCaught = false;
+                        animator_.SetBool(animID_BeingCaught, beingCaught);
+                        ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+                    }
+                    if (Input.GetMouseButtonDown(0) && beingCaught)//擊發出去
+                    {
+                        shootOut = true;
+                        animator_.SetBool(animID_ShootOut, shootOut);
+                    }   
+                }
+                else
+                {
+                    beingCaught = false;
+                    animator_.SetBool(animID_BeingCaught, beingCaught);
+                }
                 break;
             case GhostState.GHOST_POSSESSED:
-
+                shootOut = false;
                 break;
 
             default:

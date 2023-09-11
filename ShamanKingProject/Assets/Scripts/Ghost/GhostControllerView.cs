@@ -30,13 +30,16 @@ public class GhostControllerView : MonoBehaviour
 
     void Awake()
     {
+        ghost_Stats_.rb = GetComponent<Rigidbody>();
         ghostAnimator_ = new GhostAnimator(this.gameObject);
         ghostController_ = new GhostController(this.gameObject);
         ghostController_.Awake();
     }
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, aimButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, ghostReady);
+
+        behaviorTree = GetComponent<BehaviorTree>();
 
         switchExternalBehavior((int)GhostState.GHOST_IDLE);
         ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
@@ -44,17 +47,31 @@ public class GhostControllerView : MonoBehaviour
         ghostAnimator_.Start(ghost_Stats_);
         ghostController_.Start(ghost_Stats_);
     }
-    void aimButtonTrigger(PlayerAimingButtonCommand command)
+    void ghostReady(PlayerAimingButtonCommand command)
     {
-        //if (command.AimingButtonIsPressed && ghostCurrentState == GhostState.GHOST_IDLE)
-        //{
-        //    switchExternalBehavior((int)GhostState.GHOST_MOVEMENT);
-        //    ghostCurrentState = GhostState.GHOST_MOVEMENT;
-        //}
+        if (command.AimingButtonIsPressed && ghost_Stats_.ghostCurrentState == GhostState.GHOST_IDLE)
+        {
+            //behaviorTree.SendEvent("MOVEMENT SENDEVENT TEST");
+            //behaviorTree.SendEvent<object>("MOVEMENT SENDEVENT TEST", (object)transform.position);
+            switchExternalBehavior((int)GhostState.GHOST_MOVEMENT - 1);
+            ghost_Stats_.ghostCurrentState = GhostState.GHOST_MOVEMENT; 
+        }
         //if (!command.AimingButtonIsPressed && ghostCurrentState == GhostState.GHOST_MOVEMENT)
         //{
         //    //if行動結束會回到IDLE
         //}
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("可附身物件"))
+        {
+            ghost_Stats_.ghostCurrentState = GhostState.GHOST_POSSESSED;
+        }
+        else if (other.CompareTag("不可附身物件"))
+        {
+            ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+        }
+
     }
 
     void Update()
@@ -83,9 +100,12 @@ public class GhostControllerView : MonoBehaviour
 [Serializable]
 public class Ghost_Stats
 {
+    public Rigidbody rb;
+
     public GhostState ghostCurrentState;
 
     public float Player_Distance;
 
     public float Ghost_Timer;
+
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GhostController
 {
+
     private GameObject ghostControllerObj_;
     private Ghost_Stats ghost_Stats_;
 

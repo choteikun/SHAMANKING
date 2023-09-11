@@ -3,12 +3,13 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
 [TaskCategory("Snake")]
+[TaskDescription("如果要用此節點，請在Animator Controller Parameters裡添加一個 RandomIdle 的Int參數")]
 public class Random_Idle : Action
 {
-    public Animator anim;
+    //提前Hash進行優化
+    readonly int animID_RandomIdle = Animator.StringToHash("RandomIdle");
 
-    [BehaviorDesigner.Runtime.Tasks.Tooltip("請在動畫狀態機中設置一個RandomIdle的Int參數並將該參數的名字輸入至此")]
-    public string AnimatorParameter_RandomIdle;
+    public Animator anim;
 
     [BehaviorDesigner.Runtime.Tasks.Tooltip("設置Idle數量")]
     public int NumberOfIdleStates;
@@ -42,11 +43,11 @@ public class Random_Idle : Action
             IdleTimer++;
             if (IdleTimer >= randomTimer * 60)
             {
-                anim.SetInteger(AnimatorParameter_RandomIdle, Random.Range(1, NumberOfIdleStates));//設置隨機idle1,2,3,4等...
+                anim.SetInteger(animID_RandomIdle, Random.Range(1, NumberOfIdleStates));//設置隨機idle1,2,3,4等...
             }
             else
             {
-                anim.SetInteger(AnimatorParameter_RandomIdle, -1);//參數設為-1
+                anim.SetInteger(animID_RandomIdle, -1);//參數設為-1
             }
         }
         else

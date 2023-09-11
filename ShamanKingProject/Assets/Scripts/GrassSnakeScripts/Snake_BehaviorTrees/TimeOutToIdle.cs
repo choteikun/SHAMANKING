@@ -3,6 +3,7 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
 [TaskCategory("Snake")]
+[TaskDescription("如果要用此節點，請在Animator Controller Parameters裡添加一個TimeOutToIdle的Trigger參數")]
 public class TimeOutToIdle : Action
 {
     public Animator anim;
@@ -14,7 +15,7 @@ public class TimeOutToIdle : Action
     protected float idleTimer;
 
     //提前Hash進行優化
-    readonly int h_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
+    readonly int animID_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
 
     public override void OnStart()
 	{
@@ -27,11 +28,11 @@ public class TimeOutToIdle : Action
         if (idleTimer >= IdleTimeOut)
         {
             idleTimer = 0f;
-            anim.SetTrigger(h_TimeOutToIdle);
+            anim.SetTrigger(animID_TimeOutToIdle);
         }
         else
         {
-            anim.ResetTrigger(h_TimeOutToIdle);
+            anim.ResetTrigger(animID_TimeOutToIdle);
         }
 
         return base.OnUpdate();
