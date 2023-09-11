@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TestAimer : MonoBehaviour
+public class PlayerAimerView : MonoBehaviour
 {
     [SerializeField]
     GameObject aimPoint_;
@@ -10,10 +10,6 @@ public class TestAimer : MonoBehaviour
     float distance_;
     [SerializeField]
     float smoothing_;
-    private void FixedUpdate()
-    {
-        
-    }
     private void Update()
     {
         var screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);

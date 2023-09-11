@@ -15,6 +15,9 @@ public class GhostFollower : MonoBehaviour
     Transform targetObject_;
 
     [SerializeField]
+    Transform launchFollowTarget_;
+
+    [SerializeField]
     float positionSmoothSpeed_ = 0.5f;
     [SerializeField]
     float rotationSmoothSpeed_ = 0.5f;
@@ -27,6 +30,7 @@ public class GhostFollower : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, x => setTarget(aimingGhostPoint_));
         var onAimingEnterEvent = GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Where(cmd => cmd.AimingButtonIsPressed).Subscribe(cmd => setTarget(aimingGhostPoint_));
         var onCancelAimingEnterEvent = GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Where(cmd => !cmd.AimingButtonIsPressed).Subscribe(cmd => setTarget(target_));
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { setTarget(launchFollowTarget_); });
         GameManager.Instance.MainGameMediator.AddToDisposables(onAimingEnterEvent);
         GameManager.Instance.MainGameMediator.AddToDisposables(onCancelAimingEnterEvent);
 

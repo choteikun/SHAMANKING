@@ -87,6 +87,7 @@ public class GamepadControllerView : MonoBehaviour
     {
         if (!isAiming_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerLaunchGhostButtonCommand() { });
+        isLaunching_ = true;
         //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
         //isAiming_ =false;
     }
