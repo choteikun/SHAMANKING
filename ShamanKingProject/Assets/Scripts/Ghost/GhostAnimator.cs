@@ -60,6 +60,7 @@ public class GhostAnimator
             case GhostState.GHOST_IDLE:
                 animator_.SetBool(animID_Idle, true);
                 shootOut = false;
+                animator_.SetBool(animID_ShootOut, shootOut);
                 break;
             case GhostState.GHOST_MOVEMENT:
                 animator_.SetBool(animID_Idle, false);
@@ -90,7 +91,10 @@ public class GhostAnimator
                 }
                 break;
             case GhostState.GHOST_POSSESSED:
+                animator_.SetBool(animID_Idle, false);
                 shootOut = false;
+                animator_.SetBool(animID_ShootOut, shootOut);
+                
                 break;
 
             default:

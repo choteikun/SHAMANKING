@@ -26,7 +26,8 @@ public class GhostControllerView : MonoBehaviour
     private BehaviorTree behaviorTree;
     [SerializeField]
     private ExternalBehavior[] externalBehaviorTrees;
- 
+
+    
 
     void Awake()
     {
