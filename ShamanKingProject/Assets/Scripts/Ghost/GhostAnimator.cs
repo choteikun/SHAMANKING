@@ -100,12 +100,6 @@ public class GhostAnimator
             default:
                 break;
         }
-        ////如果大叔被抓住且為行動模式時
-        //if(beingCaught)
-        //{
-        //    animator_.SetBool(animID_Idle, false);
-        //    animator_.SetBool(animID_BeingCaught, true);
-        //}
     }
 
 

@@ -57,19 +57,19 @@ public class GhostControllerView : MonoBehaviour
             switchExternalBehavior((int)GhostState.GHOST_MOVEMENT - 1);
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_MOVEMENT; 
         }
-        //if (!command.AimingButtonIsPressed && ghostCurrentState == GhostState.GHOST_MOVEMENT)
-        //{
-        //    //if行動結束會回到IDLE
-        //}
     }
+
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("可附身物件"))
+        if (other.CompareTag("Possessable"))
         {
+            GameManager.Instance.MainGameEvent.Send(new PlayerLunchFinishCommand() { Hit = true });
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_POSSESSED;
         }
-        else if (other.CompareTag("不可附身物件"))
+        else if (other.CompareTag("Unpossessed"))
         {
+            GameManager.Instance.MainGameEvent.Send(new PlayerLunchFinishCommand() { Hit = true });
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
         }
 
