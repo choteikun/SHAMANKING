@@ -83,7 +83,7 @@ public class GamepadControllerView : MonoBehaviour
     {
         if (!isAiming_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerLunchGhostButtonCommand() { });
-        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
-        isAiming_ =false;
+        //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
+        //isAiming_ =false;
     }
 }
