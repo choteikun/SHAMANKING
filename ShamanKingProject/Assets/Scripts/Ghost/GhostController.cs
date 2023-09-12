@@ -27,11 +27,17 @@ public class GhostController
         {
             case GhostState.GHOST_IDLE:
 
+
+
                 break;
             case GhostState.GHOST_MOVEMENT:
 
+
+
                 break;
             case GhostState.GHOST_POSSESSED:
+
+
 
                 break;
 

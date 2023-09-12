@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
+using DG.Tweening;
+using BehaviorDesigner.Runtime.Tasks.DOTween;
 
 public enum GhostState
 {
@@ -13,6 +15,9 @@ public enum GhostState
 }
 public class GhostControllerView : MonoBehaviour
 {
+    
+    //public float GhostShader_DistanceValue_forTree { get { return GhostShader_DissolveValue; } set { GhostShader_DissolveValue = value; } }
+
     [SerializeField]
     Ghost_Stats ghost_Stats_ = new Ghost_Stats();
 
@@ -32,6 +37,10 @@ public class GhostControllerView : MonoBehaviour
     void Awake()
     {
         ghost_Stats_.rb = GetComponent<Rigidbody>();
+        if (!ghost_Stats_.Ghost_Mat)
+        {
+            ghost_Stats_.Ghost_Mat = GetComponentInChildren<SkinnedMeshRenderer>().GetComponent<Material>();
+        }
         ghostAnimator_ = new GhostAnimator(this.gameObject);
         ghostController_ = new GhostController(this.gameObject);
         ghostController_.Awake();
@@ -107,13 +116,17 @@ public class GhostControllerView : MonoBehaviour
 [Serializable]
 public class Ghost_Stats
 {
-    public Rigidbody rb;
 
     public GhostState ghostCurrentState;
 
+    public Rigidbody rb;
+
+    public Material Ghost_Mat;
+
     public float Player_Distance;
+    public float GhostShader_DissolveValue;
     public float Ghost_Timer;
 
     public bool Ghost_ReadyButton;
-
+    public bool Ghost_Interrupted;
 }
