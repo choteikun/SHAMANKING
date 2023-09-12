@@ -58,6 +58,7 @@ public class CameraControllerView : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCameraRotate, changeRotateValue);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, changeCamera);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelCameraRotate);
     }
 
     void changeRotateValue(PlayerControllerCameraRotateCommand command)
@@ -133,5 +134,10 @@ public class CameraControllerView : MonoBehaviour
             aimVirtualCamera_.SetActive(false);
             stateMachine_.TransitionState("MainGame");
         }
+    }
+
+    void launchCancelCameraRotate(PlayerLaunchGhostButtonCommand cmd)
+    {
+        nowRotateGamepadValue_ = Vector3.zero;
     }
 }

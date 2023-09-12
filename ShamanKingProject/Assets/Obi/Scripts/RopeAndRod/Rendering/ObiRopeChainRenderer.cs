@@ -152,6 +152,10 @@ namespace Obi
                         Transform linkTransform = linkInstances[i].transform;
                         linkTransform.position = pos + linkVector * 0.5f;
                         linkTransform.localScale = rope.GetParticleMaxRadius(elm.particle1) * 2 * linkScale;
+                        if (tangent == Vector3.zero)
+                        {
+                            tangent = new Vector3(0.00001f, 0, 0);
+                        }
                         linkTransform.rotation = Quaternion.LookRotation(tangent, frame.normal);
                     }
 
