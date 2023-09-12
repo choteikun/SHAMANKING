@@ -82,9 +82,10 @@ public class GhostControllerView : MonoBehaviour
     void ghostPossessedStateOver(PlayerLaunchFinishCommand command)
     {
         //在附身狀態時卻又什麼都沒碰撞到的時候
-        if(!command.Hit && ghost_Stats_.ghostCurrentState == GhostState.GHOST_POSSESSED)
+        if(!command.Hit)
         {
             //回到待機狀態
+            mat_Dissolve();
             mat_Revert();
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
         }
@@ -113,7 +114,7 @@ public class GhostControllerView : MonoBehaviour
     void mat_Revert()
     {
         mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1);
-        Observable.Timer(TimeSpan.FromSeconds(0.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 0, 0, 0.1f); }).AddTo(this);
+        Observable.Timer(TimeSpan.FromSeconds(1.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 0, 0, 0.1f); }).AddTo(this);
     }
     void mat_Dissolve()
     {
