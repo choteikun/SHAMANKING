@@ -85,6 +85,7 @@ public class GhostControllerView : MonoBehaviour
         if(!command.Hit && ghost_Stats_.ghostCurrentState == GhostState.GHOST_POSSESSED)
         {
             //回到待機狀態
+            mat_Revert();
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
         }
     }
@@ -103,11 +104,16 @@ public class GhostControllerView : MonoBehaviour
             else
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
-                mat_Dissolve();
+                //mat_Dissolve();
                 ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
                 
             }
         }
+    }
+    void mat_Revert()
+    {
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1);
+        Observable.Timer(TimeSpan.FromSeconds(0.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 0, 0, 0.1f); }).AddTo(this);
     }
     void mat_Dissolve()
     {
@@ -115,10 +121,10 @@ public class GhostControllerView : MonoBehaviour
         mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 1, 1);
         //0.1秒後才啟動邊緣光0.9秒後結束
         Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.9f); }).AddTo(this);
-        //1秒後回復原狀特效啟動1秒後結束
-        Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1); }).AddTo(this);
-        //1.9秒後邊緣光關閉0.1秒後結束
-        Observable.Timer(TimeSpan.FromSeconds(1.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 0, 0, 0.1f); }).AddTo(this);
+        ////1秒後回復原狀特效啟動1秒後結束
+        //Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1); }).AddTo(this);
+        ////1.9秒後邊緣光關閉0.1秒後結束
+        //Observable.Timer(TimeSpan.FromSeconds(1.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 0, 0, 0.1f); }).AddTo(this);
     }
     /// <summary>
     /// 使用Dotween快速實現Shader過渡(Float)
