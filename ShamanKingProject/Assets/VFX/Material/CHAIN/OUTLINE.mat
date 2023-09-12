@@ -7,29 +7,31 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DISSOVE
+  m_Name: OUTLINE
   m_Shader: {fileID: -6465566751694194690, guid: c62bc427f36769e4eb1581e060f1aa33,
     type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: TransparentCutout
+    RenderType: Transparent
   disabledShaderPasses:
   - SHADOWCASTER
+  - DepthOnly
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _TEX2:
-        m_Texture: {fileID: 2800000, guid: f9c6074c5a78e71448f9efd3013cadda, type: 3}
+        m_Texture: {fileID: 2800000, guid: ca7ba913502c8bb44a66350131805326, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
-        m_Texture: {fileID: 2800000, guid: b41d630ccc344454bb1f27587f9acd70, type: 3}
+        m_Texture: {fileID: 2800000, guid: a4b6f041afa158c428034617b825b01c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -47,20 +49,20 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 1
-    - _Blend: 0
+    - _Blend: 2
     - _CastShadows: 0
     - _Cull: 2
-    - _DstBlend: 0
+    - _DstBlend: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Slider: -0.37
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _Slider: -0.12
+    - _SrcBlend: 5
+    - _Surface: 1
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 114.07583, g: 114.07583, b: 114.07583, a: 0}
+    - _Color: {r: 20.528301, g: 6.9074755, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3920220363094369511
 MonoBehaviour:
