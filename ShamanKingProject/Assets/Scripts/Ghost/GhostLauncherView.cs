@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Obi;
 using UnityEngine;
+using Gamemanager;
 
 public class GhostLauncherView : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class GhostLauncherView : MonoBehaviour
     [SerializeField]
     float ropeLength_;
 
+    Tweener aimTargetEvent_;
+    Tweener ropeExtrudeEvent_;
+
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
@@ -30,14 +34,24 @@ public class GhostLauncherView : MonoBehaviour
     {
         ghostLaunchFollowTarget_.transform.position = aimingFollowPoint_.transform.position;
         ghostLaunchFollowTarget_.transform.rotation = aimingFollowPoint_.transform.rotation;
-        ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, 3f);
+        aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, 3f);
         var length = (aimingTarget_.transform.position - ghostLaunchFollowTarget_.transform.position).magnitude;
-        DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, 3);
-
+        ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, 3).OnComplete(
+            () => 
+            {
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = false });
+                ropeLength_ = 0;
+            }
+            );
     }
     private void Update()
     {
-        ropeCursor_.ChangeLength(basicLength_+ropeLength_);
+        ropeCursor_.ChangeLength(basicLength_ + ropeLength_);
         Debug.Log(rope_.restLength);
+    }
+
+    void stopLaunchTweener()
+    {
+
     }
 }

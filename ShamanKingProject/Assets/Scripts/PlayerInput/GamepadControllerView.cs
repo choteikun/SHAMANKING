@@ -1,8 +1,8 @@
 using Cysharp.Threading.Tasks;
 using Gamemanager;
-using Language.Lua;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UniRx;
 using static UnityEngine.Rendering.DebugUI;
 
 public class GamepadControllerView : MonoBehaviour
@@ -16,9 +16,9 @@ public class GamepadControllerView : MonoBehaviour
     private async void Start()
     {
         Debug.Log("start");
-        //�p�G�S���ꪺ�� �|���ɽĪ��{�H
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish,finishLaunch);
     }
     void changeInpuMap(string map)
     {
@@ -79,9 +79,9 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
         isAiming_ = value.isPressed;
         Debug.Log("Aim" + isAiming_.ToString());
-    }    
+    }
 
-    
+
 
     void OnPlayerLaunch()
     {
@@ -90,5 +90,12 @@ public class GamepadControllerView : MonoBehaviour
         isLaunching_ = true;
         //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
         //isAiming_ =false;
+    }
+
+    void finishLaunch(PlayerLaunchFinishCommand cmd)
+    {
+        isLaunching_ = false;
+        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
+        isAiming_ = false;
     }
 }
