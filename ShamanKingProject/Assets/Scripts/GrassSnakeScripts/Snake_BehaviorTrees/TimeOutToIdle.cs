@@ -8,7 +8,7 @@ public class TimeOutToIdle : Action
 {
     public Animator anim;
 
-    [BehaviorDesigner.Runtime.Tasks.Tooltip("過渡到隨機Idle動畫所需要花的時間")]
+    [BehaviorDesigner.Runtime.Tasks.Tooltip("過渡到隨機Idle動畫所需要花的時間/秒")]
     public float IdleTimeOut;
     
     //Idle動畫計時器(跳轉至隨機動畫)
@@ -19,7 +19,10 @@ public class TimeOutToIdle : Action
 
     public override void OnStart()
 	{
-        anim = GetComponent<Animator>();
+        if (!anim)
+        {
+            anim = GetComponent<Animator>();
+        }
     }
 
     public override TaskStatus OnUpdate()

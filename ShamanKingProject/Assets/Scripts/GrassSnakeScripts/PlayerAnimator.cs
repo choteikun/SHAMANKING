@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UniRx;
 using UniRx.Triggers;
+using UnityEngine.Windows;
 
 public enum PlayerAnimState
 {
@@ -92,7 +93,7 @@ public class PlayerAnimator
         setHorizontalAnimVel(player_Stats_);
         setPlayer_animID_Grounded(player_Stats_);
         setPlayer_animID_Aiming(player_Stats_);
-        //TimeoutToIdle();
+        //timeoutToIdle();
 
         #region - 簡易動畫狀態管理 
         switch (playerAnimState_)
@@ -111,24 +112,27 @@ public class PlayerAnimator
     }
 
     #region - 待機動畫處理 -
-    void TimeoutToIdle()
+    void timeoutToIdle()
     {
-        if (playerAnimState_ == PlayerAnimState.Idle)
+        bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming;
+        //如果沒有偵測到任何輸入產生的行為
+        if (!inputDetected)
         {
+            playerAnimState_ = PlayerAnimState.Idle;
             idleTimer_ += Time.deltaTime;
 
             if (idleTimer_ >= idleTimeOut_)
             {
                 idleTimer_ = 0f;
-                //animator.SetTrigger(h_TimeOutToIdle);
+                animator_.SetTrigger(animID_TimeOutToIdle);
             }
         }
         else
         {
             idleTimer_ = 0f;
-            //animator.ResetTrigger(h_TimeOutToIdle);
+            animator_.ResetTrigger(animID_TimeOutToIdle);
         }
-        //animator.SetBool(h_InputDetected, inputDetected);
+        animator_.SetBool(animID_InputDetected, inputDetected);
     }
     #endregion
 

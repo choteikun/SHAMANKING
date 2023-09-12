@@ -18,19 +18,30 @@ public class GhostAnimator
     readonly int animID_ShootOut = Animator.StringToHash("ShootOut");
 
     readonly int animID_Possess = Animator.StringToHash("Possess");
+
+    readonly int animID_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
     #endregion
 
 
+    [Tooltip("過渡到隨機Idle動畫所需要花的時間/秒")]
+    public float IdleTimeOut_ = 5;
 
     private Animator animator_;
+
     private ObservableStateMachineTrigger animOSM_Trigger_;
 
-    bool beingCaught;
-    bool shootOut;
-    bool possess;
-
     private Ghost_Stats ghost_Stats_;
+
     private GameObject ghostControllerObj_;
+
+    //Idle動畫計時器(跳轉至隨機動畫)
+    private float idleTimer_;
+
+    private bool ghost_beingCaught_;
+    private bool ghost_shootOut_;
+    private bool ghost_possess_;
+
+   
 
 
 
@@ -52,64 +63,96 @@ public class GhostAnimator
     }
     void ghostShootButtonTrigger(PlayerLaunchGhostButtonCommand command)
     {
-        if(ghost_Stats_.ghostCurrentState == GhostState.GHOST_MOVEMENT && !shootOut)
+        //如果在鬼魂行為模式中且不是擊發的狀態下
+        if(ghost_Stats_.ghostCurrentState == GhostState.GHOST_MOVEMENT && !ghost_shootOut_)
         {
-            if (beingCaught)//擊發出去
+            //如果是鬼魂被抓住的狀態下
+            if (ghost_beingCaught_)
             {
-                shootOut = true;
-                animator_.SetBool(animID_ShootOut, shootOut);
+                //擊發
+                ghost_shootOut_ = true;
+                //播放擊發動畫
+                animator_.SetBool(animID_ShootOut, ghost_shootOut_);
             }
         }
     }
     void ResetAllAnimations()
     {
-        beingCaught = false; shootOut = false; possess = false;
+        ghost_beingCaught_ = false; ghost_shootOut_ = false; ghost_possess_ = false;
     }
     public void Update()
     {
         switch (ghost_Stats_.ghostCurrentState)
         {
             case GhostState.GHOST_IDLE:
+                //進入待機模式播放Idle
                 animator_.SetBool(animID_Idle, true);
-                shootOut = false;
-                animator_.SetBool(animID_ShootOut, shootOut);
+                //結束擊發狀態
+                ghost_shootOut_ = false;
+                animator_.SetBool(animID_ShootOut, ghost_shootOut_);
                 break;
             case GhostState.GHOST_MOVEMENT:
                 animator_.SetBool(animID_Idle, false);
-
-                if (!shootOut)//不是在被擊發的狀態下
+                //不是在被擊發的狀態下
+                if (!ghost_shootOut_)
                 {
-                    if (ghost_Stats_.Ghost_ReadyButton && !beingCaught)//如果是沒有被抓住的狀態下
+                    //如果是沒有被抓住的狀態下按下瞄準
+                    if (ghost_Stats_.Ghost_ReadyButton && !ghost_beingCaught_)
                     {
-                        beingCaught = true;
-                        animator_.SetBool(animID_BeingCaught, beingCaught);
+                        //抓住鬼魂
+                        ghost_beingCaught_ = true;
+                        animator_.SetBool(animID_BeingCaught, ghost_beingCaught_);
                     }
-                    else if (!ghost_Stats_.Ghost_ReadyButton)//取消抓住
+                    //鬆開瞄準
+                    else if (!ghost_Stats_.Ghost_ReadyButton)
                     {
-                        beingCaught = false;
-                        animator_.SetBool(animID_BeingCaught, beingCaught);
+                        //放開鬼魂
+                        ghost_beingCaught_ = false;
+                        animator_.SetBool(animID_BeingCaught, ghost_beingCaught_);
+                        //回到Idle模式
                         ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
-                    }
-                      
+                    }  
                 }
+                //擊發的狀態下
                 else
                 {
-                    beingCaught = false;
-                    animator_.SetBool(animID_BeingCaught, beingCaught);
+                    //鬼魂是不能被抓住的
+                    ghost_beingCaught_ = false;
+                    animator_.SetBool(animID_BeingCaught, ghost_beingCaught_);
                 }
                 break;
             case GhostState.GHOST_POSSESSED:
+                //附身模式不會播放待機
                 animator_.SetBool(animID_Idle, false);
-                shootOut = false;
-                animator_.SetBool(animID_ShootOut, shootOut);
+                //結束擊發狀態
+                ghost_shootOut_ = false;
+                animator_.SetBool(animID_ShootOut, ghost_shootOut_);
                 
                 break;
 
             default:
                 break;
         }
+        timeoutToIdle();
     }
+    void timeoutToIdle()
+    {
+        if (ghost_Stats_.ghostCurrentState == GhostState.GHOST_IDLE)
+        {
+            idleTimer_ += Time.deltaTime;
 
+            if (idleTimer_ >= IdleTimeOut_)
+            {
+                idleTimer_ = 0f;
+                animator_.SetTrigger(animID_TimeOutToIdle);
+            }
+        }
+        else
+        {
+            idleTimer_ = 0f;
+            animator_.ResetTrigger(animID_TimeOutToIdle);
+        }
+    }
 
     #region - Animation Events -
     public void GhostAnimationEventTest()

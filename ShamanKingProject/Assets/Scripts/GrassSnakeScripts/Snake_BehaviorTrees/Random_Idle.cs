@@ -3,7 +3,9 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
 [TaskCategory("Snake")]
-[TaskDescription("如果要用此節點，請在Animator Controller Parameters裡添加一個 RandomIdle 的Int參數")]
+[TaskDescription("如果要用此節點，請在Animator Controller Parameters裡添加一個 RandomIdle 的Int參數" +
+    "，以及確保進入IdleSM裡的第一個狀態機名稱為Idle無誤")]
+
 public class Random_Idle : Action
 {
     //提前Hash進行優化
@@ -29,8 +31,10 @@ public class Random_Idle : Action
 
     public override void OnStart()
 	{
-        anim = GetComponent<Animator>();
-
+        if (!anim)
+        {
+            anim = GetComponent<Animator>();
+        }
         randomTimer = Random.Range(minNormTime, maxNormTime);//一個範圍內的隨機亂數計時器
     }
 
@@ -39,7 +43,6 @@ public class Random_Idle : Action
         //Debug.Log("randomIdleTime:" + randomIdleTime/60 + "     randomIdleTimer:" + randomIdleTimer);
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.IsInTransition(0))//如果當前狀態是idle且不處於過渡條下
         {
-
             IdleTimer++;
             if (IdleTimer >= randomTimer * 60)
             {

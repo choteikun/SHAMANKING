@@ -39,7 +39,6 @@ public class GhostControllerView : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, ghostReadyButtonTrigger);
-       
 
         behaviorTree = GetComponent<BehaviorTree>();
 
@@ -49,6 +48,7 @@ public class GhostControllerView : MonoBehaviour
         ghostAnimator_.Start(ghost_Stats_);
         ghostController_.Start(ghost_Stats_);
     }
+
     void ghostReadyButtonTrigger(PlayerAimingButtonCommand command)
     {
         if (command.AimingButtonIsPressed && ghost_Stats_.ghostCurrentState == GhostState.GHOST_IDLE)
@@ -73,7 +73,7 @@ public class GhostControllerView : MonoBehaviour
             GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_POSSESSED;
         }
-        else if (other.CompareTag("Unpossessed"))
+        else
         {
             GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
@@ -112,9 +112,8 @@ public class Ghost_Stats
     public GhostState ghostCurrentState;
 
     public float Player_Distance;
-
     public float Ghost_Timer;
 
     public bool Ghost_ReadyButton;
-    public bool Ghost_ShootButton;
+
 }
