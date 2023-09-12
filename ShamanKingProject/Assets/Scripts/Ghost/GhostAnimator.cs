@@ -127,6 +127,7 @@ public class GhostAnimator
                 //結束擊發狀態
                 ghost_Stats_.Ghost_ShootOut_ = false;
                 animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
+
                 
                 break;
 
