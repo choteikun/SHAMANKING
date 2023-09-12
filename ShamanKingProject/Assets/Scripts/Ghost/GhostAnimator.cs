@@ -38,7 +38,7 @@ public class GhostAnimator
     private float idleTimer_;
 
     private bool ghost_beingCaught_;
-    private bool ghost_shootOut_;
+
     private bool ghost_possess_;
 
    
@@ -64,21 +64,21 @@ public class GhostAnimator
     void ghostShootButtonTrigger(PlayerLaunchGhostButtonCommand command)
     {
         //如果在鬼魂行為模式中且不是擊發的狀態下
-        if(ghost_Stats_.ghostCurrentState == GhostState.GHOST_MOVEMENT && !ghost_shootOut_)
+        if(ghost_Stats_.ghostCurrentState == GhostState.GHOST_MOVEMENT && !ghost_Stats_.Ghost_ShootOut_)
         {
             //如果是鬼魂被抓住的狀態下
             if (ghost_beingCaught_)
             {
                 //擊發
-                ghost_shootOut_ = true;
+                ghost_Stats_.Ghost_ShootOut_ = true;
                 //播放擊發動畫
-                animator_.SetBool(animID_ShootOut, ghost_shootOut_);
+                animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
             }
         }
     }
     void ResetAllAnimations()
     {
-        ghost_beingCaught_ = false; ghost_shootOut_ = false; ghost_possess_ = false;
+        ghost_beingCaught_ = false; ghost_Stats_.Ghost_ShootOut_ = false; ghost_possess_ = false;
     }
     public void Update()
     {
@@ -88,13 +88,13 @@ public class GhostAnimator
                 //進入待機模式播放Idle
                 animator_.SetBool(animID_Idle, true);
                 //結束擊發狀態
-                ghost_shootOut_ = false;
-                animator_.SetBool(animID_ShootOut, ghost_shootOut_);
+                ghost_Stats_.Ghost_ShootOut_ = false;
+                animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
                 break;
             case GhostState.GHOST_MOVEMENT:
                 animator_.SetBool(animID_Idle, false);
                 //不是在被擊發的狀態下
-                if (!ghost_shootOut_)
+                if (!ghost_Stats_.Ghost_ShootOut_)
                 {
                     //如果是沒有被抓住的狀態下按下瞄準
                     if (ghost_Stats_.Ghost_ReadyButton && !ghost_beingCaught_)
@@ -125,8 +125,8 @@ public class GhostAnimator
                 //附身模式不會播放待機
                 animator_.SetBool(animID_Idle, false);
                 //結束擊發狀態
-                ghost_shootOut_ = false;
-                animator_.SetBool(animID_ShootOut, ghost_shootOut_);
+                ghost_Stats_.Ghost_ShootOut_ = false;
+                animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
                 
                 break;
 

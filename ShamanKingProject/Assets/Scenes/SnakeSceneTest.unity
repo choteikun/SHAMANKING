@@ -237,6 +237,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &136089592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 136089594}
+  - component: {fileID: 136089593}
+  m_Layer: 0
+  m_Name: OniCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &136089593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136089592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02d25c24c8574316883c920912e4fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &136089594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136089592}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &181671203
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +618,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.08434157, y: 0.0104399, z: 0.0008837149, w: 0.9963818}
+  m_LocalRotation: {x: -0.084339306, y: 0.012738958, z: 0.0010783253, w: 0.9963551}
   m_LocalPosition: {x: -5, y: 1.15, z: -2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -868,50 +912,6 @@ MonoBehaviour:
   m_Damping: 0.2
   m_DampingWhenOccluded: 0.2
   m_OptimalTargetDistance: 0
---- !u!1 &466494992
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 466494994}
-  - component: {fileID: 466494993}
-  m_Layer: 0
-  m_Name: OniCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &466494993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466494992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d02d25c24c8574316883c920912e4fdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &466494994
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466494992}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &475522657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,7 +1602,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894790144}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5718,7 +5718,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6d8154304ccced3479160282ccd270e6, type: 2}
+      objectReference: {fileID: 2100000, guid: 5b9e704a2d66f7f479845d85612ea743, type: 2}
     - target: {fileID: 5872959348229363209, guid: b1800436e6403ab488fe9e02dbce323d,
         type: 3}
       propertyPath: m_Name
@@ -5733,6 +5733,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GhostController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161046144176565360, guid: b1800436e6403ab488fe9e02dbce323d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Possessable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161046144176565362, guid: b1800436e6403ab488fe9e02dbce323d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7161046144176565365, guid: b1800436e6403ab488fe9e02dbce323d,
         type: 3}
@@ -5851,7 +5861,8 @@ MonoBehaviour:
       startIndex: 
       variableStartIndex: 
       JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(1016.71497,-611.4725)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Log","NodeData":{"Offset":"(-1.56091309,122.320923)"},"ID":1,"Name":"Log","Instant":true,"SharedStringtext":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":""},"SharedBoollogError":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoollogTime":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},"DetachedTasks":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityRenderer.SetMaterial","NodeData":{"Offset":"(807.714966,-482.472473)"},"ID":2,"Name":"Set
-        Material","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedMaterialmaterial":{"Type":"BehaviorDesigner.Runtime.SharedMaterial","Name":null}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"dissovleValue","IsShared":true,"SinglemValue":0}]}'
+        Material","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedMaterialmaterial":{"Type":"BehaviorDesigner.Runtime.SharedMaterial","Name":null}},{"Type":"BehaviorDesigner.Runtime.Tasks.DOTween.FloatTo","NodeData":{"Offset":"(786.714966,-371.472473)"},"ID":3,"Name":"Float
+        To","Instant":true,"SharedFloatfrom":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloatto":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedFloattime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0},"SharedTweenerstoreTweener":{"Type":"BehaviorDesigner.Runtime.Tasks.DOTween.SharedTweener","Name":null,"IsShared":true}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"dissovleValue","IsShared":true,"SinglemValue":0}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -5878,16 +5889,48 @@ MonoBehaviour:
   ghost_Stats_:
     ghostCurrentState: 0
     rb: {fileID: 0}
-    skinnedMeshRenderer: {fileID: 990609785}
+    Ghost_SkinnedMeshRenderer: {fileID: 990609785}
     Player_Distance: 0
+    GhostShader_DissolveAmount: 0
+    GhostShader_SmoothStepAmount: 0
     Ghost_Timer: 0
     Ghost_ReadyButton: 0
+    Ghost_ShootOut_: 0
     Ghost_Interrupted: 0
   behaviorTree: {fileID: 7161046143099577730}
   externalBehaviorTrees:
   - {fileID: 11400000, guid: 2d061fdb927ff2f4c8ace319f510336f, type: 2}
   - {fileID: 11400000, guid: 284ff329e2ed16c47b221fd0570ae6d6, type: 2}
   - {fileID: 11400000, guid: bdba20517fb78b0428476e9aa5dac673, type: 2}
+--- !u!54 &7161046143099577732
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7161046143099577729}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!114 &7161046143099577739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7161046143099577729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62359d80fdc0e4315ab6331b78ec5b90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kinematicForParticles: 0
 --- !u!4 &7225640445557166872
 Transform:
   m_ObjectHideFlags: 0
