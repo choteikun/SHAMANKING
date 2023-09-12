@@ -34,9 +34,9 @@ public class GhostLauncherView : MonoBehaviour
     {
         ghostLaunchFollowTarget_.transform.position = aimingFollowPoint_.transform.position;
         ghostLaunchFollowTarget_.transform.rotation = aimingFollowPoint_.transform.rotation;
-        aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, 3f);
+        aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, 1f);
         var length = (aimingTarget_.transform.position - ghostLaunchFollowTarget_.transform.position).magnitude;
-        ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, 3).OnComplete(
+        ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, 1).OnComplete(
             () => 
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = false });
