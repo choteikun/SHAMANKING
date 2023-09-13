@@ -21,6 +21,9 @@ public class GhostLauncherView : MonoBehaviour
     [SerializeField]
     float ropeLength_;
 
+    [SerializeField]
+    float launchSpeed_;
+
     Tweener aimTargetEvent_;
     Tweener ropeExtrudeEvent_;
 
@@ -34,9 +37,9 @@ public class GhostLauncherView : MonoBehaviour
     {
         ghostLaunchFollowTarget_.transform.position = aimingFollowPoint_.transform.position;
         ghostLaunchFollowTarget_.transform.rotation = aimingFollowPoint_.transform.rotation;
-        aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, 1f);
+        aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, launchSpeed_);
         var length = (aimingTarget_.transform.position - ghostLaunchFollowTarget_.transform.position).magnitude;
-        ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, 1).OnComplete(
+        ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, launchSpeed_).OnComplete(
             () => 
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = false });
