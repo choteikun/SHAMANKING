@@ -113,20 +113,8 @@ public class GhostControllerView : MonoBehaviour
         else
         {
             Debug.Log("command.Hit : " + command.Hit);
-            if (ghost_Stats_.ghostCurrentState == GhostState.GHOST_POSSESSED)
-            {
-                //mat_Revert();
-                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
-            }
-            else
-            {
-                
-                //回到待機狀態
-                //mat_Dissolve();
-                //mat_Revert();
-                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
-            }
-            
+            ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+
         }
     }
 
