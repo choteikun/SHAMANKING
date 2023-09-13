@@ -100,19 +100,13 @@ public class GhostControllerView : MonoBehaviour
     }
     void ghostPossessedStateOver(PlayerLaunchFinishCommand command)
     {
-        Debug.Log("command.Hit : " + command.Hit);
-
         if (command.Hit)
         {
-            Debug.Log("command.Hit : " + command.Hit);
-            //mat_Dissolve();
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_POSSESSED;
-            //這邊要阻止command.Hit回傳false
         }
         //在附身狀態時卻又什麼都沒碰撞到的時候
         else
         {
-            Debug.Log("command.Hit : " + command.Hit);
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
 
         }

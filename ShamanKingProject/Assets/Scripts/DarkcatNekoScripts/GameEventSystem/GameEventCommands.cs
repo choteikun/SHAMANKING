@@ -49,4 +49,8 @@ namespace Gamemanager
     {
         public string AnimationEventName;
     }
+    public class GhostDisolveFinishResponse : GameEventMessageBase
+    {
+
+    }
 }

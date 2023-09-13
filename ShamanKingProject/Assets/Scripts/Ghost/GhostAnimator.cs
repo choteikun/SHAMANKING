@@ -128,7 +128,9 @@ public class GhostAnimator
                 ghost_Stats_.Ghost_ShootOut_ = false;
                 animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
                 Debug.Log("Possessed success!!");
-                
+
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+
                 break;
 
             default:
