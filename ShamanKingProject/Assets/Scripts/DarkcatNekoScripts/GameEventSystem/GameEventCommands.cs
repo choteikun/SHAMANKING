@@ -45,4 +45,9 @@ namespace Gamemanager
         public bool Hit = false;
     }
 
+    public class GhostDisolveFinishResponse : GameEventMessageBase
+    {
+
+    }
+
 }

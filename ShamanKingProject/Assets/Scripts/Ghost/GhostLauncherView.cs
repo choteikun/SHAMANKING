@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Gamemanager;
 using Obi;
 using UnityEngine;
-using Gamemanager;
+using UniRx;
 
 public class GhostLauncherView : MonoBehaviour
 {
@@ -30,17 +32,19 @@ public class GhostLauncherView : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
         basicLength_ = rope_.restLength;
         //Debug.Log(rope_.restLength + "CM");
     }
-    void onLaunchStart()
+    async void onLaunchStart()
     {
         ghostLaunchFollowTarget_.transform.position = aimingFollowPoint_.transform.position;
         ghostLaunchFollowTarget_.transform.rotation = aimingFollowPoint_.transform.rotation;
+        await UniTask.DelayFrame(10);//為了讓甩槍不會這麼飄
         aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, launchSpeed_);
         var length = (aimingTarget_.transform.position - ghostLaunchFollowTarget_.transform.position).magnitude;
         ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, launchSpeed_).OnComplete(
-            () => 
+            () =>
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = false });
                 ropeLength_ = 0;
@@ -55,6 +59,7 @@ public class GhostLauncherView : MonoBehaviour
 
     void stopLaunchTweener()
     {
-
+        aimTargetEvent_.Kill();
+        ropeExtrudeEvent_.Kill();
     }
 }

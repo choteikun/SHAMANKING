@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
 using Gamemanager;
+using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UniRx;
-using static UnityEngine.Rendering.DebugUI;
+using DG.Tweening;
+using UnityEngine.UIElements;
+using Language.Lua;
 
 public class GamepadControllerView : MonoBehaviour
 {
@@ -13,12 +15,16 @@ public class GamepadControllerView : MonoBehaviour
 
     [SerializeField] bool isAiming_;
     [SerializeField] bool isLaunching_;
+
+    [SerializeField] bool aimingDelay_ = true;
+    Tweener aimingDelayer_;
+    
     private async void Start()
     {
         Debug.Log("start");
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish,finishLaunch);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish, finishLaunch);
     }
     void changeInpuMap(string map)
     {
@@ -79,13 +85,29 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
         isAiming_ = value.isPressed;
         Debug.Log("Aim" + isAiming_.ToString());
+        if (value.isPressed)
+        {
+            var delayTimer = 0f;
+            aimingDelayer_ = DOTween.To(() => delayTimer, x => delayTimer = x, 1, 0.15f).OnComplete(
+                () =>
+                {
+                    aimingDelay_ = false;
+                }
+                );
+        }
+        else
+        {
+            aimingDelayer_.Kill();
+            aimingDelay_ = true;
+        }
+      
     }
 
 
 
     void OnPlayerLaunch()
     {
-        if (!isAiming_) return;
+        if (!isAiming_||aimingDelay_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerLaunchGhostButtonCommand() { });
         isLaunching_ = true;
         //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
@@ -97,5 +119,7 @@ public class GamepadControllerView : MonoBehaviour
         isLaunching_ = false;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
         isAiming_ = false;
+        aimingDelayer_.Kill();
+        aimingDelay_ = true;
     }
 }
