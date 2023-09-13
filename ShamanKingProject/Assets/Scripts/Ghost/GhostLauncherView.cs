@@ -47,7 +47,7 @@ public class GhostLauncherView : MonoBehaviour
     private void Update()
     {
         ropeCursor_.ChangeLength(basicLength_ + ropeLength_);
-        Debug.Log(rope_.restLength);
+        //Debug.Log(rope_.restLength);
     }
 
     void stopLaunchTweener()

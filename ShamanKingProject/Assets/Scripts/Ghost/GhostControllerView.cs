@@ -81,13 +81,33 @@ public class GhostControllerView : MonoBehaviour
     }
     void ghostPossessedStateOver(PlayerLaunchFinishCommand command)
     {
-        //在附身狀態時卻又什麼都沒碰撞到的時候
-        if(!command.Hit)
+        Debug.Log("command.Hit : " + command.Hit);
+
+        if (command.Hit)
         {
-            //回到待機狀態
+            Debug.Log("command.Hit : " + command.Hit);
             mat_Dissolve();
-            mat_Revert();
-            ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+            ghost_Stats_.ghostCurrentState = GhostState.GHOST_POSSESSED;
+            //這邊要阻止command.Hit回傳false
+        }
+        //在附身狀態時卻又什麼都沒碰撞到的時候
+        else
+        {
+            Debug.Log("command.Hit : " + command.Hit);
+            if (ghost_Stats_.ghostCurrentState == GhostState.GHOST_POSSESSED)
+            {
+                mat_Revert();
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+            }
+            else
+            {
+                
+                //回到待機狀態
+                mat_Dissolve();
+                mat_Revert();
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+            }
+            
         }
     }
 
@@ -98,30 +118,25 @@ public class GhostControllerView : MonoBehaviour
             if (other.CompareTag("Possessable"))
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
-                mat_Dissolve();
-                ghost_Stats_.ghostCurrentState = GhostState.GHOST_POSSESSED;
-                
             }
             else
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
-                //mat_Dissolve();
-                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
-                
             }
         }
     }
     void mat_Revert()
     {
-        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1);
-        Observable.Timer(TimeSpan.FromSeconds(1.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 0, 0, 0.1f); }).AddTo(this);
+        Observable.Timer(TimeSpan.FromSeconds(1.5f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 1, 0, 1f); }).AddTo(this);
+        
+        Observable.Timer(TimeSpan.FromSeconds(2.4f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 0, 0.1f); }).AddTo(this);
     }
     void mat_Dissolve()
     {
         //溶解特效啟動1秒後結束
-        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 1, 1);
-        //0.1秒後才啟動邊緣光0.9秒後結束
-        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.9f); }).AddTo(this);
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f);
+        //0.1秒後才啟動邊緣光0.4秒後結束
+        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f); }).AddTo(this);
         ////1秒後回復原狀特效啟動1秒後結束
         //Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1); }).AddTo(this);
         ////1.9秒後邊緣光關閉0.1秒後結束
@@ -192,5 +207,6 @@ public class Ghost_Stats
 
     public bool Ghost_ReadyButton;
     public bool Ghost_ShootOut_;
-    public bool Ghost_Interrupted;
+
+    public bool Ghost_Unpossessed;
 }

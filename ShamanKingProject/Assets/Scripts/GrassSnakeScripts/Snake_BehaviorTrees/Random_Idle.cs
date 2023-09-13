@@ -1,6 +1,7 @@
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
 
 [TaskCategory("Snake")]
 [TaskDescription("如果要用此節點，請在Animator Controller Parameters裡添加一個 RandomIdle 的Int參數" +
@@ -33,7 +34,7 @@ public class Random_Idle : Action
 	{
         if (!anim)
         {
-            anim = GetComponent<Animator>();
+            anim = transform.GetChild(0).GetComponent<Animator>();
         }
         randomTimer = Random.Range(minNormTime, maxNormTime);//一個範圍內的隨機亂數計時器
     }
