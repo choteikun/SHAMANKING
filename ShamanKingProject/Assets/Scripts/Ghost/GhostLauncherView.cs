@@ -2,8 +2,8 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gamemanager;
 using Obi;
-using UnityEngine;
 using UniRx;
+using UnityEngine;
 
 public class GhostLauncherView : MonoBehaviour
 {
@@ -33,6 +33,7 @@ public class GhostLauncherView : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
         GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
+        GameManager.Instance.MainGameEvent.OnGhostDisolveFinish.Subscribe(cmd => { ropeLength_ = 0; });
         basicLength_ = rope_.restLength;
         //Debug.Log(rope_.restLength + "CM");
     }
@@ -47,7 +48,6 @@ public class GhostLauncherView : MonoBehaviour
             () =>
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = false });
-                ropeLength_ = 0;
             }
             );
     }

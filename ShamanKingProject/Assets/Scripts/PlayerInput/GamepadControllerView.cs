@@ -24,7 +24,7 @@ public class GamepadControllerView : MonoBehaviour
         Debug.Log("start");
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish, finishLaunch);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostDisolveFinish, finishLaunch);
     }
     void changeInpuMap(string map)
     {
@@ -114,7 +114,7 @@ public class GamepadControllerView : MonoBehaviour
         //isAiming_ =false;
     }
 
-    void finishLaunch(PlayerLaunchFinishCommand cmd)
+    void finishLaunch(GhostDisolveFinishResponse cmd)
     {
         isLaunching_ = false;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });

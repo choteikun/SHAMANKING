@@ -7,6 +7,7 @@ using BehaviorDesigner.Runtime;
 using DG.Tweening;
 using UniRx;
 using Language.Lua;
+using Cysharp.Threading.Tasks;
 
 public enum GhostState
 {
@@ -33,12 +34,11 @@ public class GhostControllerView : MonoBehaviour
     [SerializeField]
     private ExternalBehavior[] externalBehaviorTrees;
 
-    
+    [SerializeField]
+    Material chainMat_;
 
     void Awake()
-    {
-        
-        
+    {       
         ghostAnimator_ = new GhostAnimator(this.gameObject);
         ghostController_ = new GhostController(this.gameObject);
         ghostController_.Awake();
@@ -136,12 +136,14 @@ public class GhostControllerView : MonoBehaviour
 
         Observable.Timer(TimeSpan.FromSeconds(0.4f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 0, 0.1f); }).AddTo(this);
     }
-    void mat_Dissolve()
+    async void mat_Dissolve()
     {
         //溶解特效啟動1秒後結束
         mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f);
         //0.1秒後才啟動邊緣光0.4秒後結束
         Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f); }).AddTo(this);
+        await UniTask.Delay(300);
+        GameManager.Instance.MainGameEvent.Send(new GhostDisolveFinishResponse());
         ////1秒後回復原狀特效啟動1秒後結束
         //Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1); }).AddTo(this);
         ////1.9秒後邊緣光關閉0.1秒後結束
@@ -162,6 +164,7 @@ public class GhostControllerView : MonoBehaviour
                 // 在動畫更新時，可以使用 currentValue 來獲取當前的 float 值
                 Debug.Log(ghost_Stats_.Ghost_SkinnedMeshRenderer.material.name + curValue);
                 ghost_Stats_.Ghost_SkinnedMeshRenderer.material.SetFloat(ShaderValueName, curValue);
+                chainMat_.SetFloat(ShaderValueName, curValue); //硬加的
             })
             .OnComplete(() =>
             {
