@@ -10,7 +10,6 @@ using UnityEngine.Windows;
 
 public enum PlayerAnimState
 {
-    Idle,
     BeAttack,
     Dead
 }
@@ -34,6 +33,9 @@ public class PlayerAnimator
     readonly int animID_Airborne = Animator.StringToHash("Airborne");//空中降落，下降是true，上升是false
 
     readonly int animID_Idle = Animator.StringToHash("Idle");
+
+    readonly int animID_AttackTest1 = Animator.StringToHash("AttackTest1");
+    readonly int animID_AttackTest2 = Animator.StringToHash("AttackTest2");
     //readonly int h_Jump = Animator.StringToHash("Jump");
     #endregion
 
@@ -56,7 +58,7 @@ public class PlayerAnimator
 
 
     [SerializeField, Tooltip("過渡到隨機Idle動畫所需要花的時間")]
-    private float idleTimeOut_;
+    private float idleTimeOut_ = 5;
     //Idle動畫計時器(跳轉至隨機動畫)
     private float idleTimer_;
 
@@ -93,22 +95,23 @@ public class PlayerAnimator
         setHorizontalAnimVel(player_Stats_);
         setPlayer_animID_Grounded(player_Stats_);
         setPlayer_animID_Aiming(player_Stats_);
-        //timeoutToIdle();
+        timeoutToIdle();
 
         #region - 簡易動畫狀態管理 
         switch (playerAnimState_)
         {
-            case PlayerAnimState.Idle:
-                //animator.SetBool(h_Idle, true);
-                //_moveToIdleTimer = 0;
+            case PlayerAnimState.BeAttack:
                 break;
-
+            
 
             default:
                 break;
         }
         #endregion
-
+        if (UnityEngine.Input.GetMouseButtonDown(0))
+        {
+            
+        }
     }
 
     #region - 待機動畫處理 -
@@ -118,7 +121,7 @@ public class PlayerAnimator
         //如果沒有偵測到任何輸入產生的行為
         if (!inputDetected)
         {
-            playerAnimState_ = PlayerAnimState.Idle;
+            
             idleTimer_ += Time.deltaTime;
 
             if (idleTimer_ >= idleTimeOut_)
@@ -159,7 +162,6 @@ public class PlayerAnimator
     }
     void setPlayer_animID_Aiming(Player_Stats player_Stats)
     {
-        
         animator_.SetBool(animID_AimMove, aimMove_);
 
         if (player_Stats.Aiming)

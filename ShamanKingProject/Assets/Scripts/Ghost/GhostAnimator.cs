@@ -154,12 +154,4 @@ public class GhostAnimator
             animator_.ResetTrigger(animID_TimeOutToIdle);
         }
     }
-
-    #region - Animation Events -
-    public void GhostAnimationEventTest()
-    {
-
-    }
-    #endregion
-
 }
