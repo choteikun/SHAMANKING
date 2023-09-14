@@ -32,7 +32,7 @@ public class GamepadControllerView : MonoBehaviour
     }
     void OnPlayerControl(InputValue value)
     {
-        if (isLaunching_) return;
+        //if (isLaunching_) return;
         var controllerDirection = value.Get<Vector2>();
         if (controllerDirection.magnitude > 0.35f)
         {
