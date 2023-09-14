@@ -7,9 +7,11 @@ using UnityEngine.InputSystem;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine.Windows;
+using UnityEditor;
 
 public enum PlayerAnimState
 {
+    Attack,
     BeAttack,
     Dead
 }
@@ -34,8 +36,10 @@ public class PlayerAnimator
 
     readonly int animID_Idle = Animator.StringToHash("Idle");
 
-    readonly int animID_AttackTest1 = Animator.StringToHash("AttackTest1");
-    readonly int animID_AttackTest2 = Animator.StringToHash("AttackTest2");
+    readonly int animID_Attack_CanBeInterrupted = Animator.StringToHash("Attack_CanBeInterrupted");
+    readonly int animID_AttackCombo1 = Animator.StringToHash("AttackCombo1");
+    readonly int animID_AttackCombo2 = Animator.StringToHash("AttackCombo2");
+    readonly int animID_AttackCombo3 = Animator.StringToHash("AttackCombo3");
     //readonly int h_Jump = Animator.StringToHash("Jump");
     #endregion
 
@@ -78,6 +82,8 @@ public class PlayerAnimator
     }
     public void Start(Player_Stats player_Stats)
     {
+       
+
         player_Stats_ = player_Stats;
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
         animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
@@ -89,7 +95,8 @@ public class PlayerAnimator
 
         //characterControllerObj_.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(characterControllerObj_).Subscribe(x => { Debug.Log("Idle中"); }).AddTo(characterControllerObj_);
     }
-
+    
+    
     public void Update()
     {
         setHorizontalAnimVel(player_Stats_);
@@ -100,7 +107,30 @@ public class PlayerAnimator
         #region - 簡易動畫狀態管理 
         switch (playerAnimState_)
         {
-            case PlayerAnimState.BeAttack:
+            case PlayerAnimState.Attack:
+
+                //處在動畫過渡條時重置指令為不允許攻擊
+                if (animator_.IsInTransition(0))
+                {
+                    player_Stats_.Player_AttackCommandAllow = false;
+                }
+                //當指令為不允許攻擊
+                if (player_Stats_.Player_AttackCommandAllow)
+                {
+                    //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
+                    animator_.SetBool(animID_Attack_CanBeInterrupted, false);
+                }
+                //animation events 發送指令為允許攻擊
+                else
+                {
+                    //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
+                    animator_.SetBool(animID_Attack_CanBeInterrupted, true);
+                    if (UnityEngine.Input.GetMouseButtonDown(0))
+                    {
+                        //攻擊動畫
+                    }
+                }
+                
                 break;
             
 
@@ -108,10 +138,7 @@ public class PlayerAnimator
                 break;
         }
         #endregion
-        if (UnityEngine.Input.GetMouseButtonDown(0))
-        {
-            
-        }
+       
     }
 
     #region - 待機動畫處理 -

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class PlayerControllerView : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, getPlayerAimingState);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelMoving);
+
+        GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents.Where(cmd => cmd.AnimationEventName == "Player_Attack_Allow").Subscribe(playertAnimationEventsToDo).AddTo(this);
+        GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents.Where(cmd => cmd.AnimationEventName == "Player_Attack_Prohibit").Subscribe(playertAnimationEventsToDo).AddTo(this);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
@@ -54,10 +58,26 @@ public class PlayerControllerView : MonoBehaviour
             playerControllerMover_.TransitionState("MainGame");
         }
     }
-
     void launchCancelMoving(PlayerLaunchGhostButtonCommand cmd)
     {
         getPlayerDirection(new PlayerControllerMovementCommand {Direction = Vector3.zero });
+    }
+    void playertAnimationEventsToDo(PlayerAnimationEventsCommand command)
+    {
+        switch (command.AnimationEventName)
+        {
+            case "Player_Attack_Allow":
+                player_Stats_.Player_AttackCommandAllow = true;
+                break;
+            case "Player_Attack_Prohibit":
+                player_Stats_.Player_AttackCommandAllow = false;
+                break;
+
+            default:
+                break;
+        }
+
+
     }
 }
 
@@ -81,4 +101,6 @@ public class Player_Stats
     public float Player_InputMagnitude;
 
     public Vector2 Player_Dir;
+
+    public bool Player_AttackCommandAllow;
 }

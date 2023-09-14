@@ -76,6 +76,7 @@ public class GhostAnimator
             }
         }
     }
+    
     void ResetAllAnimations()
     {
         ghost_beingCaught_ = false; ghost_Stats_.Ghost_ShootOut_ = false; ghost_possess_ = false;

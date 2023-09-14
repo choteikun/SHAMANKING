@@ -23,5 +23,7 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<GhostAnimationEventsCommand> OnGhostAnimationEvents => getSubject<GhostAnimationEventsCommand>();
 
+    public IObservable<PlayerAnimationEventsCommand> OnPlayerAnimationEvents => getSubject<PlayerAnimationEventsCommand>();
+
     public IObservable<GhostDisolveFinishResponse> OnGhostDisolveFinish => getSubject<GhostDisolveFinishResponse>();
 }

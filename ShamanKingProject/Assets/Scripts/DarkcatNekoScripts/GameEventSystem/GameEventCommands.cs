@@ -59,6 +59,10 @@ namespace Gamemanager
     {
         public string AnimationEventName;
     }
+    public class PlayerAnimationEventsCommand : GameEventMessageBase
+    {
+        public string AnimationEventName;
+    }
     public class GhostDisolveFinishResponse : GameEventMessageBase
     {
 
