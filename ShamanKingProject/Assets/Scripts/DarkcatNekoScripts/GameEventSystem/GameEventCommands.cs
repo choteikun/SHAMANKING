@@ -43,7 +43,17 @@ namespace Gamemanager
     public class PlayerLaunchFinishCommand: GameEventMessageBase
     {
         public bool Hit = false;
+        public HitObjecctTag HitObjecctTag = HitObjecctTag.None;
     }
+
+    public enum HitObjecctTag
+    {
+        None,
+        Biteable,
+        Possessable,
+        Enemy,
+    }
+
 
     public class GhostAnimationEventsCommand : GameEventMessageBase
     {
