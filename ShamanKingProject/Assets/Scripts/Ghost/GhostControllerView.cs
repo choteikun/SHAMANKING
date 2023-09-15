@@ -11,9 +11,12 @@ using Cysharp.Threading.Tasks;
 
 public enum GhostState
 {
+    //待機狀態
     GHOST_IDLE,
+    //移動狀態
     GHOST_MOVEMENT,
-    GHOST_POSSESSED,
+    //化學反應狀態
+    GHOST_REACT,
 }
 public class GhostControllerView : MonoBehaviour
 {
@@ -46,26 +49,48 @@ public class GhostControllerView : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, ghostReadyButtonTrigger);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish, ghostPossessedStateOver);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish, ghostReactState);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.OnGhostAnimationEvents.Where(cmd => cmd.AnimationEventName == "GhostMat_Dissolve").Subscribe(ghostAnimationEventsToDo).AddTo(this);
         GameManager.Instance.MainGameEvent.OnGhostAnimationEvents.Where(cmd => cmd.AnimationEventName == "GhostMat_Revert").Subscribe(ghostAnimationEventsToDo).AddTo(this);
+
+        behaviorTree = GetComponent<BehaviorTree>();
         ghost_Stats_.rb = GetComponent<Rigidbody>();
+
         if (!ghost_Stats_.Ghost_SkinnedMeshRenderer)
         {
             ghost_Stats_.Ghost_SkinnedMeshRenderer = GameObject.Find("Ghost_Mesh").GetComponent<SkinnedMeshRenderer>();
         }
-        ghost_Stats_.GhostShader_DissolveAmount = 0;
-
-        behaviorTree = GetComponent<BehaviorTree>();
-
-        switchExternalBehavior((int)GhostState.GHOST_IDLE);
-        ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
 
         ghostAnimator_.Start(ghost_Stats_);
         ghostController_.Start(ghost_Stats_);
+
+        ghost_Reset();
     }
 
+    #region - 鬼魂參數重設 -
+    void ghost_Reset()
+    {
+        ghost_Stats_.GhostShader_DissolveAmount = 0;
+
+        switchExternalBehavior((int)GhostState.GHOST_IDLE);
+        ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+    }
+    #endregion
+
+    #region - 切換外部行為樹 -
+    void switchExternalBehavior(int externalTrees)
+    {
+        if (externalBehaviorTrees[externalTrees] != null)
+        {
+            behaviorTree.DisableBehavior();
+            behaviorTree.ExternalBehavior = externalBehaviorTrees[externalTrees];
+            behaviorTree.EnableBehavior();
+        }
+    }
+    #endregion
+
+    #region - 鬼魂獲取瞄準指令 -
     void ghostReadyButtonTrigger(PlayerAimingButtonCommand command)
     {
         if (command.AimingButtonIsPressed && ghost_Stats_.ghostCurrentState == GhostState.GHOST_IDLE)
@@ -81,6 +106,9 @@ public class GhostControllerView : MonoBehaviour
             ghost_Stats_.Ghost_ReadyButton = false;
         }
     }
+    #endregion
+
+    #region - 鬼魂動畫事件管理 -
     void ghostAnimationEventsToDo(GhostAnimationEventsCommand command)
     {
         switch (command.AnimationEventName)
@@ -95,37 +123,66 @@ public class GhostControllerView : MonoBehaviour
             default:
                 break;
         }
-        
-        
     }
-    void ghostPossessedStateOver(PlayerLaunchFinishCommand command)
-    {
-        if (command.Hit)
-        {
-            ghost_Stats_.ghostCurrentState = GhostState.GHOST_POSSESSED;
-        }
-        //在附身狀態時卻又什麼都沒碰撞到的時候
-        else
-        {
-            ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+    #endregion
 
-        }
-    }
-
+    #region - 鬼魂碰撞處理 -
     private void OnTriggerEnter(Collider other)
     {
         if (ghost_Stats_.Ghost_ShootOut_)
         {
-            if (other.CompareTag("Possessable"))
+            //想用switch case提高可讀性，不過就效能來說先這樣寫就好
+
+            if (other.CompareTag("Untagged")) 
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { HitObjecctTag = HitObjecctTag.None });
             }
-            else
+            if (other.CompareTag("Biteable")) 
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true });
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { HitObjecctTag = HitObjecctTag.Biteable });
+            }
+            if (other.CompareTag("Possessable")) 
+            {
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { HitObjecctTag = HitObjecctTag.Possessable });
+            }
+            if (other.CompareTag("Enemy")) 
+            {
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { HitObjecctTag = HitObjecctTag.Enemy });
             }
         }
     }
+    void ghostReactState(PlayerLaunchFinishCommand command)
+    {
+        switch (command.HitObjecctTag)
+        {
+            //什麼都沒碰撞到
+            case HitObjecctTag.None:
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+                break;
+            //碰到可吸收的物體
+            case HitObjecctTag.Biteable:
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_REACT;
+                ghost_Stats_.Ghost_Biteable = true;
+                break;
+            //碰到可附身的物體
+            case HitObjecctTag.Possessable:
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_REACT;
+                ghost_Stats_.Ghost_Possessable = true;
+                break;
+            //碰到敵人
+            case HitObjecctTag.Enemy:
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_REACT;
+                //未來還要添加個對Enemy的判斷
+                break;
+            default:
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+                Debug.LogError("我不知道到底撞到了啥小");
+                break;
+        }
+    }
+    #endregion
+
+    #region - 材質球特效處理 -
     void mat_Revert()
     {
         //Observable.Timer(TimeSpan.FromSeconds(1.5f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 1, 0, 0.5f); }).AddTo(this);
@@ -172,7 +229,7 @@ public class GhostControllerView : MonoBehaviour
                 Debug.Log(ShaderValueName + "Complete!");
             });
     }
-
+    #endregion
     void Update()
     {
 
@@ -181,22 +238,7 @@ public class GhostControllerView : MonoBehaviour
 
         ghost_Stats_.Ghost_Timer += Time.deltaTime;
     }
-
-
-    //切換外部行為樹
-    void switchExternalBehavior(int externalTrees)
-    {
-        if (externalBehaviorTrees[externalTrees] != null)
-        {
-            behaviorTree.DisableBehavior();
-            behaviorTree.ExternalBehavior = externalBehaviorTrees[externalTrees];
-            behaviorTree.EnableBehavior();
-        }
-    }
-
-    
 }
-
 
 [Serializable]
 public class Ghost_Stats
@@ -218,5 +260,6 @@ public class Ghost_Stats
     public bool Ghost_ReadyButton;
     public bool Ghost_ShootOut_;
 
-    public bool Ghost_Unpossessed;
+    public bool Ghost_Possessable;
+    public bool Ghost_Biteable;
 }

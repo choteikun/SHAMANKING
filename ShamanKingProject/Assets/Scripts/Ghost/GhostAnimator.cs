@@ -122,15 +122,29 @@ public class GhostAnimator
                     animator_.SetBool(animID_BeingCaught, ghost_beingCaught_);
                 }
                 break;
-            case GhostState.GHOST_POSSESSED:
+            case GhostState.GHOST_REACT:
                 //附身模式不會播放待機
                 animator_.SetBool(animID_Idle, false);
                 //結束擊發狀態
                 ghost_Stats_.Ghost_ShootOut_ = false;
                 animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
-                Debug.Log("Possessed success!!");
 
-                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+                if (ghost_Stats_.Ghost_Possessable)
+                {
+                    //dissolve，拿取目標資料，transform接在目標上
+                    ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+                    Debug.Log("Possessed success!!");
+                }
+                if (ghost_Stats_.Ghost_Biteable)
+                {
+                    ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+                    Debug.Log("Bited success!!");
+                }
+                
+                
+                
+
+                
 
                 break;
 

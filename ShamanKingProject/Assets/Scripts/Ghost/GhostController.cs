@@ -35,7 +35,7 @@ public class GhostController
 
 
                 break;
-            case GhostState.GHOST_POSSESSED:
+            case GhostState.GHOST_REACT:
 
 
 

@@ -34,18 +34,17 @@ public class PlayerControllerView : MonoBehaviour
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
     }
-    void Update()
-    {
-        playerAnimatorView_.Update();
-        playerControllerMover_.Update();
-    }
-
+    
+    #region - Player取得方向指令 -
     void getPlayerDirection(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
         player_Stats_.Player_Dir = playerControllerMovementCommand.Direction;
         var clampedDirection = Mathf.Clamp(player_Stats_.Player_Dir.magnitude, 0, 1);
         player_Stats_.Player_InputMagnitude = clampedDirection;
     }
+    #endregion
+
+    #region - Player取得瞄準指令 -
     void getPlayerAimingState(PlayerAimingButtonCommand playerAimingButtonCommand)
     {
         player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
@@ -58,10 +57,14 @@ public class PlayerControllerView : MonoBehaviour
             playerControllerMover_.TransitionState("MainGame");
         }
     }
+    #endregion
+
     void launchCancelMoving(PlayerLaunchGhostButtonCommand cmd)
     {
         getPlayerDirection(new PlayerControllerMovementCommand {Direction = Vector3.zero });
     }
+
+    #region - Player動畫事件管理 -
     void playertAnimationEventsToDo(PlayerAnimationEventsCommand command)
     {
         switch (command.AnimationEventName)
@@ -76,8 +79,13 @@ public class PlayerControllerView : MonoBehaviour
             default:
                 break;
         }
+    }
+    #endregion
 
-
+    void Update()
+    {
+        playerAnimatorView_.Update();
+        playerControllerMover_.Update();
     }
 }
 
