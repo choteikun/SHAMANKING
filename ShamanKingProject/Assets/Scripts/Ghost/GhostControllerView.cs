@@ -219,14 +219,14 @@ public class GhostControllerView : MonoBehaviour
             .OnUpdate(() =>
             {
                 // 在動畫更新時，可以使用 currentValue 來獲取當前的 float 值
-                Debug.Log(ghost_Stats_.Ghost_SkinnedMeshRenderer.material.name + curValue);
+                //Debug.Log(ghost_Stats_.Ghost_SkinnedMeshRenderer.material.name + curValue);
                 ghost_Stats_.Ghost_SkinnedMeshRenderer.material.SetFloat(ShaderValueName, curValue);
                 chainMat_.SetFloat(ShaderValueName, curValue); //硬加的
             })
             .OnComplete(() =>
             {
                 // 在動畫完成時執行任何需要的操作
-                Debug.Log(ShaderValueName + "Complete!");
+               // Debug.Log(ShaderValueName + "Complete!");
             });
     }
     #endregion

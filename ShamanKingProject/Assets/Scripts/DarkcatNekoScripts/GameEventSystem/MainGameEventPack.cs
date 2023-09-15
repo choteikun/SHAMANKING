@@ -21,6 +21,10 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<PlayerLaunchFinishCommand> OnPlayerLaunchFinish => getSubject<PlayerLaunchFinishCommand>();
 
+    public IObservable<PlayerJumpButtonCommand> OnPlayerJump => getSubject<PlayerJumpButtonCommand>();
+
+    public IObservable<PlayerLightAttackButtonCommand> OnPlayerLightAttack => getSubject<PlayerLightAttackButtonCommand>();
+
     public IObservable<GhostAnimationEventsCommand> OnGhostAnimationEvents => getSubject<GhostAnimationEventsCommand>();
 
     public IObservable<PlayerAnimationEventsCommand> OnPlayerAnimationEvents => getSubject<PlayerAnimationEventsCommand>();

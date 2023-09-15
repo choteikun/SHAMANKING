@@ -58,6 +58,24 @@
                     "processors": "",
                     "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerJump",
+                    "type": "Button",
+                    "id": "10b701c3-2f7f-478f-8b86-c9d4e3df05d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerLightAttack",
+                    "type": "Button",
+                    "id": "c6f35348-affd-4d5a-96f3-0a0a7f1be4f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -130,7 +148,7 @@
                 {
                     "name": "",
                     "id": "fb94dd12-ef48-4d69-83d5-ee9047d2a752",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -201,6 +219,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "PlayerLaunch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53d73581-bb04-4cfa-9a05-99a6798fb8d9",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0eb03b8-80cd-43a4-9338-de65b8738478",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8b4670e-6c10-4daf-8f87-fe1d7c9ece91",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerLightAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -35,12 +35,21 @@ namespace Gamemanager
 
     }
 
+    public class PlayerJumpButtonCommand:GameEventMessageBase
+    {
+
+    }
+
     public class PlayerLaunchGhostButtonCommand: GameEventMessageBase 
     {
 
     }
-    
+    public class PlayerLightAttackButtonCommand : GameEventMessageBase
+    {
+
+    }
     public class PlayerLaunchFinishCommand: GameEventMessageBase
+
     {
         public bool Hit = false;
         public HitObjecctTag HitObjecctTag = HitObjecctTag.None;

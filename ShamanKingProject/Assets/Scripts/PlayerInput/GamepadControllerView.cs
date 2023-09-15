@@ -45,7 +45,9 @@ public class GamepadControllerView : MonoBehaviour
     }
     void OnPlayerRoll()
     {
+        if (isAiming_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());
+        Debug.Log("Roll!");
     }
 
     void OnCameraControl(InputValue value)
@@ -103,6 +105,12 @@ public class GamepadControllerView : MonoBehaviour
       
     }
 
+    void OnPlayerJump()
+    {
+        if (isAiming_) return;
+        GameManager.Instance.MainGameEvent.Send(new PlayerJumpButtonCommand() { });
+        Debug.Log("Jump!");
+    }
 
 
     void OnPlayerLaunch()
@@ -112,6 +120,13 @@ public class GamepadControllerView : MonoBehaviour
         isLaunching_ = true;
         //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
         //isAiming_ =false;
+    }
+
+    void OnPlayerLightAttack()
+    {
+        if (isAiming_) return;
+        GameManager.Instance.MainGameEvent.Send(new PlayerLightAttackButtonCommand() { });
+        Debug.Log("Attack!");
     }
 
     void finishLaunch(GhostDisolveFinishResponse cmd)
