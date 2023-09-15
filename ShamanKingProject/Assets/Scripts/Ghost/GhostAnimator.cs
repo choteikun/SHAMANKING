@@ -17,6 +17,8 @@ public class GhostAnimator
 
     readonly int animID_ShootOut = Animator.StringToHash("ShootOut");
 
+    readonly int animID_GhostBite = Animator.StringToHash("GhostBite");
+
     readonly int animID_Possess = Animator.StringToHash("Possess");
 
     readonly int animID_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
@@ -137,6 +139,8 @@ public class GhostAnimator
                 }
                 if (ghost_Stats_.Ghost_Biteable)
                 {
+                    animator_.SetTrigger(animID_GhostBite);
+                    //咬完後的處理
                     ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
                     Debug.Log("Bited success!!");
                 }
