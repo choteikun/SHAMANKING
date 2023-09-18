@@ -34,7 +34,7 @@ public class GhostLauncherView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
         GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish.Subscribe(cmd => { ropeLength_ = 0; });
-        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => setRopeLengthByOtherObject(cmd.HitInfo.onHitPoint_.transform));
+        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable|| cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => setRopeLengthByOtherObject(cmd.HitInfo.onHitPoint_.transform));
         basicLength_ = rope_.restLength;
         //Debug.Log(rope_.restLength + "CM");
     }

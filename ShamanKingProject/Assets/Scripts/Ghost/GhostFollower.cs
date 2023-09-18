@@ -31,7 +31,7 @@ public class GhostFollower : MonoBehaviour
         var onAimingEnterEvent = GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Where(cmd => cmd.AimingButtonIsPressed).Subscribe(cmd => setTarget(aimingGhostPoint_));
         var onCancelAimingEnterEvent = GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Where(cmd => !cmd.AimingButtonIsPressed).Subscribe(cmd => setTarget(target_));
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { setTarget(launchFollowTarget_); });
-        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => setTarget(cmd.HitInfo.onHitPoint_.transform));
+        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable|| cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => setTarget(cmd.HitInfo.onHitPoint_.transform));
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
         GameManager.Instance.MainGameMediator.AddToDisposables(onAimingEnterEvent);
         GameManager.Instance.MainGameMediator.AddToDisposables(onCancelAimingEnterEvent);

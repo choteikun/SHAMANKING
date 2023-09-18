@@ -26,7 +26,7 @@ public class GamepadControllerView : MonoBehaviour
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, finishLaunch);
-        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => { isLaunching_ = false; isPosscessing_ = true; } );
+        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { isLaunching_ = false; isPosscessing_ = true; } );
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
     }
     void changeInpuMap(string map)
@@ -139,5 +139,6 @@ public class GamepadControllerView : MonoBehaviour
         isAiming_ = false;
         aimingDelayer_.Kill();
         aimingDelay_ = true;
+        isPosscessing_ = false;
     }
 }
