@@ -7,17 +7,19 @@ using UniRx;
 public class GhostAnimationEvents : MonoBehaviour
 {
     bool dissolveEventTrigger;
+    GhostAnimationType animationType_;
     private void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish, ghostReactState);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, ghostReactState);
     }
-    void ghostReactState(PlayerLaunchFinishCommand command)
+    void ghostReactState(PlayerLaunchActionFinishCommand command)
     {
         switch (command.HitObjecctTag)
         {
             //什麼都沒碰撞到
             case HitObjecctTag.None:
                 dissolveEventTrigger = true;
+                animationType_ = GhostAnimationType.DissolveWithRevert;
                 break;
             //碰到可吸收的物體
             case HitObjecctTag.Biteable:
@@ -26,6 +28,7 @@ public class GhostAnimationEvents : MonoBehaviour
             //碰到可附身的物體
             case HitObjecctTag.Possessable:
                 dissolveEventTrigger = true;
+                animationType_ = GhostAnimationType.Dissolve;
                 break;
             //碰到敵人
             case HitObjecctTag.Enemy:
@@ -42,15 +45,22 @@ public class GhostAnimationEvents : MonoBehaviour
     {
         if (dissolveEventTrigger)
         {
-            GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Dissolve" });
+            GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Dissolve",AnimationType = animationType_ });
         }
     }
     public void Ghost_Back_End()
     {
         if (dissolveEventTrigger)
         {
-            GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Revert" });
+            GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Revert" ,AnimationType = animationType_});
         }
     }
+
+}
+
+public enum GhostAnimationType
+{
+    DissolveWithRevert,
+    Dissolve,
 
 }

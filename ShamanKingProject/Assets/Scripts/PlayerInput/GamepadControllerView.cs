@@ -24,7 +24,7 @@ public class GamepadControllerView : MonoBehaviour
         Debug.Log("start");
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostDisolveFinish, finishLaunch);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, finishLaunch);
     }
     void changeInpuMap(string map)
     {
@@ -115,7 +115,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerLaunch()
     {
-        if (!isAiming_||aimingDelay_) return;
+        if (!isAiming_||aimingDelay_||isLaunching_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerLaunchGhostButtonCommand() { });
         isLaunching_ = true;
         //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
@@ -129,7 +129,7 @@ public class GamepadControllerView : MonoBehaviour
         Debug.Log("Attack!");
     }
 
-    void finishLaunch(GhostDisolveFinishResponse cmd)
+    void finishLaunch(GhostLaunchProcessFinishResponse cmd)
     {
         isLaunching_ = false;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });

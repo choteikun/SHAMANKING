@@ -48,11 +48,12 @@ namespace Gamemanager
     {
 
     }
-    public class PlayerLaunchFinishCommand: GameEventMessageBase
+    public class PlayerLaunchActionFinishCommand: GameEventMessageBase
 
     {
         public bool Hit = false;
         public HitObjecctTag HitObjecctTag = HitObjecctTag.None;
+        public HitableItemTest HitInfo;
     }
 
     public enum HitObjecctTag
@@ -67,12 +68,13 @@ namespace Gamemanager
     public class GhostAnimationEventsCommand : GameEventMessageBase
     {
         public string AnimationEventName;
+        public GhostAnimationType AnimationType;
     }
     public class PlayerAnimationEventsCommand : GameEventMessageBase
     {
         public string AnimationEventName;
     }
-    public class GhostDisolveFinishResponse : GameEventMessageBase
+    public class GhostLaunchProcessFinishResponse : GameEventMessageBase
     {
 
     }

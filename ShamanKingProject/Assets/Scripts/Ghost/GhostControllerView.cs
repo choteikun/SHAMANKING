@@ -1,13 +1,11 @@
+using BehaviorDesigner.Runtime;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Gamemanager;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using BehaviorDesigner.Runtime;
-using DG.Tweening;
 using UniRx;
-using Language.Lua;
-using Cysharp.Threading.Tasks;
+using UnityEditor.PackageManager;
+using UnityEngine;
 
 public enum GhostState
 {
@@ -41,7 +39,7 @@ public class GhostControllerView : MonoBehaviour
     Material chainMat_;
 
     void Awake()
-    {       
+    {
         ghostAnimator_ = new GhostAnimator(this.gameObject);
         ghostController_ = new GhostController(this.gameObject);
         ghostController_.Awake();
@@ -49,10 +47,9 @@ public class GhostControllerView : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, ghostReadyButtonTrigger);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish, ghostReactState);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, ghostReactState);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
-        GameManager.Instance.MainGameEvent.OnGhostAnimationEvents.Where(cmd => cmd.AnimationEventName == "GhostMat_Dissolve").Subscribe(ghostAnimationEventsToDo).AddTo(this);
-        GameManager.Instance.MainGameEvent.OnGhostAnimationEvents.Where(cmd => cmd.AnimationEventName == "GhostMat_Revert").Subscribe(ghostAnimationEventsToDo).AddTo(this);
+        GameManager.Instance.MainGameEvent.OnGhostAnimationEvents.Subscribe(ghostAnimationEventsToDo).AddTo(this);
 
         behaviorTree = GetComponent<BehaviorTree>();
         ghost_Stats_.rb = GetComponent<Rigidbody>();
@@ -99,7 +96,7 @@ public class GhostControllerView : MonoBehaviour
             //behaviorTree.SendEvent<object>("MOVEMENT SENDEVENT TEST", (object)transform.position);
             ghost_Stats_.Ghost_ReadyButton = true;
             switchExternalBehavior((int)GhostState.GHOST_MOVEMENT - 1);
-            ghost_Stats_.ghostCurrentState = GhostState.GHOST_MOVEMENT; 
+            ghost_Stats_.ghostCurrentState = GhostState.GHOST_MOVEMENT;
         }
         if (!command.AimingButtonIsPressed)
         {
@@ -114,10 +111,20 @@ public class GhostControllerView : MonoBehaviour
         switch (command.AnimationEventName)
         {
             case "GhostMat_Dissolve":
-                mat_Dissolve();
+                if (command.AnimationType == GhostAnimationType.DissolveWithRevert)
+                {
+                    mat_DissolveWithRevert();
+                }
+                else
+                {
+                    mat_Dissolve();
+                }
                 break;
             case "GhostMat_Revert":
-                mat_Revert();
+                if (command.AnimationType == GhostAnimationType.DissolveWithRevert)
+                {
+                    mat_Revert();
+                }
                 break;
 
             default:
@@ -133,25 +140,28 @@ public class GhostControllerView : MonoBehaviour
         {
             //想用switch case提高可讀性，不過就效能來說先這樣寫就好
 
-            if (other.CompareTag("Untagged")) 
+            if (other.CompareTag("Untagged"))
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { HitObjecctTag = HitObjecctTag.None });
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { HitObjecctTag = HitObjecctTag.None });
             }
-            if (other.CompareTag("Biteable")) 
+            if (other.CompareTag("Biteable"))
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Biteable });
+                var hitInfo = other.GetComponent<HitableItemTest>();
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Biteable, HitInfo = hitInfo });
             }
-            if (other.CompareTag("Possessable")) 
+            if (other.CompareTag("Possessable"))
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Possessable });
+                var hitInfo = other.GetComponent<HitableItemTest>();
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Possessable, HitInfo = hitInfo });
             }
-            if (other.CompareTag("Enemy")) 
+            if (other.CompareTag("Enemy"))
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Enemy });
+                var hitInfo = other.GetComponent<HitableItemTest>();
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Enemy, HitInfo = hitInfo });
             }
         }
     }
-    void ghostReactState(PlayerLaunchFinishCommand command)
+    void ghostReactState(PlayerLaunchActionFinishCommand command)
     {
         switch (command.HitObjecctTag)
         {
@@ -189,22 +199,34 @@ public class GhostControllerView : MonoBehaviour
 
         //Observable.Timer(TimeSpan.FromSeconds(1.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 0, 0.1f); }).AddTo(this);
 
-        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 1, 0, 0.5f);
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 1, 0, 0.5f, chainMat_);
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 1, 0, 0.5f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material);
 
-        Observable.Timer(TimeSpan.FromSeconds(0.4f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 0, 0.1f); }).AddTo(this);
+        Observable.Timer(TimeSpan.FromSeconds(0.4f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 0, 0.1f, chainMat_); }).AddTo(this);
+        Observable.Timer(TimeSpan.FromSeconds(0.4f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 0, 0.1f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material); }).AddTo(this);
     }
-    async void mat_Dissolve()
+    async void mat_DissolveWithRevert()
     {
         //溶解特效啟動1秒後結束
-        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f);
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, chainMat_);
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material);
         //0.1秒後才啟動邊緣光0.4秒後結束
-        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f); }).AddTo(this);
+        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, chainMat_); }).AddTo(this);
+        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material); }).AddTo(this);
         await UniTask.Delay(300);
-        GameManager.Instance.MainGameEvent.Send(new GhostDisolveFinishResponse());
+        GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
         ////1秒後回復原狀特效啟動1秒後結束
         //Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1); }).AddTo(this);
         ////1.9秒後邊緣光關閉0.1秒後結束
         //Observable.Timer(TimeSpan.FromSeconds(1.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 0, 0, 0.1f); }).AddTo(this);
+    }
+    async void mat_Dissolve()
+    {
+        //溶解特效啟動1秒後結束
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material);
+        //0.1秒後才啟動邊緣光0.4秒後結束
+        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material); }).AddTo(this);
+
     }
     /// <summary>
     /// 使用Dotween快速實現Shader過渡(Float)
@@ -213,20 +235,20 @@ public class GhostControllerView : MonoBehaviour
     /// <param name="curValue">當下Shader參數的Float值</param>
     /// <param name="endValue">過渡到最後的值</param>
     /// <param name="lerpTime">過渡時間</param>
-    void mat_ShaderValueFloatTo(string ShaderValueName, float curValue, float endValue, float lerpTime)
+    void mat_ShaderValueFloatTo(string ShaderValueName, float curValue, float endValue, float lerpTime, Material material)
     {
         DOTween.To(() => curValue, x => curValue = x, endValue, lerpTime)
             .OnUpdate(() =>
             {
                 // 在動畫更新時，可以使用 currentValue 來獲取當前的 float 值
                 //Debug.Log(ghost_Stats_.Ghost_SkinnedMeshRenderer.material.name + curValue);
-                ghost_Stats_.Ghost_SkinnedMeshRenderer.material.SetFloat(ShaderValueName, curValue);
-                chainMat_.SetFloat(ShaderValueName, curValue); //硬加的
+                //ghost_Stats_.Ghost_SkinnedMeshRenderer.material.SetFloat(ShaderValueName, curValue);
+                material.SetFloat(ShaderValueName, curValue); //硬加的
             })
             .OnComplete(() =>
             {
                 // 在動畫完成時執行任何需要的操作
-               // Debug.Log(ShaderValueName + "Complete!");
+                // Debug.Log(ShaderValueName + "Complete!");
             });
     }
     #endregion

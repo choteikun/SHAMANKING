@@ -19,7 +19,7 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<PlayerLaunchGhostButtonCommand> OnPlayerLaunchGhost => getSubject<PlayerLaunchGhostButtonCommand>();
 
-    public IObservable<PlayerLaunchFinishCommand> OnPlayerLaunchFinish => getSubject<PlayerLaunchFinishCommand>();
+    public IObservable<PlayerLaunchActionFinishCommand> OnPlayerLaunchActionFinish => getSubject<PlayerLaunchActionFinishCommand>();
 
     public IObservable<PlayerJumpButtonCommand> OnPlayerJump => getSubject<PlayerJumpButtonCommand>();
 
@@ -29,5 +29,5 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<PlayerAnimationEventsCommand> OnPlayerAnimationEvents => getSubject<PlayerAnimationEventsCommand>();
 
-    public IObservable<GhostDisolveFinishResponse> OnGhostDisolveFinish => getSubject<GhostDisolveFinishResponse>();
+    public IObservable<GhostLaunchProcessFinishResponse> OnGhostLaunchProcessFinish => getSubject<GhostLaunchProcessFinishResponse>();
 }

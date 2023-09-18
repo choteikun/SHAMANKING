@@ -32,8 +32,9 @@ public class GhostLauncherView : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
-        GameManager.Instance.MainGameEvent.OnPlayerLaunchFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
-        GameManager.Instance.MainGameEvent.OnGhostDisolveFinish.Subscribe(cmd => { ropeLength_ = 0; });
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
+        GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish.Subscribe(cmd => { ropeLength_ = 0; });
+        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => setRopeLengthByOtherObject(cmd.HitInfo.onHitPoint_.transform));
         basicLength_ = rope_.restLength;
         //Debug.Log(rope_.restLength + "CM");
     }
@@ -47,7 +48,7 @@ public class GhostLauncherView : MonoBehaviour
         ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, launchSpeed_).OnComplete(
             () =>
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = false });
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = false });
             }
             );
     }
@@ -61,5 +62,11 @@ public class GhostLauncherView : MonoBehaviour
     {
         aimTargetEvent_.Kill();
         ropeExtrudeEvent_.Kill();
+    }
+
+    void setRopeLengthByOtherObject(Transform target)
+    {
+        var length = (target.transform.position - aimingFollowPoint_.transform.position).magnitude;
+        ropeLength_ = length-basicLength_;
     }
 }
