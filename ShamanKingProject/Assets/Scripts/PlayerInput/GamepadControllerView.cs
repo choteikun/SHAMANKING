@@ -15,6 +15,7 @@ public class GamepadControllerView : MonoBehaviour
 
     [SerializeField] bool isAiming_;
     [SerializeField] bool isLaunching_;
+    [SerializeField] bool isPosscessing_ = false;
 
     [SerializeField] bool aimingDelay_ = true;
     Tweener aimingDelayer_;
@@ -25,6 +26,8 @@ public class GamepadControllerView : MonoBehaviour
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, finishLaunch);
+        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => { isLaunching_ = false; isPosscessing_ = true; } );
+        GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
     }
     void changeInpuMap(string map)
     {
@@ -83,7 +86,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerAim(InputValue value)
     {
-        if (value.isPressed == isAiming_ || (isLaunching_)) return;
+        if (value.isPressed == isAiming_ || (isLaunching_)|| isPosscessing_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
         isAiming_ = value.isPressed;
         Debug.Log("Aim" + isAiming_.ToString());
@@ -115,7 +118,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerLaunch()
     {
-        if (!isAiming_||aimingDelay_||isLaunching_) return;
+        if (!isAiming_||aimingDelay_||isLaunching_||isPosscessing_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerLaunchGhostButtonCommand() { });
         isLaunching_ = true;
         //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
