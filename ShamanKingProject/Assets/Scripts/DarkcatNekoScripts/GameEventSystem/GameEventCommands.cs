@@ -48,6 +48,10 @@ namespace Gamemanager
     {
 
     }
+    public class PlayerCancelPossessCommand:GameEventMessageBase
+    {
+
+    }
     public class PlayerLaunchActionFinishCommand: GameEventMessageBase
 
     {

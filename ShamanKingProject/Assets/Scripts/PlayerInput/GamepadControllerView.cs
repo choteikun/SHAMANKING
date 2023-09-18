@@ -25,7 +25,7 @@ public class GamepadControllerView : MonoBehaviour
         Debug.Log("start");
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, finishLaunch);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd=> { finishLaunch(); });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { isLaunching_ = false; isPosscessing_ = true; } );
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
     }
@@ -132,7 +132,13 @@ public class GamepadControllerView : MonoBehaviour
         Debug.Log("Attack!");
     }
 
-    void finishLaunch(GhostLaunchProcessFinishResponse cmd)
+    void OnPlayerPossessCancel()
+    {
+        if (!isPosscessing_) return;
+        GameManager.Instance.MainGameEvent.Send(new PlayerCancelPossessCommand());
+    }
+
+    void finishLaunch()
     {
         isLaunching_ = false;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });

@@ -27,6 +27,8 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<GhostAnimationEventsCommand> OnGhostAnimationEvents => getSubject<GhostAnimationEventsCommand>();
 
+    public IObservable<PlayerCancelPossessCommand> OnPlayerCancelPossess => getSubject<PlayerCancelPossessCommand>();
+
     public IObservable<PlayerAnimationEventsCommand> OnPlayerAnimationEvents => getSubject<PlayerAnimationEventsCommand>();
 
     public IObservable<GhostLaunchProcessFinishResponse> OnGhostLaunchProcessFinish => getSubject<GhostLaunchProcessFinishResponse>();
