@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UniRx;
 using UniRx.Triggers;
 using Gamemanager;
 using BehaviorDesigner.Runtime;
@@ -139,16 +140,22 @@ public class GhostAnimator
                 }
                 if (ghost_Stats_.Ghost_Biteable)
                 {
-                    animator_.SetTrigger(animID_GhostBite);
-                    //咬完後的處理
+                    animator_.SetBool(animID_GhostBite, true);
+                }
+                //else if(!ghost_Stats_.Ghost_Biteable && animator_.GetCurrentAnimatorStateInfo(0).IsName("Ghost_Bite") && !animator_.IsInTransition(0))
+                //{
+                //    ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+                //    Debug.Log("Bited success!!");
+                //}
+                else
+                {
                     ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
                     Debug.Log("Bited success!!");
                 }
-                
-                
-                
 
-                
+
+
+
 
                 break;
 

@@ -126,6 +126,9 @@ public class GhostControllerView : MonoBehaviour
                     mat_Revert();
                 }
                 break;
+            case "Ghost_Bite_End":
+                ghost_Stats_.Ghost_Biteable = false;
+                break;
 
             default:
                 break;
