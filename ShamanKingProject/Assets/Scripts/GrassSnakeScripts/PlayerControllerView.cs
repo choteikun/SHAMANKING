@@ -29,7 +29,7 @@ public class PlayerControllerView : MonoBehaviour
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelMoving);
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => aimingInterrupt());
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
@@ -54,11 +54,17 @@ public class PlayerControllerView : MonoBehaviour
         }
         else
         {
+            aimingInterrupt();
             playerControllerMover_.TransitionState("MainGame");
         }
     }
     #endregion
 
+    void aimingInterrupt()
+    {
+        player_Stats_.Aiming = false;
+        playerControllerMover_.TransitionState("MainGame");
+    }
     void launchCancelMoving(PlayerLaunchGhostButtonCommand cmd)
     {
         getPlayerDirection(new PlayerControllerMovementCommand {Direction = Vector3.zero });
@@ -76,20 +82,6 @@ public class PlayerControllerView : MonoBehaviour
                 player_Stats_.Player_AttackCommandAllow = false;
                 break;
 
-            default:
-                break;
-        }
-    }
-    #endregion
-    #region - 鬼魂動畫事件管理 -
-    void ghostAnimationEventsToDo(GhostAnimationEventsCommand command)
-    {
-        switch (command.AnimationEventName)
-        {
-            case "Player_AimingStop":
-                player_Stats_.Aiming = false;
-                //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
-                break;
             default:
                 break;
         }

@@ -57,7 +57,7 @@ public class GhostAnimationEvents : MonoBehaviour
     }
     public void Ghost_Bite_Start()
     {
-        GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "Player_AimingStop" });
+
     }
     public void Ghost_Bite_End()
     {
