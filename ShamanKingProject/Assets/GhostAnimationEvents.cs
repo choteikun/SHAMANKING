@@ -55,6 +55,10 @@ public class GhostAnimationEvents : MonoBehaviour
             GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Revert" ,AnimationType = animationType_});
         }
     }
+    public void Ghost_Bite_Start()
+    {
+        GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "Player_AimingStop" });
+    }
     public void Ghost_Bite_End()
     {
         GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "Ghost_Bite_End" });

@@ -28,8 +28,8 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, getPlayerAimingState);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelMoving);
 
-        GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents.Where(cmd => cmd.AnimationEventName == "Player_Attack_Allow").Subscribe(playertAnimationEventsToDo).AddTo(this);
-        GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents.Where(cmd => cmd.AnimationEventName == "Player_Attack_Prohibit").Subscribe(playertAnimationEventsToDo).AddTo(this);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
@@ -76,6 +76,19 @@ public class PlayerControllerView : MonoBehaviour
                 player_Stats_.Player_AttackCommandAllow = false;
                 break;
 
+            default:
+                break;
+        }
+    }
+    #endregion
+    #region - 鬼魂動畫事件管理 -
+    void ghostAnimationEventsToDo(GhostAnimationEventsCommand command)
+    {
+        switch (command.AnimationEventName)
+        {
+            case "Player_AimingStop":
+                player_Stats_.Aiming = false;
+                break;
             default:
                 break;
         }
