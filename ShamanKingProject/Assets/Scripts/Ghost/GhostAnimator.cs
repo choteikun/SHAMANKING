@@ -142,12 +142,8 @@ public class GhostAnimator
                 {
                     animator_.SetBool(animID_GhostBite, true);
                 }
-                //else if(!ghost_Stats_.Ghost_Biteable && animator_.GetCurrentAnimatorStateInfo(0).IsName("Ghost_Bite") && !animator_.IsInTransition(0))
-                //{
-                //    ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
-                //    Debug.Log("Bited success!!");
-                //}
-                else
+                //如果是在咬住的動畫狀態機下Ghost_Biteable為false則返回Idle動畫
+                else if (!ghost_Stats_.Ghost_Biteable && animator_.GetCurrentAnimatorStateInfo(0).IsName("Ghost_Bite") && !animator_.IsInTransition(0))
                 {
                     ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
                     Debug.Log("Bited success!!");
