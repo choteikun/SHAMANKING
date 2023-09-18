@@ -139,15 +139,15 @@ public class GhostControllerView : MonoBehaviour
             }
             if (other.CompareTag("Biteable")) 
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { HitObjecctTag = HitObjecctTag.Biteable });
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Biteable });
             }
             if (other.CompareTag("Possessable")) 
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { HitObjecctTag = HitObjecctTag.Possessable });
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Possessable });
             }
             if (other.CompareTag("Enemy")) 
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { HitObjecctTag = HitObjecctTag.Enemy });
+                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Enemy });
             }
         }
     }
