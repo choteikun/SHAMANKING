@@ -48,8 +48,7 @@ public class GhostControllerView : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, ghostReadyButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, ghostReactState);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
-        GameManager.Instance.MainGameEvent.OnGhostAnimationEvents.Subscribe(ghostAnimationEventsToDo).AddTo(this);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);       
 
         behaviorTree = GetComponent<BehaviorTree>();
         ghost_Stats_.rb = GetComponent<Rigidbody>();
@@ -128,6 +127,7 @@ public class GhostControllerView : MonoBehaviour
                 break;
             case "Ghost_Bite_End":
                 ghost_Stats_.Ghost_Biteable = false;
+                GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
                 break;
 
             default:
