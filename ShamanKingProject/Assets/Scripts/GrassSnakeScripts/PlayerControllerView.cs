@@ -88,6 +88,7 @@ public class PlayerControllerView : MonoBehaviour
         {
             case "Player_AimingStop":
                 player_Stats_.Aiming = false;
+                //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
                 break;
             default:
                 break;
