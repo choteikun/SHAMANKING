@@ -554,8 +554,8 @@ Shader "Trail"
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				
 				float2 uv_Erosion = IN.ase_texcoord8.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				float3 BaseColor = tex2DNode10.rgb;
@@ -1064,8 +1064,8 @@ Shader "Trail"
 				float2 texCoord38 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				float2 uv_Erosion = IN.ase_texcoord3.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				float Alpha = clampResult45;
@@ -1379,8 +1379,8 @@ Shader "Trail"
 				float2 texCoord38 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				float2 uv_Erosion = IN.ase_texcoord3.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				float Alpha = clampResult45;
@@ -1696,8 +1696,8 @@ Shader "Trail"
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				
 				float2 uv_Erosion = IN.ase_texcoord4.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				float3 BaseColor = tex2DNode10.rgb;
@@ -1991,8 +1991,8 @@ Shader "Trail"
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				
 				float2 uv_Erosion = IN.ase_texcoord2.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				float3 BaseColor = tex2DNode10.rgb;
@@ -2306,8 +2306,8 @@ Shader "Trail"
 				float2 texCoord38 = IN.ase_texcoord5.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				float2 uv_Erosion = IN.ase_texcoord5.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				float3 Normal = float3(0, 0, 1);
@@ -2726,8 +2726,8 @@ Shader "Trail"
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				
 				float2 uv_Erosion = IN.ase_texcoord8.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				float3 BaseColor = tex2DNode10.rgb;
@@ -3083,8 +3083,8 @@ Shader "Trail"
 				float2 texCoord38 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				float2 uv_Erosion = IN.ase_texcoord.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				surfaceDescription.Alpha = clampResult45;
@@ -3352,8 +3352,8 @@ Shader "Trail"
 				float2 texCoord38 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
 				float2 uv_Erosion = IN.ase_texcoord.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult44 = clamp( floor( ( tex2D( _Erosion, uv_Erosion ).r * 10.0 ) ) , 0.0 , 1.0 );
-				float clampResult45 = clamp( ( tex2DNode10.r - ( clampResult44 * texCoord38.x ) ) , 0.0 , 1.0 );
+				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				surfaceDescription.Alpha = clampResult45;
@@ -3413,8 +3413,6 @@ Node;AmplifyShaderEditor.OneMinusNode;39;-1490.273,1396.909;Inherit;False;1;0;FL
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;43;121.8611,880.9081;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;33;-2269.146,930.9885;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.PannerNode;32;-2005.858,685.4474;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.ClampOpNode;45;358.458,969.0701;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;-102.0439,1059.583;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;40;-992.9659,1403.14;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;38;-1823.512,1251.535;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;30;-1690.763,927.4849;Inherit;False;Property;_NoisePower;NoisePower;7;0;Create;True;0;0;0;False;0;False;0.5;0;0;1;0;1;FLOAT;0
@@ -3425,9 +3423,9 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;28;-749.9138,558.3038;Inherit;False;2;2
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;37;-873.4935,869.9448;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;51;-1306.81,1105.796;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;12;-711.2074,1712.593;Inherit;True;Property;_Erosion;Erosion;2;0;Create;True;0;0;0;False;0;False;-1;69eeab36b534786489fab6a670d6ac8c;69eeab36b534786489fab6a670d6ac8c;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;49;-392.1056,1566.206;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;10;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FloorOpNode;48;-232.2634,1497.489;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ClampOpNode;44;-66.14948,1322.712;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;-496.0563,1074.483;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;53;-209.6663,1413.846;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;45;361.769,869.7391;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 WireConnection;29;0;11;1
 WireConnection;29;1;30;0
 WireConnection;11;1;32;0
@@ -3441,14 +3439,11 @@ WireConnection;14;6;45;0
 WireConnection;36;0;39;0
 WireConnection;39;0;38;1
 WireConnection;43;0;10;1
-WireConnection;43;1;47;0
+WireConnection;43;1;53;0
 WireConnection;33;0;35;0
 WireConnection;33;1;34;0
 WireConnection;32;0;31;0
 WireConnection;32;2;33;0
-WireConnection;45;0;43;0
-WireConnection;47;0;44;0
-WireConnection;47;1;38;1
 WireConnection;40;0;36;0
 WireConnection;10;1;28;0
 WireConnection;28;0;25;0
@@ -3456,8 +3451,8 @@ WireConnection;28;1;37;0
 WireConnection;37;0;29;0
 WireConnection;37;1;51;0
 WireConnection;51;0;38;1
-WireConnection;49;0;12;1
-WireConnection;48;0;49;0
-WireConnection;44;0;48;0
+WireConnection;47;1;38;1
+WireConnection;53;0;12;1
+WireConnection;45;0;43;0
 ASEEND*/
-//CHKSM=7921095C5A352261687653B2FECD4FD300F9902D
+//CHKSM=D56B8D4FB6CBF9151A582E19EBF951BBC046FEF2
