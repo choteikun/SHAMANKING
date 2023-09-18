@@ -57,6 +57,7 @@ public class GhostAnimator
     public void Start(Ghost_Stats ghost_Stats)
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, ghostShootButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cancelGhostPossessable);
 
         ghost_Stats_ = ghost_Stats;
         animator_ = ghostControllerObj_.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -79,7 +80,12 @@ public class GhostAnimator
             }
         }
     }
-    
+    void cancelGhostPossessable(PlayerCancelPossessCommand command)
+    {
+        ghost_Stats_.Ghost_Possessable = false;
+    }
+
+
     void ResetAllAnimations()
     {
         ghost_beingCaught_ = false; ghost_Stats_.Ghost_ShootOut_ = false; ghost_possess_ = false;
@@ -135,6 +141,7 @@ public class GhostAnimator
                 if (ghost_Stats_.Ghost_Possessable)
                 {
                     //dissolve，拿取目標資料，transform接在目標上
+
                     ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
                     Debug.Log("Possessed success!!");
                 }
