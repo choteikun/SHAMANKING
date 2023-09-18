@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Gamemanager;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -15,6 +16,7 @@ public class PlayerIkControllerView : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, aimButtonTrigger);
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => activateAimRig(0));
     }
     void aimButtonTrigger(PlayerAimingButtonCommand command)
     {

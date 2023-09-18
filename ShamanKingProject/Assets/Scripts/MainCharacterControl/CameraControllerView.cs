@@ -1,4 +1,5 @@
 using Gamemanager;
+using UniRx;
 using UnityEngine;
 
 public class CameraControllerView : MonoBehaviour
@@ -59,6 +60,7 @@ public class CameraControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCameraRotate, changeRotateValue);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, changeCamera);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelCameraRotate);
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd =>backToMainGame());
     }
 
     void changeRotateValue(PlayerControllerCameraRotateCommand command)
@@ -130,14 +132,19 @@ public class CameraControllerView : MonoBehaviour
         }
         else
         {
-            movementVirtualCamera_.SetActive(true);
-            aimVirtualCamera_.SetActive(false);
-            stateMachine_.TransitionState("MainGame");
+            backToMainGame();
         }
     }
 
     void launchCancelCameraRotate(PlayerLaunchGhostButtonCommand cmd)
     {
         nowRotateGamepadValue_ = Vector3.zero;
+    }
+
+    void backToMainGame()
+    {
+        movementVirtualCamera_.SetActive(true);
+        aimVirtualCamera_.SetActive(false);
+        stateMachine_.TransitionState("MainGame");
     }
 }

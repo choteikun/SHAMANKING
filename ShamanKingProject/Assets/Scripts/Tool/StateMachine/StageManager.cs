@@ -9,7 +9,7 @@ public class StageManager
     /// <summary>
     /// switch State
     /// </summary>
-    public void TransitionState(string stateName, StageData stageData)
+    public virtual void TransitionState(string stateName, StageData stageData)
     {
         if (CurrentState != null)
         {
@@ -21,7 +21,7 @@ public class StageManager
 
         CurrentState.OnEnter();
     }
-    public void TransitionState(string stateName)
+    public virtual void TransitionState(string stateName)
     {
         var stagedata = new StageData();
         if (CurrentState != null)
