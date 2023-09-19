@@ -28,7 +28,6 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, getPlayerAimingState);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelMoving);
 
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => aimingInterrupt());
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
@@ -69,25 +68,6 @@ public class PlayerControllerView : MonoBehaviour
     {
         getPlayerDirection(new PlayerControllerMovementCommand {Direction = Vector3.zero });
     }
-
-    #region - Player動畫事件管理 -
-    void playertAnimationEventsToDo(PlayerAnimationEventsCommand command)
-    {
-        switch (command.AnimationEventName)
-        {
-            case "Player_Attack_Allow":
-                player_Stats_.Player_AttackCommandAllow = true;
-                break;
-            case "Player_Attack_Prohibit":
-                player_Stats_.Player_AttackCommandAllow = false;
-                break;
-
-            default:
-                break;
-        }
-    }
-    #endregion
-
     void Update()
     {
         playerAnimatorView_.Update();

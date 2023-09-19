@@ -65,6 +65,7 @@ public class GhostAnimator
 
         ResetAllAnimations();
     }
+
     void ghostShootButtonTrigger(PlayerLaunchGhostButtonCommand command)
     {
         //如果在鬼魂行為模式中且不是擊發的狀態下

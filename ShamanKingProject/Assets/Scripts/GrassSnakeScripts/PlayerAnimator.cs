@@ -9,12 +9,6 @@ using UniRx.Triggers;
 using UnityEngine.Windows;
 using UnityEditor;
 
-public enum PlayerAnimState
-{
-    Attack,
-    BeAttack,
-    Dead
-}
 [Serializable]
 public class PlayerAnimator 
 {
@@ -44,6 +38,13 @@ public class PlayerAnimator
     #endregion
 
     //當前狀態
+    public enum PlayerAnimState
+    {
+        Locomotion,
+        Attack,
+        BeAttack,
+        Dead
+    }
     private PlayerAnimState playerAnimState_;
 
     private Animator animator_;
@@ -82,12 +83,14 @@ public class PlayerAnimator
     }
     public void Start(Player_Stats player_Stats)
     {
-       
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
 
         player_Stats_ = player_Stats;
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
         animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
         animOSM_Trigger_ = animator_.GetBehaviour<ObservableStateMachineTrigger>();
+
+        playerAnimState_ = PlayerAnimState.Locomotion;
 
         //範例
         //IObservable<ObservableStateMachineTrigger.OnStateInfo> idleStart = animOSM_Trigger_.OnStateEnterAsObservable().Where(x => x.StateInfo.IsName("Idle"));
@@ -107,27 +110,41 @@ public class PlayerAnimator
         #region - 簡易動畫狀態管理 
         switch (playerAnimState_)
         {
-            case PlayerAnimState.Attack:
+            case PlayerAnimState.Locomotion:
+                if (UnityEngine.Input.GetMouseButtonDown(0))
+                {
+                    playerAnimState_ = PlayerAnimState.Attack;
+                    animator_.SetTrigger(animID_AttackCombo1);
+                }
+                break;
 
+            case PlayerAnimState.Attack:
                 //處在動畫過渡條時重置指令為不允許攻擊
                 if (animator_.IsInTransition(0))
                 {
                     player_Stats_.Player_AttackCommandAllow = false;
                 }
                 //當指令為不允許攻擊
-                if (player_Stats_.Player_AttackCommandAllow)
+                if (!player_Stats_.Player_AttackCommandAllow)
                 {
                     //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
                     animator_.SetBool(animID_Attack_CanBeInterrupted, false);
+                    animator_.ResetTrigger(animID_AttackCombo1);
+                    animator_.ResetTrigger(animID_AttackCombo2);
+                    animator_.ResetTrigger(animID_AttackCombo3);
                 }
                 //animation events 發送指令為允許攻擊
                 else
                 {
                     //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
                     animator_.SetBool(animID_Attack_CanBeInterrupted, true);
-                    if (UnityEngine.Input.GetMouseButtonDown(0))
+                    if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo1") && UnityEngine.Input.GetMouseButtonDown(0))
                     {
-                        //攻擊動畫
+                        animator_.SetTrigger(animID_AttackCombo2);
+                    }
+                    else if(animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo2") && UnityEngine.Input.GetMouseButtonDown(0))
+                    {
+                        animator_.SetTrigger(animID_AttackCombo3);
                     }
                 }
                 
@@ -140,11 +157,33 @@ public class PlayerAnimator
         #endregion
        
     }
+    #region - Player動畫事件管理 -
+    void playertAnimationEventsToDo(PlayerAnimationEventsCommand command)
+    {
+        switch (command.AnimationEventName)
+        {
+            case "Player_Attack_Allow":
+                player_Stats_.Player_AttackCommandAllow = true;
+                break;
+            case "Player_Attack_Prohibit":
+                player_Stats_.Player_AttackCommandAllow = false;
+                break;
+            case "Player_Attack_End":
+                playerAnimState_ = PlayerAnimState.Locomotion;
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
+    void playerAttackButtonTrigger()
+    {
 
+    }
     #region - 待機動畫處理 -
     void timeoutToIdle()
     {
-        bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming;
+        bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming || playerAnimState_== PlayerAnimState.Attack;
         //如果沒有偵測到任何輸入產生的行為
         if (!inputDetected)
         {
