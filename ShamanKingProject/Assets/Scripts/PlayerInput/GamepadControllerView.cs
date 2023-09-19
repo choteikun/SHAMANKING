@@ -1,11 +1,9 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Gamemanager;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using DG.Tweening;
-using UnityEngine.UIElements;
-using Language.Lua;
 
 public class GamepadControllerView : MonoBehaviour
 {
@@ -16,17 +14,18 @@ public class GamepadControllerView : MonoBehaviour
     [SerializeField] bool isAiming_;
     [SerializeField] bool isLaunching_;
     [SerializeField] bool isPosscessing_ = false;
+    [SerializeField] bool isBiting_ = false;
 
     [SerializeField] bool aimingDelay_ = true;
     Tweener aimingDelayer_;
-    
+
     private async void Start()
     {
         Debug.Log("start");
         await UniTask.Delay(500);
         input_.SwitchCurrentActionMap("MainGameplay");
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd=> { finishLaunch(); });
-        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { isLaunching_ = false; isPosscessing_ = true; } );
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
+        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { playerHitObject(cmd); });
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
     }
     void changeInpuMap(string map)
@@ -86,7 +85,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerAim(InputValue value)
     {
-        if (value.isPressed == isAiming_ || (isLaunching_)|| isPosscessing_) return;
+        if (value.isPressed == isAiming_ || (isLaunching_) || isPosscessing_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
         isAiming_ = value.isPressed;
         Debug.Log("Aim" + isAiming_.ToString());
@@ -105,7 +104,7 @@ public class GamepadControllerView : MonoBehaviour
             aimingDelayer_.Kill();
             aimingDelay_ = true;
         }
-      
+
     }
 
     void OnPlayerJump()
@@ -118,7 +117,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerLaunch()
     {
-        if (!isAiming_||aimingDelay_||isLaunching_||isPosscessing_) return;
+        if (!isAiming_ || aimingDelay_ || isLaunching_ || isPosscessing_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerLaunchGhostButtonCommand() { });
         isLaunching_ = true;
         //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
@@ -134,7 +133,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerPossessCancel()
     {
-        if (!isPosscessing_) return;
+        if (!isPosscessing_ || isBiting_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerCancelPossessCommand());
     }
 
@@ -146,5 +145,16 @@ public class GamepadControllerView : MonoBehaviour
         aimingDelayer_.Kill();
         aimingDelay_ = true;
         isPosscessing_ = false;
+        isBiting_ = false;
+    }
+    void playerHitObject(PlayerLaunchActionFinishCommand command)
+    {
+        isLaunching_ = false;
+        isPosscessing_ = true;
+        if (command.HitObjecctTag == HitObjecctTag.Biteable)
+        {
+            isBiting_ = true;
+        }
     }
 }
+

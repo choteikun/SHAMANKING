@@ -42,10 +42,15 @@ public class GhostLauncherView : MonoBehaviour
     {
         ghostLaunchFollowTarget_.transform.position = aimingFollowPoint_.transform.position;
         ghostLaunchFollowTarget_.transform.rotation = aimingFollowPoint_.transform.rotation;
+
         await UniTask.DelayFrame(10);//為了讓甩槍不會這麼飄
-        aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, launchSpeed_);
+
         var length = (aimingTarget_.transform.position - ghostLaunchFollowTarget_.transform.position).magnitude;
-        ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, launchSpeed_).OnComplete(
+
+        var launchTime = getLaunchTimeByDistance(length);
+
+        aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, launchTime);
+        ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, launchTime).OnComplete(
             () =>
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = false });
@@ -68,5 +73,11 @@ public class GhostLauncherView : MonoBehaviour
     {
         var length = (target.transform.position - aimingFollowPoint_.transform.position).magnitude;
         ropeLength_ = length-basicLength_;
+    }
+    float getLaunchTimeByDistance(float distance)
+    {
+        var percentage = distance / 20f;
+        var result = percentage* launchSpeed_;
+        return result+0.2f;
     }
 }
