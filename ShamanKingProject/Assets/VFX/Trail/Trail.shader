@@ -7,14 +7,18 @@ Shader "Trail"
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[ASEBegin]_TextureSample0("Texture Sample 0", 2D) = "white" {}
+		_X("X", Range( -1 , 2)) = 1
+		_Y("Y", Range( -1 , 2)) = 0
 		_noise("noise", 2D) = "white" {}
 		_Erosion("Erosion", 2D) = "white" {}
-		_Y("Y", Range( 0 , 2)) = 0
-		_NoiseSpeedY("NoiseSpeedY", Range( 0 , 2)) = 0
-		_X("X", Range( 0 , 2)) = 1
 		_NoiseSpeedX("NoiseSpeedX", Range( 0 , 2)) = 2
-		[ASEEnd]_NoisePower("NoisePower", Range( 0 , 1)) = 0.5
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+		_NoiseSpeedY("NoiseSpeedY", Range( 0 , 2)) = 0
+		_ErosionSpeedX("ErosionSpeedX", Range( -1 , 1)) = -1
+		_ErosionSpeedY("ErosionSpeedY", Range( -1 , 1)) = 0
+		_NoisePower("NoisePower", Range( 0 , 1)) = 0.5
+		_ErosionPower("ErosionPower", Range( -1 , 1)) = -1
+		_Glow("Glow", Float) = 1
+		[ASEEnd]_Ball_power("Ball_power", Float) = 1
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -241,7 +245,8 @@ Shader "Trail"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			
+			#define ASE_NEEDS_FRAG_COLOR
+
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
@@ -259,7 +264,7 @@ Shader "Trail"
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -278,6 +283,7 @@ Shader "Trail"
 				#if defined(DYNAMICLIGHTMAP_ON)
 					float2 dynamicLightmapUV : TEXCOORD7;
 				#endif
+				float4 ase_color : COLOR;
 				float4 ase_texcoord8 : TEXCOORD8;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -285,12 +291,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -343,6 +353,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -421,7 +432,8 @@ Shader "Trail"
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -442,7 +454,7 @@ Shader "Trail"
 				o.texcoord = v.texcoord;
 				o.texcoord1 = v.texcoord1;
 				o.texcoord2 = v.texcoord2;
-				
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -485,7 +497,7 @@ Shader "Trail"
 				o.texcoord = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
 				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
 				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -552,20 +564,22 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
+				float4 temp_output_66_0 = ( IN.ase_color * tex2DNode10 );
 				
-				float2 uv_Erosion = IN.ase_texcoord8.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float3 BaseColor = tex2DNode10.rgb;
+				float3 BaseColor = temp_output_66_0.rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = tex2DNode10.rgb;
+				float3 Emission = ( temp_output_66_0 * _Glow ).rgb;
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
 				float Occlusion = 1;
-				float Alpha = clampResult45;
+				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -814,6 +828,7 @@ Shader "Trail"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -828,6 +843,7 @@ Shader "Trail"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 					float4 shadowCoord : TEXCOORD2;
 				#endif				
+				float4 ase_color : COLOR;
 				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -835,12 +851,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -896,6 +916,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord3.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -955,6 +976,7 @@ Shader "Trail"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -973,6 +995,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -1012,6 +1035,7 @@ Shader "Trail"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1063,12 +1087,13 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
-				float2 uv_Erosion = IN.ase_texcoord3.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float Alpha = clampResult45;
+				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -1147,6 +1172,7 @@ Shader "Trail"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1161,6 +1187,7 @@ Shader "Trail"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 				float4 shadowCoord : TEXCOORD2;
 				#endif
+				float4 ase_color : COLOR;
 				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -1168,12 +1195,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1226,6 +1257,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord3.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1270,6 +1302,7 @@ Shader "Trail"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -1288,6 +1321,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -1327,6 +1361,7 @@ Shader "Trail"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1378,12 +1413,13 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
-				float2 uv_Erosion = IN.ase_texcoord3.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float Alpha = clampResult45;
+				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
 					float DepthValue = IN.clipPos.z;
@@ -1441,7 +1477,8 @@ Shader "Trail"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			
+			#define ASE_NEEDS_FRAG_COLOR
+
 
 			struct VertexInput
 			{
@@ -1450,7 +1487,7 @@ Shader "Trail"
 				float4 texcoord0 : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1467,6 +1504,7 @@ Shader "Trail"
 					float4 VizUV : TEXCOORD2;
 					float4 LightCoord : TEXCOORD3;
 				#endif
+				float4 ase_color : COLOR;
 				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -1474,12 +1512,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1532,6 +1574,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord4.xy = v.texcoord0.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1587,7 +1630,8 @@ Shader "Trail"
 				float4 texcoord0 : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1607,7 +1651,7 @@ Shader "Trail"
 				o.texcoord0 = v.texcoord0;
 				o.texcoord1 = v.texcoord1;
 				o.texcoord2 = v.texcoord2;
-				
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -1649,7 +1693,7 @@ Shader "Trail"
 				o.texcoord0 = patch[0].texcoord0 * bary.x + patch[1].texcoord0 * bary.y + patch[2].texcoord0 * bary.z;
 				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
 				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1694,15 +1738,17 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
+				float4 temp_output_66_0 = ( IN.ase_color * tex2DNode10 );
 				
-				float2 uv_Erosion = IN.ase_texcoord4.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float3 BaseColor = tex2DNode10.rgb;
-				float3 Emission = tex2DNode10.rgb;
-				float Alpha = clampResult45;
+				float3 BaseColor = temp_output_66_0.rgb;
+				float3 Emission = ( temp_output_66_0 * _Glow ).rgb;
+				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -1758,12 +1804,14 @@ Shader "Trail"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			
+			#define ASE_NEEDS_FRAG_COLOR
+
 
 			struct VertexInput
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1777,6 +1825,7 @@ Shader "Trail"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 					float4 shadowCoord : TEXCOORD1;
 				#endif
+				float4 ase_color : COLOR;
 				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -1784,12 +1833,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1842,6 +1895,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1887,6 +1941,7 @@ Shader "Trail"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -1905,6 +1960,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -1944,6 +2000,7 @@ Shader "Trail"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -1989,14 +2046,16 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
+				float4 temp_output_66_0 = ( IN.ase_color * tex2DNode10 );
 				
-				float2 uv_Erosion = IN.ase_texcoord2.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float3 BaseColor = tex2DNode10.rgb;
-				float Alpha = clampResult45;
+				float3 BaseColor = temp_output_66_0.rgb;
+				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
 
 				half4 color = half4(BaseColor, Alpha );
@@ -2062,6 +2121,7 @@ Shader "Trail"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_tangent : TANGENT;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2078,6 +2138,7 @@ Shader "Trail"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 					float4 shadowCoord : TEXCOORD4;
 				#endif
+				float4 ase_color : COLOR;
 				float4 ase_texcoord5 : TEXCOORD5;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -2085,12 +2146,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2143,6 +2208,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord5.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2192,6 +2258,7 @@ Shader "Trail"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_tangent : TANGENT;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -2211,6 +2278,7 @@ Shader "Trail"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_tangent = v.ase_tangent;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -2251,6 +2319,7 @@ Shader "Trail"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -2305,13 +2374,14 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord5.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
-				float2 uv_Erosion = IN.ase_texcoord5.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
 				float3 Normal = float3(0, 0, 1);
-				float Alpha = clampResult45;
+				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
 					float DepthValue = IN.clipPos.z;
@@ -2420,7 +2490,8 @@ Shader "Trail"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			
+			#define ASE_NEEDS_FRAG_COLOR
+
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
@@ -2438,7 +2509,7 @@ Shader "Trail"
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2457,6 +2528,7 @@ Shader "Trail"
 				#if defined(DYNAMICLIGHTMAP_ON)
 				float2 dynamicLightmapUV : TEXCOORD7;
 				#endif
+				float4 ase_color : COLOR;
 				float4 ase_texcoord8 : TEXCOORD8;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -2464,12 +2536,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2519,6 +2595,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2591,7 +2668,8 @@ Shader "Trail"
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2612,7 +2690,7 @@ Shader "Trail"
 				o.texcoord = v.texcoord;
 				o.texcoord1 = v.texcoord1;
 				o.texcoord2 = v.texcoord2;
-				
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -2655,7 +2733,7 @@ Shader "Trail"
 				o.texcoord = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
 				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
 				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2724,20 +2802,22 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
+				float4 temp_output_66_0 = ( IN.ase_color * tex2DNode10 );
 				
-				float2 uv_Erosion = IN.ase_texcoord8.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float3 BaseColor = tex2DNode10.rgb;
+				float3 BaseColor = temp_output_66_0.rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = tex2DNode10.rgb;
+				float3 Emission = ( temp_output_66_0 * _Glow ).rgb;
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
 				float Occlusion = 1;
-				float Alpha = clampResult45;
+				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -2882,6 +2962,7 @@ Shader "Trail"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2889,6 +2970,7 @@ Shader "Trail"
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -2896,12 +2978,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2962,6 +3048,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2995,6 +3082,7 @@ Shader "Trail"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -3013,6 +3101,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -3052,6 +3141,7 @@ Shader "Trail"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -3082,12 +3172,13 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
-				float2 uv_Erosion = IN.ase_texcoord.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				surfaceDescription.Alpha = clampResult45;
+				surfaceDescription.Alpha = ( IN.ase_color.a * clampResult45 );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -3152,6 +3243,7 @@ Shader "Trail"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -3159,6 +3251,7 @@ Shader "Trail"
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -3166,12 +3259,16 @@ Shader "Trail"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _noise_ST;
-			float4 _Erosion_ST;
 			float _X;
 			float _Y;
 			float _NoiseSpeedX;
 			float _NoiseSpeedY;
 			float _NoisePower;
+			float _Glow;
+			float _ErosionSpeedX;
+			float _ErosionSpeedY;
+			float _ErosionPower;
+			float _Ball_power;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3232,6 +3329,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3264,6 +3362,7 @@ Shader "Trail"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -3282,6 +3381,7 @@ Shader "Trail"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
@@ -3321,6 +3421,7 @@ Shader "Trail"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -3351,12 +3452,13 @@ Shader "Trail"
 				float2 panner32 = ( 1.0 * _Time.y * appendResult33 + uv_noise);
 				float2 texCoord38 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float4 tex2DNode10 = tex2D( _TextureSample0, ( panner25 + ( ( tex2D( _noise, panner32 ).r * _NoisePower ) * ( texCoord38.x * 1.0 ) ) ) );
-				float2 uv_Erosion = IN.ase_texcoord.xy * _Erosion_ST.xy + _Erosion_ST.zw;
-				float clampResult53 = clamp( tex2D( _Erosion, uv_Erosion ).r , 0.0 , 1.0 );
+				float2 appendResult61 = (float2(_ErosionSpeedX , _ErosionSpeedY));
+				float2 panner62 = ( 1.0 * _Time.y * appendResult61 + uv_noise);
+				float clampResult53 = clamp( floor( ( ( ( tex2D( _Erosion, panner62 ).r - _ErosionPower ) * texCoord38.x ) * _Ball_power ) ) , 0.0 , 1.0 );
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				surfaceDescription.Alpha = clampResult45;
+				surfaceDescription.Alpha = ( IN.ase_color.a * clampResult45 );
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -3400,59 +3502,91 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;20;0,0;Float;False;False;-1
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;21;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;22;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;29;-1159.016,762.2502;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;11;-1581.221,684.3187;Inherit;True;Property;_noise;noise;1;0;Create;True;0;0;0;False;0;False;-1;226bb47866c18534a8021a41be357b00;d3fd285f7dfe6874b82e3bceaab2dd3a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.PannerNode;25;-1221.016,310.2502;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;23;-1327.171,463.026;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;31;-2326.235,527.1951;Inherit;False;0;11;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TextureCoordinatesNode;24;-1588.805,162.0504;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;35;-2629.235,810.1951;Inherit;False;Property;_NoiseSpeedX;NoiseSpeedX;6;0;Create;True;0;0;0;False;0;False;2;0;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;34;-2617.235,905.1951;Inherit;False;Property;_NoiseSpeedY;NoiseSpeedY;4;0;Create;True;0;0;0;False;0;False;0;0;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;14;557.2387,565.2565;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Trail;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;20;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;41;Workflow;1;0;Surface;1;638306181164001610;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.ClampOpNode;36;-1261.797,1388.619;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;39;-1490.273,1396.909;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;43;121.8611,880.9081;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;33;-2269.146,930.9885;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.PannerNode;32;-2005.858,685.4474;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;40;-992.9659,1403.14;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;38;-1823.512,1251.535;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;30;-1690.763,927.4849;Inherit;False;Property;_NoisePower;NoisePower;7;0;Create;True;0;0;0;False;0;False;0.5;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;26;-1882.889,271.9653;Inherit;False;Property;_X;X;5;0;Create;True;0;0;0;False;0;False;1;0;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;27;-1841.385,513.5599;Inherit;False;Property;_Y;Y;3;0;Create;True;0;0;0;False;0;False;0;0;0;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;30;-1690.763,927.4849;Inherit;False;Property;_NoisePower;NoisePower;9;0;Create;True;0;0;0;False;0;False;0.5;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;26;-1882.889,271.9653;Inherit;False;Property;_X;X;1;0;Create;True;0;0;0;False;0;False;1;0;-1;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;27;-1841.385,513.5599;Inherit;False;Property;_Y;Y;2;0;Create;True;0;0;0;False;0;False;0;0;-1;2;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;10;-551.476,521.0955;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;918f84b83d4cb6343931294dd2297c89;918f84b83d4cb6343931294dd2297c89;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;28;-749.9138,558.3038;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;37;-873.4935,869.9448;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;51;-1306.81,1105.796;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;12;-711.2074,1712.593;Inherit;True;Property;_Erosion;Erosion;2;0;Create;True;0;0;0;False;0;False;-1;69eeab36b534786489fab6a670d6ac8c;69eeab36b534786489fab6a670d6ac8c;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;-496.0563,1074.483;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ClampOpNode;53;-209.6663,1413.846;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode;45;361.769,869.7391;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;57;-1026.341,2012.328;Inherit;False;Property;_ErosionPower;ErosionPower;10;0;Create;True;0;0;0;False;0;False;-1;0;-1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;31;-2326.235,527.1951;Inherit;False;0;11;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;35;-2629.235,810.1951;Inherit;False;Property;_NoiseSpeedX;NoiseSpeedX;5;0;Create;True;0;0;0;False;0;False;2;0;0;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;34;-2617.235,905.1951;Inherit;False;Property;_NoiseSpeedY;NoiseSpeedY;6;0;Create;True;0;0;0;False;0;False;0;0;0;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;33;-2269.146,930.9885;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.PannerNode;32;-2005.858,685.4474;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;58;-2036.407,1599.083;Inherit;False;0;11;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;59;-2339.407,1882.084;Inherit;False;Property;_ErosionSpeedX;ErosionSpeedX;7;0;Create;True;0;0;0;False;0;False;-1;0;-1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;61;-1979.318,2002.877;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.PannerNode;62;-1716.029,1757.336;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;60;-2327.407,1977.084;Inherit;False;Property;_ErosionSpeedY;ErosionSpeedY;8;0;Create;True;0;0;0;False;0;False;0;0;-1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;56;-725.2932,1898.911;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;54;-652.9125,1575.956;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;10;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;11;-1581.221,684.3187;Inherit;True;Property;_noise;noise;3;0;Create;True;0;0;0;False;0;False;-1;226bb47866c18534a8021a41be357b00;d3fd285f7dfe6874b82e3bceaab2dd3a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;12;-1089.207,1735.593;Inherit;True;Property;_Erosion;Erosion;4;0;Create;True;0;0;0;False;0;False;-1;8422db16cb8291b47905809b02ee18d2;69eeab36b534786489fab6a670d6ac8c;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;40;-967.2075,1264.981;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;53;-74.65481,1153.155;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;66;-26.22705,315.227;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.VertexColorNode;65;-279.8167,68.7951;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;68;95.33534,562.1027;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;69;-51.56477,667.4025;Inherit;False;Property;_Glow;Glow;11;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;43;112.7611,867.9081;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;14;788.6387,552.2566;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Trail;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;20;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;41;Workflow;1;0;Surface;1;638306181164001610;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;70;547.7355,807.8027;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;63;-451.9749,1527.969;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;10;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FloorOpNode;55;-209.849,1616.524;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;71;-499.2528,1785.899;Inherit;False;Property;_Ball_power;Ball_power;12;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;36;-1261.797,1388.619;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;-1.99;False;2;FLOAT;6.7;False;1;FLOAT;0
 WireConnection;29;0;11;1
 WireConnection;29;1;30;0
-WireConnection;11;1;32;0
 WireConnection;25;0;24;0
 WireConnection;25;2;23;0
 WireConnection;23;0;26;0
 WireConnection;23;1;27;0
-WireConnection;14;0;10;0
-WireConnection;14;2;10;0
-WireConnection;14;6;45;0
-WireConnection;36;0;39;0
 WireConnection;39;0;38;1
-WireConnection;43;0;10;1
-WireConnection;43;1;53;0
-WireConnection;33;0;35;0
-WireConnection;33;1;34;0
-WireConnection;32;0;31;0
-WireConnection;32;2;33;0
-WireConnection;40;0;36;0
 WireConnection;10;1;28;0
 WireConnection;28;0;25;0
 WireConnection;28;1;37;0
 WireConnection;37;0;29;0
 WireConnection;37;1;51;0
 WireConnection;51;0;38;1
-WireConnection;47;1;38;1
-WireConnection;53;0;12;1
 WireConnection;45;0;43;0
+WireConnection;33;0;35;0
+WireConnection;33;1;34;0
+WireConnection;32;0;31;0
+WireConnection;32;2;33;0
+WireConnection;61;0;59;0
+WireConnection;61;1;60;0
+WireConnection;62;0;58;0
+WireConnection;62;2;61;0
+WireConnection;56;0;12;1
+WireConnection;56;1;57;0
+WireConnection;54;0;56;0
+WireConnection;54;1;38;1
+WireConnection;11;1;32;0
+WireConnection;12;1;62;0
+WireConnection;40;0;36;0
+WireConnection;53;0;55;0
+WireConnection;66;0;65;0
+WireConnection;66;1;10;0
+WireConnection;68;0;66;0
+WireConnection;68;1;69;0
+WireConnection;43;0;10;1
+WireConnection;43;1;53;0
+WireConnection;14;0;66;0
+WireConnection;14;2;68;0
+WireConnection;14;6;70;0
+WireConnection;70;0;65;4
+WireConnection;70;1;45;0
+WireConnection;63;0;54;0
+WireConnection;63;1;71;0
+WireConnection;55;0;63;0
+WireConnection;36;0;39;0
 ASEEND*/
-//CHKSM=D56B8D4FB6CBF9151A582E19EBF951BBC046FEF2
+//CHKSM=07ED7625EA839AD7D5771F3E478B6616A1B17EBF
