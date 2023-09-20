@@ -46,7 +46,8 @@ public class PlayerAnimator
         BeAttack,
         Dead
     }
-    private PlayerAnimState playerAnimState_;
+    
+    public PlayerAnimState playerAnimState_;
 
     private Animator animator_;
 
@@ -87,6 +88,7 @@ public class PlayerAnimator
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerAimRecoil);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, playerLightAttack);
 
         player_Stats_ = player_Stats;
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
@@ -113,25 +115,16 @@ public class PlayerAnimator
         switch (playerAnimState_)
         {
             case PlayerAnimState.Locomotion:
-                if (UnityEngine.Input.GetMouseButtonDown(0))
-                {
-                    playerAnimState_ = PlayerAnimState.Attack;
-                    animator_.SetTrigger(animID_AttackCombo1);
-                }
+
                 break;
 
             case PlayerAnimState.Attack:
                 //Debug.Log(player_Stats_.Player_AttackCommandAllow);
-
                 //當指令為不允許攻擊
                 if (!player_Stats_.Player_AttackCommandAllow)
                 {
-                    
                     //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
                     animator_.SetBool(animID_Attack_CanBeInterrupted, false);
-                    animator_.ResetTrigger(animID_AttackCombo1);
-                    animator_.ResetTrigger(animID_AttackCombo2);
-                    animator_.ResetTrigger(animID_AttackCombo3);
                 }
                 //animation events 發送指令為允許攻擊
                 else
@@ -139,26 +132,52 @@ public class PlayerAnimator
                     //Debug.Log(animator_.GetCurrentAnimatorStateInfo(0).length * animator_.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
                     animator_.SetBool(animID_Attack_CanBeInterrupted, true);
-                    if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo1") && UnityEngine.Input.GetMouseButtonDown(0))
-                    {
-                        animator_.SetTrigger(animID_AttackCombo2);
-                    }
-                    else if(animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo2") && UnityEngine.Input.GetMouseButtonDown(0))
-                    {
-                        animator_.SetTrigger(animID_AttackCombo3);
-                    }
-
-                    
-                }
-                
+                } 
                 break;
-            
-
             default:
                 break;
         }
         #endregion
        
+    }
+    void playerLightAttack(PlayerLightAttackButtonCommand command)
+    {
+        switch (playerAnimState_)
+        {
+            case PlayerAnimState.Locomotion:
+                animator_.SetTrigger(animID_AttackCombo1);
+                playerAnimState_ = PlayerAnimState.Attack;
+                break;
+            case PlayerAnimState.Attack:
+                //當指令為不允許攻擊
+                if (!player_Stats_.Player_AttackCommandAllow)
+                {
+                    //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
+                    animator_.ResetTrigger(animID_AttackCombo1);
+                    animator_.ResetTrigger(animID_AttackCombo2);
+                    animator_.ResetTrigger(animID_AttackCombo3);
+                }
+                //animation events 發送指令為允許攻擊
+                else
+                {
+                    //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
+                    if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo1"))
+                    {
+                        animator_.SetTrigger(animID_AttackCombo2);
+                    }
+                    else if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo2"))
+                    {
+                        animator_.SetTrigger(animID_AttackCombo3);
+                    }
+                }
+                break;
+            case PlayerAnimState.BeAttack:
+                break;
+            case PlayerAnimState.Dead:
+                break;
+            default:
+                break;
+        }
     }
     #region - Player動畫事件管理 -
     void playertAnimationEventsToDo(PlayerAnimationEventsCommand command)
@@ -167,10 +186,11 @@ public class PlayerAnimator
         {
             case "Player_Attack_Allow":
                 player_Stats_.Player_AttackCommandAllow = true;
+                GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
                 break;
             case "Player_Attack_Prohibit":
                 player_Stats_.Player_AttackCommandAllow = false;
-                GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+                
                 break;
             case "Player_Attack_End":
                 playerAnimState_ = PlayerAnimState.Locomotion;
@@ -264,6 +284,7 @@ public class PlayerAnimator
         else
         {
             aimMove_ = false;
+            animator_.SetBool(animID_AimRecoil, false);
             animator_.SetBool(animID_AimIdle, false);
         }  
     }
