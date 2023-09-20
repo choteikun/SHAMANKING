@@ -32,4 +32,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerAnimationEventsCommand> OnPlayerAnimationEvents => getSubject<PlayerAnimationEventsCommand>();
 
     public IObservable<GhostLaunchProcessFinishResponse> OnGhostLaunchProcessFinish => getSubject<GhostLaunchProcessFinishResponse>();
+
+    public IObservable<PlayerMovementInterruptionFinishCommand> OnPlayerMovementInterruptionFinish => getSubject<PlayerMovementInterruptionFinishCommand>();
 }

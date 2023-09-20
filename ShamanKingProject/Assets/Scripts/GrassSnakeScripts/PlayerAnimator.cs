@@ -15,6 +15,7 @@ public class PlayerAnimator
     #region 提前Hash進行優化
     readonly int animID_AimMove = Animator.StringToHash("AimMove");
     readonly int animID_AimIdle = Animator.StringToHash("AimIdle");
+    readonly int animID_AimRecoil = Animator.StringToHash("AimRecoil");
 
     readonly int animID_AimMoveX = Animator.StringToHash("AimMoveX");
     readonly int animID_AimMoveY = Animator.StringToHash("AimMoveY");
@@ -48,6 +49,7 @@ public class PlayerAnimator
     private PlayerAnimState playerAnimState_;
 
     private Animator animator_;
+
     private ObservableStateMachineTrigger animOSM_Trigger_;
 
     //檢測按鈕
@@ -84,6 +86,7 @@ public class PlayerAnimator
     public void Start(Player_Stats player_Stats)
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerAimRecoil);
 
         player_Stats_ = player_Stats;
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
@@ -98,13 +101,12 @@ public class PlayerAnimator
 
         //characterControllerObj_.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(characterControllerObj_).Subscribe(x => { Debug.Log("Idle中"); }).AddTo(characterControllerObj_);
     }
-    
-    
+
     public void Update()
     {
-        setHorizontalAnimVel(player_Stats_);
-        setPlayer_animID_Grounded(player_Stats_);
-        setPlayer_animID_Aiming(player_Stats_);
+        setHorizontalAnimVel();
+        setPlayer_animID_Grounded();
+        setPlayer_animID_Aiming();
         timeoutToIdle();
 
         #region - 簡易動畫狀態管理 
@@ -119,14 +121,12 @@ public class PlayerAnimator
                 break;
 
             case PlayerAnimState.Attack:
-                //處在動畫過渡條時重置指令為不允許攻擊
-                if (animator_.IsInTransition(0))
-                {
-                    player_Stats_.Player_AttackCommandAllow = false;
-                }
+                //Debug.Log(player_Stats_.Player_AttackCommandAllow);
+
                 //當指令為不允許攻擊
                 if (!player_Stats_.Player_AttackCommandAllow)
                 {
+                    
                     //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
                     animator_.SetBool(animID_Attack_CanBeInterrupted, false);
                     animator_.ResetTrigger(animID_AttackCombo1);
@@ -136,6 +136,7 @@ public class PlayerAnimator
                 //animation events 發送指令為允許攻擊
                 else
                 {
+                    //Debug.Log(animator_.GetCurrentAnimatorStateInfo(0).length * animator_.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
                     animator_.SetBool(animID_Attack_CanBeInterrupted, true);
                     if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo1") && UnityEngine.Input.GetMouseButtonDown(0))
@@ -146,6 +147,8 @@ public class PlayerAnimator
                     {
                         animator_.SetTrigger(animID_AttackCombo3);
                     }
+
+                    
                 }
                 
                 break;
@@ -167,6 +170,7 @@ public class PlayerAnimator
                 break;
             case "Player_Attack_Prohibit":
                 player_Stats_.Player_AttackCommandAllow = false;
+                GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
                 break;
             case "Player_Attack_End":
                 playerAnimState_ = PlayerAnimState.Locomotion;
@@ -176,6 +180,15 @@ public class PlayerAnimator
         }
     }
     #endregion
+
+    #region - Player擊發鬼魂 -
+    void playerAimRecoil(PlayerLaunchGhostButtonCommand command)
+    {
+        player_Stats_.Aiming = false;
+        animator_.SetBool(animID_AimRecoil, true);
+    }
+    #endregion
+
     void playerAttackButtonTrigger()
     {
 
@@ -207,9 +220,9 @@ public class PlayerAnimator
 
     #region - 動畫參數計算 -
 
-    void setHorizontalAnimVel(Player_Stats player_Stats)//設置動畫水平速度給LocomtionBlendTree
+    void setHorizontalAnimVel()//設置動畫水平速度給LocomtionBlendTree
     {
-        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_Stats_.Player_Speed, Time.deltaTime * player_Stats.SpeedChangeRate);
+        player_horizontalAnimVel_ = Mathf.Lerp(player_horizontalAnimVel_, player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
 
         //if (player_Stats_.Player_Speed <= 1.0f)
         //{
@@ -222,21 +235,21 @@ public class PlayerAnimator
         if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;
         animator_.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel_);
     }
-    void setPlayer_animID_Grounded(Player_Stats player_Stats)
+    void setPlayer_animID_Grounded()
     {
-        animator_.SetBool(animID_Grounded, player_Stats.Grounded);
+        animator_.SetBool(animID_Grounded, player_Stats_.Grounded);
     }
-    void setPlayer_animID_Aiming(Player_Stats player_Stats)
+    void setPlayer_animID_Aiming()
     {
         animator_.SetBool(animID_AimMove, aimMove_);
 
-        if (player_Stats.Aiming)
+        if (player_Stats_.Aiming)
         {
             aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
             if (aimMove_)
             {
-                player_horizontalAnimX = Mathf.Lerp(player_horizontalAnimX, player_Stats_.Player_Dir.x * player_Stats_.Player_Speed, Time.deltaTime * player_Stats.SpeedChangeRate);
-                player_horizontalAnimY = Mathf.Lerp(player_horizontalAnimY, player_Stats_.Player_Dir.y * player_Stats_.Player_Speed, Time.deltaTime * player_Stats.SpeedChangeRate);
+                player_horizontalAnimX = Mathf.Lerp(player_horizontalAnimX, player_Stats_.Player_Dir.x * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
+                player_horizontalAnimY = Mathf.Lerp(player_horizontalAnimY, player_Stats_.Player_Dir.y * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
 
                 animator_.SetFloat(animID_AimMoveX, player_horizontalAnimX);
                 animator_.SetFloat(animID_AimMoveY, player_horizontalAnimY);
@@ -254,11 +267,5 @@ public class PlayerAnimator
             animator_.SetBool(animID_AimIdle, false);
         }  
     }
-    #endregion
-
-
-    
-    #region - Animation Events -
-
     #endregion
 }

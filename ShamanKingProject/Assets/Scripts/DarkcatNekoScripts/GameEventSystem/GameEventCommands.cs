@@ -82,4 +82,8 @@ namespace Gamemanager
     {
 
     }
+    public class PlayerMovementInterruptionFinishCommand : GameEventMessageBase
+    {
+
+    }
 }
