@@ -15,6 +15,7 @@ public class GamepadControllerView : MonoBehaviour
     [SerializeField] bool isLaunching_;
     [SerializeField] bool isPosscessing_ = false;
     [SerializeField] bool isBiting_ = false;
+    [SerializeField] bool isAttacking_ = false;
 
     [SerializeField] bool aimingDelay_ = true;
     Tweener aimingDelayer_;
@@ -34,7 +35,7 @@ public class GamepadControllerView : MonoBehaviour
     }
     void OnPlayerControl(InputValue value)
     {
-        //if (isLaunching_) return;
+        if (isAttacking_) return;
         var controllerDirection = value.Get<Vector2>();
         if (controllerDirection.magnitude > 0.35f)
         {
