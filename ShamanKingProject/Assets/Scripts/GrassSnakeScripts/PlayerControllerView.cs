@@ -1,9 +1,7 @@
 using Gamemanager;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UniRx;
+using UnityEngine;
 
 public class PlayerControllerView : MonoBehaviour
 {
@@ -19,21 +17,22 @@ public class PlayerControllerView : MonoBehaviour
     void Awake()
     {
         playerAnimatorView_ = new PlayerAnimator(this.gameObject);
-        playerControllerMover_ =  new PlayerControllerMover(this.gameObject);
+        playerControllerMover_ = new PlayerControllerMover(this.gameObject);
         playerControllerMover_.Awake();
     }
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, getPlayerAimingState);
-        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelMoving);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { player_Stats_.Player_CanMove = true; });
 
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => aimingInterrupt());
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
     }
-    
+
     #region - Player取得方向指令 -
     void getPlayerDirection(PlayerControllerMovementCommand playerControllerMovementCommand)
     {
@@ -64,9 +63,9 @@ public class PlayerControllerView : MonoBehaviour
         player_Stats_.Aiming = false;
         playerControllerMover_.TransitionState("MainGame");
     }
-    void launchCancelMoving(PlayerLaunchGhostButtonCommand cmd)
+    void cancelMoving()
     {
-        getPlayerDirection(new PlayerControllerMovementCommand {Direction = Vector3.zero });
+        player_Stats_.Player_CanMove = false;
     }
     void Update()
     {
@@ -97,4 +96,6 @@ public class Player_Stats
     public Vector2 Player_Dir;
 
     public bool Player_AttackCommandAllow;
+
+    public bool Player_CanMove = true;
 }

@@ -169,7 +169,7 @@ public class PlayerControllerMover
         }
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
-        //if (!player_Stats_.Player_AttackCommandAllow) return;
+        if (!player_Stats_.Player_CanMove) return;
         player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
 
     }
