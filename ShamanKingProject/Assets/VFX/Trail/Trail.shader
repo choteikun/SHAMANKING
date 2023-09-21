@@ -245,6 +245,7 @@ Shader "Trail"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_COLOR
 
 
@@ -572,7 +573,7 @@ Shader "Trail"
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float3 BaseColor = temp_output_66_0.rgb;
+				float3 BaseColor = ( float4( WorldViewDirection , 0.0 ) * temp_output_66_0 ).rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Emission = ( temp_output_66_0 * _Glow ).rgb;
 				float3 Specular = 0.5;
@@ -1477,6 +1478,7 @@ Shader "Trail"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_COLOR
 
 
@@ -1730,6 +1732,8 @@ Shader "Trail"
 					#endif
 				#endif
 
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
+				ase_worldViewDir = normalize(ase_worldViewDir);
 				float2 appendResult23 = (float2(_X , _Y));
 				float2 texCoord24 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 panner25 = ( 1.0 * _Time.y * appendResult23 + texCoord24);
@@ -1746,7 +1750,7 @@ Shader "Trail"
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float3 BaseColor = temp_output_66_0.rgb;
+				float3 BaseColor = ( float4( ase_worldViewDir , 0.0 ) * temp_output_66_0 ).rgb;
 				float3 Emission = ( temp_output_66_0 * _Glow ).rgb;
 				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
@@ -1804,6 +1808,7 @@ Shader "Trail"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_COLOR
 
 
@@ -2038,6 +2043,8 @@ Shader "Trail"
 					#endif
 				#endif
 
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
+				ase_worldViewDir = normalize(ase_worldViewDir);
 				float2 appendResult23 = (float2(_X , _Y));
 				float2 texCoord24 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 panner25 = ( 1.0 * _Time.y * appendResult23 + texCoord24);
@@ -2054,7 +2061,7 @@ Shader "Trail"
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float3 BaseColor = temp_output_66_0.rgb;
+				float3 BaseColor = ( float4( ase_worldViewDir , 0.0 ) * temp_output_66_0 ).rgb;
 				float Alpha = ( IN.ase_color.a * clampResult45 );
 				float AlphaClipThreshold = 0.5;
 
@@ -2490,6 +2497,7 @@ Shader "Trail"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_COLOR
 
 
@@ -2810,7 +2818,7 @@ Shader "Trail"
 				float clampResult45 = clamp( ( tex2DNode10.r - clampResult53 ) , 0.0 , 1.0 );
 				
 
-				float3 BaseColor = temp_output_66_0.rgb;
+				float3 BaseColor = ( float4( WorldViewDirection , 0.0 ) * temp_output_66_0 ).rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Emission = ( temp_output_66_0 * _Glow ).rgb;
 				float3 Specular = 0.5;
@@ -3543,6 +3551,8 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;63;-451.9749,1527.969;Inherit;True
 Node;AmplifyShaderEditor.FloorOpNode;55;-209.849,1616.524;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;71;-499.2528,1785.899;Inherit;False;Property;_Ball_power;Ball_power;12;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode;36;-1261.797,1388.619;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;-1.99;False;2;FLOAT;6.7;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ViewDirInputsCoordNode;72;467.7002,186.8272;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;73;703.9485,456.0653;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 WireConnection;29;0;11;1
 WireConnection;29;1;30;0
 WireConnection;25;0;24;0
@@ -3579,7 +3589,7 @@ WireConnection;68;0;66;0
 WireConnection;68;1;69;0
 WireConnection;43;0;10;1
 WireConnection;43;1;53;0
-WireConnection;14;0;66;0
+WireConnection;14;0;73;0
 WireConnection;14;2;68;0
 WireConnection;14;6;70;0
 WireConnection;70;0;65;4
@@ -3588,5 +3598,7 @@ WireConnection;63;0;54;0
 WireConnection;63;1;71;0
 WireConnection;55;0;63;0
 WireConnection;36;0;39;0
+WireConnection;73;0;72;0
+WireConnection;73;1;66;0
 ASEEND*/
-//CHKSM=07ED7625EA839AD7D5771F3E478B6616A1B17EBF
+//CHKSM=A82E3D714D96ECC610862B82FB0DBAD37020DDC2
