@@ -203,6 +203,7 @@ public class PlayerAnimator
                 //animator_.SetTrigger(animID_InterruptedByLocomotion);
                 GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
                 playerAnimState_ = PlayerAnimState.Locomotion;
+
                 break;
             default:
                 break;

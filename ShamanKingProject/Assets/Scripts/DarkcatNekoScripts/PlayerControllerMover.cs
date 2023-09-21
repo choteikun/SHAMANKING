@@ -104,11 +104,12 @@ public class PlayerControllerMover
     }
     void move()
     {
+       
         //根據移動速度、衝刺速度以及是否按下衝刺設置目標速度
         float targetSpeed = player_SprintStatus_ ? SprintSpeed : MoveSpeed;
 
         //如果沒有輸入，則將目標速度設置為0
-        if (player_Stats_.Player_Dir == Vector2.zero) targetSpeed = 0.0f;
+        if (player_Stats_.Player_Dir == Vector2.zero ) targetSpeed = 0.0f;
 
         //玩家當前水平速度的引用
         float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
@@ -116,8 +117,7 @@ public class PlayerControllerMover
         //為了提供一個容錯範圍。當當前速度與目標速度之間的差值小於容錯範圍時，就不需要進行加速或減速操作，
         //因為這時候已經非常接近目標速度了，再進行微小的變化可能會導致速度上下抖動，產生不良的遊戲體驗。
         //因此，這個容錯範圍可以幫助確保角色在接近目標速度時保持穩定。
-        if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-            currentHorizontalSpeed > targetSpeed + speedOffset)
+        if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             // 改善速度變化，計算速度為滑順的而不是線性結果
             player_Stats_.Player_Speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed,
@@ -151,8 +151,6 @@ public class PlayerControllerMover
         //單位化，防止同時兩個方向移動，速度變快
         Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
 
-        if (!player_Stats_.Player_CanMove) return;
-
         //玩家移動中
         if (player_Stats_.Player_Dir != Vector2.zero)
         {
@@ -169,10 +167,10 @@ public class PlayerControllerMover
                 model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
         }
-        Debug.Log(player_Stats_.Player_Dir);
+        //Debug.Log(player_Stats_.Player_Dir);
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
-        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
-
+        var canMoveToInt = player_Stats_.Player_CanMove ? 1 : 0;
+        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime)* canMoveToInt + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
     }
 
     public void AimPointUpdate()
