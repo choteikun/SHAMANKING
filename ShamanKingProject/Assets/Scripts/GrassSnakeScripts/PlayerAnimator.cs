@@ -21,7 +21,7 @@ public class PlayerAnimator
     readonly int animID_AimMoveY = Animator.StringToHash("AimMoveY");
 
     readonly int animID_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
-    readonly int animID_InterruptedByLocomotion = Animator.StringToHash("InterruptedByLocomotion");
+    //readonly int animID_InterruptedByLocomotion = Animator.StringToHash("InterruptedByLocomotion");
 
     readonly int animID_AnimMoveSpeed = Animator.StringToHash("AnimMoveSpeed");
 
@@ -32,7 +32,7 @@ public class PlayerAnimator
 
     readonly int animID_Idle = Animator.StringToHash("Idle");
 
-    readonly int animID_Attack_CanBeInterrupted = Animator.StringToHash("Attack_CanBeInterrupted");
+    readonly int animID_Attack_CanBeInterrupted = Animator.StringToHash("Attack_CanBeInterrupted");//變化時參考用，沒有實際上的作用
     readonly int animID_AttackCombo1 = Animator.StringToHash("AttackCombo1");
     readonly int animID_AttackCombo2 = Animator.StringToHash("AttackCombo2");
     readonly int animID_AttackCombo3 = Animator.StringToHash("AttackCombo3");
@@ -58,6 +58,7 @@ public class PlayerAnimator
     private bool inputDetected_;
     //瞄準下的移動狀態
     private bool aimMove_;
+    private bool aimRecoil;
     //角色動畫水平速度
     private float player_horizontalAnimVel_;
     private float player_horizontalAnimX;
@@ -158,7 +159,6 @@ public class PlayerAnimator
                     animator_.ResetTrigger(animID_AttackCombo1);
                     animator_.ResetTrigger(animID_AttackCombo2);
                     animator_.ResetTrigger(animID_AttackCombo3);
-                    animator_.ResetTrigger(animID_InterruptedByLocomotion);
                 }
                 //animation events 發送指令為允許攻擊
                 else
@@ -203,7 +203,9 @@ public class PlayerAnimator
                 //animator_.SetTrigger(animID_InterruptedByLocomotion);
                 GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
                 playerAnimState_ = PlayerAnimState.Locomotion;
-
+                break;
+            case "Player_AimRecoil_End":
+                aimRecoil = false;
                 break;
             default:
                 break;
@@ -213,9 +215,8 @@ public class PlayerAnimator
 
     #region - Player擊發鬼魂 -
     void playerAimRecoil(PlayerLaunchGhostButtonCommand command)
-    {
-        player_Stats_.Aiming = false;
-        animator_.SetBool(animID_AimRecoil, true);
+    { 
+        aimRecoil = true;
     }
     #endregion
 
@@ -271,11 +272,15 @@ public class PlayerAnimator
     }
     void setPlayer_animID_Aiming()
     {
-        animator_.SetBool(animID_AimMove, aimMove_);
+        
 
         if (player_Stats_.Aiming)
         {
             aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
+            if (aimRecoil)
+            {
+                animator_.SetBool(animID_AimRecoil, true);
+            }
             if (aimMove_)
             {
                 player_horizontalAnimX = Mathf.Lerp(player_horizontalAnimX, player_Stats_.Player_Dir.x * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
@@ -284,10 +289,14 @@ public class PlayerAnimator
                 animator_.SetFloat(animID_AimMoveX, player_horizontalAnimX);
                 animator_.SetFloat(animID_AimMoveY, player_horizontalAnimY);
 
+                animator_.SetBool(animID_AimMove, true);
+
                 animator_.SetBool(animID_AimIdle, false);
             }
             else
             {
+                animator_.SetBool(animID_AimMove, false);
+
                 animator_.SetBool(animID_AimIdle, true);
             }
         }
@@ -295,6 +304,7 @@ public class PlayerAnimator
         {
             aimMove_ = false;
             animator_.SetBool(animID_AimRecoil, false);
+            animator_.SetBool(animID_AimMove, false);
             animator_.SetBool(animID_AimIdle, false);
         }  
     }
