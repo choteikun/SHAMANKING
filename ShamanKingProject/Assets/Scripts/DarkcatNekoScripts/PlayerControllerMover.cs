@@ -151,6 +151,8 @@ public class PlayerControllerMover
         //單位化，防止同時兩個方向移動，速度變快
         Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
 
+        if (!player_Stats_.Player_CanMove) return;
+
         //玩家移動中
         if (player_Stats_.Player_Dir != Vector2.zero)
         {
@@ -167,9 +169,8 @@ public class PlayerControllerMover
                 model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
         }
-
+        Debug.Log(player_Stats_.Player_Dir);
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
-        if (!player_Stats_.Player_CanMove) return;
         player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
 
     }

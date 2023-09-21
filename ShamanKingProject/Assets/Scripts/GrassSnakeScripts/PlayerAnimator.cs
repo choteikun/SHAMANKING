@@ -21,6 +21,7 @@ public class PlayerAnimator
     readonly int animID_AimMoveY = Animator.StringToHash("AimMoveY");
 
     readonly int animID_TimeOutToIdle = Animator.StringToHash("TimeOutToIdle");
+    readonly int animID_InterruptedByLocomotion = Animator.StringToHash("InterruptedByLocomotion");
 
     readonly int animID_AnimMoveSpeed = Animator.StringToHash("AnimMoveSpeed");
 
@@ -124,14 +125,12 @@ public class PlayerAnimator
                 if (!player_Stats_.Player_AttackCommandAllow)
                 {
                     //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
-                    animator_.SetBool(animID_Attack_CanBeInterrupted, false);
                 }
                 //animation events 發送指令為允許攻擊
                 else
                 {
                     //Debug.Log(animator_.GetCurrentAnimatorStateInfo(0).length * animator_.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
-                    animator_.SetBool(animID_Attack_CanBeInterrupted, true);
                 } 
                 break;
             default:
@@ -153,18 +152,26 @@ public class PlayerAnimator
                 if (!player_Stats_.Player_AttackCommandAllow)
                 {
                     //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
+                    //animID_Attack_CanBeInterrupted 觀察用
+                    animator_.SetBool(animID_Attack_CanBeInterrupted, false);
+                    //reset attack Comb
                     animator_.ResetTrigger(animID_AttackCombo1);
                     animator_.ResetTrigger(animID_AttackCombo2);
                     animator_.ResetTrigger(animID_AttackCombo3);
+                    animator_.ResetTrigger(animID_InterruptedByLocomotion);
                 }
                 //animation events 發送指令為允許攻擊
                 else
                 {
                     //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
+                    //animID_Attack_CanBeInterrupted 觀察用
+                    animator_.SetBool(animID_Attack_CanBeInterrupted, true);
+                    //如果現在的狀態機為AttackCombo1時可以切換到下一個攻擊動畫
                     if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo1"))
                     {
                         animator_.SetTrigger(animID_AttackCombo2);
                     }
+                    //如果現在的狀態機為AttackCombo2時可以切換到下一個攻擊動畫
                     else if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo2"))
                     {
                         animator_.SetTrigger(animID_AttackCombo3);
@@ -186,13 +193,15 @@ public class PlayerAnimator
         {
             case "Player_Attack_Allow":
                 player_Stats_.Player_AttackCommandAllow = true;
-                GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+                
                 break;
             case "Player_Attack_Prohibit":
                 player_Stats_.Player_AttackCommandAllow = false;
                 
                 break;
             case "Player_Attack_End":
+                //animator_.SetTrigger(animID_InterruptedByLocomotion);
+                GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
                 playerAnimState_ = PlayerAnimState.Locomotion;
                 break;
             default:
