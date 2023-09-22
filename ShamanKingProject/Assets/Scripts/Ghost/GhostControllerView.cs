@@ -46,7 +46,6 @@ public class GhostControllerView : MonoBehaviour
     }
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, ghostReadyButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, ghostReactState);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess,cmd=> { mat_Revert(); });
@@ -88,23 +87,7 @@ public class GhostControllerView : MonoBehaviour
     }
     #endregion
 
-    #region - 鬼魂獲取瞄準指令 -
-    void ghostReadyButtonTrigger(PlayerAimingButtonCommand command)
-    {
-        if (command.AimingButtonIsPressed && ghost_Stats_.ghostCurrentState == GhostState.GHOST_IDLE)
-        {
-            //behaviorTree.SendEvent("MOVEMENT SENDEVENT TEST");
-            //behaviorTree.SendEvent<object>("MOVEMENT SENDEVENT TEST", (object)transform.position);
-            ghost_Stats_.Ghost_ReadyButton = true;
-            switchExternalBehavior((int)GhostState.GHOST_MOVEMENT - 1);
-            ghost_Stats_.ghostCurrentState = GhostState.GHOST_MOVEMENT;
-        }
-        if (!command.AimingButtonIsPressed)
-        {
-            ghost_Stats_.Ghost_ReadyButton = false;
-        }
-    }
-    #endregion
+    
 
     #region - 鬼魂動畫事件管理 -
     void ghostAnimationEventsToDo(GhostAnimationEventsCommand command)
@@ -124,11 +107,13 @@ public class GhostControllerView : MonoBehaviour
             case "GhostMat_Revert":
                 if (command.AnimationType == GhostAnimationType.DissolveWithRevert)
                 {
-                    mat_Revert();
+                    mat_Revert(); 
                 }
                 break;
             case "Ghost_Bite_End":
                 ghost_Stats_.Ghost_Biteable = false;
+                ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+                GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
                 break;
 
             default:

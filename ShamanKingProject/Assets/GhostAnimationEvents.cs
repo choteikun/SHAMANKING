@@ -45,7 +45,7 @@ public class GhostAnimationEvents : MonoBehaviour
     {
         if (dissolveEventTrigger)
         {
-            GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Dissolve",AnimationType = animationType_ });
+            GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Dissolve", AnimationType = animationType_ });
         }
     }
     public void Ghost_Back_End()
@@ -54,7 +54,6 @@ public class GhostAnimationEvents : MonoBehaviour
         {
             GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Revert" ,AnimationType = animationType_});
         }
-        GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
     }
     public void Ghost_Bite_Start()
     {
