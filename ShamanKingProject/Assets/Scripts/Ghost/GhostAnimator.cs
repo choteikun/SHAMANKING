@@ -58,6 +58,7 @@ public class GhostAnimator
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, ghostShootButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cancelGhostPossessable);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, onGhostLaunchProcessFinish);
 
         ghost_Stats_ = ghost_Stats;
         animator_ = ghostControllerObj_.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -66,6 +67,7 @@ public class GhostAnimator
         ResetAllAnimations();
     }
 
+    
     void ghostShootButtonTrigger(PlayerLaunchGhostButtonCommand command)
     {
         //如果在鬼魂行為模式中且不是擊發的狀態下
@@ -81,6 +83,13 @@ public class GhostAnimator
             }
         }
     }
+    #region - 幽靈的發射事件完整結束 -
+    void onGhostLaunchProcessFinish(GhostLaunchProcessFinishResponse command)
+    {
+        ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
+    }
+    #endregion
+
     void cancelGhostPossessable(PlayerCancelPossessCommand command)
     {
         ghost_Stats_.Ghost_Possessable = false;
@@ -142,8 +151,6 @@ public class GhostAnimator
                 if (ghost_Stats_.Ghost_Possessable)
                 {
                     //dissolve，拿取目標資料，transform接在目標上
-
-                    ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
                     Debug.Log("Possessed success!!");
                 }
                 if (ghost_Stats_.Ghost_Biteable)
@@ -151,17 +158,11 @@ public class GhostAnimator
                     animator_.SetBool(animID_GhostBite, true);
                 }
                 //如果是在咬住的動畫狀態機下Ghost_Biteable為false則返回Idle動畫
-                else if (!ghost_Stats_.Ghost_Biteable && animator_.GetCurrentAnimatorStateInfo(0).IsName("Ghost_Bite") && !animator_.IsInTransition(0))
+                else
                 {
                     animator_.SetBool(animID_GhostBite, false);
-                    ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
                     Debug.Log("Bited success!!");
                 }
-
-
-
-
-
                 break;
 
             default:

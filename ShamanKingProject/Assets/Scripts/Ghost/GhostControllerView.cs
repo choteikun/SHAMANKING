@@ -129,7 +129,6 @@ public class GhostControllerView : MonoBehaviour
                 break;
             case "Ghost_Bite_End":
                 ghost_Stats_.Ghost_Biteable = false;
-                GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
                 break;
 
             default:

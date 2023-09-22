@@ -49,18 +49,21 @@ public class PlayerControllerView : MonoBehaviour
         if (playerAimingButtonCommand.AimingButtonIsPressed)
         {
             playerControllerMover_.TransitionState("Aim");
-            
+            Debug.Log("AAAAAAAAAAAAAIMING");
         }
         else
         {
+            Debug.Log("CANNNNNNNNNNNNNNCELAAAAAAAAAAAAAIMING");
             aimingInterrupt();
             playerControllerMover_.TransitionState("MainGame");
         }
+        
     }
     #endregion
 
     void aimingInterrupt()
     {
+        Debug.Log("INTERRUPTAAAAAAAAAAAAAIMING");
         player_Stats_.Aiming = false;
         playerControllerMover_.TransitionState("MainGame");
     }

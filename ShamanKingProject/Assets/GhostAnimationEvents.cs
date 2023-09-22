@@ -54,6 +54,7 @@ public class GhostAnimationEvents : MonoBehaviour
         {
             GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Revert" ,AnimationType = animationType_});
         }
+        GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
     }
     public void Ghost_Bite_Start()
     {
