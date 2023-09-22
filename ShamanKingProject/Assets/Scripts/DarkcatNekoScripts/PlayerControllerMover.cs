@@ -152,7 +152,7 @@ public class PlayerControllerMover
         Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
 
         //玩家移動中
-        if (player_Stats_.Player_Dir != Vector2.zero)
+        if (player_Stats_.Player_Dir != Vector2.zero && player_Stats_.Player_CanMove)
         {
             //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
             player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
@@ -170,7 +170,7 @@ public class PlayerControllerMover
         //Debug.Log(player_Stats_.Player_Dir);
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
         var canMoveToInt = player_Stats_.Player_CanMove ? 1 : 0;
-        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime)* canMoveToInt + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
+        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) * canMoveToInt + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
     }
 
     public void AimPointUpdate()

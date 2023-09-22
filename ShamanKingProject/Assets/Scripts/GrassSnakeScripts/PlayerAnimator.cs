@@ -89,8 +89,9 @@ public class PlayerAnimator
     public void Start(Player_Stats player_Stats)
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerAimRecoil);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, playerLightAttack);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerLaunchGhostButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, playerLightAttackButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, onGhostLaunchProcessFinish);
 
         player_Stats_ = player_Stats;
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
@@ -140,7 +141,7 @@ public class PlayerAnimator
         #endregion
        
     }
-    void playerLightAttack(PlayerLightAttackButtonCommand command)
+    void playerLightAttackButtonTrigger(PlayerLightAttackButtonCommand command)
     {
         switch (playerAnimState_)
         {
@@ -213,17 +214,17 @@ public class PlayerAnimator
     }
     #endregion
 
-    #region - Player擊發鬼魂 -
-    void playerAimRecoil(PlayerLaunchGhostButtonCommand command)
+    #region - Player擊發鬼魂時的動畫處理 -
+    //擊發時播放放矢動畫
+    void playerLaunchGhostButtonTrigger(PlayerLaunchGhostButtonCommand command)
     { 
         aimRecoil = true;
     }
-    #endregion
-
-    void playerAttackButtonTrigger()
+     void onGhostLaunchProcessFinish(GhostLaunchProcessFinishResponse command)
     {
 
     }
+    #endregion
     #region - 待機動畫處理 -
     void timeoutToIdle()
     {
@@ -273,7 +274,6 @@ public class PlayerAnimator
     void setPlayer_animID_Aiming()
     {
         
-
         if (player_Stats_.Aiming)
         {
             aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
@@ -303,6 +303,7 @@ public class PlayerAnimator
         else
         {
             aimMove_ = false;
+            aimRecoil = false;
             animator_.SetBool(animID_AimRecoil, false);
             animator_.SetBool(animID_AimMove, false);
             animator_.SetBool(animID_AimIdle, false);

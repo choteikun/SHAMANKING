@@ -23,7 +23,7 @@ public class PlayerControllerView : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, getPlayerAimingState);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, onAimButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { player_Stats_.Player_CanMove = true; });
 
@@ -43,12 +43,13 @@ public class PlayerControllerView : MonoBehaviour
     #endregion
 
     #region - Player取得瞄準指令 -
-    void getPlayerAimingState(PlayerAimingButtonCommand playerAimingButtonCommand)
+    void onAimButtonTrigger(PlayerAimingButtonCommand playerAimingButtonCommand)
     {
         player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
         if (playerAimingButtonCommand.AimingButtonIsPressed)
         {
             playerControllerMover_.TransitionState("Aim");
+            
         }
         else
         {
