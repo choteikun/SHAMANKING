@@ -82,6 +82,10 @@ public class GhostAnimator
         {
             ghost_IsReady = false;
             ghost_Stats_.Ghost_ReadyButton = false;
+
+            //放開鬼魂
+            ghost_beingCaught_ = false;
+            animator_.SetBool(animID_BeingCaught, ghost_beingCaught_);
         }
     }
     #endregion
@@ -89,17 +93,13 @@ public class GhostAnimator
     #region - 鬼魂獲取擊發指令 -
     void ghostShootButtonTrigger(PlayerLaunchGhostButtonCommand command)
     {
-        //如果在鬼魂行為模式中且不是擊發的狀態下
-        if(ghost_Stats_.ghostCurrentState == GhostState.GHOST_MOVEMENT && !ghost_Stats_.Ghost_ShootOut_)
+        //如果是鬼魂被抓住的狀態下
+        if (ghost_beingCaught_)
         {
-            //如果是鬼魂被抓住的狀態下
-            if (ghost_beingCaught_)
-            {
-                //擊發
-                ghost_Stats_.Ghost_ShootOut_ = true;
-                //播放擊發動畫
-                animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
-            }
+            //擊發
+            ghost_Stats_.Ghost_ShootOut_ = true;
+            //播放擊發動畫
+            animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
         }
     }
     #endregion
@@ -123,7 +123,7 @@ public class GhostAnimator
     }
     public void Update()
     {
-        if (animator_.GetCurrentAnimatorStateInfo(0).IsName("Ghost_Idle"))
+        if ((animator_.GetCurrentAnimatorStateInfo(0).IsTag("Ghost_Idle") && !ghost_IsReady)) 
         {
             ghost_IsReady = true;
         }
@@ -137,6 +137,9 @@ public class GhostAnimator
                 //結束擊發狀態
                 ghost_Stats_.Ghost_ShootOut_ = false;
                 animator_.SetBool(animID_ShootOut, ghost_Stats_.Ghost_ShootOut_);
+                //大叔不是抓住
+                ghost_beingCaught_ = false;
+                animator_.SetBool(animID_BeingCaught, false);
                 //結束咬人狀態
                 animator_.SetBool(animID_GhostBite, false);
                 break;
@@ -150,17 +153,23 @@ public class GhostAnimator
                     {
                         //抓住鬼魂
                         ghost_beingCaught_ = true;
-                        animator_.SetBool(animID_BeingCaught, ghost_beingCaught_);
+                        animator_.SetBool(animID_BeingCaught, true);
                     }
                     //鬆開瞄準
                     else if (!ghost_Stats_.Ghost_ReadyButton)
                     {
                         //放開鬼魂
                         ghost_beingCaught_ = false;
-                        animator_.SetBool(animID_BeingCaught, ghost_beingCaught_);
+                        animator_.SetBool(animID_BeingCaught, false);
                         //回到Idle模式
                         ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
-                    }  
+                    }
+                    //else
+                    //{
+                    //    //放開鬼魂
+                    //    ghost_beingCaught_ = false;
+                    //    animator_.SetBool(animID_BeingCaught, ghost_beingCaught_);
+                    //}
                 }
                 //擊發的狀態下
                 else
@@ -182,12 +191,12 @@ public class GhostAnimator
                     //dissolve，拿取目標資料，transform接在目標上
 
                     ghost_Stats_.ghostCurrentState = GhostState.GHOST_IDLE;
-                    Debug.Log("Possessed success!!");
+                    //Debug.Log("Possessed success!!");
                 }
                 if (ghost_Stats_.Ghost_Biteable)
                 {
                     animator_.SetBool(animID_GhostBite, true);
-                    Debug.Log("Bited success!!");
+                    //Debug.Log("Bited success!!");
                 }
                 //如果是在咬住的動畫狀態機下Ghost_Biteable為false則返回Idle動畫
                 break;
