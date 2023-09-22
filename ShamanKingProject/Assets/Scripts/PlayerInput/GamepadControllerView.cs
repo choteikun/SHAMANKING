@@ -111,7 +111,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerAim(InputValue value)
     {
-        if (value.isPressed == isAiming_ || (isLaunching_) || isPosscessing_) return;
+        if (value.isPressed == isAiming_ || (isLaunching_) || isPosscessing_||isAttacking_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
         isAiming_ = value.isPressed;
         Debug.Log("Aim" + isAiming_.ToString());
