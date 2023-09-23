@@ -54,8 +54,7 @@ public class PlayerControllerView : MonoBehaviour
         {
             aimingInterrupt();
             playerControllerMover_.TransitionState("MainGame");
-        }
-        
+        } 
     }
     #endregion
 

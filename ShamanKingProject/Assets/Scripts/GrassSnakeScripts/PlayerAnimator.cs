@@ -14,7 +14,9 @@ public class PlayerAnimator
 {
     #region 提前Hash進行優化
     readonly int animID_AimMove = Animator.StringToHash("AimMove");
+    readonly int animID_PossessMove = Animator.StringToHash("PossessMove");
     readonly int animID_AimIdle = Animator.StringToHash("AimIdle");
+    readonly int animID_PossessIdle = Animator.StringToHash("PossessIdle");
     readonly int animID_AimRecoil = Animator.StringToHash("AimRecoil");
 
     readonly int animID_AimMoveX = Animator.StringToHash("AimMoveX");
@@ -59,6 +61,8 @@ public class PlayerAnimator
     //瞄準下的移動狀態
     private bool aimMove_;
     private bool aimRecoil;
+    //附身狀態下的移動狀態
+    private bool possessMove_;
     //角色動畫水平速度
     private float player_horizontalAnimVel_;
     private float player_horizontalAnimX;
@@ -91,7 +95,9 @@ public class PlayerAnimator
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerLaunchGhostButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, playerLightAttackButtonTrigger);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, onGhostLaunchProcessFinish);
+
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => playerPossessMoveAnimSet());
+
 
         player_Stats_ = player_Stats;
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
@@ -220,10 +226,11 @@ public class PlayerAnimator
     { 
         aimRecoil = true;
     }
-     void onGhostLaunchProcessFinish(GhostLaunchProcessFinishResponse command)
+    void playerPossessMoveAnimSet()
     {
-
+        possessMove_ = true;
     }
+
     #endregion
     #region - 待機動畫處理 -
     void timeoutToIdle()
@@ -271,43 +278,99 @@ public class PlayerAnimator
     {
         animator_.SetBool(animID_Grounded, player_Stats_.Grounded);
     }
+
+    //設置瞄準下的運動參數
+    void setPlayer_AimingMoveXY()
+    {
+        
+        player_horizontalAnimX = Mathf.Lerp(player_horizontalAnimX, player_Stats_.Player_Dir.x * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
+        player_horizontalAnimY = Mathf.Lerp(player_horizontalAnimY, player_Stats_.Player_Dir.y * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
+
+        animator_.SetFloat(animID_AimMoveX, player_horizontalAnimX);
+        animator_.SetFloat(animID_AimMoveY, player_horizontalAnimY);
+    }
+   
     void setPlayer_animID_Aiming()
     {
         
         if (player_Stats_.Aiming)
         {
             aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
-            if (aimRecoil)
+            setPlayer_AimingMoveXY();
+
+            //接收到可附身移動且如果移動向量不為零則
+            if (possessMove_ && player_Stats_.Player_Dir != Vector2.zero)
             {
-                animator_.SetBool(animID_AimRecoil, true);
+                animator_.SetBool(animID_PossessMove, true);
+                animator_.SetBool(animID_PossessIdle, false);
+                //附身狀態不會播放擊發動畫
+                aimRecoil = false;
+                animator_.SetBool(animID_AimRecoil, false);
             }
-            if (aimMove_)
+            //接收到可附身移動且如果移動向量為零則
+            else if (possessMove_ && player_Stats_.Player_Dir == Vector2.zero)
             {
-                player_horizontalAnimX = Mathf.Lerp(player_horizontalAnimX, player_Stats_.Player_Dir.x * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
-                player_horizontalAnimY = Mathf.Lerp(player_horizontalAnimY, player_Stats_.Player_Dir.y * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
-
-                animator_.SetFloat(animID_AimMoveX, player_horizontalAnimX);
-                animator_.SetFloat(animID_AimMoveY, player_horizontalAnimY);
-
-                animator_.SetBool(animID_AimMove, true);
-
-                animator_.SetBool(animID_AimIdle, false);
+                animator_.SetBool(animID_PossessIdle, true);
+                animator_.SetBool(animID_PossessMove, false);
+                //附身狀態不會播放擊發動畫
+                aimRecoil = false;
+                animator_.SetBool(animID_AimRecoil, false);
             }
+            //不在附身移動狀態
             else
             {
-                animator_.SetBool(animID_AimMove, false);
+                //如果可以播放擊發動畫
+                if (aimRecoil)
+                {
+                    //播放擊發動畫
+                    animator_.SetBool(animID_AimRecoil, true);
+                    //關閉瞄準下的Idle & Move動畫
+                    animator_.SetBool(animID_AimIdle, false);
+                    animator_.SetBool(animID_AimMove, false);
+                }
+                //擊發動畫為false
+                else
+                {
+                    //傳出至NoneAnim
+                    animator_.SetBool(animID_AimRecoil, false);
 
-                animator_.SetBool(animID_AimIdle, true);
+                    //瞄準移動下且為非擊發鬼魂時
+                    if (aimMove_)
+                    {
+                        animator_.SetBool(animID_AimMove, true);
+                        animator_.SetBool(animID_AimIdle, false);
+
+                    }
+                    //瞄準待機時
+                    else
+                    {
+                        animator_.SetBool(animID_AimMove, false);
+                        animator_.SetBool(animID_AimIdle, true);
+                    }
+                }
+                
             }
+            
         }
         else
         {
-            aimMove_ = false;
-            aimRecoil = false;
-            animator_.SetBool(animID_AimRecoil, false);
-            animator_.SetBool(animID_AimMove, false);
-            animator_.SetBool(animID_AimIdle, false);
+            resetPlayer_AimingAllActions();
         }  
+    }
+    //重置所有瞄準的bool動畫
+    void resetPlayer_AimingAllActions()
+    {
+        possessMove_ = false;
+        aimMove_ = false;
+        aimRecoil = false;
+
+        animator_.SetBool(animID_AimIdle, false);
+        animator_.SetBool(animID_AimMove, false);
+
+        animator_.SetBool(animID_PossessIdle, false);
+        animator_.SetBool(animID_PossessMove, false);
+
+        animator_.SetBool(animID_AimRecoil, false);
     }
     #endregion
 }
