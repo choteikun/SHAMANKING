@@ -73,4 +73,6 @@ public class MainGameEventPack : GameEventPack
     /// 角色不可移動狀態結束指令
     /// </summary>
     public IObservable<PlayerMovementInterruptionFinishCommand> OnPlayerMovementInterruptionFinish => getSubject<PlayerMovementInterruptionFinishCommand>();
+
+    public IObservable<PlayerAttackCallHitBoxCommand> OnPlayerAttackCallHitBox => getSubject<PlayerAttackCallHitBoxCommand>();
 }

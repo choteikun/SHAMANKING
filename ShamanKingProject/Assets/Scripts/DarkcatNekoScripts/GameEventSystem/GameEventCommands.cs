@@ -86,4 +86,10 @@ namespace Gamemanager
     {
 
     }
+
+    public class PlayerAttackCallHitBoxCommand:GameEventMessageBase 
+    {
+
+    }
+
 }
