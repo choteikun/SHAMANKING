@@ -4,7 +4,6 @@ using DG.Tweening;
 using Gamemanager;
 using System;
 using UniRx;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public enum GhostState
@@ -87,7 +86,7 @@ public class GhostControllerView : MonoBehaviour
     }
     #endregion
 
-    
+
 
     #region - 鬼魂動畫事件管理 -
     void ghostAnimationEventsToDo(GhostAnimationEventsCommand command)

@@ -4,8 +4,7 @@ using Gamemanager;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Editor;
-using static UnityEngine.Rendering.DebugUI;
+//using UnityEngine.InputSystem.Editor;
 
 public class GamepadControllerView : MonoBehaviour
 {
@@ -32,7 +31,7 @@ public class GamepadControllerView : MonoBehaviour
         inputActionMap_ = inputAction_.FindActionMap("MainGameplay");
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { isAttacking_ = false;Debug.Log("finishSend"); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { isAttacking_ = false; Debug.Log("finishSend"); });
 
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { playerHitObject(cmd); });
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
@@ -111,7 +110,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerAim(InputValue value)
     {
-        if (value.isPressed == isAiming_ || (isLaunching_) || isPosscessing_||isAttacking_) return;
+        if (value.isPressed == isAiming_ || (isLaunching_) || isPosscessing_ || isAttacking_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
         isAiming_ = value.isPressed;
         //Debug.Log("Aim" + isAiming_.ToString());
