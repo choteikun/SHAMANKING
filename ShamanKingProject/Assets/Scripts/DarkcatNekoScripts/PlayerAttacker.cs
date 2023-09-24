@@ -9,7 +9,7 @@ public class PlayerAttacker : MonoBehaviour
 
     public void Start()
     {
-        
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackCallHitBox, cmd => { activateHitBox(); });
     }
     
     async void activateHitBox()
