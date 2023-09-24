@@ -7,6 +7,7 @@ using UnityEngine.Animations.Rigging;
 public class PlayerIkControllerView : MonoBehaviour
 {
     public MultiAimConstraint multiAimConstraint;
+    public MultiAimConstraint multiAimConstraintForPossessable;
     [SerializeField]
     float ToAimAnimationDamping = 0.75f;
     [SerializeField]
@@ -17,6 +18,7 @@ public class PlayerIkControllerView : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, aimButtonTrigger);
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => activateAimRig(0));
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => activePossessableIK());
     }
     void aimButtonTrigger(PlayerAimingButtonCommand command)
     {
@@ -27,6 +29,7 @@ public class PlayerIkControllerView : MonoBehaviour
         else
         {
             activateAimRig(0);
+            multiAimConstraintForPossessable.weight = 0;
         }
     }
     void activateAimRig(float value)
@@ -49,4 +52,10 @@ public class PlayerIkControllerView : MonoBehaviour
             aimTweener_ = DOTween.To(() => originalWeight, newWeight => { multiAimConstraint.weight = newWeight; }, value, BackAnimationDamping);
         }
     }   
+
+    void activePossessableIK()
+    {
+        activateAimRig(0);
+        multiAimConstraintForPossessable.weight = 1;
+    }
 }
