@@ -16,6 +16,11 @@ public class PlayerAnimationEvents : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "Player_Attack_Prohibit" });
     }
 
+    public void Player_Attack_CallHitBox()
+    {
+
+    }
+
     public void Player_Attack_End()
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "Player_Attack_End" });
