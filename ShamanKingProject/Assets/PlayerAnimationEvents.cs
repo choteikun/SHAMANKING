@@ -18,7 +18,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     public void Player_Attack_CallHitBox()
     {
-
+        GameManager.Instance.MainGameEvent.Send(new PlayerAttackCallHitBoxCommand());
     }
 
     public void Player_Attack_End()
