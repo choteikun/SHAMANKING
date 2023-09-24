@@ -52,7 +52,7 @@ public class GhostAnimationEvents : MonoBehaviour
     {
         if (dissolveEventTrigger)
         {
-            GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Revert" ,AnimationType = animationType_});
+            GameManager.Instance.MainGameEvent.Send(new GhostAnimationEventsCommand() { AnimationEventName = "GhostMat_Revert", AnimationType = animationType_ });
         }
     }
     public void Ghost_Bite_Start()

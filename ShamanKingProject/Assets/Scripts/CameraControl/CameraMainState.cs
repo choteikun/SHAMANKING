@@ -10,7 +10,7 @@ public class CameraMainState : StateBase
     public override void OnEnter()
     {
         replaceMainCameraFollowedObject();
-        Debug.Log("Back!");
+        //Debug.Log("Back!");
     }
 
     public override void OnUpdate()

@@ -24,7 +24,7 @@ public class CameraControllerStateMachine : StageManager
     }
     public override void TransitionState(string stateName, StageData stageData)
     {
-        Debug.Log(CameraState + "::::::" + stateName);
+        //Debug.Log(CameraState + "::::::" + stateName);
         if (CameraState == stateName) return;//欠債 暫時不會讓他跳兩次攝影機
         if (CurrentState != null)
         {
@@ -37,7 +37,7 @@ public class CameraControllerStateMachine : StageManager
     public override void TransitionState(string stateName)
     {
         var stagedata = new StageData();
-        Debug.Log(CameraState + "::::::" + stateName);
+        //Debug.Log(CameraState + "::::::" + stateName);
         if (CameraState == stateName) return;//欠債 暫時不會讓他跳兩次攝影機
         if (CurrentState != null)
         {

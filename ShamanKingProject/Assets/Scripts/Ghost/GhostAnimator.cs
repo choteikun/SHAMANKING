@@ -74,7 +74,6 @@ public class GhostAnimator
             //behaviorTree.SendEvent("MOVEMENT SENDEVENT TEST");
             //behaviorTree.SendEvent<object>("MOVEMENT SENDEVENT TEST", (object)transform.position);
             //switchExternalBehavior((int)GhostState.GHOST_MOVEMENT);
-
             ghost_Stats_.ghostCurrentState = GhostState.GHOST_MOVEMENT;
             ghost_Stats_.Ghost_ReadyButton = true;
         }
@@ -94,7 +93,7 @@ public class GhostAnimator
     void ghostShootButtonTrigger(PlayerLaunchGhostButtonCommand command)
     {
         //如果是鬼魂被抓住的狀態下
-        if (ghost_beingCaught_)
+        if (ghost_beingCaught_ && ghost_Stats_.ghostCurrentState == GhostState.GHOST_MOVEMENT) 
         {
             //擊發
             ghost_Stats_.Ghost_ShootOut_ = true;
