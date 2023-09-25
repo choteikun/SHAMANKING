@@ -117,7 +117,7 @@ public class GamepadControllerView : MonoBehaviour
         if (value.isPressed)
         {
             var delayTimer = 0f;
-            aimingDelayer_ = DOTween.To(() => delayTimer, x => delayTimer = x, 1, 0.15f).OnComplete(
+            aimingDelayer_ = DOTween.To(() => delayTimer, x => delayTimer = x, 1, 0.25f).OnComplete(
                 () =>
                 {
                     aimingDelay_ = false;

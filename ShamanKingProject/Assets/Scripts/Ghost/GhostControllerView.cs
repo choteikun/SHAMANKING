@@ -122,33 +122,33 @@ public class GhostControllerView : MonoBehaviour
     #endregion
 
     #region - 鬼魂碰撞處理 -
-    private void OnTriggerEnter(Collider other)
-    {
-        if (ghost_Stats_.Ghost_ShootOut_)
-        {
-            //想用switch case提高可讀性，不過就效能來說先這樣寫就好
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (ghost_Stats_.Ghost_ShootOut_)
+    //    {
+    //        //想用switch case提高可讀性，不過就效能來說先這樣寫就好
 
-            if (other.CompareTag("Untagged"))
-            {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { HitObjecctTag = HitObjecctTag.None });
-            }
-            if (other.CompareTag("Biteable"))
-            {
-                var hitInfo = other.GetComponent<HitableItemTest>();
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Biteable, HitInfo = hitInfo });
-            }
-            if (other.CompareTag("Possessable"))
-            {
-                var hitInfo = other.GetComponent<HitableItemTest>();
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Possessable, HitInfo = hitInfo });
-            }
-            if (other.CompareTag("Enemy"))
-            {
-                var hitInfo = other.GetComponent<HitableItemTest>();
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Enemy, HitInfo = hitInfo });
-            }
-        }
-    }
+    //        if (other.CompareTag("Untagged"))
+    //        {
+    //            GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { HitObjecctTag = HitObjecctTag.None });
+    //        }
+    //        if (other.CompareTag("Biteable"))
+    //        {
+    //            var hitInfo = other.GetComponent<HitableItemTest>();
+    //            GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Biteable, HitInfo = hitInfo });
+    //        }
+    //        if (other.CompareTag("Possessable"))
+    //        {
+    //            var hitInfo = other.GetComponent<HitableItemTest>();
+    //            GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Possessable, HitInfo = hitInfo });
+    //        }
+    //        if (other.CompareTag("Enemy"))
+    //        {
+    //            var hitInfo = other.GetComponent<HitableItemTest>();
+    //            GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = HitObjecctTag.Enemy, HitInfo = hitInfo });
+    //        }
+    //    }
+    //}
     void ghostReactState(PlayerLaunchActionFinishCommand command)
     {
         switch (command.HitObjecctTag)

@@ -3,6 +3,7 @@ using DG.Tweening;
 using Gamemanager;
 using Obi;
 using UniRx;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class GhostLauncherView : MonoBehaviour
@@ -26,15 +27,20 @@ public class GhostLauncherView : MonoBehaviour
     [SerializeField]
     float launchSpeed_;
 
+    [SerializeField]
+    HitableItemTest nowAimingObjectHitInfo;
+
     Tweener aimTargetEvent_;
     Tweener ropeExtrudeEvent_;
 
     private void Start()
     {
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { nowAimingObjectHitInfo = cmd.HitableItemInfo; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.onSupportAimSystemLeaveHitableItem, cmd => { nowAimingObjectHitInfo = null; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
         GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish.Subscribe(cmd => { ropeLength_ = 0; });
-        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable|| cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => setRopeLengthByOtherObject(cmd.HitInfo.onHitPoint_.transform));
+        var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => setRopeLengthByOtherObject(cmd.HitInfo.onHitPoint_.transform));
         basicLength_ = rope_.restLength;
         //Debug.Log(rope_.restLength + "CM");
     }
@@ -53,7 +59,7 @@ public class GhostLauncherView : MonoBehaviour
         ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, launchTime).OnComplete(
             () =>
             {
-                GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = false });
+                sendLaunchFinishMessage();
             }
             );
     }
@@ -72,12 +78,22 @@ public class GhostLauncherView : MonoBehaviour
     void setRopeLengthByOtherObject(Transform target)
     {
         var length = (target.transform.position - aimingFollowPoint_.transform.position).magnitude;
-        ropeLength_ = length-basicLength_;
+        ropeLength_ = length - basicLength_;
     }
     float getLaunchTimeByDistance(float distance)
     {
         var percentage = distance / 20f;
-        var result = percentage* launchSpeed_;
-        return result+0.2f;
+        var result = percentage * launchSpeed_;
+        return result + 0.2f;
+    }
+    void sendLaunchFinishMessage()
+    {
+        if (nowAimingObjectHitInfo==null)
+        {
+            GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = false });
+            return;
+        }
+        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = nowAimingObjectHitInfo.HitTag, HitInfo = nowAimingObjectHitInfo });        
+
     }
 }

@@ -74,5 +74,12 @@ public class MainGameEventPack : GameEventPack
     /// </summary>
     public IObservable<PlayerMovementInterruptionFinishCommand> OnPlayerMovementInterruptionFinish => getSubject<PlayerMovementInterruptionFinishCommand>();
 
+    /// <summary>
+    /// 角色呼叫攻擊碰撞體指令
+    /// </summary>
     public IObservable<PlayerAttackCallHitBoxCommand> OnPlayerAttackCallHitBox => getSubject<PlayerAttackCallHitBoxCommand>();
+
+    public IObservable<SupportAimSystemGetHitableItemCommand> OnSupportAimSystemGetHitableItem => getSubject<SupportAimSystemGetHitableItemCommand>();
+
+    public IObservable<SupportAimSystemLeaveHitableItemCommand> onSupportAimSystemLeaveHitableItem => getSubject<SupportAimSystemLeaveHitableItemCommand>();
 }

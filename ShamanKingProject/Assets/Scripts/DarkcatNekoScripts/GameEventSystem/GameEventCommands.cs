@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Gamemanager
@@ -92,4 +93,14 @@ namespace Gamemanager
 
     }
 
+    public class SupportAimSystemGetHitableItemCommand:GameEventMessageBase
+    {
+        public GameObject HitObject;
+        public HitableItemTest HitableItemInfo;
+    }
+
+    public class SupportAimSystemLeaveHitableItemCommand:GameEventMessageBase
+    {
+        public GameObject LeaveObject;
+    }
 }
