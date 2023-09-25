@@ -20,6 +20,9 @@ public class PlayerControllerMover
     [Range(0.0f, 0.3f)]
     public float TurnSmoothTime = 0.1f;
 
+    [Tooltip("重力")]
+    public float Gravity = -15.0f;
+
     [Tooltip("就算是粗糙的地面也能接受的偵測範圍")]
     public float GroundedOffset = -0.15f;
 
@@ -85,7 +88,8 @@ public class PlayerControllerMover
 
     public void Update()
     {
-        //groundedCheck();
+        groundedCheck();
+        jumpAndFall();
         move();
         controllerMoverStateMachine_.StageManagerUpdate();
     }
@@ -93,12 +97,12 @@ public class PlayerControllerMover
     {
         controllerMoverStateMachine_.TransitionState(state);
     }
-    void groundedCheck(Player_Stats player_Stats)
+    void groundedCheck()
     {
         //設置球的偵測位置
         Vector3 spherePosition = new Vector3(characterControllerObj_.transform.position.x, characterControllerObj_.transform.position.y - GroundedOffset,
             characterControllerObj_.transform.position.z);
-        player_Stats.Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
+        player_Stats_.Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
 
     }
@@ -196,6 +200,19 @@ public class PlayerControllerMover
         if (player_Stats_.Grounded)
         {
             //角色在地面上的操作
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                verticalVelocity_ = Mathf.Sqrt(1.2f * -2f * Gravity);
+
+            }
+        }
+        else
+        {
+
+        }
+        if (verticalVelocity_ < 53.0f)
+        {
+            verticalVelocity_ += Gravity * Time.deltaTime;
         }
     }
     private void OnDrawGizmosSelected()
