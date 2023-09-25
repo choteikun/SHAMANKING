@@ -296,6 +296,9 @@ MonoBehaviour:
     m_Bits: 64
   distance_: 20
   smoothing_: 15
+  rayCube_: {fileID: 0}
+  aimStartPoint_: {fileID: 0}
+  objectsInArea_: []
 --- !u!114 &73649043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,7 +859,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.084345646, y: 0.0035883235, z: 0.00030374384, w: 0.99643004}
+  m_LocalRotation: {x: -0.08434611, y: 0.0015216229, z: 0.0001288021, w: 0.99643534}
   m_LocalPosition: {x: -5, y: 1.15, z: -2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1149,7 +1152,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456681961}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.000000007450581, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -30161,6 +30164,7 @@ GameObject:
   - component: {fileID: 9182023415079345086}
   - component: {fileID: 9012870480570812262}
   - component: {fileID: 3915245729844096142}
+  - component: {fileID: 9182023415079345087}
   m_Layer: 0
   m_Name: stairs_stone_01
   m_TagString: Untagged
@@ -31890,6 +31894,9 @@ MonoBehaviour:
     m_Bits: 64
   distance_: 20
   smoothing_: 15
+  rayCube_: {fileID: 0}
+  aimStartPoint_: {fileID: 0}
+  objectsInArea_: []
 --- !u!114 &4306130283328811346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53862,6 +53869,7 @@ GameObject:
   - component: {fileID: 1138576527877447571}
   - component: {fileID: 4584337731326352225}
   - component: {fileID: 4358772573434361635}
+  - component: {fileID: 8412753360743790269}
   m_Layer: 0
   m_Name: stairs_stone_01.001
   m_TagString: Untagged
@@ -53869,6 +53877,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!64 &8412753360743790269
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412753360743790268}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5846017991250168581, guid: 0a020db0281d2544ab97f170561b410e, type: 3}
 --- !u!1 &8416272007031599740
 GameObject:
   m_ObjectHideFlags: 0
@@ -58031,6 +58053,20 @@ Transform:
   m_Father: {fileID: 543450652303496306}
   m_RootOrder: 132
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &9182023415079345087
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4010285698480048264}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7649442565933297830, guid: 0a020db0281d2544ab97f170561b410e, type: 3}
 --- !u!4 &9184032364036054285
 Transform:
   m_ObjectHideFlags: 0
