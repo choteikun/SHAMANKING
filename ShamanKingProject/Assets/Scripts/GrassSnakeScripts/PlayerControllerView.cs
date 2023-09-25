@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerControllerView : MonoBehaviour
 {
+
     [SerializeField]
     Player_Stats player_Stats_ = new Player_Stats();
 
@@ -72,6 +73,21 @@ public class PlayerControllerView : MonoBehaviour
         playerAnimatorView_.Update();
         playerControllerMover_.Update();
     }
+    private void OnDrawGizmosSelected()
+    {
+        if (player_Stats_.Grounded)
+        {
+            Gizmos.color = Color.green;
+        }
+        else
+        {
+            Gizmos.color = Color.red;
+        }
+        Gizmos.DrawSphere(
+            new Vector3(transform.position.x, transform.position.y - player_Stats_.GroundedOffset, transform.position.z),
+            player_Stats_.GroundedRadius);
+    }
+
 }
 
 
@@ -83,6 +99,21 @@ public class Player_Stats
 
     [Tooltip("地板檢查，這不是CharacterController自帶的isGrounded，那東西是大便")]
     public bool Grounded = true;
+
+    [Tooltip("就算是粗糙的地面也能接受的偵測範圍")]
+    public float GroundedOffset = -0.15f;
+
+    [Tooltip("地板檢查的半徑。 應與CharacterControlle的半徑匹配")]
+    public float GroundedRadius = 0.3f;
+
+
+
+
+    [Tooltip("角色使用哪些Layer作為地面")]
+    public LayerMask GroundLayers;
+    [Tooltip("射線偵測所使用的Layer")]
+    public LayerMask aimColliderMask;
+
 
     [Tooltip("玩家瞄準狀態")]
     public bool Aiming = false;

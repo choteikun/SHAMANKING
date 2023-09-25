@@ -457,6 +457,14 @@ MonoBehaviour:
   player_Stats_:
     Player_Speed: 0
     Grounded: 1
+    GroundedOffset: -0.15
+    GroundedRadius: 0.3
+    GroundLayers:
+      serializedVersion: 2
+      m_Bits: 0
+    aimColliderMask:
+      serializedVersion: 2
+      m_Bits: 0
     Aiming: 0
     SpeedChangeRate: 10
     Player_InputMagnitude: 0
@@ -470,14 +478,7 @@ MonoBehaviour:
     MoveSpeed: 0
     SprintSpeed: 0
     TurnSmoothTime: 0
-    GroundedOffset: 0
-    GroundedRadius: 0
-    GroundLayers:
-      serializedVersion: 2
-      m_Bits: 0
-    aimColliderMask:
-      serializedVersion: 2
-      m_Bits: 0
+    Gravity: 0
 --- !u!143 &73649045
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1040,7 +1041,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.084344655, y: 0.006033509, z: 0.0005107235, w: 0.9964183}
+  m_LocalRotation: {x: -0.08433949, y: 0.012563778, z: 0.0010634967, w: 0.9963573}
   m_LocalPosition: {x: -5, y: 1.15, z: -2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1333,7 +1334,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456681961}
-  m_LocalRotation: {x: -0, y: -4.656613e-10, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3181,6 +3182,50 @@ MonoBehaviour:
       x: 1
       y: 1
       z: 1
+--- !u!1 &1122229012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122229014}
+  - component: {fileID: 1122229013}
+  m_Layer: 0
+  m_Name: OniCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1122229013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122229012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02d25c24c8574316883c920912e4fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1122229014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122229012}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1144016539
 GameObject:
   m_ObjectHideFlags: 0
@@ -4960,50 +5005,6 @@ MonoBehaviour:
       x: 1
       y: 1
       z: 1
---- !u!1 &1857418079
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1857418081}
-  - component: {fileID: 1857418080}
-  m_Layer: 0
-  m_Name: OniCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1857418080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1857418079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d02d25c24c8574316883c920912e4fdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1857418081
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1857418079}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 22
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1861061881
 GameObject:
   m_ObjectHideFlags: 0
@@ -5017,7 +5018,7 @@ GameObject:
   - component: {fileID: 1861061883}
   - component: {fileID: 1861061882}
   - component: {fileID: 1861061886}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21904,6 +21905,14 @@ MonoBehaviour:
   player_Stats_:
     Player_Speed: 0
     Grounded: 1
+    GroundedOffset: -0.15
+    GroundedRadius: 0.3
+    GroundLayers:
+      serializedVersion: 2
+      m_Bits: 4096
+    aimColliderMask:
+      serializedVersion: 2
+      m_Bits: 0
     Aiming: 0
     SpeedChangeRate: 10
     Player_InputMagnitude: 0
@@ -21917,14 +21926,7 @@ MonoBehaviour:
     MoveSpeed: 0
     SprintSpeed: 0
     TurnSmoothTime: 0
-    GroundedOffset: 0
-    GroundedRadius: 0
-    GroundLayers:
-      serializedVersion: 2
-      m_Bits: 0
-    aimColliderMask:
-      serializedVersion: 2
-      m_Bits: 0
+    Gravity: 0
 --- !u!114 &4306130283328811344
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,16 +23,7 @@ public class PlayerControllerMover
     [Tooltip("重力")]
     public float Gravity = -15.0f;
 
-    [Tooltip("就算是粗糙的地面也能接受的偵測範圍")]
-    public float GroundedOffset = -0.15f;
 
-    [Tooltip("地板檢查的半徑。 應與CharacterControlle的半徑匹配")]
-    public float GroundedRadius = 0.3f;
-
-    [Tooltip("角色使用哪些Layer作為地面")]
-    public LayerMask GroundLayers;
-    [Tooltip("射線偵測所使用的Layer")]
-    public LayerMask aimColliderMask;
 
     //--------------------------------------------------------------------------------------------------------------
     private Player_Stats player_Stats_;
@@ -100,9 +91,9 @@ public class PlayerControllerMover
     void groundedCheck()
     {
         //設置球的偵測位置
-        Vector3 spherePosition = new Vector3(characterControllerObj_.transform.position.x, characterControllerObj_.transform.position.y - GroundedOffset,
+        Vector3 spherePosition = new Vector3(characterControllerObj_.transform.position.x, characterControllerObj_.transform.position.y - player_Stats_.GroundedOffset,
             characterControllerObj_.transform.position.z);
-        player_Stats_.Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
+        player_Stats_.Grounded = Physics.CheckSphere(spherePosition, player_Stats_.GroundedRadius, player_Stats_.GroundLayers,
             QueryTriggerInteraction.Ignore);
 
     }
@@ -197,38 +188,34 @@ public class PlayerControllerMover
     }
     void jumpAndFall()
     {
+        Debug.Log("verticalVelocity_ : " + verticalVelocity_);
+        
         if (player_Stats_.Grounded)
         {
-            //角色在地面上的操作
+            
+            //垂直速度小於0時，則垂直速度維持在-2
+            if (verticalVelocity_ < 0.0f)
+            {
+
+                verticalVelocity_ = -2f;
+            }
+            //按下跳躍時，垂直速度給一個2倍的反向重力 * 跳躍高度 並平方根
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 verticalVelocity_ = Mathf.Sqrt(1.2f * -2f * Gravity);
-
             }
         }
         else
         {
 
         }
+        //在空中時才賦予角色重力
         if (verticalVelocity_ < 53.0f)
         {
             verticalVelocity_ += Gravity * Time.deltaTime;
         }
     }
-    private void OnDrawGizmosSelected()
-    {
-        if (player_Stats_.Grounded)
-        {
-            Gizmos.color = Color.green;
-        }
-        else
-        {
-            Gizmos.color = Color.red;
-        }
-        Gizmos.DrawSphere(
-            new Vector3(characterControllerObj_.transform.position.x, characterControllerObj_.transform.position.y - GroundedOffset, characterControllerObj_.transform.position.z),
-            GroundedRadius);
-    }
+    
 
    
 }
