@@ -23,7 +23,8 @@ public class PlayerControllerMover
     [Tooltip("重力")]
     public float Gravity = -15.0f;
 
-
+    [Tooltip("角色跳躍高度")]
+    public float JumpHeight = 3f;
 
     //--------------------------------------------------------------------------------------------------------------
     private Player_Stats player_Stats_;
@@ -196,13 +197,14 @@ public class PlayerControllerMover
             //垂直速度小於0時，則垂直速度維持在-2
             if (verticalVelocity_ < 0.0f)
             {
-
+                //防止在真正掉落到地面前 停止掉落
                 verticalVelocity_ = -2f;
             }
             //按下跳躍時，垂直速度給一個2倍的反向重力 * 跳躍高度 並平方根
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                verticalVelocity_ = Mathf.Sqrt(1.2f * -2f * Gravity);
+                //物理公式 v = sqrt(v * -2 * g)
+                verticalVelocity_ = Mathf.Sqrt(JumpHeight * -2f * Gravity);
             }
         }
         else
@@ -212,6 +214,7 @@ public class PlayerControllerMover
         //在空中時才賦予角色重力
         if (verticalVelocity_ < 53.0f)
         {
+            //再乘一個Time.deltaTime是由物理决定的 1/2 g t^2
             verticalVelocity_ += Gravity * Time.deltaTime;
         }
     }
