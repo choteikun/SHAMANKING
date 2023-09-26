@@ -3,7 +3,6 @@ using DG.Tweening;
 using Gamemanager;
 using Obi;
 using UniRx;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class GhostLauncherView : MonoBehaviour
@@ -38,9 +37,15 @@ public class GhostLauncherView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { nowAimingObjectHitInfo = cmd.HitableItemInfo; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.onSupportAimSystemLeaveHitableItem, cmd => { nowAimingObjectHitInfo = null; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
-        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
-        GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish.Subscribe(cmd => { ropeLength_ = 0; });
+        var playerLaunchActionFinishEvent = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
+        var GhostLaunchProcessFinishEvent = GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish.Subscribe(cmd => { ropeLength_ = 0; });
+        var AimingButtonTriggerEvent = GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Where(cmd => !cmd.AimingButtonIsPressed).Subscribe(cmd => { nowAimingObjectHitInfo = null; });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => setRopeLengthByOtherObject(cmd.HitInfo.onHitPoint_.transform));
+
+        GameManager.Instance.MainGameMediator.AddToDisposables(playerLaunchActionFinishEvent);
+        GameManager.Instance.MainGameMediator.AddToDisposables(GhostLaunchProcessFinishEvent);
+        GameManager.Instance.MainGameMediator.AddToDisposables(AimingButtonTriggerEvent);
+        GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
         basicLength_ = rope_.restLength;
         //Debug.Log(rope_.restLength + "CM");
     }
@@ -88,12 +93,12 @@ public class GhostLauncherView : MonoBehaviour
     }
     void sendLaunchFinishMessage()
     {
-        if (nowAimingObjectHitInfo==null)
+        if (nowAimingObjectHitInfo == null)
         {
             GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = false });
             return;
         }
-        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = nowAimingObjectHitInfo.HitTag, HitInfo = nowAimingObjectHitInfo });        
+        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = nowAimingObjectHitInfo.HitTag, HitInfo = nowAimingObjectHitInfo });
 
     }
 }

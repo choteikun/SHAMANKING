@@ -1,5 +1,7 @@
 using Gamemanager;
+using UniRx;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class PlayerAimerView : MonoBehaviour
 {
@@ -21,6 +23,8 @@ public class PlayerAimerView : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => supportAimSystemGetObject(cmd));
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.onSupportAimSystemLeaveHitableItem, cmd => supportAimSystemLeaveObject(cmd));
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { releaseAimButton(cmd); } );
+       // GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Subscribe(cmd => { rayCube_.SetActive(cmd.AimingButtonIsPressed); });
     }
     private void Update()
     {
@@ -72,5 +76,10 @@ public class PlayerAimerView : MonoBehaviour
             nowAimimgObject_ = null;
             hitObjectInfo_ = null;
         }
+    }
+    void releaseAimButton(PlayerAimingButtonCommand cmd)
+    {
+        rayCube_.SetActive(cmd.AimingButtonIsPressed);
+        if (!cmd.AimingButtonIsPressed ) { hitObjectInfo_ = null; nowAimimgObject_ = null; }
     }
 }

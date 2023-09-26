@@ -1,10 +1,6 @@
-using Cysharp.Threading.Tasks.Triggers;
-using System.Collections;
-using System.Collections.Generic;
+using Gamemanager;
 using UnityEngine;
 using UnityEngine.UI;
-using UniRx;
-using Language.Lua;
 
 public class AimUIControllerView : MonoBehaviour
 {
@@ -21,8 +17,9 @@ public class AimUIControllerView : MonoBehaviour
     private void Start()
     {
         canvasRectTransform_ = aimCanvas_.GetComponent<RectTransform>();
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { supportAimPointImage_.gameObject.SetActive(true); nowSupportAimingObject_ = cmd.HitableItemInfo.onHitPoint_; });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.onSupportAimSystemLeaveHitableItem, cmd => { supportAimPointImage_.gameObject.SetActive(false); nowSupportAimingObject_ = null; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { supportAimSystemGetHitableItem(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.onSupportAimSystemLeaveHitableItem, cmd => { supportAimSystemLeaveHitableItem(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { aimingButtonTrigger(cmd); });
     }
     private void Update()
     {
@@ -42,5 +39,33 @@ public class AimUIControllerView : MonoBehaviour
         }
         //var rect = new Vector2((supportAimObjectToRectTransform.x - 0.5f) * 960, (supportAimObjectToRectTransform.y - 0.5f) * 540);
         //supportAimPointImage_.rectTransform.anchoredPosition = rect;
+    }
+
+    void supportAimSystemGetHitableItem(SupportAimSystemGetHitableItemCommand cmd)
+    {
+        supportAimPointImage_.gameObject.SetActive(true);
+        aimPointImage_.gameObject.SetActive(false);
+        nowSupportAimingObject_ = cmd.HitableItemInfo.onHitPoint_;
+    }
+
+    void supportAimSystemLeaveHitableItem(SupportAimSystemLeaveHitableItemCommand cmd)
+    {
+        supportAimPointImage_.gameObject.SetActive(false);
+        aimPointImage_.gameObject.SetActive(true);
+        nowSupportAimingObject_ = null;
+    }
+
+    void aimingButtonTrigger(PlayerAimingButtonCommand cmd)
+    {
+        if (!cmd.AimingButtonIsPressed)
+        {
+            aimPointImage_.gameObject.SetActive(false);
+            supportAimPointImage_.gameObject.SetActive(false);
+            nowSupportAimingObject_ = null;
+        }
+        else
+        {
+            aimPointImage_.gameObject.SetActive(true);
+        }
     }
 }
