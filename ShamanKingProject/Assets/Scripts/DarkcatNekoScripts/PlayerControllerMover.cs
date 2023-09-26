@@ -11,7 +11,7 @@ public class PlayerControllerMover
 {
     [Header("Player")]
     [Tooltip("玩家移動速度")]
-    public float MoveSpeed = 5f;
+    public float MoveSpeed = 5.0f;
 
     [Tooltip("玩家衝刺速度")]
     public float SprintSpeed = 5.5f;
@@ -21,10 +21,10 @@ public class PlayerControllerMover
     public float TurnSmoothTime = 0.1f;
 
     [Tooltip("重力")]
-    public float Gravity = -15.0f;
+    public float Gravity = -16.0f;
 
     [Tooltip("角色跳躍高度")]
-    public float JumpHeight = 3f;
+    public float JumpHeight = 2.0f;
 
     //--------------------------------------------------------------------------------------------------------------
     private Player_Stats player_Stats_;
@@ -47,8 +47,7 @@ public class PlayerControllerMover
     private float player_TargetRotation_ = 0.0f;
 
     //private float player_Speed_;
-    private float turnSmoothVelocity_;
-    private float verticalVelocity_;
+    private float turnSmoothVelocity_; 
 
     private ControllerMoverStateMachine controllerMoverStateMachine_;
 
@@ -168,7 +167,7 @@ public class PlayerControllerMover
         //Debug.Log(player_Stats_.Player_Dir);
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
         var canMoveToInt = player_Stats_.Player_CanMove ? 1 : 0;
-        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) * canMoveToInt + new Vector3(0.0f, verticalVelocity_, 0.0f) * Time.deltaTime);
+        player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) * canMoveToInt + new Vector3(0.0f, player_Stats_.verticalVelocity_, 0.0f) * Time.deltaTime);
     }
 
     public void AimPointUpdate()
@@ -191,44 +190,43 @@ public class PlayerControllerMover
     }
     void jumpAndFall()
     {
-        Debug.Log("verticalVelocity_ : " + verticalVelocity_);
-
         if (player_Stats_.Grounded)
         {
+            player_Stats_.Falling = false;
 
             //垂直速度小於0時，則垂直速度維持在-2
-            if (verticalVelocity_ < 0.0f)
+            if (player_Stats_.verticalVelocity_ < 0.0f)
             {
                 //防止在真正掉落到地面前 停止掉落
-                verticalVelocity_ = -2f;
+                player_Stats_.verticalVelocity_ = -2f;
             }
-            //按下跳躍時，垂直速度給一個2倍的反向重力 * 跳躍高度 並平方根
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                //物理公式 v = sqrt(v * -2 * g)
-                verticalVelocity_ = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-            }
-
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    //物理公式 v = sqrt(v * -2 * g)
+            //    player_Stats_.verticalVelocity_ = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+            //}
         }
         else
         {
-
+            if(player_Stats_.verticalVelocity_ < 0.0f)
+            {
+                player_Stats_.Falling = true;
+            }
+            else
+            {
+                player_Stats_.Falling = false;
+            }
         }
-        //在空中時才賦予角色重力
-        if (verticalVelocity_ < 53.0f)
-        {
-            //再乘一個Time.deltaTime是由物理决定的 1/2 g t^2
-            verticalVelocity_ += Gravity * Time.deltaTime;
-        }
+        //再乘一個Time.deltaTime是由物理决定的 1/2 g t^2
+        player_Stats_.verticalVelocity_ += Gravity * Time.deltaTime;
     }
 
     void jumpAction()
     {
         if (player_Stats_.Grounded)
         {
-            //按下跳躍時，垂直速度給一個2倍的反向重力 * 跳躍高度 並平方根
-            verticalVelocity_ = Mathf.Sqrt(1.2f * -2f * Gravity);
-
+            //物理公式 v = sqrt(v * -2 * g)
+            player_Stats_.verticalVelocity_ = Mathf.Sqrt(JumpHeight * -2f * Gravity);
         }
     }
 

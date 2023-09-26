@@ -106,7 +106,8 @@ public class Player_Stats
     [Tooltip("地板檢查的半徑。 應與CharacterControlle的半徑匹配")]
     public float GroundedRadius = 0.3f;
 
-
+    [Tooltip("角色的垂直速度")]
+    public float verticalVelocity_;
 
 
     [Tooltip("角色使用哪些Layer作為地面")]
@@ -117,6 +118,9 @@ public class Player_Stats
 
     [Tooltip("玩家瞄準狀態")]
     public bool Aiming = false;
+
+    [Tooltip("玩家落下狀態")]
+    public bool Falling;
 
     [Tooltip("運動速度達到最大值之前的速度數值，數值越大達到最大值的時間越快")]
     public float SpeedChangeRate = 10.0f;

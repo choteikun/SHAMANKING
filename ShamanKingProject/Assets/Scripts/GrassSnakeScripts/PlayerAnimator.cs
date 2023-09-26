@@ -26,6 +26,7 @@ public class PlayerAnimator
     //readonly int animID_InterruptedByLocomotion = Animator.StringToHash("InterruptedByLocomotion");
 
     readonly int animID_AnimMoveSpeed = Animator.StringToHash("AnimMoveSpeed");
+    readonly int animID_AnimVerticalSpeed = Animator.StringToHash("AnimVerticalSpeed");
 
     readonly int animID_InputDetected = Animator.StringToHash("InputDetected");
     readonly int animID_Grounded = Animator.StringToHash("Grounded");
@@ -68,7 +69,7 @@ public class PlayerAnimator
     private float player_horizontalAnimX;
     private float player_horizontalAnimY;
     //角色動畫垂直速度
-    private float player_verticalVel_;
+    private float player_verticalAnimVel_;
 
 
     [SerializeField, Tooltip("過渡到隨機Idle動畫所需要花的時間")]
@@ -115,9 +116,18 @@ public class PlayerAnimator
 
     public void Update()
     {
-        setHorizontalAnimVel();
+        //設置動畫觸地狀態
         setPlayer_animID_Grounded();
+
+        //設置動畫水平速度
+        setHorizontalAnimVel();
+        //設置動畫垂直速度
+        setVerticalAnimVel();
+
+        //設置玩家瞄準狀態
         setPlayer_animID_Aiming();
+
+        //回到idle的計時器
         timeoutToIdle();
 
         #region - 簡易動畫狀態管理 
@@ -235,7 +245,7 @@ public class PlayerAnimator
     #region - 待機動畫處理 -
     void timeoutToIdle()
     {
-        bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming || playerAnimState_== PlayerAnimState.Attack;
+        bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming || playerAnimState_== PlayerAnimState.Attack || !player_Stats_.Grounded;
         //如果沒有偵測到任何輸入產生的行為
         if (!inputDetected)
         {
@@ -273,6 +283,27 @@ public class PlayerAnimator
         //}
         if (player_horizontalAnimVel_ < 0.01f) player_horizontalAnimVel_ = 0f;
         animator_.SetFloat(animID_AnimMoveSpeed, player_horizontalAnimVel_);
+    }
+    void setVerticalAnimVel()
+    {
+        Debug.Log("player_Stats_.verticalVelocity_" + player_Stats_.verticalVelocity_);
+
+        //如果在離開地板且verticalVelocity_大於0的時set player_verticalAnimVel_參數
+        if (!player_Stats_.Grounded && player_Stats_.verticalVelocity_ > 0)
+        {
+            player_verticalAnimVel_ = player_Stats_.verticalVelocity_;
+        }
+        //如果角色屬於掉落狀態時set player_verticalAnimVel_參數
+        else if (player_Stats_.Falling)
+        {
+            player_verticalAnimVel_ = player_Stats_.verticalVelocity_;
+        }
+       
+        //animator_.SetFloat(animID_AnimVerticalSpeed, player_verticalAnimVel_);
+        if (!player_Stats_.Grounded)
+        {
+            animator_.SetFloat(animID_AnimVerticalSpeed, player_verticalAnimVel_);
+        }
     }
     void setPlayer_animID_Grounded()
     {
