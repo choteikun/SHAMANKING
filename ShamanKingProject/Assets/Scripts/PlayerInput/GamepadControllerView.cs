@@ -134,7 +134,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerJump()
     {
-        if (isAiming_) return;
+        if (isAiming_||isAttacking_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerJumpButtonCommand() { });
         Debug.Log("Jump!");
     }

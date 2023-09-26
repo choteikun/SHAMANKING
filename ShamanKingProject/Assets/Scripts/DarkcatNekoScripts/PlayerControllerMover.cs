@@ -76,6 +76,8 @@ public class PlayerControllerMover
 
         model_Transform_ = characterControllerObj_.GetComponentInChildren<Animator>().transform;
 
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJump, cmd => { jumpAction(); });
+
     }
 
     public void Update()
@@ -100,12 +102,12 @@ public class PlayerControllerMover
     }
     void move()
     {
-       
+
         //根據移動速度、衝刺速度以及是否按下衝刺設置目標速度
         float targetSpeed = player_SprintStatus_ ? SprintSpeed : MoveSpeed;
 
         //如果沒有輸入，則將目標速度設置為0
-        if (player_Stats_.Player_Dir == Vector2.zero ) targetSpeed = 0.0f;
+        if (player_Stats_.Player_Dir == Vector2.zero) targetSpeed = 0.0f;
 
         //玩家當前水平速度的引用
         float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
@@ -190,10 +192,10 @@ public class PlayerControllerMover
     void jumpAndFall()
     {
         Debug.Log("verticalVelocity_ : " + verticalVelocity_);
-        
+
         if (player_Stats_.Grounded)
         {
-            
+
             //垂直速度小於0時，則垂直速度維持在-2
             if (verticalVelocity_ < 0.0f)
             {
@@ -206,6 +208,7 @@ public class PlayerControllerMover
                 //物理公式 v = sqrt(v * -2 * g)
                 verticalVelocity_ = Mathf.Sqrt(JumpHeight * -2f * Gravity);
             }
+
         }
         else
         {
@@ -218,7 +221,16 @@ public class PlayerControllerMover
             verticalVelocity_ += Gravity * Time.deltaTime;
         }
     }
-    
 
-   
+    void jumpAction()
+    {
+        if (player_Stats_.Grounded)
+        {
+            //按下跳躍時，垂直速度給一個2倍的反向重力 * 跳躍高度 並平方根
+            verticalVelocity_ = Mathf.Sqrt(1.2f * -2f * Gravity);
+
+        }
+    }
+
+
 }
