@@ -293,6 +293,7 @@ public class PlayerAnimator
         {
             player_verticalAnimVel_ = player_Stats_.verticalVelocity_;
         }
+
         //如果角色屬於掉落狀態時set player_verticalAnimVel_參數
         else if (player_Stats_.Falling)
         {
