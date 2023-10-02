@@ -456,9 +456,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_Stats_:
     Player_Speed: 0
+    Player_DashSpeed: 0
+    Player_DashTime: 0
     Grounded: 1
     GroundedOffset: -0.15
     GroundedRadius: 0.3
+    verticalVelocity_: 0
     GroundLayers:
       serializedVersion: 2
       m_Bits: 0
@@ -466,6 +469,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     Aiming: 0
+    Falling: 0
     SpeedChangeRate: 10
     Player_InputMagnitude: 0
     Player_Dir: {x: 0, y: 0}
@@ -1272,7 +1276,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.084344655, y: 0.0060323128, z: 0.0005106222, w: 0.9964183}
+  m_LocalRotation: {x: -0.084344655, y: 0.006033509, z: 0.0005107235, w: 0.9964183}
   m_LocalPosition: {x: -5, y: 1.15, z: -2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1565,7 +1569,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456681961}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -4.656613e-10, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3547,6 +3551,50 @@ MonoBehaviour:
       x: 1
       y: 1
       z: 1
+--- !u!1 &1123076218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1123076220}
+  - component: {fileID: 1123076219}
+  m_Layer: 0
+  m_Name: OniCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1123076219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123076218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02d25c24c8574316883c920912e4fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1123076220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123076218}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1144016539
 GameObject:
   m_ObjectHideFlags: 0
@@ -4765,50 +4813,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1523504804}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1576401013
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1576401015}
-  - component: {fileID: 1576401014}
-  m_Layer: 0
-  m_Name: OniCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1576401014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1576401013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d02d25c24c8574316883c920912e4fdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1576401015
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1576401013}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 26
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1586727982
 GameObject:
   m_ObjectHideFlags: 0
@@ -28961,9 +28965,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_Stats_:
     Player_Speed: 0
+    Player_DashSpeed: 20
+    Player_DashTime: 0.25
     Grounded: 1
     GroundedOffset: -0.15
     GroundedRadius: 0.3
+    verticalVelocity_: 0
     GroundLayers:
       serializedVersion: 2
       m_Bits: 8192
@@ -28971,6 +28978,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     Aiming: 0
+    Falling: 0
     SpeedChangeRate: 10
     Player_InputMagnitude: 0
     Player_Dir: {x: 0, y: 0}

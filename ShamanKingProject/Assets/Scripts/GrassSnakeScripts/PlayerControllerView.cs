@@ -87,7 +87,6 @@ public class PlayerControllerView : MonoBehaviour
             new Vector3(transform.position.x, transform.position.y - player_Stats_.GroundedOffset, transform.position.z),
             player_Stats_.GroundedRadius);
     }
-
 }
 
 
@@ -96,6 +95,12 @@ public class Player_Stats
 {
     [Tooltip("玩家移動速度")]
     public float Player_Speed;
+
+    [Tooltip("玩家衝刺速度")]
+    public float Player_DashSpeed = 20;
+
+    [Tooltip("玩家衝刺時間")]
+    public float Player_DashTime = 0.25f;
 
     [Tooltip("地板檢查，這不是CharacterController自帶的isGrounded，那東西是大便")]
     public bool Grounded = true;

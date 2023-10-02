@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
@@ -168,6 +169,10 @@ public class PlayerControllerMover
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
         var canMoveToInt = player_Stats_.Player_CanMove ? 1 : 0;
         player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) * canMoveToInt + new Vector3(0.0f, player_Stats_.verticalVelocity_, 0.0f) * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Dash(targetDirection);
+        }
     }
 
     public void AimPointUpdate()
@@ -188,6 +193,18 @@ public class PlayerControllerMover
         Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 15f * Time.deltaTime);
         model_Transform_.rotation = newRotation;
     }
+
+    //衝刺測試
+    async void Dash(Vector3 targetDir)
+    {
+        float startTime = Time.time;
+        while (Time.time < startTime + player_Stats_.Player_DashTime)
+        {
+            player_CC_.Move(targetDir * player_Stats_.Player_DashSpeed * Time.deltaTime);
+            await UniTask.Yield();
+        }
+    }
+     
     void jumpAndFall()
     {
         if (player_Stats_.Grounded)
