@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Gamemanager;
 using System;
 using UnityEngine;
 
@@ -36,6 +37,8 @@ public class PlayerControllerMover
     private Transform model_Transform_;
 
     private Transform aimDestination_Transform_;
+
+    private Vector3 dashDir;
 
     private GameObject mainCamera_;
 
@@ -77,6 +80,8 @@ public class PlayerControllerMover
         model_Transform_ = characterControllerObj_.GetComponentInChildren<Animator>().transform;
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJump, cmd => { jumpAction(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, playerRollButtonTrigger);
+
 
     }
 
@@ -168,11 +173,14 @@ public class PlayerControllerMover
         //Debug.Log(player_Stats_.Player_Dir);
         Vector3 targetDirection = Quaternion.Euler(0.0f, player_TargetRotation_, 0.0f) * Vector3.forward;
         var canMoveToInt = player_Stats_.Player_CanMove ? 1 : 0;
+        //如果在可移動狀態下獲取衝刺向量
+        dashDir = player_Stats_.Player_CanMove ? targetDirection : Vector2.zero;
         player_CC_.Move(targetDirection.normalized * (player_Stats_.Player_Speed * Time.deltaTime) * canMoveToInt + new Vector3(0.0f, player_Stats_.verticalVelocity_, 0.0f) * Time.deltaTime);
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            Dash(targetDirection);
-        }
+    }
+    //閃避觸發器
+    void playerRollButtonTrigger(PlayerRollingButtonCommand command)
+    {
+        Dash(dashDir);
     }
 
     public void AimPointUpdate()
