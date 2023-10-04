@@ -22,7 +22,7 @@ public class PlayerAimerView : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => supportAimSystemGetObject(cmd));
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.onSupportAimSystemLeaveHitableItem, cmd => supportAimSystemLeaveObject(cmd));
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemLeaveHitableItem, cmd => supportAimSystemLeaveObject(cmd));
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { releaseAimButton(cmd); } );
        // GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Subscribe(cmd => { rayCube_.SetActive(cmd.AimingButtonIsPressed); });
     }

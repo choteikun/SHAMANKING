@@ -18,7 +18,7 @@ public class AimUIControllerView : MonoBehaviour
     {
         canvasRectTransform_ = aimCanvas_.GetComponent<RectTransform>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { supportAimSystemGetHitableItem(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.onSupportAimSystemLeaveHitableItem, cmd => { supportAimSystemLeaveHitableItem(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemLeaveHitableItem, cmd => { supportAimSystemLeaveHitableItem(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { aimingButtonTrigger(cmd); });
     }
     private void Update()

@@ -103,4 +103,9 @@ namespace Gamemanager
     {
         public GameObject LeaveObject;
     }
+
+    public class PlayerAttackCommand:GameEventMessageBase
+    {
+        public string AttackName;
+    }
 }

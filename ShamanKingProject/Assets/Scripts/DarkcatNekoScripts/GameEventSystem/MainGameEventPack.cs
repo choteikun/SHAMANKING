@@ -79,7 +79,19 @@ public class MainGameEventPack : GameEventPack
     /// </summary>
     public IObservable<PlayerAttackCallHitBoxCommand> OnPlayerAttackCallHitBox => getSubject<PlayerAttackCallHitBoxCommand>();
 
+    /// <summary>
+    /// 輔助瞄準系統進入可打物品
+    /// </summary>
     public IObservable<SupportAimSystemGetHitableItemCommand> OnSupportAimSystemGetHitableItem => getSubject<SupportAimSystemGetHitableItemCommand>();
 
-    public IObservable<SupportAimSystemLeaveHitableItemCommand> onSupportAimSystemLeaveHitableItem => getSubject<SupportAimSystemLeaveHitableItemCommand>();
+    /// <summary>
+    /// 輔助瞄準系統出可打物品
+    /// </summary>
+    public IObservable<SupportAimSystemLeaveHitableItemCommand> OnSupportAimSystemLeaveHitableItem => getSubject<SupportAimSystemLeaveHitableItemCommand>();
+
+
+    /// <summary>
+    /// 玩家確認打出甚麼攻擊
+    /// </summary>
+    public IObservable<PlayerAttackCommand> OnPlayerAttack => getSubject<PlayerAttackCommand>();
 }
