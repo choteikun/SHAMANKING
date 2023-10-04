@@ -10,6 +10,8 @@ public class MainGameMediator
 
     PlayerControllerModel playerControllerModel_ = new PlayerControllerModel();
 
+    [field: SerializeField] public ReaTimePlayerData RealTimePlayerData { get; private set; } = new ReaTimePlayerData();
+
     public void MainGameMediatorInit()
     {
         playerControllerModel_.PlayerControllerModelInit();
