@@ -5,16 +5,33 @@ public class SpiritUIBehavior : MonoBehaviour
 {
     [SerializeField] Sprite emptySpirit_;
     [SerializeField] Sprite fullSpirit_;
-    [SerializeField] Image spiritImage_;
-    public void ChangeSpiritImage(bool ifFull)
+    [SerializeField] Image[] spiritImages_;
+
+    private void Start()
     {
-        if (ifFull)
+        SpiritUIInit();
+    }
+    public void SpiritUIInit()
+    {
+        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSpiritUpdate, cmd => { onSpiritUpdate(); });
+    }
+
+    void onSpiritUpdate()
+    {
+        ChangeSpiritImage(GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowEatAmount);
+    }
+    public void ChangeSpiritImage(int nowSpiritCount)
+    {
+        for (int i = 0; i < spiritImages_.Length; i++) 
         {
-            spiritImage_.sprite = fullSpirit_;
-        }
-        else
-        {
-            spiritImage_.sprite = emptySpirit_;
+            if (i<nowSpiritCount)
+            {
+                spiritImages_[i].sprite = fullSpirit_;
+            }
+            else
+            {
+                spiritImages_[i].sprite = emptySpirit_;
+            }
         }
     }
 }

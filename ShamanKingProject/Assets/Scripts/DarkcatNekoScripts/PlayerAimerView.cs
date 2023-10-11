@@ -24,7 +24,8 @@ public class PlayerAimerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => supportAimSystemGetObject(cmd));
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemLeaveHitableItem, cmd => supportAimSystemLeaveObject(cmd));
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { releaseAimButton(cmd); } );
-       // GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Subscribe(cmd => { rayCube_.SetActive(cmd.AimingButtonIsPressed); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, cmd => { turnOffAimer(); });
+        // GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Subscribe(cmd => { rayCube_.SetActive(cmd.AimingButtonIsPressed); });
     }
     private void Update()
     {
@@ -82,4 +83,10 @@ public class PlayerAimerView : MonoBehaviour
         rayCube_.SetActive(cmd.AimingButtonIsPressed);
         if (!cmd.AimingButtonIsPressed ) { hitObjectInfo_ = null; nowAimimgObject_ = null; }
     }
+    void turnOffAimer()
+    {
+        rayCube_.SetActive(false);
+       hitObjectInfo_ = null; nowAimimgObject_ = null;
+    }
+    
 }

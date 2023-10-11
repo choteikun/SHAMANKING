@@ -58,6 +58,7 @@ namespace Gamemanager
     {
         public bool Hit = false;
         public HitObjecctTag HitObjecctTag = HitObjecctTag.None;
+        public GameObject HitObjecct;
         public HitableItemTest HitInfo;
     }
 
@@ -107,5 +108,16 @@ namespace Gamemanager
     public class PlayerAttackCommand:GameEventMessageBase
     {
         public string AttackName;
+    }
+
+    public class PlayerBiteFinishResponse : GameEventMessageBase
+    {
+        public GameObject HitObject;
+        public HitableItemTest HitInfo;
+    }
+
+    public class UISpiritUpdateCommand:GameEventMessageBase
+    {
+
     }
 }

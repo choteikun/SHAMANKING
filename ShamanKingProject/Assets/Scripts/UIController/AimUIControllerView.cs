@@ -1,6 +1,8 @@
 using Gamemanager;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class AimUIControllerView : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class AimUIControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { supportAimSystemGetHitableItem(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemLeaveHitableItem, cmd => { supportAimSystemLeaveHitableItem(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { aimingButtonTrigger(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, cmd => { aimUISwitch(false); });
+        //GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => {  });
+        
     }
     private void Update()
     {
@@ -54,7 +59,19 @@ public class AimUIControllerView : MonoBehaviour
         aimPointImage_.gameObject.SetActive(true);
         nowSupportAimingObject_ = null;
     }
-
+    void aimUISwitch(bool trigger)
+    {
+        if (!trigger)
+        {
+            aimPointImage_.gameObject.SetActive(false);
+            supportAimPointImage_.gameObject.SetActive(false);
+            nowSupportAimingObject_ = null;
+        }
+        else
+        {
+            aimPointImage_.gameObject.SetActive(true);
+        }
+    }
     void aimingButtonTrigger(PlayerAimingButtonCommand cmd)
     {
         if (!cmd.AimingButtonIsPressed)
