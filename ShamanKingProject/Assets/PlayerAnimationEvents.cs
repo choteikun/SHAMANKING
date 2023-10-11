@@ -25,6 +25,10 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "Player_Attack_End" });
     }
+    public void SendPlayer_Attack(string attackName)
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAttackCommand() { AttackName = attackName });
+    }
 
     public void Player_AimRecoil_End()
     {
