@@ -7,8 +7,8 @@ public enum EnemyState
 {
     //待機狀態
     ENEMY_IDLE,
-    //追蹤狀態
-    ENEMY_CHASE,
+    //移動狀態
+    ENEMY_MOVEMENT,
     //攻擊狀態
     ENEMY_FIGHT,
 }
@@ -24,7 +24,7 @@ public class EnemyBehaviorTreeSupport : MonoBehaviour
     void Start()
     {
         enemyState = EnemyState.ENEMY_IDLE;
-        switchExternalBehavior((int)GhostState.GHOST_IDLE);
+        switchExternalBehavior((int)EnemyState.ENEMY_IDLE);
 
     }
     void Update()
@@ -34,7 +34,7 @@ public class EnemyBehaviorTreeSupport : MonoBehaviour
             case EnemyState.ENEMY_IDLE:
 
                 break;
-            case EnemyState.ENEMY_CHASE:
+            case EnemyState.ENEMY_MOVEMENT:
 
                 break;
             case EnemyState.ENEMY_FIGHT:
@@ -46,7 +46,7 @@ public class EnemyBehaviorTreeSupport : MonoBehaviour
         }
     }
     #region - 切換外部行為樹 -
-    void switchExternalBehavior(int externalTrees)
+    public void switchExternalBehavior(int externalTrees)
     {
         if (externalBehaviorTrees[externalTrees] != null)
         {
