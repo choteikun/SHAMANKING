@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AI.FSM
 {
     public class BaseStateMachine : MonoBehaviour
     {
+        //初始state
         [SerializeField] private BaseState _initialState;
+        //現在的state
         public BaseState CurrentState { get; set; }
 
         private void Awake()

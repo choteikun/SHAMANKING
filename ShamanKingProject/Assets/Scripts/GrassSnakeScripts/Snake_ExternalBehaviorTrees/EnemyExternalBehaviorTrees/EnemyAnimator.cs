@@ -25,6 +25,6 @@ public class EnemyAnimator : MonoBehaviour
 
     void Update()
     {
-        anim.SetInteger(animID_EnemyState, (int)enemyBehaviorTreeSupport.enemyState);
+        anim.SetInteger(animID_EnemyState, (int)enemyBehaviorTreeSupport.enemyBehaviorTreeState);
     }
 }

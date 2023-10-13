@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyState
+public enum EnemyBehaviorTreeState
 {
     //待機狀態
     ENEMY_IDLE,
@@ -14,7 +14,7 @@ public enum EnemyState
 }
 public class EnemyBehaviorTreeSupport : MonoBehaviour
 {
-    public EnemyState enemyState;
+    public EnemyBehaviorTreeState enemyBehaviorTreeState;
 
     [SerializeField]
     private BehaviorTree behaviorTree;
@@ -23,21 +23,21 @@ public class EnemyBehaviorTreeSupport : MonoBehaviour
 
     void Start()
     {
-        enemyState = EnemyState.ENEMY_IDLE;
-        switchExternalBehavior((int)EnemyState.ENEMY_IDLE);
+        enemyBehaviorTreeState = EnemyBehaviorTreeState.ENEMY_IDLE;
+        switchExternalBehavior((int)EnemyBehaviorTreeState.ENEMY_IDLE);
 
     }
     void Update()
     {
-        switch (enemyState)
+        switch (enemyBehaviorTreeState)
         {
-            case EnemyState.ENEMY_IDLE:
+            case EnemyBehaviorTreeState.ENEMY_IDLE:
 
                 break;
-            case EnemyState.ENEMY_MOVEMENT:
+            case EnemyBehaviorTreeState.ENEMY_MOVEMENT:
 
                 break;
-            case EnemyState.ENEMY_FIGHT:
+            case EnemyBehaviorTreeState.ENEMY_FIGHT:
 
                 break;
 

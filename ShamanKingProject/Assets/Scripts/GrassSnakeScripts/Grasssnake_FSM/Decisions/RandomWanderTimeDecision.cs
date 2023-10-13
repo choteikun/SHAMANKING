@@ -13,14 +13,16 @@ namespace AI.FSM.Decisions
         int randomTimeToMoveValue = 25;
 
         float timer = 0;
-
-        void OnEnable()
-        {
-            randomTimeToMoveValue = Random.Range(timeToMoveValue - timeToMoveThreshold, timeToMoveValue + timeToMoveThreshold);
-            Debug.Log("randomTimeToMoveValue : " + randomTimeToMoveValue);
-        }
         public override bool Decide(BaseStateMachine stateMachine)
         {
+            //如果敵人身上有ZombieStats腳本且觸發器為true
+            if (stateMachine.GetComponent<ZombieStats>() != null && stateMachine.GetComponent<ZombieStats>().randomTimeToMoveValueTrigger)
+            {
+                //生成一個閾值內的隨機<<醒來!!該去遊走了>>的時間
+                randomTimeToMoveValue = Random.Range(timeToMoveValue - timeToMoveThreshold, timeToMoveValue + timeToMoveThreshold);
+                //Debug.Log("randomTimeToMoveValue : " + randomTimeToMoveValue);
+                stateMachine.GetComponent<ZombieStats>().randomTimeToMoveValueTrigger = false;
+            }
             timer += Time.deltaTime;
             if (timer >= randomTimeToMoveValue)
             {
@@ -32,5 +34,7 @@ namespace AI.FSM.Decisions
                 return false;
             }
         }
+
+        
     }
 }
