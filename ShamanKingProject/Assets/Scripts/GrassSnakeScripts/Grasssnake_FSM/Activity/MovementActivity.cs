@@ -7,6 +7,7 @@ namespace AI.FSM.Activities
     {
         public override void Enter(BaseStateMachine stateMachine)
         {
+            stateMachine.GetComponent<EnemyBehaviorTreeSupport>().enemyState = EnemyState.ENEMY_MOVEMENT;
             stateMachine.GetComponent<EnemyBehaviorTreeSupport>().switchExternalBehavior((int)EnemyState.ENEMY_MOVEMENT);
         }
 

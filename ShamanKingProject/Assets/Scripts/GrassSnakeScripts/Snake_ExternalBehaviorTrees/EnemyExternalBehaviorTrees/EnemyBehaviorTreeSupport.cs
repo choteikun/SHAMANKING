@@ -14,8 +14,8 @@ public enum EnemyState
 }
 public class EnemyBehaviorTreeSupport : MonoBehaviour
 {
-    [SerializeField]
-    private EnemyState enemyState;
+    public EnemyState enemyState;
+
     [SerializeField]
     private BehaviorTree behaviorTree;
     [SerializeField]

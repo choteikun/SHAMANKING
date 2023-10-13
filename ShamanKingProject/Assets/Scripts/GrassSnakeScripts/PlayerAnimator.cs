@@ -288,7 +288,7 @@ public class PlayerAnimator
     }
     void setVerticalAnimVel()
     {
-        Debug.Log("player_Stats_.verticalVelocity_" + player_Stats_.verticalVelocity_);
+        //Debug.Log("player_Stats_.verticalVelocity_" + player_Stats_.verticalVelocity_);
 
         //如果在離開地板且verticalVelocity_大於0的時set player_verticalAnimVel_參數
         if (!player_Stats_.Grounded && player_Stats_.verticalVelocity_ > 0)
