@@ -3,8 +3,8 @@ using UnityEngine;
 namespace AI.FSM.Activities
 {
     [CreateAssetMenu(menuName = "AI/FSM/Activity/IdleActivity")]
-    public class IdleActivity : Activity
-    {
+    public class IdleActivity_Base : Activity
+    { 
         public override void Enter(BaseStateMachine stateMachine)
         {
             stateMachine.GetComponent<EnemyBehaviorTreeSupport>().enemyBehaviorTreeState = EnemyBehaviorTreeState.ENEMY_IDLE;

@@ -1,3 +1,5 @@
+using AI.FSM.Activities;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AI.FSM.Decisions
@@ -16,14 +18,15 @@ namespace AI.FSM.Decisions
 
         public override bool Decide(BaseStateMachine stateMachine)
         {
-            //如果敵人身上有ZombieStats腳本且觸發器為true
-            if (stateMachine.GetComponent<ZombieStats>() != null && stateMachine.GetComponent<ZombieStats>().randomTimeToDazeValueTrigger)
+            //如果現在state裡有PatrolTypeEnemySupport且移動觸發器為true
+            if (stateMachine.GetComponent<PatrolTypeEnemySupport>() != null && stateMachine.GetComponent<PatrolTypeEnemySupport>().randomTimeToDazeValueTrigger)
             {
                 //生成一個閾值內的隨機發呆時間
                 randomTimeToDazeValue = Random.Range(timeToDazeValue - timeToDazeThreshold, timeToDazeValue + timeToDazeThreshold);
                 //Debug.Log("randomTimeToDazeValue : " + randomTimeToDazeValue);
-                stateMachine.GetComponent<ZombieStats>().randomTimeToDazeValueTrigger = false;
+                stateMachine.GetComponent<PatrolTypeEnemySupport>().randomTimeToDazeValueTrigger = false;
             }
+
             timer += Time.deltaTime;
             if (timer >= randomTimeToDazeValue)
             {

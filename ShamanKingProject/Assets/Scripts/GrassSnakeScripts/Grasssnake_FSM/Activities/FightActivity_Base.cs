@@ -3,7 +3,7 @@ using UnityEngine;
 namespace AI.FSM.Activities
 {
     [CreateAssetMenu(menuName = "AI/FSM/Activity/FightActivity")]
-    public class FightActivity : Activity
+    public class FightActivity_Base : Activity
     {
         public override void Enter(BaseStateMachine stateMachine)
         {

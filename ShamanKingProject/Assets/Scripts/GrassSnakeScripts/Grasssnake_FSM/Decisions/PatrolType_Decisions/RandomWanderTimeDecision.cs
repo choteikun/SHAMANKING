@@ -1,3 +1,4 @@
+using AI.FSM.Activities;
 using UnityEngine;
 
 namespace AI.FSM.Decisions
@@ -15,13 +16,13 @@ namespace AI.FSM.Decisions
         float timer = 0;
         public override bool Decide(BaseStateMachine stateMachine)
         {
-            //如果敵人身上有ZombieStats腳本且觸發器為true
-            if (stateMachine.GetComponent<ZombieStats>() != null && stateMachine.GetComponent<ZombieStats>().randomTimeToMoveValueTrigger)
+            //如果現在state裡有PatrolTypeEnemySupport且移動觸發器為true
+            if (stateMachine.GetComponent<PatrolTypeEnemySupport>() != null && stateMachine.GetComponent<PatrolTypeEnemySupport>().randomTimeToMoveValueTrigger) 
             {
                 //生成一個閾值內的隨機<<醒來!!該去遊走了>>的時間
                 randomTimeToMoveValue = Random.Range(timeToMoveValue - timeToMoveThreshold, timeToMoveValue + timeToMoveThreshold);
                 //Debug.Log("randomTimeToMoveValue : " + randomTimeToMoveValue);
-                stateMachine.GetComponent<ZombieStats>().randomTimeToMoveValueTrigger = false;
+                stateMachine.GetComponent<PatrolTypeEnemySupport>().randomTimeToMoveValueTrigger = false;
             }
             timer += Time.deltaTime;
             if (timer >= randomTimeToMoveValue)
@@ -34,7 +35,5 @@ namespace AI.FSM.Decisions
                 return false;
             }
         }
-
-        
     }
 }
