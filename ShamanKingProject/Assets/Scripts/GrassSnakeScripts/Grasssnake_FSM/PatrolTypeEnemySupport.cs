@@ -1,5 +1,7 @@
+using BehaviorDesigner.Runtime;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public class PatrolTypeEnemySupport : MonoBehaviour
@@ -8,4 +10,5 @@ public class PatrolTypeEnemySupport : MonoBehaviour
     public bool randomTimeToMoveValueTrigger;
     [Tooltip("自動生成隨機時間的發呆觸發器")]
     public bool randomTimeToDazeValueTrigger;
+
 }
