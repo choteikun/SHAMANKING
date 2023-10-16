@@ -91,7 +91,7 @@ namespace Gamemanager
 
     public class PlayerAttackCallHitBoxCommand:GameEventMessageBase 
     {
-
+        public bool CallOrCancel;
     }
 
     public class SupportAimSystemGetHitableItemCommand:GameEventMessageBase
@@ -119,5 +119,12 @@ namespace Gamemanager
     public class UISpiritUpdateCommand:GameEventMessageBase
     {
 
+    }
+
+    public class PlayerAttackSuccessCommand:GameEventMessageBase
+    {
+        public Vector3 CollidePoint;
+        public GameObject AttackTarget;
+        public float AttackDamage;
     }
 }

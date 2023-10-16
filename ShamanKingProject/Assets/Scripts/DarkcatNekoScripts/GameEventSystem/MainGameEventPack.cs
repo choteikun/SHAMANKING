@@ -99,4 +99,6 @@ public class MainGameEventPack : GameEventPack
     /// 玩家結束咬的事件 要與物件與角色數值做結算
     /// </summary>
     public IObservable<PlayerBiteFinishResponse> OnPlayerBiteFinish => getSubject<PlayerBiteFinishResponse>();
+
+    public IObservable<PlayerAttackSuccessCommand> OnPlayerAttackSuccess => getSubject<PlayerAttackSuccessCommand>();
 }
