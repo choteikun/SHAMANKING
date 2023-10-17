@@ -84,6 +84,7 @@ public class GhostLauncherView : MonoBehaviour
     {
         var length = (target.transform.position - aimingFollowPoint_.transform.position).magnitude;
         ropeLength_ = length - basicLength_;
+        ropeLength_ = Mathf.Clamp(ropeLength_, 0.25f, 10000);
     }
     float getLaunchTimeByDistance(float distance)
     {
