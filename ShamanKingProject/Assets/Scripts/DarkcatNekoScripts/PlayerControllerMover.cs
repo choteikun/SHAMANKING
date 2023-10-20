@@ -112,7 +112,17 @@ public class PlayerControllerMover
         float targetSpeed = player_SprintStatus_ ? SprintSpeed : MoveSpeed;
 
         //如果沒有輸入，則將目標速度設置為0
-        if (player_Stats_.Player_Dir == Vector2.zero) targetSpeed = 0.0f;
+        if (player_Stats_.Player_Dir == Vector2.zero)
+        {
+            if (player_Stats_.Player_IsMoving)
+            {
+                player_Stats_.Player_IsMoving = false;
+                GameManager.Instance.MainGameEvent.Send(new PlayerMoveStatusChangeCommand() { IsMoving = false });
+            }
+            targetSpeed = 0.0f;
+        } 
+
+            
 
         //玩家當前水平速度的引用
         float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
@@ -157,6 +167,11 @@ public class PlayerControllerMover
         //玩家移動中
         if (player_Stats_.Player_Dir != Vector2.zero && player_Stats_.Player_CanMove)
         {
+            if (!player_Stats_.Player_IsMoving)
+            {
+                player_Stats_.Player_IsMoving = true;
+                GameManager.Instance.MainGameEvent.Send(new PlayerMoveStatusChangeCommand() { IsMoving = true });
+            }
             //計算輸入端輸入後所需要的轉向角度，加上相機的角度實現相對相機的前方的移動
             player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera_.transform.eulerAngles.y;
 

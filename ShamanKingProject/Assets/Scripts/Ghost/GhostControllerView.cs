@@ -2,6 +2,7 @@ using BehaviorDesigner.Runtime;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gamemanager;
+using Language.Lua;
 using System;
 using UniRx;
 using UnityEngine;
@@ -37,6 +38,9 @@ public class GhostControllerView : MonoBehaviour
     [SerializeField]
     Material chainMat_;
 
+    Tweener chainRevertTweener_;
+    bool chainActivating_ = true;
+
     void Awake()
     {
         ghostAnimator_ = new GhostAnimator(this.gameObject);
@@ -49,6 +53,7 @@ public class GhostControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cmd => { mat_Revert(); });//有時候會在Ghost_Back start前就呼叫(尚未解決)
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cmd => { GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse()); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMoveStatusChange, cmd => { playerMoveStatusToChainBehavior(cmd); });
 
         behaviorTree = GetComponent<BehaviorTree>();
         ghost_Stats_.rb = GetComponent<Rigidbody>();
@@ -117,6 +122,29 @@ public class GhostControllerView : MonoBehaviour
 
             default:
                 break;
+        }
+    }
+
+    void playerMoveStatusToChainBehavior(PlayerMoveStatusChangeCommand cmd)
+    {
+        if (cmd.IsMoving)
+        {
+            if (chainRevertTweener_ != null) chainRevertTweener_.Kill();
+            if (chainActivating_ == false) return;
+            chain_Dissolve();
+        }
+        else
+        {
+            float tween = 0;
+            chainRevertTweener_ = DOTween.To(() => tween, x => tween = x, 1,2)
+            .OnUpdate(() =>
+            {
+              
+            })
+            .OnComplete(() =>
+            {
+                chain_Revert();              
+            });
         }
     }
     #endregion
@@ -217,6 +245,23 @@ public class GhostControllerView : MonoBehaviour
         //0.1秒後才啟動邊緣光0.4秒後結束
         Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material); }).AddTo(this);
         Debug.Log("mat_Dissolve");
+    }
+    void chain_Dissolve()
+    {
+        //溶解特效啟動1秒後結束
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, chainMat_);
+        //0.1秒後才啟動邊緣光0.4秒後結束
+        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, chainMat_); }).AddTo(this);
+        Debug.Log("chain_Dissolve");
+        chainActivating_ = false;
+    }
+    void chain_Revert()
+    {
+        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 1, 0, 0.5f, chainMat_);
+
+        Observable.Timer(TimeSpan.FromSeconds(0.4f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 0, 0.1f, chainMat_); }).AddTo(this);
+        Debug.Log("chain_Revert");
+        chainActivating_ = true;
     }
     /// <summary>
     /// 使用Dotween快速實現Shader過渡(Float)

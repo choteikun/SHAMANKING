@@ -138,4 +138,6 @@ public class Player_Stats
     public bool Player_AttackCommandAllow;
 
     public bool Player_CanMove = true;
+
+    public bool Player_IsMoving = false;
 }

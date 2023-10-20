@@ -127,4 +127,14 @@ namespace Gamemanager
         public GameObject AttackTarget;
         public float AttackDamage;
     }
+
+    public class PlayerControllerPossessableInteractButtonCommand:GameEventMessageBase
+    {
+
+    }
+
+    public class PlayerMoveStatusChangeCommand:GameEventMessageBase
+    {
+        public bool IsMoving;
+    }
 }

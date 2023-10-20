@@ -258,6 +258,7 @@ public class PlayerAnimator
             {
                 idleTimer_ = 0f;
                 animator_.SetTrigger(animID_TimeOutToIdle);
+                //GameManager.Instance.MainGameEvent.Send(new PlayerMoveStatusChangeCommand() { IsMoving = false });
             }
         }
         else

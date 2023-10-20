@@ -101,4 +101,8 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerBiteFinishResponse> OnPlayerBiteFinish => getSubject<PlayerBiteFinishResponse>();
 
     public IObservable<PlayerAttackSuccessCommand> OnPlayerAttackSuccess => getSubject<PlayerAttackSuccessCommand>();
+
+    public IObservable<PlayerControllerPossessableInteractButtonCommand> OnPlayerControllerPossessableInteract => getSubject<PlayerControllerPossessableInteractButtonCommand>();
+
+    public IObservable<PlayerMoveStatusChangeCommand> OnPlayerMoveStatusChange => getSubject<PlayerMoveStatusChangeCommand>();
 }

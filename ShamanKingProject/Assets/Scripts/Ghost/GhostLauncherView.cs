@@ -99,7 +99,7 @@ public class GhostLauncherView : MonoBehaviour
             GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = false });
             return;
         }
-        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = nowAimingObjectHitInfo.HitTag, HitInfo = nowAimingObjectHitInfo });
+        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = nowAimingObjectHitInfo.HitTag, HitInfo = nowAimingObjectHitInfo,HitObjecct = nowAimingObjectHitInfo.gameObject });
 
     }
 }

@@ -182,5 +182,11 @@ public class GamepadControllerView : MonoBehaviour
             isBiting_ = true;
         }
     }
+
+    void OnPlayerPossessInteract()
+    {
+        if (!isPosscessing_) return;
+        GameManager.Instance.MainGameEvent.Send(new PlayerControllerPossessableInteractButtonCommand());
+    }
 }
 
