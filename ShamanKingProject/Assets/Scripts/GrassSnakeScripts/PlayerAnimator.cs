@@ -165,7 +165,10 @@ public class PlayerAnimator
         {
             case PlayerAnimState.Locomotion:
                 animator_.SetTrigger(animID_AttackCombo1);
-                playerAnimState_ = PlayerAnimState.Attack;
+                if (player_Stats_.Grounded)
+                {
+                    playerAnimState_ = PlayerAnimState.Attack;
+                }
                 break;
             case PlayerAnimState.Attack:
                 //當指令為不允許攻擊

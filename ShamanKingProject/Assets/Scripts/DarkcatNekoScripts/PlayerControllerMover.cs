@@ -98,12 +98,16 @@ public class PlayerControllerMover
     }
     void groundedCheck()
     {
+        var before = player_Stats_.Grounded;
         //設置球的偵測位置
         Vector3 spherePosition = new Vector3(characterControllerObj_.transform.position.x, characterControllerObj_.transform.position.y - player_Stats_.GroundedOffset,
             characterControllerObj_.transform.position.z);
         player_Stats_.Grounded = Physics.CheckSphere(spherePosition, player_Stats_.GroundedRadius, player_Stats_.GroundLayers,
             QueryTriggerInteraction.Ignore);
-
+        if (player_Stats_.Grounded&& before == false)
+        {
+            GameManager.Instance.MainGameEvent.Send(new PlayerJumpTouchGroundCommand());
+        }
     }
     void move()
     {
@@ -114,7 +118,7 @@ public class PlayerControllerMover
         //如果沒有輸入，則將目標速度設置為0
         if (player_Stats_.Player_Dir == Vector2.zero)
         {
-            if (player_Stats_.Player_IsMoving)
+            if (player_Stats_.Player_IsMoving&&!player_Stats_.Aiming)
             {
                 player_Stats_.Player_IsMoving = false;
                 GameManager.Instance.MainGameEvent.Send(new PlayerMoveStatusChangeCommand() { IsMoving = false });
@@ -167,7 +171,7 @@ public class PlayerControllerMover
         //玩家移動中
         if (player_Stats_.Player_Dir != Vector2.zero && player_Stats_.Player_CanMove)
         {
-            if (!player_Stats_.Player_IsMoving)
+            if (!player_Stats_.Player_IsMoving && !player_Stats_.Aiming)
             {
                 player_Stats_.Player_IsMoving = true;
                 GameManager.Instance.MainGameEvent.Send(new PlayerMoveStatusChangeCommand() { IsMoving = true });

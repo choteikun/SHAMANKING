@@ -13,7 +13,7 @@ public class IOCContainer
 
         if (mInstances.ContainsKey(key))
         {
-            mInstances[key] = instance; //m/‰i‰“ 
+            mInstances[key] = instance; //m/ï¿½iï¿½ï¿½ 
         }
         else
         {

@@ -137,4 +137,9 @@ namespace Gamemanager
     {
         public bool IsMoving;
     }
+
+    public class PlayerJumpTouchGroundCommand:GameEventMessageBase
+    {
+        
+    }
 }

@@ -19,6 +19,7 @@ public class GamepadControllerView : MonoBehaviour
     [SerializeField] bool isPosscessing_ = false;
     [SerializeField] bool isBiting_ = false;
     [SerializeField] bool isAttacking_ = false;
+    [SerializeField] bool isJumping_ = false;
 
     [SerializeField] bool aimingDelay_ = true;
     Tweener aimingDelayer_;
@@ -32,6 +33,7 @@ public class GamepadControllerView : MonoBehaviour
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { isAttacking_ = false; Debug.Log("finishSend"); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpTouchGround, cmd => { isJumping_ = false; });
 
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { playerHitObject(cmd); });
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
@@ -135,6 +137,7 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerJump()
     {
         if (isAiming_||isAttacking_) return;
+        isJumping_ = true;
         GameManager.Instance.MainGameEvent.Send(new PlayerJumpButtonCommand() { });
         Debug.Log("Jump!");
     }
@@ -151,7 +154,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerLightAttack()
     {
-        if (isAiming_) return;
+        if (isAiming_||isJumping_) return;
         isAttacking_ = true;
         GameManager.Instance.MainGameEvent.Send(new PlayerLightAttackButtonCommand() { });
         Debug.Log("Attack!");

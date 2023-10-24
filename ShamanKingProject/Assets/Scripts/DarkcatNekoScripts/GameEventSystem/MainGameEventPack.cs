@@ -105,4 +105,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerControllerPossessableInteractButtonCommand> OnPlayerControllerPossessableInteract => getSubject<PlayerControllerPossessableInteractButtonCommand>();
 
     public IObservable<PlayerMoveStatusChangeCommand> OnPlayerMoveStatusChange => getSubject<PlayerMoveStatusChangeCommand>();
+
+    public IObservable<PlayerJumpTouchGroundCommand> OnPlayerJumpTouchGround => getSubject<PlayerJumpTouchGroundCommand>();
 }

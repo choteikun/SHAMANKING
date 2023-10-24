@@ -54,6 +54,7 @@ public class GhostControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cmd => { mat_Revert(); });//有時候會在Ghost_Back start前就呼叫(尚未解決)
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cmd => { GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse()); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMoveStatusChange, cmd => { playerMoveStatusToChainBehavior(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { playerAimReactivateChain(cmd); });
 
         behaviorTree = GetComponent<BehaviorTree>();
         ghost_Stats_.rb = GetComponent<Rigidbody>();
@@ -145,6 +146,17 @@ public class GhostControllerView : MonoBehaviour
             {
                 chain_Revert();              
             });
+        }
+    }
+
+    void playerAimReactivateChain(PlayerAimingButtonCommand cmd)
+    {
+        if (cmd.AimingButtonIsPressed)
+        {
+            if (!chainActivating_)
+            {
+                chain_Revert();
+            }
         }
     }
     #endregion
