@@ -252,14 +252,16 @@ public class PlayerAnimator
     {
         bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming || playerAnimState_== PlayerAnimState.Attack || !player_Stats_.Grounded;
         //如果沒有偵測到任何輸入產生的行為
-        if (!inputDetected)
+        if (!inputDetected && idleTimer_ == 0)
         {
-            
+            //開始計時
             idleTimer_ += Time.deltaTime;
 
+            //計時超過五秒後
             if (idleTimer_ >= idleTimeOut_)
             {
-                idleTimer_ = 0f;
+                //計時器為-1
+                idleTimer_ = -1f;
                 animator_.SetTrigger(animID_TimeOutToIdle);
                 //GameManager.Instance.MainGameEvent.Send(new PlayerMoveStatusChangeCommand() { IsMoving = false });
             }
