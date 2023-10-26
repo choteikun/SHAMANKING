@@ -10,8 +10,6 @@ public class GamepadControllerView : MonoBehaviour
 {
 
     [SerializeField] PlayerInput input_;
-    [SerializeField] InputActionAsset inputAction_;
-    InputActionMap inputActionMap_;
     [SerializeField] float mouse_X_Horrzontal_sensitivity_ = 1.2f;
 
     [SerializeField] bool isAiming_;
@@ -28,13 +26,14 @@ public class GamepadControllerView : MonoBehaviour
     {
         Debug.Log("start");
         await UniTask.Delay(500);
-        input_.SwitchCurrentActionMap("MainGameplay");
-        inputActionMap_ = inputAction_.FindActionMap("MainGameplay");
+        
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { isAttacking_ = false; Debug.Log("finishSend"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpTouchGround, cmd => { isJumping_ = false; });
-
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameConversationEnd, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallTutorial, cmd => { input_.SwitchCurrentActionMap("PlayerTutorialInput"); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerEndTutorial, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { playerHitObject(cmd); });
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
     }
@@ -190,6 +189,11 @@ public class GamepadControllerView : MonoBehaviour
     {
         if (!isPosscessing_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerControllerPossessableInteractButtonCommand());
+    }
+
+    void OnNextPage()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerEndTutorialCommand());
     }
 }
 

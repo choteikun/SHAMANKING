@@ -142,4 +142,19 @@ namespace Gamemanager
     {
         
     }
+
+    public class GameConversationEndCommand : GameEventMessageBase
+    {
+
+    }
+
+    public class SystemCallTutorialCommand:GameEventMessageBase
+    {
+        public float TutorialID;
+    }
+
+    public class PlayerEndTutorialCommand:GameEventMessageBase
+    {
+
+    }
 }

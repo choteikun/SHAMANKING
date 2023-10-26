@@ -107,4 +107,10 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerMoveStatusChangeCommand> OnPlayerMoveStatusChange => getSubject<PlayerMoveStatusChangeCommand>();
 
     public IObservable<PlayerJumpTouchGroundCommand> OnPlayerJumpTouchGround => getSubject<PlayerJumpTouchGroundCommand>();
+
+    public IObservable<GameConversationEndCommand> OnGameConversationEnd => getSubject<GameConversationEndCommand>();
+
+    public IObservable<SystemCallTutorialCommand> OnSystemCallTutorial => getSubject<SystemCallTutorialCommand>();
+
+    public IObservable<PlayerEndTutorialCommand> OnPlayerEndTutorial => getSubject<PlayerEndTutorialCommand>();
 }
