@@ -27,19 +27,22 @@ public class GhostEnemyAnimator : MonoBehaviour
     public void ResetAnimatorParametersInState_Idle()
     {
         anim.SetInteger(animID_EnemyState, 1);
-        anim.SetBool(animID_Walk, false);
-        anim.SetBool(animID_Run, false);
-        anim.SetBool(animID_Warn, false);
+        ResetAllAnim();
     }
     public void ResetAnimatorParametersInState_Movement()
     {
         anim.SetInteger(animID_EnemyState, 2);
-        anim.SetBool(animID_Warn, false);
+        ResetAllAnim();
     }
     public void ResetAnimatorParametersInState_Fight()
     {
         anim.SetInteger(animID_EnemyState, 3);
+        ResetAllAnim();
+    }
+    public void ResetAllAnim()
+    {
         anim.SetBool(animID_Walk, false);
+        anim.SetBool(animID_Run, false);
         anim.SetBool(animID_Warn, false);
     }
 }

@@ -7,7 +7,8 @@ namespace AI.FSM
         //初始state
         [SerializeField] private BaseState _initialState;
         //現在的state
-        public BaseState CurrentState { get; set; }
+        //public BaseState CurrentState { get; set; }
+        public BaseState CurrentState;
 
         private void Awake()
         {
