@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
@@ -6,23 +7,35 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
     [TaskDescription("Sets the local position of the Transform. Returns Success.")]
     public class GhostEnemyAttackTargetPosSet : Action
     {
-        [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
+        [Tooltip("鬼魂本身")]
         public SharedGameObject ghostGameObject;
-        [Tooltip("The local position of the Transform")]
-        public SharedVector3 localPosition;
+        [Tooltip("鬼魂的攻擊對象")]
+        public SharedGameObject targetGameObject;
         public int nearByTargetPosThresholdValue;
 
         private Transform ghostTransform;
-        private GameObject prevGameObject;
+        private Vector3 targetPos;
+
+        private GameObject prev_GhostGameObject;
+        private GameObject prev_TargetGameObject;
 
         public override void OnStart()
         {
-            var currentGameObject = GetDefaultGameObject(ghostGameObject.Value);
-            if (currentGameObject != prevGameObject)
+            var currentGhostGameObject = GetDefaultGameObject(ghostGameObject.Value);
+            if (currentGhostGameObject != prev_GhostGameObject)
             {
-                ghostTransform = currentGameObject.GetComponent<Transform>();
-                prevGameObject = currentGameObject;
+                ghostTransform = currentGhostGameObject.GetComponent<Transform>();
+                prev_GhostGameObject = currentGhostGameObject;
             }
+
+            var currentTargetGameObject = GetDefaultGameObject(targetGameObject.Value);
+            if (currentTargetGameObject != prev_TargetGameObject)
+            {
+                targetPos = currentTargetGameObject.GetComponent<Transform>().position;
+                prev_TargetGameObject = currentTargetGameObject;
+            }
+            randomAPosition();
+            transform.LookAt(targetPos);
         }
 
         public override TaskStatus OnUpdate()
@@ -32,7 +45,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
                 Debug.LogWarning("Transform is null");
                 return TaskStatus.Failure;
             }
-            randomAPosition();
+            
             //ghostTransform.localPosition = localPosition.Value;
 
 
@@ -42,26 +55,26 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
         public override void OnReset()
         {
             ghostGameObject = null;
-            localPosition = Vector3.zero;
+            targetPos = Vector3.zero;
         }
 
 
-        private void randomAPosition()
+        void randomAPosition()
         {
             var randomNum = Random.Range(1, 4);
             switch (randomNum)
             {
                 case 1:
-                    ghostTransform.localPosition = localPosition.Value + new Vector3(-nearByTargetPosThresholdValue, 0, -nearByTargetPosThresholdValue);
+                    ghostTransform.localPosition = targetPos + new Vector3(-nearByTargetPosThresholdValue, 0, -nearByTargetPosThresholdValue);
                     break;
                 case 2:
-                    ghostTransform.localPosition = localPosition.Value + new Vector3(nearByTargetPosThresholdValue, 0, -nearByTargetPosThresholdValue);
+                    ghostTransform.localPosition = targetPos + new Vector3(nearByTargetPosThresholdValue, 0, -nearByTargetPosThresholdValue);
                     break;
                 case 3:
-                    ghostTransform.localPosition = localPosition.Value + new Vector3(-nearByTargetPosThresholdValue, 0, nearByTargetPosThresholdValue);
+                    ghostTransform.localPosition = targetPos + new Vector3(-nearByTargetPosThresholdValue, 0, nearByTargetPosThresholdValue);
                     break;
                 case 4:
-                    ghostTransform.localPosition = localPosition.Value + new Vector3(nearByTargetPosThresholdValue, 0, nearByTargetPosThresholdValue);
+                    ghostTransform.localPosition = targetPos + new Vector3(nearByTargetPosThresholdValue, 0, nearByTargetPosThresholdValue);
                     break;
                 default:
                     break;
