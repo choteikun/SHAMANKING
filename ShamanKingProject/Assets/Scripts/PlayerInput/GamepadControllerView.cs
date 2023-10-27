@@ -22,9 +22,12 @@ public class GamepadControllerView : MonoBehaviour
     [SerializeField] bool aimingDelay_ = true;
     Tweener aimingDelayer_;
 
+    [Header("Dubug Use")]
+    [SerializeField] bool isDebuging_;
+
     private async void Start()
     {
-        input_.SwitchCurrentActionMap("MainGameplay");
+        if (isDebuging_)input_.SwitchCurrentActionMap("MainGameplay");
         Debug.Log("start");
         await UniTask.Delay(500);
         
