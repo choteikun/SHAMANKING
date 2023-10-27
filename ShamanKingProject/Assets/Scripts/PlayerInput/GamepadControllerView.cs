@@ -24,6 +24,7 @@ public class GamepadControllerView : MonoBehaviour
 
     private async void Start()
     {
+        input_.SwitchCurrentActionMap("MainGameplay");
         Debug.Log("start");
         await UniTask.Delay(500);
         
