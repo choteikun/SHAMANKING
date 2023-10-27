@@ -19,7 +19,7 @@ MonoBehaviour:
       x: 1713
       y: -418
       width: 1247
-      height: 1891
+      height: 1938
     contents:
     - model: {fileID: 8926484042661614634}
       id: 0
@@ -54,13 +54,16 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614701}
       id: 0
       isStickyNote: 0
+    - model: {fileID: 8926484042661615109}
+      id: 1
+      isStickyNote: 0
   - title: New Group Node
     position:
       serializedVersion: 2
       x: 143
       y: -249
       width: 1247
-      height: 1720
+      height: 1942
     contents:
     - model: {fileID: 8926484042661614555}
       id: 0
@@ -89,6 +92,9 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614630}
       id: 0
       isStickyNote: 0
+    - model: {fileID: 8926484042661615109}
+      id: 0
+      isStickyNote: 0
   stickyNoteInfos: []
   categories: []
   uiBounds:
@@ -96,7 +102,7 @@ MonoBehaviour:
     x: 143
     y: -1121
     width: 4994
-    height: 2761
+    height: 2814
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,6 +151,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615080}
   - {fileID: 8926484042661615087}
   - {fileID: 8926484042661615103}
+  - {fileID: 8926484042661615109}
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
@@ -173,7 +180,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.00684356689453125,"value":0.5252811908721924,"inTangent":-0.12532474100589753,"outTangent":-0.12532474100589753,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.3700345754623413,"value":-0.00719451904296875,"inTangent":-0.16510100662708283,"outTangent":-0.16510100662708283,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.5231873989105225,"value":-0.16777373850345612,"inTangent":0.043454088270664218,"outTangent":0.043454088270664218,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.6230449676513672,"value":-0.41356468200683596,"inTangent":-0.06508785486221314,"outTangent":-0.06508785486221314,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.7332326173782349,"value":-2.7006349563598635,"inTangent":-0.415861576795578,"outTangent":-0.415861576795578,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.8149824738502502,"value":-2.7758936882019045,"inTangent":0.6573905348777771,"outTangent":0.6573905348777771,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.8185963034629822,"value":0.283037006855011,"inTangent":-0.123538538813591,"outTangent":-0.123538538813591,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":0.0,"inTangent":-1.5602604150772095,"outTangent":-1.5602604150772095,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.00684356689453125,"value":0.5252811908721924,"inTangent":-0.12532474100589753,"outTangent":-0.12532474100589753,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.09168756008148194,"value":-0.00719451904296875,"inTangent":-0.16510100662708283,"outTangent":-0.16510100662708283,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.24484038352966309,"value":-0.16777373850345612,"inTangent":0.043454088270664218,"outTangent":0.043454088270664218,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.3446979522705078,"value":-0.41356468200683596,"inTangent":-0.06508785486221314,"outTangent":-0.06508785486221314,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.4548856019973755,"value":-2.7006349563598635,"inTangent":-0.415861576795578,"outTangent":-0.415861576795578,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.5366354584693909,"value":-2.7758936882019045,"inTangent":0.6573905348777771,"outTangent":0.6573905348777771,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.5402492880821228,"value":0.283037006855011,"inTangent":-0.123538538813591,"outTangent":-0.123538538813591,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.7216529846191406,"value":0.0,"inTangent":-1.5602604150772095,"outTangent":-1.5602604150772095,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -187,7 +194,21 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.9
+      m_SerializableObject: 0.45
+    min: -Infinity
+    max: Infinity
+    enumValues: []
+    descendantCount: 0
+  - name: LifeTime
+    path: LifeTime
+    tooltip: 
+    sheetType: m_Float
+    realType: Single
+    defaultValue:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 0.8
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -665,6 +686,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661614616}
+  - {fileID: 8926484042661615105}
   m_UIPosition: {x: 941, y: 619}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
@@ -704,7 +726,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614699}
   - {fileID: 8926484042661614716}
   - {fileID: 8926484042661614593}
-  m_UIPosition: {x: 941, y: 917}
+  m_UIPosition: {x: 941, y: 970}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -868,7 +890,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":3.6027169227600099,"g":8.574187278747559,"b":3.356874942779541,"a":1.0},"time":0.12941177189350129},{"color":{"r":0.08627451211214066,"g":1.5686274766921998,"b":0.0,"a":1.0},"time":0.4735332131385803},{"color":{"r":0.11018067598342896,"g":1.753709077835083,"b":0.0,"a":1.0},"time":0.8088197112083435},{"color":{"r":1.4391134977340699,"g":22.9058895111084,"b":0.0,"a":1.0},"time":0.8823529481887817},{"color":{"r":0.255188912153244,"g":1.0,"b":0.20283019542694093,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.22647440433502198},{"alpha":1.0,"time":0.4882429242134094},{"alpha":1.0,"time":0.9058823585510254},{"alpha":0.4156862795352936,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":3.6027169227600099,"g":8.574187278747559,"b":3.356874942779541,"a":1.0},"time":0.12941177189350129},{"color":{"r":0.08627451211214066,"g":1.5686274766921998,"b":0.0,"a":1.0},"time":0.4735332131385803},{"color":{"r":0.11018067598342896,"g":1.753709077835083,"b":0.0,"a":1.0},"time":0.6676432490348816},{"color":{"r":1.4391134977340699,"g":22.9058895111084,"b":0.0,"a":1.0},"time":0.7088273167610169},{"color":{"r":0.255188912153244,"g":1.0,"b":0.20283019542694093,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.22647440433502198},{"alpha":1.0,"time":0.4882429242134094},{"alpha":1.0,"time":0.7088273167610169},{"alpha":0.4156862795352936,"time":1.0}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -1153,7 +1175,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 0.8
     m_Space: 2147483647
   m_Property:
     name: Lifetime
@@ -1161,7 +1183,8 @@ MonoBehaviour:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661615110}
 --- !u!114 &8926484042661614608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1723,7 +1746,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.00684356689453125,"value":0.5252811908721924,"inTangent":-0.12532474100589753,"outTangent":-0.12532474100589753,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.3700345754623413,"value":-0.00719451904296875,"inTangent":-0.16510100662708283,"outTangent":-0.16510100662708283,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.5231873989105225,"value":-0.16777373850345612,"inTangent":0.043454088270664218,"outTangent":0.043454088270664218,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.6230449676513672,"value":-0.41356468200683596,"inTangent":-0.06508785486221314,"outTangent":-0.06508785486221314,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.7332326173782349,"value":-2.7006349563598635,"inTangent":-0.415861576795578,"outTangent":-0.415861576795578,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.8149824738502502,"value":-2.7758936882019045,"inTangent":0.6573905348777771,"outTangent":0.6573905348777771,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.8185963034629822,"value":0.283037006855011,"inTangent":-0.123538538813591,"outTangent":-0.123538538813591,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":0.0,"inTangent":-1.5602604150772095,"outTangent":-1.5602604150772095,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.00684356689453125,"value":0.5252811908721924,"inTangent":-0.12532474100589753,"outTangent":-0.12532474100589753,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.09168756008148194,"value":-0.00719451904296875,"inTangent":-0.16510100662708283,"outTangent":-0.16510100662708283,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.24484038352966309,"value":-0.16777373850345612,"inTangent":0.043454088270664218,"outTangent":0.043454088270664218,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.3446979522705078,"value":-0.41356468200683596,"inTangent":-0.06508785486221314,"outTangent":-0.06508785486221314,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.4548856019973755,"value":-2.7006349563598635,"inTangent":-0.415861576795578,"outTangent":-0.415861576795578,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.5366354584693909,"value":-2.7758936882019045,"inTangent":0.6573905348777771,"outTangent":0.6573905348777771,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.5402492880821228,"value":0.283037006855011,"inTangent":-0.123538538813591,"outTangent":-0.123538538813591,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.7216529846191406,"value":0.0,"inTangent":-1.5602604150772095,"outTangent":-1.5602604150772095,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: o
@@ -2711,7 +2734,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 0.8
     m_Space: 2147483647
   m_Property:
     name: Lifetime
@@ -2719,7 +2742,8 @@ MonoBehaviour:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661615110}
 --- !u!114 &8926484042661614656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2934,6 +2958,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661614664}
+  - {fileID: 8926484042661615107}
   m_UIPosition: {x: 2511, y: 615}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
@@ -3170,7 +3195,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614673}
   - {fileID: 8926484042661614697}
   - {fileID: 8926484042661614676}
-  m_UIPosition: {x: 2511, y: 919}
+  m_UIPosition: {x: 2511, y: 966}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -3321,7 +3346,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":3.6027169227600099,"g":8.574187278747559,"b":3.356874942779541,"a":1.0},"time":0.12941177189350129},{"color":{"r":0.08627451211214066,"g":1.5686274766921998,"b":0.0,"a":1.0},"time":0.4735332131385803},{"color":{"r":0.11018067598342896,"g":1.753709077835083,"b":0.0,"a":1.0},"time":0.8088197112083435},{"color":{"r":1.4391134977340699,"g":22.9058895111084,"b":0.0,"a":1.0},"time":0.8823529481887817},{"color":{"r":0.255188912153244,"g":1.0,"b":0.20283019542694093,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.22647440433502198},{"alpha":1.0,"time":0.4882429242134094},{"alpha":1.0,"time":0.9058823585510254},{"alpha":0.4156862795352936,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":3.6027169227600099,"g":8.574187278747559,"b":3.356874942779541,"a":1.0},"time":0.12941177189350129},{"color":{"r":0.08627451211214066,"g":1.5686274766921998,"b":0.0,"a":1.0},"time":0.4735332131385803},{"color":{"r":0.11018067598342896,"g":1.753709077835083,"b":0.0,"a":1.0},"time":0.6676432490348816},{"color":{"r":1.4391134977340699,"g":22.9058895111084,"b":0.0,"a":1.0},"time":0.7088273167610169},{"color":{"r":0.255188912153244,"g":1.0,"b":0.20283019542694093,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.22647440433502198},{"alpha":1.0,"time":0.4882429242134094},{"alpha":1.0,"time":0.7088273167610169},{"alpha":0.4156862795352936,"time":1.0}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -5250,7 +5275,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 50
+      m_SerializableObject: 100
     m_Space: 2147483647
   m_Property:
     name: Count
@@ -5412,7 +5437,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.9
+      m_SerializableObject: 0.45
     m_Space: 2147483647
   m_Property:
     name: o
@@ -6435,7 +6460,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.05000000074505806,"y":0.10000000149011612,"z":60.0}'
+      m_SerializableObject: '{"x":0.05000000074505806,"y":0.10000000149011612,"z":0.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -7553,7 +7578,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 10
+      m_SerializableObject: 5
     m_Space: 2147483647
   m_Property:
     name: max
@@ -10864,3 +10889,205 @@ MonoBehaviour:
   m_Owners:
   - {fileID: 8926484042661615103}
   - {fileID: 8926484042661615072}
+--- !u!114 &8926484042661615105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b294673e879f9cf449cc9de536818ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661614583}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots:
+  - {fileID: 8926484042661615106}
+  m_OutputSlots: []
+  m_Disabled: 0
+  UseParticleSize: 0
+--- !u!114 &8926484042661615106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661615106}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661615105}
+    m_Value:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 2
+    m_Space: 2147483647
+  m_Property:
+    name: dragCoefficient
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 0
+  m_LinkedSlots: []
+--- !u!114 &8926484042661615107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b294673e879f9cf449cc9de536818ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661614662}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots:
+  - {fileID: 8926484042661615108}
+  m_OutputSlots: []
+  m_Disabled: 0
+  UseParticleSize: 0
+--- !u!114 &8926484042661615108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661615108}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661615107}
+    m_Value:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 2
+    m_Space: 2147483647
+  m_Property:
+    name: dragCoefficient
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 0
+  m_LinkedSlots: []
+--- !u!114 &8926484042661615109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330e0fca1717dde4aaa144f48232aa64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots:
+  - {fileID: 8926484042661615110}
+  m_ExposedName: LifeTime
+  m_Exposed: 1
+  m_Order: 3
+  m_Category: 
+  m_Min:
+    m_Type:
+      m_SerializableType: 
+    m_SerializableObject: 
+  m_Max:
+    m_Type:
+      m_SerializableType: 
+    m_SerializableObject: 
+  m_IsOutput: 0
+  m_EnumValues: []
+  m_ValueFilter: 0
+  m_Tooltip: 
+  m_Nodes:
+  - m_Id: 0
+    linkedSlots:
+    - outputSlot: {fileID: 8926484042661615110}
+      inputSlot: {fileID: 8926484042661614603}
+    position: {x: 758, y: 321}
+    expandedSlots: []
+    expanded: 1
+  - m_Id: 1
+    linkedSlots:
+    - outputSlot: {fileID: 8926484042661615110}
+      inputSlot: {fileID: 8926484042661614655}
+    position: {x: 2253, y: 292}
+    expandedSlots: []
+    expanded: 0
+--- !u!114 &8926484042661615110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661615110}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661615109}
+    m_Value:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 0.8
+    m_Space: 2147483647
+  m_Property:
+    name: o
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+  m_Direction: 1
+  m_LinkedSlots:
+  - {fileID: 8926484042661614603}
+  - {fileID: 8926484042661614655}
