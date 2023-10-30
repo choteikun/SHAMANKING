@@ -155,6 +155,6 @@ namespace Gamemanager
 
     public class PlayerEndTutorialCommand:GameEventMessageBase
     {
-
+        public int TutorialID;
     }
 }

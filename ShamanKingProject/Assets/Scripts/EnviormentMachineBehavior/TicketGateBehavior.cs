@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gamemanager;
 using Cysharp.Threading.Tasks;
+using PixelCrushers.DialogueSystem;
 
 public class TicketGateBehavior : EnviormentMachineBehaviorBase
 {
@@ -14,5 +15,6 @@ public class TicketGateBehavior : EnviormentMachineBehaviorBase
         await UniTask.Delay(200);
         gateCollider_.SetActive(false);
         GameManager.Instance.MainGameEvent.Send(new PlayerCancelPossessCommand());
+        DialogueManager.StartConversation("AfterOpenTheGate");
     }
 }

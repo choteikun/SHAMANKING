@@ -25,6 +25,8 @@ public class GamepadControllerView : MonoBehaviour
     [Header("Dubug Use")]
     [SerializeField] bool isDebuging_;
 
+    int nowTutorial_ = 0;
+
     private async void Start()
     {
         if (isDebuging_)input_.SwitchCurrentActionMap("MainGameplay");
@@ -36,7 +38,7 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { isAttacking_ = false; Debug.Log("finishSend"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpTouchGround, cmd => { isJumping_ = false; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameConversationEnd, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallTutorial, cmd => { input_.SwitchCurrentActionMap("PlayerTutorialInput"); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallTutorial, cmd => { input_.SwitchCurrentActionMap("PlayerTutorialInput"); nowTutorial_ = (int)cmd.TutorialID; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerEndTutorial, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { playerHitObject(cmd); });
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
@@ -197,7 +199,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnNextPage()
     {
-        GameManager.Instance.MainGameEvent.Send(new PlayerEndTutorialCommand());
+        GameManager.Instance.MainGameEvent.Send(new PlayerEndTutorialCommand() { TutorialID = nowTutorial_});
     }
 }
 
