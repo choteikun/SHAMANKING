@@ -161,7 +161,7 @@ Shader "Hidden/ltspass_lite_cutout"
         HLSLINCLUDE
             #define LIL_SRP_VERSION_MAJOR 12
             #define LIL_SRP_VERSION_MINOR 1
-            #define LIL_SRP_VERSION_PATCH 7
+            #define LIL_SRP_VERSION_PATCH 11
 
             #pragma target 4.5
             #pragma exclude_renderers d3d11_9x
@@ -546,7 +546,7 @@ Shader "Hidden/ltspass_lite_cutout"
         HLSLINCLUDE
             #define LIL_SRP_VERSION_MAJOR 12
             #define LIL_SRP_VERSION_MINOR 1
-            #define LIL_SRP_VERSION_PATCH 7
+            #define LIL_SRP_VERSION_PATCH 11
 
             #pragma exclude_renderers d3d11_9x
             #pragma fragmentoption ARB_precision_hint_fastest
