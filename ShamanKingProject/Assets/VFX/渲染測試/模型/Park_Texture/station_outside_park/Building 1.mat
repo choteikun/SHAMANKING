@@ -20,13 +20,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: items_group_test02_Base_color
+  m_Name: Building 1
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
+  - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
   - _OUTLINE
   - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-  - _TOON_SHADING_ON
   m_InvalidKeywords:
   - _PARALLAXMAP
   m_LightmapFlags: 4
@@ -40,11 +41,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: a0013b1654f815041846bd3a5e5e0fbd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2ea6a208c9e71554aa5f73cbe4a45b88, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ce4130a0e18714541959fd9944b26e0b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -88,11 +89,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a0013b1654f815041846bd3a5e5e0fbd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2ea6a208c9e71554aa5f73cbe4a45b88, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6e38a55b57734cf4186d679187e918b6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -133,7 +134,7 @@ Material:
     - _Blend: 0
     - _BrushLowerCut: 0
     - _BrushSize: 0.8
-    - _BumpScale: 5
+    - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 0
@@ -177,7 +178,7 @@ Material:
     - _OcclusionStrength: 1
     - _OutlineEnabled: 1
     - _OutlineMode: 0
-    - _OutlineWidth: 1.48
+    - _OutlineWidth: 1.66
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -186,7 +187,7 @@ Material:
     - _RimLightSmoothness: 0
     - _RimPower: 0.55
     - _SizeFalloff: 0
-    - _Smoothness: 0
+    - _Smoothness: 0.05
     - _SmoothnessTextureChannel: 1
     - _SpecClipMaskScale: 1
     - _SpecShadowStrength: 1
@@ -201,7 +202,7 @@ Material:
     - _StepViaRampTexture: 0
     - _Surface: 0
     - _ToonBlending: 1
-    - _ToonEnabled: 1
+    - _ToonEnabled: 0
     - _UseRampColor: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
