@@ -230,7 +230,7 @@ public class PlayerAnimator
                 break;
             case "Player_Attack_End":
                 //animator_.SetTrigger(animID_InterruptedByLocomotion);
-                GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+                //GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
                 playerAnimState_ = PlayerAnimState.Locomotion;
                 break;
             case "Player_AimRecoil_End":

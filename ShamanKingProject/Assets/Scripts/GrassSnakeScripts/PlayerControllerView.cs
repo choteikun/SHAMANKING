@@ -77,7 +77,12 @@ public class PlayerControllerView : MonoBehaviour
     {
         playerAnimatorView_.Update();
         playerControllerMover_.Update();
+    }
+
+    private void FixedUpdate()
+    {
         playerAttackModel_.PlayerAttackModelUpdate();
+        
     }
     private void OnDrawGizmosSelected()
     {

@@ -69,9 +69,9 @@ public class PlayerAttackModel
             {
                 //animator_.Rebind();
                 animator_.CrossFadeInFixedTime("AttackCombo1", 0);
+                PassedFrameAfterAttack = 0;
 
                 isAttacking_ = true;
-                PassedFrameAfterAttack = 0;
             }
         }
     }
