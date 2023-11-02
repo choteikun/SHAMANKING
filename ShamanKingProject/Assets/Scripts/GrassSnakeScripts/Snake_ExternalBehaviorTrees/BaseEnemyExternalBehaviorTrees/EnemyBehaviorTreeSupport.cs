@@ -24,7 +24,7 @@ public class EnemyBehaviorTreeSupport : MonoBehaviour
     void Start()
     {
         enemyBehaviorTreeState = EnemyBehaviorTreeState.ENEMY_IDLE;
-        switchExternalBehavior((int)EnemyBehaviorTreeState.ENEMY_IDLE);
+        SwitchExternalBehavior((int)EnemyBehaviorTreeState.ENEMY_IDLE);
 
     }
     void Update()
@@ -46,14 +46,17 @@ public class EnemyBehaviorTreeSupport : MonoBehaviour
         }
     }
     #region - 切換外部行為樹 -
-    public void switchExternalBehavior(int externalTrees)
+    public void SwitchExternalBehavior(int externalTrees)
     {
         if (externalBehaviorTrees[externalTrees] != null)
         {
-            behaviorTree.DisableBehavior();
             behaviorTree.ExternalBehavior = externalBehaviorTrees[externalTrees];
             behaviorTree.EnableBehavior();
         }
+    }
+    public void DisableBehaviorTree()
+    {
+        behaviorTree.DisableBehavior();
     }
     #endregion
 }
