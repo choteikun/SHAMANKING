@@ -1,4 +1,5 @@
 using PixelCrushers.DialogueSystem;
+using Gamemanager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,16 +8,23 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerAttackModel
 {
+    public GameObject characterControllerObj_;
     public int PassedFrameAfterAttack;
     public List<AttackBlockBase> CurrentAttackInputs = new List<AttackBlockBase>();
     bool isAttacking_;
     int currentInputCount_ = -1;
     bool comboDeclaim = false;
+    private Animator animator_;
     public void PlayerAttackModelInit()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
+        var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
+        animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
     }
-
+    public PlayerAttackModel(GameObject view)
+    {
+        characterControllerObj_ = view;
+    }
     // Update is called once per frame
     public void PlayerAttackModelUpdate()
     {
@@ -59,6 +67,9 @@ public class PlayerAttackModel
             currentInputCount_++;
             if (!isAttacking_)
             {
+                //animator_.Rebind();
+                animator_.CrossFadeInFixedTime("AttackCombo1", 0);
+
                 isAttacking_ = true;
                 PassedFrameAfterAttack = 0;
             }
@@ -91,6 +102,8 @@ public class PlayerAttackModel
     void ChangeAction(int actionID)
     {
         //呼叫動畫片段
+        animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[actionID].SkillName, 0.25f);
+        Debug.Log("技能施放成功!");
         PassedFrameAfterAttack = 0;
         currentInputCount_++;
         comboDeclaim = false;
@@ -99,6 +112,10 @@ public class PlayerAttackModel
     void backToIdle()
     {
         //呼叫動畫
+        // animator_.Rebind();
+        GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+        animator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
+        Debug.Log("回歸");
         isAttacking_ = false;
         CurrentAttackInputs = new List<AttackBlockBase> { };
         currentInputCount_ = -1;

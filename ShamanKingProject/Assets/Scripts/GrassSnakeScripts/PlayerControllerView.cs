@@ -22,7 +22,7 @@ public class PlayerControllerView : MonoBehaviour
     {
         playerAnimatorView_ = new PlayerAnimator(this.gameObject);
         playerControllerMover_ = new PlayerControllerMover(this.gameObject);
-        playerAttackModel_ = new PlayerAttackModel();
+        playerAttackModel_ = new PlayerAttackModel(this.gameObject);
         playerControllerMover_.Awake();
     }
     void Start()
@@ -36,6 +36,7 @@ public class PlayerControllerView : MonoBehaviour
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
+        playerAttackModel_.PlayerAttackModelInit();
     }
 
     #region - Player取得方向指令 -
@@ -76,6 +77,7 @@ public class PlayerControllerView : MonoBehaviour
     {
         playerAnimatorView_.Update();
         playerControllerMover_.Update();
+        playerAttackModel_.PlayerAttackModelUpdate();
     }
     private void OnDrawGizmosSelected()
     {

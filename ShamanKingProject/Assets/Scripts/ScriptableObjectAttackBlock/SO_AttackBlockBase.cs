@@ -44,6 +44,8 @@ public class AttackBlockBase
         FrameShouldBeSkipped = frameShouldBeSkipped;
     }
 }
+
+[System.Serializable]
 public class NextComboSkillInfo
 {
     public AttackInputType RequiredInputType;
