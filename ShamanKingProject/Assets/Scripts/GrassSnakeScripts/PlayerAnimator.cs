@@ -145,10 +145,13 @@ public class PlayerAnimator
                 if (!player_Stats_.Player_AttackCommandAllow)
                 {
                     //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
+                    //animID_Attack_CanBeInterrupted 觀察用
+                    animator_.SetBool(animID_Attack_CanBeInterrupted, false);
                 }
                 //animation events 發送指令為允許攻擊
                 else
                 {
+                    animator_.SetBool(animID_Attack_CanBeInterrupted, true);
                     //Debug.Log(animator_.GetCurrentAnimatorStateInfo(0).length * animator_.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
                 } 
@@ -175,28 +178,32 @@ public class PlayerAnimator
                 if (!player_Stats_.Player_AttackCommandAllow)
                 {
                     //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
-                    //animID_Attack_CanBeInterrupted 觀察用
-                    animator_.SetBool(animID_Attack_CanBeInterrupted, false);
                     //reset attack Comb
-                    animator_.ResetTrigger(animID_AttackCombo1);
-                    animator_.ResetTrigger(animID_AttackCombo2);
-                    animator_.ResetTrigger(animID_AttackCombo3);
+                    //animator_.ResetTrigger(animID_AttackCombo1);
+                    //animator_.ResetTrigger(animID_AttackCombo2);
+                    //animator_.ResetTrigger(animID_AttackCombo3);
                 }
                 //animation events 發送指令為允許攻擊
                 else
                 {
                     //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
-                    //animID_Attack_CanBeInterrupted 觀察用
-                    animator_.SetBool(animID_Attack_CanBeInterrupted, true);
                     //如果現在的狀態機為AttackCombo1時可以切換到下一個攻擊動畫
                     if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo1"))
                     {
                         animator_.SetTrigger(animID_AttackCombo2);
+
+                        animator_.ResetTrigger(animID_AttackCombo1);
                     }
                     //如果現在的狀態機為AttackCombo2時可以切換到下一個攻擊動畫
                     else if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo2"))
                     {
                         animator_.SetTrigger(animID_AttackCombo3);
+
+                        animator_.ResetTrigger(animID_AttackCombo2);
+                    }
+                    else
+                    {
+                        animator_.ResetTrigger(animID_AttackCombo3);
                     }
                 }
                 break;

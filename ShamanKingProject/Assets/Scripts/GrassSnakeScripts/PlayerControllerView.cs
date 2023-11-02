@@ -15,10 +15,14 @@ public class PlayerControllerView : MonoBehaviour
     [SerializeField]
     PlayerControllerMover playerControllerMover_;
 
+    [SerializeField]
+    PlayerAttackModel playerAttackModel_;
+
     void Awake()
     {
         playerAnimatorView_ = new PlayerAnimator(this.gameObject);
         playerControllerMover_ = new PlayerControllerMover(this.gameObject);
+        playerAttackModel_ = new PlayerAttackModel();
         playerControllerMover_.Awake();
     }
     void Start()

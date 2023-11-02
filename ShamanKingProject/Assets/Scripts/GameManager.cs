@@ -9,7 +9,8 @@ public class GameManager : ToSingletonMonoBehavior<GameManager>
     public UIGameEventPack UIGameEvent { get; private set; } = new UIGameEventPack();
 
     [field:SerializeField] public MainGameMediator MainGameMediator { get; private set; }
-
+    [SerializeField] public SO_AttackBlockDatabase AttackBlockDatabase;
+ 
     protected override void init()
     {
         hideCurser();
