@@ -472,6 +472,9 @@ MonoBehaviour:
     TurnSmoothTime: 0
     Gravity: 0
     JumpHeight: 0
+  playerAttackModel_:
+    PassedFrameAfterAttack: 0
+    CurrentAttackInputs: []
 --- !u!143 &73649045
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1300,7 +1303,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.08434365, y: 0.0078055756, z: 0.00066072546, w: 0.99640596}
+  m_LocalRotation: {x: -0.08434544, y: 0.0043565403, z: 0.00036877193, w: 0.99642706}
   m_LocalPosition: {x: -13.354, y: 1.15, z: -44.258}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2677,6 +2680,7 @@ MonoBehaviour:
       PlayerMaxHealthPoint: 100
       PlayerNowHealthPoint: 100
       PlayerBasicAttack: 20
+  AttackBlockDatabase: {fileID: 0}
 --- !u!1 &653670894
 GameObject:
   m_ObjectHideFlags: 0
@@ -8219,8 +8223,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &181173331525316789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21281,7 +21285,7 @@ Transform:
   m_GameObject: {fileID: 2452954210185336450}
   m_LocalRotation: {x: 0.07536288, y: 0.45457554, z: -0.028161671, w: 0.8870674}
   m_LocalPosition: {x: 0.26932335, y: 0.83289874, z: 0.1956749}
-  m_LocalScale: {x: 0.29289, y: 0.29289016, z: 0.29289}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2845190382162930829}
@@ -21321,7 +21325,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2452954210185336450}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -41903,6 +41907,9 @@ MonoBehaviour:
     TurnSmoothTime: 0
     Gravity: 0
     JumpHeight: 0
+  playerAttackModel_:
+    PassedFrameAfterAttack: 0
+    CurrentAttackInputs: []
 --- !u!1 &6138002679844414274
 GameObject:
   m_ObjectHideFlags: 0
@@ -65181,7 +65188,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
