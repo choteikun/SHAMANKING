@@ -199,7 +199,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnNextPage()
     {
-        GameManager.Instance.MainGameEvent.Send(new PlayerEndTutorialCommand() { TutorialID = nowTutorial_});
+        GameManager.Instance.MainGameEvent.Send(new PlayerTutorialNextPageCommand() { TutorialID = nowTutorial_});
     }
 }
 

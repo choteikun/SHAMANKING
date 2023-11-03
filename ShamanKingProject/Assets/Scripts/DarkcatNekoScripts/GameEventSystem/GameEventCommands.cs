@@ -153,6 +153,11 @@ namespace Gamemanager
         public float TutorialID;
     }
 
+    public class PlayerTutorialNextPageCommand:GameEventMessageBase
+    {
+        public float TutorialID;
+    }
+
     public class PlayerEndTutorialCommand:GameEventMessageBase
     {
         public int TutorialID;

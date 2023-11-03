@@ -113,4 +113,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<SystemCallTutorialCommand> OnSystemCallTutorial => getSubject<SystemCallTutorialCommand>();
 
     public IObservable<PlayerEndTutorialCommand> OnPlayerEndTutorial => getSubject<PlayerEndTutorialCommand>();
+
+    public IObservable<PlayerTutorialNextPageCommand> OnPlayerTutorialNextPage => getSubject<PlayerTutorialNextPageCommand>();
 }
