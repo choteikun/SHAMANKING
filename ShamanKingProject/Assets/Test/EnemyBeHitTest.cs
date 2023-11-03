@@ -1,6 +1,7 @@
 using Gamemanager;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class EnemyBeHitTest : MonoBehaviour
 {
@@ -31,7 +32,8 @@ public class EnemyBeHitTest : MonoBehaviour
             canGetHit_ = false;
             healthPoint_ -= cmd.AttackDamage;
             onHitParticle_.transform.position = cmd.CollidePoint;
-            onHitParticle_.GetComponent<ParticleSystem>().Play();
+            //onHitParticle_.GetComponent<ParticleSystem>().Play();
+            onHitParticle_.GetComponent<VisualEffect>().Play();
             StartCoroutine("beAttackTimer");
         }
     }
