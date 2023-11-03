@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class EnemyBeHitTest : MonoBehaviour
 {
-    [SerializeField] float healthPoint_ = 10000;
-    [SerializeField] float beHitTimer_ = 0.2f;
+
+    public float HealthPoint { get { return healthPoint_; } set { healthPoint_ = value; } }
+    [SerializeField] float healthPoint_ = 100;
+    public bool HasTakenDamage { get { return hasTakenDamage_; } set { hasTakenDamage_ = value; } }
+    [SerializeField] bool hasTakenDamage_;
+
     [SerializeField] bool canGetHit_ = true;
+    [SerializeField] float beHitTimer_ = 0.2f;
+    
     [SerializeField]
     GameObject onHitParticle_;
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { checkDamage(cmd); });
     }
-
+    private void Update()
+    {
+        hasTakenDamage_ = !canGetHit_;
+    }
     void checkDamage(PlayerAttackSuccessCommand cmd)
     {
         if (cmd.AttackTarget == this.gameObject)
