@@ -38,8 +38,8 @@ public class GhostFollower : MonoBehaviour
         var onCancelAimingEnterEvent = GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Where(cmd => !cmd.AimingButtonIsPressed).Subscribe(cmd => setParent(target_));
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { setTarget(launchFollowTarget_); });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable|| cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => setTarget(cmd.HitInfo.onHitPoint_.transform));
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { setTarget(attackFollowTarget_); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { setTarget(target_); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { setTarget(attackFollowTarget_);positionSmoothSpeed_ = 75f; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { setTarget(target_); positionSmoothSpeed_ = 15f; });
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
         GameManager.Instance.MainGameMediator.AddToDisposables(onAimingEnterEvent);
         GameManager.Instance.MainGameMediator.AddToDisposables(onCancelAimingEnterEvent);
