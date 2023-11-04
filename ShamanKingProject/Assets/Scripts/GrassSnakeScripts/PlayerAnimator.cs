@@ -259,7 +259,7 @@ public class PlayerAnimator
     {
         bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming || playerAnimState_== PlayerAnimState.Attack || !player_Stats_.Grounded;
         //如果沒有偵測到任何輸入產生的行為
-        if (!inputDetected && idleTimer_ == 0)
+        if (!inputDetected)
         {
             //開始計時
             idleTimer_ += Time.deltaTime;
