@@ -15,9 +15,19 @@ public class PlayerAttackModel
     int currentInputCount_ = -1;
     bool comboDeclaim = false;
     private Animator animator_;
+    bool isJumpAttacking_ = false;
     public void PlayerAttackModelInit()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpAttack, cmd => { whenGetAttackTrigger(AttackInputType.JumpAttack); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpTouchGround, cmd =>
+        {
+            if (isJumpAttacking_)
+            {
+                isJumpAttacking_ = false;
+                backToLanding();
+            }
+        });
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
         animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
     }
@@ -63,16 +73,44 @@ public class PlayerAttackModel
         }
         else
         {
-            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[0], GameManager.Instance.AttackBlockDatabase.Database[0].SkillFrame));
-            currentInputCount_++;
-            if (!isAttacking_)
-            {
-                //animator_.Rebind();
-                animator_.CrossFadeInFixedTime("AttackCombo1", 0.25f);
-                PassedFrameAfterAttack = 0;
 
-                isAttacking_ = true;
+            switch(inputType)
+            {
+                case AttackInputType.LightAttack:
+                addFirstLightAttack();
+                    return;
+                case AttackInputType.JumpAttack:
+                    addFirstJumpAttack();
+                    return;
             }
+        }
+    }
+
+    void addFirstLightAttack()
+    {
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[0], GameManager.Instance.AttackBlockDatabase.Database[0].SkillFrame));
+        currentInputCount_++;
+        if (!isAttacking_)
+        {
+            //animator_.Rebind();
+            animator_.CrossFadeInFixedTime("AttackCombo1", 0);
+            PassedFrameAfterAttack = 0;
+
+            isAttacking_ = true;
+        }
+    }
+
+    void addFirstJumpAttack()
+    {
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[3], GameManager.Instance.AttackBlockDatabase.Database[3].SkillFrame));
+        currentInputCount_++;
+        if (!isAttacking_)
+        {
+            //animator_.Rebind();
+            animator_.CrossFadeInFixedTime("JumpAttack1", 0.25f);
+            PassedFrameAfterAttack = 0;
+            isJumpAttacking_ = true;
+            isAttacking_ = true;
         }
     }
 
@@ -121,12 +159,26 @@ public class PlayerAttackModel
         currentInputCount_ = -1;
         PassedFrameAfterAttack = 0;
     }
-
+    void backToLanding()
+    {
+        //呼叫動畫
+        // animator_.Rebind();
+        animator_.CrossFadeInFixedTime("Girl_LandHarder", 0.25f);
+        Debug.Log("回歸");
+        isAttacking_ = false;
+        CurrentAttackInputs = new List<AttackBlockBase> { };
+        currentInputCount_ = -1;
+        PassedFrameAfterAttack = 0;
+    }
 }
 
 public enum AttackInputType
 {
     LightAttack,
     HeavyAttack,
+    Dodge,
+    JumpAttack,
+    Throw,
+    SpecialAttack,
 }
 

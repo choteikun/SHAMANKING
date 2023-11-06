@@ -51,7 +51,7 @@ public class PlayerControllerMover
     private float player_TargetRotation_ = 0.0f;
 
     //private float player_Speed_;
-    private float turnSmoothVelocity_; 
+    private float turnSmoothVelocity_;
 
     private ControllerMoverStateMachine controllerMoverStateMachine_;
 
@@ -81,8 +81,21 @@ public class PlayerControllerMover
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJump, cmd => { jumpAction(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, playerRollButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
+        {
+            if (cmd.AnimationEventName == "PlayerJumpAttackStart")
+            {
+            }
+            player_Stats_.verticalVelocity_ = 0; Gravity = 2f;
+        });
 
-
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
+        {
+            if (cmd.AnimationEventName == "Player_JumpAttackStartFalling")
+            {
+                Gravity = -65;
+            }
+        });
     }
 
     public void Update()
@@ -104,9 +117,10 @@ public class PlayerControllerMover
             characterControllerObj_.transform.position.z);
         player_Stats_.Grounded = Physics.CheckSphere(spherePosition, player_Stats_.GroundedRadius, player_Stats_.GroundLayers,
             QueryTriggerInteraction.Ignore);
-        if (player_Stats_.Grounded&& before == false)
+        if (player_Stats_.Grounded && before == false)
         {
             GameManager.Instance.MainGameEvent.Send(new PlayerJumpTouchGroundCommand());
+            player_Stats_.PlayerJumpCount = 2;
         }
     }
     void move()
@@ -118,15 +132,15 @@ public class PlayerControllerMover
         //如果沒有輸入，則將目標速度設置為0
         if (player_Stats_.Player_Dir == Vector2.zero)
         {
-            if (player_Stats_.Player_IsMoving&&!player_Stats_.Aiming)
+            if (player_Stats_.Player_IsMoving && !player_Stats_.Aiming)
             {
                 player_Stats_.Player_IsMoving = false;
                 GameManager.Instance.MainGameEvent.Send(new PlayerMoveStatusChangeCommand() { IsMoving = false });
             }
             targetSpeed = 0.0f;
-        } 
+        }
 
-            
+
 
         //玩家當前水平速度的引用
         float currentHorizontalSpeed = new Vector3(player_CC_.velocity.x, 0.0f, player_CC_.velocity.z).magnitude;
@@ -231,12 +245,13 @@ public class PlayerControllerMover
             await UniTask.Yield();
         }
     }
-     
+
     void jumpAndFall()
     {
         if (player_Stats_.Grounded)
         {
             player_Stats_.Falling = false;
+            Gravity = -16;
 
             //垂直速度小於0時，則垂直速度維持在-2
             if (player_Stats_.verticalVelocity_ < 0.0f)
@@ -252,7 +267,7 @@ public class PlayerControllerMover
         }
         else
         {
-            if(player_Stats_.verticalVelocity_ < 0.0f)
+            if (player_Stats_.verticalVelocity_ < 0.0f)
             {
                 player_Stats_.Falling = true;
             }
@@ -267,8 +282,9 @@ public class PlayerControllerMover
 
     void jumpAction()
     {
-        if (player_Stats_.Grounded)
+        if (player_Stats_.Grounded || player_Stats_.PlayerJumpCount > 0)
         {
+            player_Stats_.PlayerJumpCount--;
             //物理公式 v = sqrt(v * -2 * g)
             player_Stats_.verticalVelocity_ = Mathf.Sqrt(JumpHeight * -2f * Gravity);
         }

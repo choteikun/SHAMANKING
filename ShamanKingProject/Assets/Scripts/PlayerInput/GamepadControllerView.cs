@@ -159,9 +159,17 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerLightAttack()
     {
-        if (isAiming_||isJumping_) return;
-        isAttacking_ = true;
-        GameManager.Instance.MainGameEvent.Send(new PlayerLightAttackButtonCommand() { });
+        if (isAiming_) return;        
+        if (isJumping_)
+        {
+            isAttacking_ = true;
+            GameManager.Instance.MainGameEvent.Send(new PlayerJumpAttackButtonCommand() { });
+        }
+        else
+        {
+            isAttacking_ = true;
+            GameManager.Instance.MainGameEvent.Send(new PlayerLightAttackButtonCommand() { });
+        }
         Debug.Log("Attack!");
     }
 

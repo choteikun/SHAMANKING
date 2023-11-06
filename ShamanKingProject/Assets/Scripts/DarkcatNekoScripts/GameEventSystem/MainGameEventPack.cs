@@ -49,6 +49,8 @@ public class MainGameEventPack : GameEventPack
     /// </summary>
     public IObservable<PlayerLightAttackButtonCommand> OnPlayerLightAttack => getSubject<PlayerLightAttackButtonCommand>();
 
+    public IObservable<PlayerJumpAttackButtonCommand> OnPlayerJumpAttack => getSubject<PlayerJumpAttackButtonCommand>();
+
     /// <summary>
     /// 幽靈發出的動畫事件
     /// </summary>

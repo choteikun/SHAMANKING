@@ -35,4 +35,14 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "Player_AimRecoil_End" });
     }
+
+    public void Player_JumpAttackStartFalling()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "Player_JumpAttackStartFalling" });
+    }
+
+    public void PlayerJumpAttackStart()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "PlayerJumpAttackStart" });
+    }
 }

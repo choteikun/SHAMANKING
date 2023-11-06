@@ -9,7 +9,7 @@ public class SO_AttackBlockBase : ScriptableObject
     public int SkillId;
     public int SkillFrame;
     public int LeastNeedAttackFrame;
-    public SkillType M_SkillType;
+    public AttackInputType M_SkillType;
     public List<NextComboSkillInfo> nextCombos = new List<NextComboSkillInfo>();
 
     public NextComboSkillInfo CheckNextAttack(AttackInputType input)
@@ -31,7 +31,7 @@ public class AttackBlockBase
     public string SkillName;
     public int SkillId;
     public int SkillFrame;
-    public SkillType M_SkillType;
+    public AttackInputType M_SkillType;
     public int LeastNeedAttackFrame;
     public int FrameShouldBeSkipped;
     public AttackBlockBase(SO_AttackBlockBase sO_AttackBlock,int frameShouldBeSkipped)
@@ -53,9 +53,4 @@ public class NextComboSkillInfo
     public int NextAttackId;
 }
 
-public enum SkillType
-{
-    LightAttack,
-    HeavyAttack,
-}
 

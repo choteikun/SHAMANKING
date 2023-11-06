@@ -49,6 +49,12 @@ namespace Gamemanager
     {
 
     }
+
+    public class PlayerJumpAttackButtonCommand : GameEventMessageBase
+    {
+
+    }
+
     public class PlayerCancelPossessCommand:GameEventMessageBase
     {
 
