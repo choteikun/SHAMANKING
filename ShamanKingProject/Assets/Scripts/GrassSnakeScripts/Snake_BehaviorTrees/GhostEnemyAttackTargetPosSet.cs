@@ -45,10 +45,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
                 Debug.LogWarning("Transform is null");
                 return TaskStatus.Failure;
             }
-            
-            //ghostTransform.localPosition = localPosition.Value;
-
-
             return TaskStatus.Success;
         }
 
