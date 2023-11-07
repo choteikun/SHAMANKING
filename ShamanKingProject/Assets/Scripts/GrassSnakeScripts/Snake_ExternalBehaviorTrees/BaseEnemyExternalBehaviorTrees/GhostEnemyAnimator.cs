@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Gamemanager;
 
 public class GhostEnemyAnimator : MonoBehaviour
 {
@@ -44,5 +45,10 @@ public class GhostEnemyAnimator : MonoBehaviour
         anim.SetBool(animID_Walk, false);
         anim.SetBool(animID_Run, false);
         anim.SetBool(animID_Warn, false);
+    }
+
+    public void EndOfHurtAnimation()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "EndOfHurtAnimation" });
     }
 }

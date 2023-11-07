@@ -93,7 +93,7 @@ public class PlayerAttackModel
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("AttackCombo1", 0);
+            animator_.CrossFadeInFixedTime("AttackCombo1", 0.25f);
             PassedFrameAfterAttack = 0;
 
             isAttacking_ = true;

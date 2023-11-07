@@ -97,8 +97,8 @@ public class PlayerAnimator
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerLaunchGhostButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, playerLightAttackButtonTrigger);
         //GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowEatAmount 拿魂量
-
-
+        
+        
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => playerPossessMoveAnimSet());
 
 

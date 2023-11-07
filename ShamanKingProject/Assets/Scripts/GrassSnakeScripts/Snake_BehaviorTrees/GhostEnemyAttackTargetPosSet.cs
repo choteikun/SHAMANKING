@@ -33,18 +33,23 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
             {
                 targetPos = currentTargetGameObject.GetComponent<Transform>().position;
                 prev_TargetGameObject = currentTargetGameObject;
+
+                
+                
             }
+            Debug.Log("targetPos : " + targetPos);
             randomAPosition();
             transform.LookAt(targetPos);
         }
 
         public override TaskStatus OnUpdate()
         {
-            if (ghostTransform == null)
+            if (ghostTransform == null || targetGameObject == null)
             {
-                Debug.LogWarning("Transform is null");
+                Debug.LogWarning("Transform is null || targetGameObject is null");
                 return TaskStatus.Failure;
             }
+            targetPos = targetGameObject.Value.transform.position;
             return TaskStatus.Success;
         }
 

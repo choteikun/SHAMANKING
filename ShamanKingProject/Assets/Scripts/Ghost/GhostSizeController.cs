@@ -5,6 +5,7 @@ using UnityEngine;
 public class GhostSizeController : MonoBehaviour
 {
     [SerializeField] GameObject ghostPrefab_;
+    
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSpiritUpdate, cmd => { updateGhostSize(); });
