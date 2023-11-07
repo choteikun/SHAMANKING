@@ -14,7 +14,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
         public int nearByTargetPosThresholdValue;
 
         private Transform ghostTransform;
-        private Vector3 targetPos;
+        //如果我把這行改成vector3那就不會拿到新的位置訊息
+        private Transform targetTransform;
 
         private GameObject prev_GhostGameObject;
         private GameObject prev_TargetGameObject;
@@ -31,15 +32,13 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
             var currentTargetGameObject = GetDefaultGameObject(targetGameObject.Value);
             if (currentTargetGameObject != prev_TargetGameObject)
             {
-                targetPos = currentTargetGameObject.GetComponent<Transform>().position;
+                targetTransform = currentTargetGameObject.GetComponent<Transform>();
                 prev_TargetGameObject = currentTargetGameObject;
-
-                
-                
             }
-            Debug.Log("targetPos : " + targetPos);
+            Debug.Log("targetPos : " + targetTransform.position);
+            targetTransform.position = targetGameObject.Value.transform.position;
             randomAPosition();
-            transform.LookAt(targetPos);
+            transform.LookAt(targetTransform);
         }
 
         public override TaskStatus OnUpdate()
@@ -49,14 +48,14 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
                 Debug.LogWarning("Transform is null || targetGameObject is null");
                 return TaskStatus.Failure;
             }
-            targetPos = targetGameObject.Value.transform.position;
+            
             return TaskStatus.Success;
         }
 
         public override void OnReset()
         {
             ghostGameObject = null;
-            targetPos = Vector3.zero;
+            targetTransform.position = Vector3.zero;
         }
 
 
@@ -66,16 +65,16 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
             switch (randomNum)
             {
                 case 1:
-                    ghostTransform.localPosition = targetPos + new Vector3(-nearByTargetPosThresholdValue, 0, -nearByTargetPosThresholdValue);
+                    ghostTransform.localPosition = targetTransform.position + new Vector3(-nearByTargetPosThresholdValue, 0, -nearByTargetPosThresholdValue);
                     break;
                 case 2:
-                    ghostTransform.localPosition = targetPos + new Vector3(nearByTargetPosThresholdValue, 0, -nearByTargetPosThresholdValue);
+                    ghostTransform.localPosition = targetTransform.position + new Vector3(nearByTargetPosThresholdValue, 0, -nearByTargetPosThresholdValue);
                     break;
                 case 3:
-                    ghostTransform.localPosition = targetPos + new Vector3(-nearByTargetPosThresholdValue, 0, nearByTargetPosThresholdValue);
+                    ghostTransform.localPosition = targetTransform.position + new Vector3(-nearByTargetPosThresholdValue, 0, nearByTargetPosThresholdValue);
                     break;
                 case 4:
-                    ghostTransform.localPosition = targetPos + new Vector3(nearByTargetPosThresholdValue, 0, nearByTargetPosThresholdValue);
+                    ghostTransform.localPosition = targetTransform.position + new Vector3(nearByTargetPosThresholdValue, 0, nearByTargetPosThresholdValue);
                     break;
                 default:
                     break;
