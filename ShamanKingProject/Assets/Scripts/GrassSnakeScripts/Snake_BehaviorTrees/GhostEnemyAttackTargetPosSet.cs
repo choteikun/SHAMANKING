@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
 {
@@ -14,12 +15,10 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
         public int nearByTargetPosThresholdValue;
 
         private Transform ghostTransform;
-        //如果我把這行改成vector3那就不會拿到新的位置訊息
         private Transform targetTransform;
 
         private GameObject prev_GhostGameObject;
         private GameObject prev_TargetGameObject;
-
         public override void OnStart()
         {
             var currentGhostGameObject = GetDefaultGameObject(ghostGameObject.Value);
@@ -27,6 +26,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
             {
                 ghostTransform = currentGhostGameObject.GetComponent<Transform>();
                 prev_GhostGameObject = currentGhostGameObject;
+                //這裡在同一棵樹裡不管使用該節點幾次都只會執行一次
             }
 
             var currentTargetGameObject = GetDefaultGameObject(targetGameObject.Value);
@@ -35,7 +35,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
                 targetTransform = currentTargetGameObject.GetComponent<Transform>();
                 prev_TargetGameObject = currentTargetGameObject;
             }
-            Debug.Log("targetPos : " + targetTransform.position);
+            //這裡在同一棵樹裡每使用該節點一次就執行一次
+            //Debug.Log("targetPos : " + targetTransform.position);
             targetTransform.position = targetGameObject.Value.transform.position;
             randomAPosition();
             transform.LookAt(targetTransform);
