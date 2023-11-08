@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ThrowAttack",
+                    "type": "Button",
+                    "id": "d6f22620-9c42-42ac-bf5c-b468bade1e2f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -332,12 +341,45 @@
                     "name": "",
                     "id": "ca2d6f55-7199-498c-b17e-50e8d62ef533",
                     "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "PlayerPossessInteract",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "bc3e3421-e530-4ade-9bfc-919d9dd0a9a0",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThrowAttack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "390ff470-d572-4863-b637-6fd154502bc3",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThrowAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button",
+                    "id": "da691eb2-fe6d-4fac-b6e6-9018053e16ad",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThrowAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

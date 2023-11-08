@@ -16,16 +16,26 @@ public class PlayerAttackModel
     bool comboDeclaim = false;
     private Animator animator_;
     bool isJumpAttacking_ = false;
+    bool isThrowing_ = false;
     public void PlayerAttackModelInit()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpAttack, cmd => { whenGetAttackTrigger(AttackInputType.JumpAttack); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { whenGetAttackTrigger(AttackInputType.Throw); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpTouchGround, cmd =>
         {
             if (isJumpAttacking_)
             {
                 isJumpAttacking_ = false;
                 backToLanding();
+            }
+        });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackFinish, cmd => 
+        {
+            if (isThrowing_)
+            {
+                isThrowing_ = false;
+                backToIdle();
             }
         });
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
@@ -82,6 +92,9 @@ public class PlayerAttackModel
                 case AttackInputType.JumpAttack:
                     addFirstJumpAttack();
                     return;
+                case AttackInputType.Throw:
+                    addFirstThrowAttack();
+                    return;
             }
         }
     }
@@ -110,6 +123,20 @@ public class PlayerAttackModel
             animator_.CrossFadeInFixedTime("JumpAttack1", 0.25f);
             PassedFrameAfterAttack = 0;
             isJumpAttacking_ = true;
+            isAttacking_ = true;
+        }
+    }
+
+    void addFirstThrowAttack()
+    {
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[4], GameManager.Instance.AttackBlockDatabase.Database[3].SkillFrame));
+        currentInputCount_++;
+        if (!isAttacking_)
+        {
+            //animator_.Rebind();
+            animator_.CrossFadeInFixedTime("ThrowAttack", 0.25f);
+            PassedFrameAfterAttack = 0;
+            isThrowing_ = true;
             isAttacking_ = true;
         }
     }
@@ -145,6 +172,10 @@ public class PlayerAttackModel
         PassedFrameAfterAttack = 0;
         currentInputCount_++;
         comboDeclaim = false;
+        if (GameManager.Instance.AttackBlockDatabase.Database[actionID].M_SkillType == AttackInputType.Throw)
+        {
+            isThrowing_ = true;
+        }
     }
 
     void backToIdle()

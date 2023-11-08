@@ -45,4 +45,19 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "PlayerJumpAttackStart" });
     }
+
+    public void PlayerThrowAttackReady()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "PlayerThrowAttackReady" });
+    }
+
+    public void PlayerThrowAnimationStart()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "PlayerThrowAnimationStart" });
+    }
+    public void Player_Throw_Attack_CallHitBox(int callOrCancel)
+    {
+        var callOrCancelBool = false; if (callOrCancel == 0) { callOrCancelBool = false; } else { callOrCancelBool = true; }
+        GameManager.Instance.MainGameEvent.Send(new PlayerThrowAttackCallHitBoxCommand() { CallOrCancel = callOrCancelBool });
+    }
 }

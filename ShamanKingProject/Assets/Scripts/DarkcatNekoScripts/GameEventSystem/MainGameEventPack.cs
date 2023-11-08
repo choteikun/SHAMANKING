@@ -4,6 +4,7 @@ using UnityEngine;
 using Gamemanager;
 using UniRx;
 using System;
+using UnityEngine.UI;
 
 public class MainGameEventPack : GameEventPack
 {
@@ -81,6 +82,12 @@ public class MainGameEventPack : GameEventPack
     /// </summary>
     public IObservable<PlayerAttackCallHitBoxCommand> OnPlayerAttackCallHitBox => getSubject<PlayerAttackCallHitBoxCommand>();
 
+    public IObservable<PlayerGrabSuccessCommand> OnPlayerGrabSuccess => getSubject<PlayerGrabSuccessCommand>();
+
+    public IObservable<PlayerGrabSuccessResponse> OnPlayerGrabSuccessForPlayer => getSubject<PlayerGrabSuccessResponse>();
+
+    public IObservable<PlayerThrowAttackCallHitBoxCommand> OnPlayerThrowAttackCallHitBox => getSubject<PlayerThrowAttackCallHitBoxCommand>();
+
     /// <summary>
     /// 輔助瞄準系統進入可打物品
     /// </summary>
@@ -117,4 +124,8 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerEndTutorialCommand> OnPlayerEndTutorial => getSubject<PlayerEndTutorialCommand>();
 
     public IObservable<PlayerTutorialNextPageCommand> OnPlayerTutorialNextPage => getSubject<PlayerTutorialNextPageCommand>();
+
+    public IObservable<PlayerThrowAttackCommand> OnPlayerThrowAttack => getSubject<PlayerThrowAttackCommand>();
+
+    public IObservable<PlayerThrowAttackFinishCommand> OnPlayerThrowAttackFinish => getSubject<PlayerThrowAttackFinishCommand>();
 }

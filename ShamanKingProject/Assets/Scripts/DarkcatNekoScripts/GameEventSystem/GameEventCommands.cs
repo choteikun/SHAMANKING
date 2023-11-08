@@ -68,6 +68,10 @@ namespace Gamemanager
         public HitableItemTest HitInfo;
     }
 
+    public class PlayerThrowAttackFinishCommand:GameEventMessageBase
+    {
+
+    }
     public enum HitObjecctTag
     {
         None,
@@ -100,6 +104,10 @@ namespace Gamemanager
         public bool CallOrCancel;
     }
 
+    public class PlayerThrowAttackCallHitBoxCommand : GameEventMessageBase
+    {
+        public bool CallOrCancel;
+    }
     public class SupportAimSystemGetHitableItemCommand:GameEventMessageBase
     {
         public GameObject HitObject;
@@ -132,6 +140,26 @@ namespace Gamemanager
         public Vector3 CollidePoint;
         public GameObject AttackTarget;
         public float AttackDamage;
+    }
+
+    public class PlayerGrabSuccessCommand : GameEventMessageBase
+    {
+        public Vector3 CollidePoint;
+        public GameObject AttackTarget;
+        public float AttackDamage;
+    }
+    public class PlayerGrabSuccessResponse:GameEventMessageBase
+    {
+        public Vector3 CollidePoint;
+        public GameObject AttackTarget;
+        public float AttackDamage;
+
+        public PlayerGrabSuccessResponse(PlayerGrabSuccessCommand cmd)
+        {
+            CollidePoint = cmd.CollidePoint;
+            AttackTarget = cmd.AttackTarget; 
+            AttackDamage = cmd.AttackDamage;
+        }
     }
 
     public class PlayerControllerPossessableInteractButtonCommand:GameEventMessageBase
@@ -167,5 +195,10 @@ namespace Gamemanager
     public class PlayerEndTutorialCommand:GameEventMessageBase
     {
         public int TutorialID;
+    }
+
+    public class PlayerThrowAttackCommand : GameEventMessageBase
+    {
+
     }
 }

@@ -14,6 +14,8 @@ public class GhostLauncherView : MonoBehaviour
     [SerializeField]
     GameObject aimingTarget_;
     [SerializeField]
+    GameObject horizontalPlayerAimObject_;
+    [SerializeField]
     ObiRopeCursor ropeCursor_;
     [SerializeField]
     ObiRope rope_;
@@ -29,6 +31,9 @@ public class GhostLauncherView : MonoBehaviour
     [SerializeField]
     HitableItemTest nowAimingObjectHitInfo;
 
+    [SerializeField] GameObject throwAttackStartPoint_;
+    [SerializeField] GameObject throwAttackFollowTarget_;
+
     Tweener aimTargetEvent_;
     Tweener ropeExtrudeEvent_;
 
@@ -37,10 +42,23 @@ public class GhostLauncherView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { nowAimingObjectHitInfo = cmd.HitableItemInfo; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemLeaveHitableItem, cmd => { nowAimingObjectHitInfo = null; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackFinish, cmd => { stopLaunchTweener(); ropeLength_ = 0; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccess, cmd => { stopLaunchTweener(); setRopeLengthByOtherObject(cmd.AttackTarget.transform); });
         var playerLaunchActionFinishEvent = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
-        var GhostLaunchProcessFinishEvent = GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish.Subscribe(cmd => { ropeLength_ = 0; });
+        var GhostLaunchProcessFinishEvent = GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish.Subscribe(cmd =>
+        {
+            ropeLength_ = 0;
+        });
         var AimingButtonTriggerEvent = GameManager.Instance.MainGameEvent.OnAimingButtonTrigger.Where(cmd => !cmd.AimingButtonIsPressed).Subscribe(cmd => { nowAimingObjectHitInfo = null; });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => setRopeLengthByOtherObject(cmd.HitInfo.onHitPoint_.transform));
+
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
+        {
+            if (cmd.AnimationEventName == "PlayerThrowAttackReady")
+            {
+                onThrowStart();
+            }
+        });
 
         GameManager.Instance.MainGameMediator.AddToDisposables(playerLaunchActionFinishEvent);
         GameManager.Instance.MainGameMediator.AddToDisposables(GhostLaunchProcessFinishEvent);
@@ -58,7 +76,7 @@ public class GhostLauncherView : MonoBehaviour
 
         var length = (aimingTarget_.transform.position - ghostLaunchFollowTarget_.transform.position).magnitude;
 
-        var launchTime = getLaunchTimeByDistance(length);
+        var launchTime = getLaunchTimeByDistance(length, 20);
 
         aimTargetEvent_ = ghostLaunchFollowTarget_.transform.DOMove(aimingTarget_.transform.position, launchTime);
         ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, launchTime).OnComplete(
@@ -86,9 +104,9 @@ public class GhostLauncherView : MonoBehaviour
         ropeLength_ = length - basicLength_;
         ropeLength_ = Mathf.Clamp(ropeLength_, 0.25f, 10000);
     }
-    float getLaunchTimeByDistance(float distance)
+    float getLaunchTimeByDistance(float distance, float maxRange)
     {
-        var percentage = distance / 20f;
+        var percentage = distance / maxRange;
         var result = percentage * launchSpeed_;
         return result + 0.2f;
     }
@@ -99,7 +117,28 @@ public class GhostLauncherView : MonoBehaviour
             GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = false });
             return;
         }
-        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = nowAimingObjectHitInfo.HitTag, HitInfo = nowAimingObjectHitInfo,HitObjecct = nowAimingObjectHitInfo.gameObject });
+        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchActionFinishCommand() { Hit = true, HitObjecctTag = nowAimingObjectHitInfo.HitTag, HitInfo = nowAimingObjectHitInfo, HitObjecct = nowAimingObjectHitInfo.gameObject });
 
+    }
+
+    void onThrowStart()
+    {
+        throwAttackFollowTarget_.transform.position = throwAttackStartPoint_.transform.position;
+        throwAttackFollowTarget_.transform.rotation = throwAttackStartPoint_.transform.rotation;
+
+        //確認路徑
+
+
+        var length = (horizontalPlayerAimObject_.transform.position - throwAttackFollowTarget_.transform.position).magnitude / 2;
+
+
+        aimTargetEvent_ = throwAttackFollowTarget_.transform.DOMove(horizontalPlayerAimObject_.transform.position, 0.2f);
+        ropeExtrudeEvent_ = DOTween.To(() => ropeLength_, x => ropeLength_ = x, length, 0.2f).OnComplete(
+            () =>
+            {
+                GameManager.Instance.MainGameEvent.Send(new PlayerThrowAttackFinishCommand());
+                GameManager.Instance.MainGameEvent.Send(new PlayerThrowAttackCallHitBoxCommand() { CallOrCancel = false });
+            }
+            );
     }
 }

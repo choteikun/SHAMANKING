@@ -49,11 +49,11 @@ public class GhostControllerView : MonoBehaviour
     }
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, ghostReactState);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, ghostReactState);        
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cmd => { mat_Revert(); });//有時候會在Ghost_Back start前就呼叫(尚未解決)
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cmd => { GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse()); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMoveStatusChange, cmd => { playerMoveStatusToChainBehavior(cmd); });
+       // GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMoveStatusChange, cmd => { playerMoveStatusToChainBehavior(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { playerAimReactivateChain(cmd); });
 
         behaviorTree = GetComponent<BehaviorTree>();

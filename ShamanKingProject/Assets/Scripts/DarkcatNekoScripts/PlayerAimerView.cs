@@ -6,19 +6,29 @@ using static Unity.Burst.Intrinsics.X86.Avx;
 public class PlayerAimerView : MonoBehaviour
 {
     [SerializeField]
+    GameObject playerObject_;
+    [SerializeField]
     GameObject aimPoint_;
     [SerializeField]
     GameObject supportAimSystem_;
     [SerializeField]
     float distance_;
     [SerializeField]
+    float grabDistance_;
+    [SerializeField]
     float smoothing_;
     [SerializeField]
     GameObject rayCube_;
     [SerializeField]
     GameObject nowAimimgObject_;
+
+    [SerializeField]
+    GameObject horizontalEndPoint_;
     [SerializeField]
     HitableItemTest hitObjectInfo_;
+
+    [SerializeField]
+    Vector3 Offset_;
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => supportAimSystemGetObject(cmd));
@@ -31,6 +41,7 @@ public class PlayerAimerView : MonoBehaviour
     {
         aimPointUpdate();
         rayCubeUpdate(aimPoint_.transform.position);
+        playerFowardAimUpdate();
     }
 
     void rayCubeUpdate(Vector3 pointB)
@@ -64,6 +75,14 @@ public class PlayerAimerView : MonoBehaviour
         {
             supportAimSystem_.transform.position = Vector3.Lerp(supportAimSystem_.transform.position, hitObjectInfo_.onHitPoint_.transform.position, smoothing_ * Time.deltaTime);
         }
+    }
+
+    void playerFowardAimUpdate()
+    {
+        var playerfoward = playerObject_.transform.forward;
+        var targetPosition = playerObject_.transform.position + playerfoward * grabDistance_;
+        
+        horizontalEndPoint_.transform.position = targetPosition+ Offset_;
     }
     void supportAimSystemGetObject(SupportAimSystemGetHitableItemCommand command)
     {

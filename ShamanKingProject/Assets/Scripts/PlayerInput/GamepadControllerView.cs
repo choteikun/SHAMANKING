@@ -1,9 +1,10 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gamemanager;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 //using UnityEngine.InputSystem.Editor;
 
 public class GamepadControllerView : MonoBehaviour
@@ -21,6 +22,7 @@ public class GamepadControllerView : MonoBehaviour
 
     [SerializeField] bool aimingDelay_ = true;
     Tweener aimingDelayer_;
+    [SerializeField] bool buttonEastPressed_ = false;
 
     [Header("Dubug Use")]
     [SerializeField] bool isDebuging_;
@@ -157,9 +159,11 @@ public class GamepadControllerView : MonoBehaviour
         //isAiming_ =false;
     }
 
-    void OnPlayerLightAttack()
+    async void OnPlayerLightAttack()
     {
-        if (isAiming_) return;        
+        if (isAiming_) return;
+        await UniTask.DelayFrame(1);
+        if (buttonEastPressed_) return;
         if (isJumping_)
         {
             isAttacking_ = true;
@@ -199,8 +203,9 @@ public class GamepadControllerView : MonoBehaviour
         }
     }
 
-    void OnPlayerPossessInteract()
+    void OnPlayerPossessInteract(InputValue value)
     {
+        buttonEastPressed_ = value.isPressed;
         if (!isPosscessing_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerControllerPossessableInteractButtonCommand());
     }
@@ -208,6 +213,16 @@ public class GamepadControllerView : MonoBehaviour
     void OnNextPage()
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerTutorialNextPageCommand() { TutorialID = nowTutorial_});
+    }
+
+    void OnThrowAttack()
+    {
+        if (isJumping_)
+        {
+            return;
+        }
+        Debug.Log("OnThrowAttack");
+        GameManager.Instance.MainGameEvent.Send(new PlayerThrowAttackCommand());
     }
 }
 
