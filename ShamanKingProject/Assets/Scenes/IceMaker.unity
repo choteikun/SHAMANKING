@@ -4814,7 +4814,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.08434497, y: 0.005469975, z: 0.00046302183, w: 0.9964215}
+  m_LocalRotation: {x: -0.0843447, y: 0.0060335086, z: 0.00051072374, w: 0.99641824}
   m_LocalPosition: {x: -50.94, y: -4.8599997, z: -46.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6075,7 +6075,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456681961}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.000000007450581, y: -0, z: -5.820766e-11, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8597,6 +8597,50 @@ MonoBehaviour:
   m_Damping: 0.2
   m_DampingWhenOccluded: 0.2
   m_OptimalTargetDistance: 0
+--- !u!1 &843403883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 843403885}
+  - component: {fileID: 843403884}
+  m_Layer: 0
+  m_Name: OniCollisionWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &843403884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843403883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02d25c24c8574316883c920912e4fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &843403885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843403883}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &856208387
 GameObject:
   m_ObjectHideFlags: 0
@@ -11608,6 +11652,89 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2477893340230890565}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1272381855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1272381858}
+  - component: {fileID: 1272381857}
+  - component: {fileID: 1272381856}
+  m_Layer: 0
+  m_Name: WorlduseFollowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &1272381856
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272381855}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 0ffc73420dfd3f8489adce6f498ed801, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1272381857
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272381855}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1272381858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272381855}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -50.815, y: -4.6259995, z: -39.574}
+  m_LocalScale: {x: 0.2487, y: 0.2487, z: 0.2487}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1315468793 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 328e2d4190b9de742b3ca2423c6fdd57,
@@ -20871,50 +20998,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 73649046}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1931504353
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1931504355}
-  - component: {fileID: 1931504354}
-  m_Layer: 0
-  m_Name: OniCollisionWorld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1931504354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931504353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d02d25c24c8574316883c920912e4fdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1931504355
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931504353}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950610137
 GameObject:
@@ -58545,6 +58628,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4315702511652278694, guid: df95182e570c8c248a793c055c7f52ca,
         type: 3}
+      propertyPath: worldUseFollowTarget_
+      value: 
+      objectReference: {fileID: 1272381858}
+    - target: {fileID: 4315702511652278694, guid: df95182e570c8c248a793c055c7f52ca,
+        type: 3}
       propertyPath: throwAttackFollowTarget_
       value: 
       objectReference: {fileID: 361776945}
@@ -73457,13 +73545,13 @@ MonoBehaviour:
   aimPoint_: {fileID: 2452954211483153911}
   supportAimSystem_: {fileID: 2452954210865318981}
   distance_: 20
-  grabDistance_: 8
+  grabDistance_: 12
   smoothing_: 15
   rayCube_: {fileID: 2452954210561814026}
   nowAimimgObject_: {fileID: 0}
   horizontalEndPoint_: {fileID: 566115286}
   hitObjectInfo_: {fileID: 0}
-  Offset_: {x: 0, y: 1.5, z: 0}
+  Offset_: {x: 0, y: 1.3, z: 0}
 --- !u!1 &6138644374130837417
 GameObject:
   m_ObjectHideFlags: 0
@@ -90784,7 +90872,7 @@ MonoBehaviour:
         EnemyState_None","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,350.795929)"},"ID":3,"Name":"Set
         EnemyState_Idle","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,470.795929)"},"ID":4,"Name":"Set
         EnemyState_Movement","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,590.7959)"},"ID":5,"Name":"Set
-        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false}]}'
+        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -90795,6 +90883,7 @@ MonoBehaviour:
         - {fileID: 8030313268568723263}
         - {fileID: 7183257412836234391}
         - {fileID: 6918588322481312616}
+        - {fileID: 7183257412836234391}
         - {fileID: 7183257412836234391}
         - {fileID: 7183257412836234391}
         byteData: 
@@ -90850,7 +90939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef24aae91f8da24ea03da833ed31855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoint_: 500
+  healthPoint_: 5000
   hasTakenDamage_: 0
   canGetHit_: 1
   canGetGrab_: 1
@@ -90891,6 +90980,7 @@ GameObject:
   - component: {fileID: 7183257412836234388}
   - component: {fileID: 7183257412836234392}
   - component: {fileID: 7183257412836234393}
+  - component: {fileID: 7183257412836234394}
   m_Layer: 10
   m_Name: GhostEnemyTest
   m_TagString: Enemy
@@ -90925,6 +91015,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.228194, y: 2.7127233, z: 1}
   m_Center: {x: 0.01651704, y: 0.85636234, z: 1.2676801e-17}
+--- !u!114 &7183257412836234394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183257412836234391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18bfc6c54ccaba4297bb5cdedb5bc04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wanderTrigger_: 0
+  updatePosTrigger_: 0
+  stunTrigger_: 0
 --- !u!33 &7184499554030973708
 MeshFilter:
   m_ObjectHideFlags: 0

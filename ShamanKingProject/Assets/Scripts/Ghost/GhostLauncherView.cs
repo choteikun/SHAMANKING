@@ -4,6 +4,7 @@ using Gamemanager;
 using Obi;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GhostLauncherView : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class GhostLauncherView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { nowAimingObjectHitInfo = cmd.HitableItemInfo; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemLeaveHitableItem, cmd => { nowAimingObjectHitInfo = null; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { onLaunchStart(); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackFinish, cmd => { stopLaunchTweener(); ropeLength_ = 0; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackFinish, cmd => { stopLaunchTweener(); DOTween.To(() => ropeLength_, x => ropeLength_ = x, 0, 0.2f); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccess, cmd => { stopLaunchTweener(); setRopeLengthByOtherObject(cmd.AttackTarget.transform); });
         var playerLaunchActionFinishEvent = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit).Subscribe(cmd => { stopLaunchTweener(); });
         var GhostLaunchProcessFinishEvent = GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish.Subscribe(cmd =>
@@ -57,6 +58,13 @@ public class GhostLauncherView : MonoBehaviour
             if (cmd.AnimationEventName == "PlayerThrowAttackReady")
             {
                 onThrowStart();
+            }
+        });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
+        {
+            if (cmd.AnimationEventName == "Player_Pull_Finish")
+            {
+                stopLaunchTweener(); ropeLength_ = 0;
             }
         });
 

@@ -16,6 +16,13 @@ public class GhostEnemyVariables : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { stunTrigger_ = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
+        {
+            if (cmd.AnimationEventName == "Player_Pull_Finish")
+            {
+                stunTrigger_ = false;
+            }
+        });
     }
 
 }

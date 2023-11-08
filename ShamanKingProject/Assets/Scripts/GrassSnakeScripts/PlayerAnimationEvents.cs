@@ -60,4 +60,9 @@ public class PlayerAnimationEvents : MonoBehaviour
         var callOrCancelBool = false; if (callOrCancel == 0) { callOrCancelBool = false; } else { callOrCancelBool = true; }
         GameManager.Instance.MainGameEvent.Send(new PlayerThrowAttackCallHitBoxCommand() { CallOrCancel = callOrCancelBool });
     }
+
+    public void Player_Pull_Finish()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "Player_Pull_Finish" });
+    }
 }

@@ -38,6 +38,14 @@ public class PlayerAttackModel
                 backToIdle();
             }
         });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
+        {
+            if (isThrowing_)
+            {
+                isThrowing_ = false;
+                backToPulling();
+            }
+        });
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
         animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
     }
@@ -195,6 +203,17 @@ public class PlayerAttackModel
         //呼叫動畫
         // animator_.Rebind();
         animator_.CrossFadeInFixedTime("Girl_LandHarder", 0.25f);
+        Debug.Log("回歸");
+        isAttacking_ = false;
+        CurrentAttackInputs = new List<AttackBlockBase> { };
+        currentInputCount_ = -1;
+        PassedFrameAfterAttack = 0;
+    }
+    void backToPulling()
+    {
+        //呼叫動畫
+        // animator_.Rebind();
+        animator_.CrossFadeInFixedTime("PullAnimation", 0.25f);
         Debug.Log("回歸");
         isAttacking_ = false;
         CurrentAttackInputs = new List<AttackBlockBase> { };

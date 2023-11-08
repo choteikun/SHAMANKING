@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
 using Gamemanager;
 using System;
+using TMPro;
 using UnityEngine;
+using DG.Tweening;
 
 public enum PlayerState
 {
@@ -96,6 +98,7 @@ public class PlayerControllerMover
                 Gravity = -65;
             }
         });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { DashToGrabTarget(cmd); });
     }
 
     public void Update()
@@ -290,5 +293,19 @@ public class PlayerControllerMover
         }
     }
 
+   async void DashToGrabTarget(PlayerGrabSuccessResponse cmd)  
+    {
+        var player = characterControllerObj_.transform.gameObject;
+
+        var vector = cmd.AttackTarget.transform.position - player.transform.position;
+        var direction = vector.normalized;
+        var length = vector.magnitude;
+        var destination = player.transform.position+ direction * (length -0.5f);
+        await UniTask.Delay(150);
+        player.transform.DOMove(destination, 0.7f).OnComplete(() => {
+            // 移动完成后的回调操作
+            Debug.Log("Player has reached the enemy.");
+        });
+    }
 
 }
