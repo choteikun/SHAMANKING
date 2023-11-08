@@ -14,7 +14,6 @@ public class HasTakenDamage : Conditional
     {
         if (EnemyHurt.Value)
         {
-            Debug.LogError("trigger!!!");
             return TaskStatus.Success;
         }
         return TaskStatus.Failure;
