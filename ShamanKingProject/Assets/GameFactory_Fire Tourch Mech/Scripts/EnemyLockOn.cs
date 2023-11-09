@@ -46,8 +46,8 @@ public class EnemyLockOn : MonoBehaviour
             ResetTarget();
             return;
         }
-
-        if (currentTarget = ScanNearBy()) FoundTarget(); else ResetTarget();
+        currentTarget = ScanNearBy();
+        if (currentTarget!=null) FoundTarget(); 
     }
 
     void FoundTarget()
@@ -57,6 +57,7 @@ public class EnemyLockOn : MonoBehaviour
 
     void ResetTarget()
     {
+        Debug.Log("Cancel");
         currentTarget = null;
         enemyLocked = false;
     }
@@ -68,8 +69,9 @@ public class EnemyLockOn : MonoBehaviour
         Collider[] nearbyTargets = Physics.OverlapSphere(transform.position, noticeZone, targetLayers);
         float closestAngle = maxNoticeAngle;
         Transform closestTarget = null;
-        if (nearbyTargets.Length <= 0) return null;
-
+        if (nearbyTargets.Length <= 0) 
+        { Debug.Log("Cant find"); return null; }
+        Debug.Log("Finding"+ nearbyTargets.Length.ToString());
         for (int i = 0; i < nearbyTargets.Length; i++)
         {
             Vector3 dir = nearbyTargets[i].transform.position - cam.position;
@@ -82,7 +84,7 @@ public class EnemyLockOn : MonoBehaviour
                 closestAngle = _angle;      
             }
         }
-        Debug.Log("Finding");
+        Debug.Log("Finding"+ closestTarget.name.ToString());
         if (!closestTarget)
         { Debug.Log("Cant find"); return null; }
         float h1 = closestTarget.GetComponent<CapsuleCollider>().height;
@@ -94,6 +96,7 @@ public class EnemyLockOn : MonoBehaviour
         Vector3 tarPos = closestTarget.position + new Vector3(0, currentYOffset, 0);
         if(Blocked(tarPos))
         { Debug.Log("Cant find"); return null; }
+        Debug.Log("Finding" + closestTarget.name.ToString());
         return closestTarget;
     }
 
@@ -125,7 +128,7 @@ public class EnemyLockOn : MonoBehaviour
         Vector3 dir = currentTarget.position - targetCameraFollowedObject_.transform.position;
         dir.y = 0;
         Quaternion rot = Quaternion.LookRotation(dir);
-        targetCameraFollowedObject_.transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * lookAtSmoothing);
+        targetCameraFollowedObject_.transform.rotation = Quaternion.Lerp(targetCameraFollowedObject_.transform.rotation, rot, Time.deltaTime * lookAtSmoothing);
     }
 
     private void OnDrawGizmos()
