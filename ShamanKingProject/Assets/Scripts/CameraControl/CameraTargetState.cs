@@ -23,12 +23,13 @@ public class CameraTargetState : StateBase
         if (stateManager is CameraControllerStateMachine cameraController)
         {
             var mainCameraEulerAngles = cameraController.CameraControllerView_.MainCamQuaternion_.eulerAngles;
-
+            var targetFollowObject = cameraController.CameraControllerView_.TargetCameraFollowedObject_.transform.rotation.eulerAngles;
 
             mainCameraEulerAngles = cameraController.CameraControllerView_.ClampMainCameraRotateAngle(mainCameraEulerAngles);
 
 
-            cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles = mainCameraEulerAngles;
+            var x = mainCameraEulerAngles.x;
+            cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles = new Vector3(x, targetFollowObject.y, targetFollowObject.z);
 
         }
     }
@@ -39,8 +40,8 @@ public class CameraTargetState : StateBase
             var targetFollowObject = cameraController.CameraControllerView_.TargetCameraFollowedObject_.transform.rotation.eulerAngles;
 
 
-            var y = cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles.y;
-            cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles = new Vector3(targetFollowObject.x, y, targetFollowObject.z);
+            var x = cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles.x;
+            cameraController.CameraControllerView_.CameraFollowedObject.transform.eulerAngles = new Vector3(x, targetFollowObject.y, targetFollowObject.z);
 
         }
     }

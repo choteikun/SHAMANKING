@@ -233,7 +233,7 @@ public class PlayerControllerMover
         if (!player_Stats_.Player_CanMove) return;
         var result = new Vector3(0, targetDestination_Transform_.rotation.eulerAngles.y, 0);
         var q_result = Quaternion.Euler(result);
-        Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 15f * Time.deltaTime);
+        Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 45f * Time.deltaTime);
         model_Transform_.rotation = newRotation;
     }
     //衝刺測試
@@ -298,7 +298,7 @@ public class PlayerControllerMover
         var vector = cmd.AttackTarget.transform.position - player.transform.position;
         var direction = vector.normalized;
         var length = vector.magnitude;
-        var destination = player.transform.position+ direction * (length -0.5f);
+        var destination = player.transform.position+ direction * (length-1.5f);
         await UniTask.Delay(150);
         player.transform.DOMove(destination, 0.7f).OnComplete(() => {
             // 移动完成后的回调操作
