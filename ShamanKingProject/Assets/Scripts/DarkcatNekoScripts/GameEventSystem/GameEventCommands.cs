@@ -206,4 +206,13 @@ namespace Gamemanager
     {
 
     }
+    public class SystemGetTarget:GameEventMessageBase
+    {
+        public GameObject Target;
+    }
+    public class SystemResetTarget : GameEventMessageBase
+    {
+
+    }
+
 }

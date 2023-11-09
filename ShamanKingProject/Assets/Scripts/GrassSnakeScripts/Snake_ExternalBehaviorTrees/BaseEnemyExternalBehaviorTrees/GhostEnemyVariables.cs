@@ -1,4 +1,3 @@
-using BehaviorDesigner.Runtime;
 using UnityEngine;
 
 public class GhostEnemyVariables : MonoBehaviour
@@ -15,7 +14,14 @@ public class GhostEnemyVariables : MonoBehaviour
 
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { stunTrigger_ = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
+        {
+            if (cmd.AttackTarget== this.gameObject)
+            {
+            stunTrigger_ = true;
+
+            }
+        });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
         {
             if (cmd.AnimationEventName == "Player_Pull_Finish")

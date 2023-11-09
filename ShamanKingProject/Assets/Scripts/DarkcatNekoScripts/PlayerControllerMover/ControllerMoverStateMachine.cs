@@ -15,6 +15,9 @@ public class ControllerMoverStateMachine : StageManager
             case "Aim":
                 CurrentState = new AimMoverState(this);
                 return;
+            case "Target":
+                CurrentState = new TargetMoverState(this);
+                return;
         }
 
     }

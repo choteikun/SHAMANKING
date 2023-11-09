@@ -228,6 +228,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnTargetModeSwitch()
     {
+        if (isAiming_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerTargetButtonTriggerCommand());
     }
 }

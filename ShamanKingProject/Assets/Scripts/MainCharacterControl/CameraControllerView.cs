@@ -16,6 +16,8 @@ public class CameraControllerView : MonoBehaviour
     public GameObject CameraFollowedObject { get; private set; }
     [field:SerializeField]
     public GameObject AimCameraFollowedObject_ { get; private set; }
+    [field: SerializeField]
+    public GameObject TargetCameraFollowedObject_ { get; private set; }
     [SerializeField]
     float rotateSpeed_X_ = 50f;
     [SerializeField]
@@ -59,6 +61,8 @@ public class CameraControllerView : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCameraRotate, changeRotateValue);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, changeCamera);
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { stateMachine_.TransitionState("Target"); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { stateMachine_.TransitionState("MainGame"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelCameraRotate);
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd =>backToMainGame());
     }

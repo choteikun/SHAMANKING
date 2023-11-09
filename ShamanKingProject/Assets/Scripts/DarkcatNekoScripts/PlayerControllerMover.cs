@@ -39,6 +39,7 @@ public class PlayerControllerMover
     private Transform model_Transform_;
 
     private Transform aimDestination_Transform_;
+    private Transform targetDestination_Transform_;
 
     private Vector3 dashDir;
 
@@ -76,6 +77,7 @@ public class PlayerControllerMover
         }
 
         aimDestination_Transform_ = GameObject.Find("AimingCameraFollowTarget").transform;
+        targetDestination_Transform_ = GameObject.Find("EnemyTargetCameraFollowObject").transform;
 
         player_CC_ = characterControllerObj_.GetComponent<CharacterController>();
 
@@ -220,24 +222,20 @@ public class PlayerControllerMover
     }
 
     public void AimPointUpdate()
-    {
-        //Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        //Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-
-        //if (Physics.Raycast(ray, out RaycastHit raycastHit, 9999f, aimColliderMask))
-        //{
-        //    aimDestination_Transform_.position = raycastHit.point;
-        //}
-
-        //Vector3 worldAimTarget = aimDestination_Transform_.position;
-        //worldAimTarget.y = model_Transform_.position.y;
-        //Vector3 aimdirection = (worldAimTarget - model_Transform_.position).normalized;
+    {       
         var result = new Vector3(0, aimDestination_Transform_.rotation.eulerAngles.y, 0);
         var q_result = Quaternion.Euler(result);
         Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 15f * Time.deltaTime);
         model_Transform_.rotation = newRotation;
     }
-
+    public void TargetPointUpdate()
+    {
+        if (!player_Stats_.Player_CanMove) return;
+        var result = new Vector3(0, targetDestination_Transform_.rotation.eulerAngles.y, 0);
+        var q_result = Quaternion.Euler(result);
+        Quaternion newRotation = Quaternion.Slerp(model_Transform_.rotation, q_result, 15f * Time.deltaTime);
+        model_Transform_.rotation = newRotation;
+    }
     //衝刺測試
     async void Dash(Vector3 targetDir)
     {

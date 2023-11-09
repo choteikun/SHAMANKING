@@ -29,6 +29,8 @@ public class PlayerControllerView : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, onAimButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { onTargetGetObject(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
@@ -69,6 +71,17 @@ public class PlayerControllerView : MonoBehaviour
             aimingInterrupt();
             playerControllerMover_.TransitionState("MainGame");
         } 
+    }
+
+    void onTargetGetObject()
+    {
+        player_Stats_.Targeting = true;
+        playerControllerMover_.TransitionState("Target");
+    }
+    void onTargetResetObject()
+    {
+        player_Stats_.Targeting = false;
+        playerControllerMover_.TransitionState("MainGame");
     }
     #endregion
 

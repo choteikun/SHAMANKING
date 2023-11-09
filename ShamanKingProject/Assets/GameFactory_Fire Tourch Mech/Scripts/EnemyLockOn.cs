@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
+using Gamemanager;
 
 public class EnemyLockOn : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class EnemyLockOn : MonoBehaviour
     [SerializeField] bool zeroVert_Look;
     [SerializeField] float noticeZone = 10;
     [SerializeField] float lookAtSmoothing = 2;
-    [Tooltip("Angle_Degree")] [SerializeField] float maxNoticeAngle = 60;
+    [Tooltip("Angle_Degree")][SerializeField] float maxNoticeAngle = 60;
 
     Transform cam;
     [SerializeField] Transform targetCameraFollowedObject_;
@@ -30,9 +30,9 @@ public class EnemyLockOn : MonoBehaviour
 
     void Update()
     {
-        if (enemyLocked) 
+        if (enemyLocked)
         {
-            if(!TargetOnRange()) ResetTarget();
+            if (!TargetOnRange()) ResetTarget();
             LookAtTarget();
         }
 
@@ -47,12 +47,20 @@ public class EnemyLockOn : MonoBehaviour
             return;
         }
         currentTarget = ScanNearBy();
-        if (currentTarget!=null) FoundTarget(); 
+        if (currentTarget != null)
+        {
+            FoundTarget();
+        }
+        else
+        {
+            ResetTarget();
+        }
     }
 
     void FoundTarget()
     {
         enemyLocked = true;
+        GameManager.Instance.MainGameEvent.Send(new SystemGetTarget() { Target = currentTarget.gameObject });
     }
 
     void ResetTarget()
@@ -60,6 +68,7 @@ public class EnemyLockOn : MonoBehaviour
         Debug.Log("Cancel");
         currentTarget = null;
         enemyLocked = false;
+        GameManager.Instance.MainGameEvent.Send(new SystemResetTarget());
     }
 
 
@@ -69,22 +78,22 @@ public class EnemyLockOn : MonoBehaviour
         Collider[] nearbyTargets = Physics.OverlapSphere(transform.position, noticeZone, targetLayers);
         float closestAngle = maxNoticeAngle;
         Transform closestTarget = null;
-        if (nearbyTargets.Length <= 0) 
+        if (nearbyTargets.Length <= 0)
         { Debug.Log("Cant find"); return null; }
-        Debug.Log("Finding"+ nearbyTargets.Length.ToString());
+        Debug.Log("Finding" + nearbyTargets.Length.ToString());
         for (int i = 0; i < nearbyTargets.Length; i++)
         {
             Vector3 dir = nearbyTargets[i].transform.position - cam.position;
             dir.y = 0;
             float _angle = Vector3.Angle(cam.forward, dir);
-            
+
             if (_angle < closestAngle)
             {
                 closestTarget = nearbyTargets[i].transform;
-                closestAngle = _angle;      
+                closestAngle = _angle;
             }
         }
-        Debug.Log("Finding"+ closestTarget.name.ToString());
+        Debug.Log("Finding" + closestTarget.name.ToString());
         if (!closestTarget)
         { Debug.Log("Cant find"); return null; }
         float h1 = closestTarget.GetComponent<CapsuleCollider>().height;
@@ -92,31 +101,36 @@ public class EnemyLockOn : MonoBehaviour
         float h = h1 * h2;
         float half_h = (h / 2) / 2;
         currentYOffset = h - half_h;
-        if(zeroVert_Look && currentYOffset > 1.6f && currentYOffset < 1.6f * 3) currentYOffset = 1.6f;
+        if (zeroVert_Look && currentYOffset > 1.6f && currentYOffset < 1.6f * 3) currentYOffset = 1.6f;
         Vector3 tarPos = closestTarget.position + new Vector3(0, currentYOffset, 0);
-        if(Blocked(tarPos))
+        if (Blocked(tarPos))
         { Debug.Log("Cant find"); return null; }
         Debug.Log("Finding" + closestTarget.name.ToString());
+        pos = closestTarget.position + new Vector3(0, currentYOffset, 0);
         return closestTarget;
     }
 
-    bool Blocked(Vector3 t){
+    bool Blocked(Vector3 t)
+    {
         RaycastHit hit;
-        if(Physics.Linecast(transform.position + Vector3.up * 0.5f, t, out hit)){
-            if(hit.transform.CompareTag("Object")) return true;
+        if (Physics.Linecast(transform.position + Vector3.up * 0.5f, t, out hit))
+        {
+            if (hit.transform.CompareTag("Object")) return true;
         }
         return false;
     }
 
-    bool TargetOnRange(){
+    bool TargetOnRange()
+    {
         float dis = (transform.position - pos).magnitude;
-        if(dis/2 > noticeZone) return false; else return true;
+        if (dis / 2 > noticeZone) return false; else return true;
     }
 
 
     private void LookAtTarget()
     {
-        if(currentTarget == null) {
+        if (currentTarget == null)
+        {
             ResetTarget();
             return;
         }
@@ -133,6 +147,6 @@ public class EnemyLockOn : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, noticeZone);   
+        Gizmos.DrawWireSphere(transform.position, noticeZone);
     }
 }
