@@ -198,7 +198,7 @@ public class PlayerControllerMover
 
             ////將模型旋轉至相對於相機位置的輸入方向
             //model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            if (!player_Stats_.Aiming)
+            if (!player_Stats_.Aiming&&!player_Stats_.Targeting)
             {
                 //旋轉平滑用的插值運算
                 float rotation = Mathf.SmoothDampAngle(model_Transform_.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, TurnSmoothTime);

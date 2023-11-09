@@ -152,6 +152,10 @@ public class Player_Stats
     [Tooltip("角色輸入")]
     public float Player_InputMagnitude;
 
+    [Tooltip("玩家鎖定狀態")]
+    public bool Targeting = false;
+
+
     public Vector2 Player_Dir;
 
     public bool Player_AttackCommandAllow;

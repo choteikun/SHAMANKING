@@ -222,7 +222,13 @@ public class GamepadControllerView : MonoBehaviour
             return;
         }
         Debug.Log("OnThrowAttack");
+        isAttacking_ = true;
         GameManager.Instance.MainGameEvent.Send(new PlayerThrowAttackCommand());
+    }
+
+    void OnTargetModeSwitch()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerTargetButtonTriggerCommand());
     }
 }
 

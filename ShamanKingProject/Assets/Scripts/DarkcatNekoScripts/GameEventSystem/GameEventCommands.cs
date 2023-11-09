@@ -201,4 +201,9 @@ namespace Gamemanager
     {
 
     }
+
+    public class PlayerTargetButtonTriggerCommand:GameEventMessageBase
+    {
+
+    }
 }

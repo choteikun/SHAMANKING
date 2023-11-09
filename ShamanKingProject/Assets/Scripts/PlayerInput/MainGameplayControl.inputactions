@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TargetModeSwitch",
+                    "type": "Button",
+                    "id": "46886d1d-c22a-4fee-9176-128a3cdbec37",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -413,6 +422,17 @@
                     "action": "ThrowAttack",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "da142ad7-d66b-4e9a-85c2-4c8251cff7e6",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TargetModeSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

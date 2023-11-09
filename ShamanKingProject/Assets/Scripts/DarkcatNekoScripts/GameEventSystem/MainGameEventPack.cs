@@ -128,4 +128,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerThrowAttackCommand> OnPlayerThrowAttack => getSubject<PlayerThrowAttackCommand>();
 
     public IObservable<PlayerThrowAttackFinishCommand> OnPlayerThrowAttackFinish => getSubject<PlayerThrowAttackFinishCommand>();
+
+    public IObservable<PlayerTargetButtonTriggerCommand> OnPlayerTargetButtonTrigger => getSubject<PlayerTargetButtonTriggerCommand>();
 }
