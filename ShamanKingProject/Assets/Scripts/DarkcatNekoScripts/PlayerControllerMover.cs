@@ -218,7 +218,7 @@ public class PlayerControllerMover
     //閃避觸發器
     void playerRollButtonTrigger(PlayerRollingButtonCommand command)
     {
-        Dash(dashDir);
+        //Dash(dashDir);
     }
 
     public void AimPointUpdate()

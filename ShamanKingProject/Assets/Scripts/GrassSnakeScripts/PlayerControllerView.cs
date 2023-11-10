@@ -1,5 +1,8 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Gamemanager;
 using System;
+using System.Xml.Linq;
 using UniRx;
 using UnityEngine;
 
@@ -18,6 +21,23 @@ public class PlayerControllerView : MonoBehaviour
     [SerializeField]
     PlayerAttackModel playerAttackModel_;
 
+    [SerializeField]
+    GameObject stickInputIndicator_;
+
+    [SerializeField]
+    GameObject CamObject_;
+
+    [SerializeField]
+    float inputAngle_;
+
+    [SerializeField]
+    GameObject playerModel_;
+
+    [SerializeField]
+    GameObject dashPointTest;
+
+
+
     void Awake()
     {
         playerAnimatorView_ = new PlayerAnimator(this.gameObject);
@@ -33,6 +53,7 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { cancelMoving(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, async cmd => { cancelMoving();await UniTask.DelayFrame(1); testRoll(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
         {
             if (cmd.AnimationEventName == "PlayerJumpAttackStart")
@@ -85,6 +106,52 @@ public class PlayerControllerView : MonoBehaviour
     }
     #endregion
 
+    void stickInputIndicator()
+    {
+        Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
+        var player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+
+        ////將模型旋轉至相對於相機位置的輸入方向
+        //model_Transform_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+
+            //旋轉平滑用的插值運算
+            float turnSmoothVelocity_ = 0;
+            float rotation = Mathf.SmoothDampAngle(stickInputIndicator_.transform.rotation.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, 0.01f);
+            //將模型旋轉至相對於相機位置的輸入方向
+            stickInputIndicator_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+        
+    }
+    void getInputAngle() 
+    {
+        // 獲取當前旋轉的 Y 軸角度
+        float yRotation = CamObject_.transform.eulerAngles.y;
+
+        // 創建一個新的旋轉，只在 Y 軸旋轉
+        Quaternion newYOnlyRotation = Quaternion.Euler(0, yRotation, 0);
+
+        // 獲取這個新旋轉的 forward 向量
+        Vector3 Camforward = newYOnlyRotation * Vector3.forward;
+
+        Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
+        var player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+
+        // 使用 Vector3.Angle 計算兩個向量之間的角度
+        Quaternion rotation = Quaternion.Euler(0, player_TargetRotation_, 0);
+        Vector3 Inputforward = rotation * Vector3.forward;
+
+        // 使用叉積來確定角度的方向（順時針或逆時針）
+        float angle = Vector3.Angle( Inputforward, Camforward);
+        Vector3 cross = Vector3.Cross(Inputforward, Camforward);
+        if (cross.y < 0) // 如果 Y 分量是負的，則角度應該是大於 180 度的
+        {
+            angle = 360 - angle;
+        }
+
+        // 打印結果
+        //Debug.Log("Forward 方向之間的角度: " + angle);
+        inputAngle_ = angle;
+    }
+
     void aimingInterrupt()
     {
         player_Stats_.Aiming = false;
@@ -94,10 +161,26 @@ public class PlayerControllerView : MonoBehaviour
     {
         player_Stats_.Player_CanMove = false;
     }
+
+    void testRoll()
+    {
+        Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
+        var player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+
+        // 使用 Vector3.Angle 計算兩個向量之間的角度
+        Quaternion rotation = Quaternion.Euler(0, player_TargetRotation_, 0);
+        Vector3 Inputforward = rotation * Vector3.forward;
+        var final= Inputforward * 10f + stickInputIndicator_.transform.position;
+        playerModel_.transform.LookAt(final);
+        this.transform.DOMove(final, 0.4f).OnComplete(() => { player_Stats_.Player_CanMove = true; });
+        dashPointTest.transform.position = final;
+    }
     void Update()
     {
         playerAnimatorView_.Update();
         playerControllerMover_.Update();
+        stickInputIndicator();
+        getInputAngle();
     }
 
     private void FixedUpdate()
