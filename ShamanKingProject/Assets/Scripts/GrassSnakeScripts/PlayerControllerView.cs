@@ -85,6 +85,7 @@ public class PlayerControllerView : MonoBehaviour
         player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
         if (playerAimingButtonCommand.AimingButtonIsPressed)
         {
+            player_Stats_.Targeting = false;
             playerControllerMover_.TransitionState("Aim");
         }
         else

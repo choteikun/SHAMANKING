@@ -357,6 +357,8 @@ public class PlayerAnimator
         {
             aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
             setPlayer_AimingMoveXY();
+            //取消鎖敵動畫
+            animator_.SetBool(animID_TargetMove, false);
 
             //接收到可附身移動且如果移動向量不為零則
             if (possessMove_ && player_Stats_.Player_Dir != Vector2.zero)
