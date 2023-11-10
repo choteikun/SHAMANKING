@@ -224,7 +224,7 @@ public class Player_Stats
     public float GroundedOffset = -0.15f;
 
     [Tooltip("地板檢查的半徑。 應與CharacterControlle的半徑匹配")]
-    public float GroundedRadius = 0.3f;
+    public float GroundedRadius = 0.5f;
 
     [Tooltip("角色的垂直速度")]
     public float verticalVelocity_;
