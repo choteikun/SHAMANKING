@@ -13,12 +13,15 @@ using UnityEditor;
 public class PlayerAnimator 
 {
     #region 提前Hash進行優化
+    readonly int animID_TargetMove = Animator.StringToHash("TargetMove");
     readonly int animID_AimMove = Animator.StringToHash("AimMove");
     readonly int animID_PossessMove = Animator.StringToHash("PossessMove");
     readonly int animID_AimIdle = Animator.StringToHash("AimIdle");
     readonly int animID_PossessIdle = Animator.StringToHash("PossessIdle");
     readonly int animID_AimRecoil = Animator.StringToHash("AimRecoil");
 
+    readonly int animID_TargetMoveX = Animator.StringToHash("TargetMoveX");
+    readonly int animID_TargetMoveY = Animator.StringToHash("TargetMoveY");
     readonly int animID_AimMoveX = Animator.StringToHash("AimMoveX");
     readonly int animID_AimMoveY = Animator.StringToHash("AimMoveY");
 
@@ -93,6 +96,8 @@ public class PlayerAnimator
     }
     public void Start(Player_Stats player_Stats)
     {
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { onTargetGetObject(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerLaunchGhostButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, playerLightAttackButtonTrigger);
@@ -115,7 +120,14 @@ public class PlayerAnimator
 
         //characterControllerObj_.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(characterControllerObj_).Subscribe(x => { Debug.Log("Idle中"); }).AddTo(characterControllerObj_);
     }
-
+    void onTargetGetObject()
+    {
+        animator_.SetBool(animID_TargetMove, true);
+    }
+    void onTargetResetObject()
+    {
+        animator_.SetBool(animID_TargetMove, false);
+    }
     public void Update()
     {
         //設置動畫觸地狀態
@@ -128,6 +140,8 @@ public class PlayerAnimator
 
         //設置玩家瞄準狀態
         setPlayer_animID_Aiming();
+        //設置玩家鎖敵狀態
+        set_animID_TargetingMove();
 
         //回到idle的計時器
         timeoutToIdle();
@@ -339,7 +353,6 @@ public class PlayerAnimator
    
     void setPlayer_animID_Aiming()
     {
-        
         if (player_Stats_.Aiming)
         {
             aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
@@ -403,6 +416,17 @@ public class PlayerAnimator
         {
             resetPlayer_AimingAllActions();
         }  
+    }
+    void set_animID_TargetingMove()
+    {
+        if (player_Stats_.Targeting) 
+        {
+            player_horizontalAnimX = Mathf.Lerp(player_horizontalAnimX, player_Stats_.Player_Dir.x * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
+            player_horizontalAnimY = Mathf.Lerp(player_horizontalAnimY, player_Stats_.Player_Dir.y * player_Stats_.Player_Speed, Time.deltaTime * player_Stats_.SpeedChangeRate);
+
+            animator_.SetFloat(animID_TargetMoveX, player_horizontalAnimX);
+            animator_.SetFloat(animID_TargetMoveY, player_horizontalAnimY);
+        }
     }
     //重置所有瞄準的bool動畫
     void resetPlayer_AimingAllActions()
