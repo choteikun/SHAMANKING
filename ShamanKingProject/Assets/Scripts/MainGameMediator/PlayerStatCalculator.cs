@@ -7,7 +7,7 @@ public static class PlayerStatCalculator
     public static void PlayerAddOrMinusSpirit(int amount)
     {
         var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
-        realTimePlayerData.GhostNowEatAmount = Mathf.Clamp(realTimePlayerData.GhostNowEatAmount + amount, 0, realTimePlayerData.GhostEatAmountMax);
+        realTimePlayerData.GhostSoulGageCurrentAmount = Mathf.Clamp(realTimePlayerData.GhostSoulGageCurrentAmount + amount, 0, realTimePlayerData.GhostSoulGageMaxAmount);
         GameManager.Instance.UIGameEvent.Send(new UISpiritUpdateCommand());
     }
 }

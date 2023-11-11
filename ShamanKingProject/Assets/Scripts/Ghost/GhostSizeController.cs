@@ -13,6 +13,6 @@ public class GhostSizeController : MonoBehaviour
 
     void updateGhostSize()
     {
-        ghostPrefab_.transform.localScale = new Vector3(1, 1, 1) * (1 + 0.25f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowEatAmount);
+        ghostPrefab_.transform.localScale = new Vector3(1, 1, 1) * (1 + 0.25f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount);
     }
 }

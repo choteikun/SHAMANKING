@@ -13,12 +13,12 @@ public class SpiritUIBehavior : MonoBehaviour
     }
     public void SpiritUIInit()
     {
-        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSpiritUpdate, cmd => { onSpiritUpdate(); });
+        //GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSpiritUpdate, cmd => { onSpiritUpdate(); });
     }
 
     void onSpiritUpdate()
     {
-        ChangeSpiritImage(GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowEatAmount);
+        //ChangeSpiritImage(GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowEatAmount);
     }
     public void ChangeSpiritImage(int nowSpiritCount)
     {

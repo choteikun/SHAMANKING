@@ -43,7 +43,7 @@ public class PlayerAttacker : MonoBehaviour
     }
     void searchObjectInAttackRange()
     {
-        radius_ = 0.15f + 0.375f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowEatAmount;
+        radius_ = 0.15f + 0.375f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount;
         int colliderCount = Physics.OverlapSphereNonAlloc(playerHitBoxCenter_.transform.position, radius_, colliders_);
         for (int i = 0; i < colliderCount; i++)
         {
@@ -56,7 +56,7 @@ public class PlayerAttacker : MonoBehaviour
     }
     void searchObjectInGrabRange()
     {
-        radius_ = 0.15f + 0.375f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowEatAmount;
+        radius_ = 0.15f + 0.375f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount;
         int colliderCount = Physics.OverlapSphereNonAlloc(playerHitBoxCenter_.transform.position, radius_, colliders_);
         for (int i = 0; i < colliderCount; i++)
         {
