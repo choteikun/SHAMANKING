@@ -1,5 +1,4 @@
 using BehaviorDesigner.Runtime;
-using System.ComponentModel;
 using UnityEngine;
 
 namespace AI.FSM.Decisions
@@ -10,10 +9,20 @@ namespace AI.FSM.Decisions
     {
         public override bool Decide(BaseStateMachine stateMachine)
         {
-            var enemyFightTrigger = (SharedInt)stateMachine.GetComponent<BehaviorTree>().GetVariable("SetEnemyState");
-            if(enemyFightTrigger.Value == 2)
+            //如果不是空的行為樹
+            if(stateMachine.BehaviorTree != null)
             {
-                return true;
+                //獲取行為樹裡的變量
+                var btState = (SharedInt)stateMachine.BehaviorTree.GetVariable("SetEnemyState");
+                //依變量判斷True/False
+                if (btState.Value == 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {

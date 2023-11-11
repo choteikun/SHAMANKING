@@ -7,8 +7,8 @@ namespace AI.FSM.Activities
     { 
         public override void Enter(BaseStateMachine stateMachine)
         {
-            stateMachine.GetComponent<EnemyBehaviorTreeSupport>().enemyBehaviorTreeState = EnemyBehaviorTreeState.ENEMY_IDLE;
-            stateMachine.GetComponent<EnemyBehaviorTreeSupport>().SwitchExternalBehavior((int)EnemyBehaviorTreeState.ENEMY_IDLE);
+            //依照依照GhostEnemyState將鬼魂敵人行為樹切換成待機行為樹
+            stateMachine.SwitchExternalBehavior((int)GhostEnemyState.GhostEnemy_IDLE);
         }
 
         public override void Execute(BaseStateMachine stateMachine)

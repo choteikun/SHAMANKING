@@ -7,7 +7,7 @@ namespace AI.FSM.Activities
     {
         public override void Enter(BaseStateMachine stateMachine)
         {
-            stateMachine.transform.GetChild(0).GetComponent<GhostEnemyAnimator>().ResetAnimatorParametersInState_Fight();
+
         }
 
         public override void Execute(BaseStateMachine stateMachine)
