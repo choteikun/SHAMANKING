@@ -100,8 +100,6 @@ public class PlayerAnimator
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerLaunchGhostButtonTrigger);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, playerLightAttackButtonTrigger);
-        //GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowEatAmount 拿魂量
         
         
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => playerPossessMoveAnimSet());
@@ -175,60 +173,7 @@ public class PlayerAnimator
         }
         #endregion
        
-    }
-    void playerLightAttackButtonTrigger(PlayerLightAttackButtonCommand command)
-    {
-        switch (playerAnimState_)
-        {
-            case PlayerAnimState.Locomotion:
-                animator_.SetTrigger(animID_AttackCombo1);
-                if (player_Stats_.Grounded)
-                {
-                    playerAnimState_ = PlayerAnimState.Attack;
-                }
-                break;
-            case PlayerAnimState.Attack:
-                //當指令為不允許攻擊
-                if (!player_Stats_.Player_AttackCommandAllow)
-                {
-                    //Animator Parameters 裡的攻擊動畫為不可以被打斷的狀態
-                    //reset attack Comb
-                    //animator_.ResetTrigger(animID_AttackCombo1);
-                    //animator_.ResetTrigger(animID_AttackCombo2);
-                    //animator_.ResetTrigger(animID_AttackCombo3);
-                }
-                //animation events 發送指令為允許攻擊
-                else
-                {
-                    //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
-                    //如果現在的狀態機為AttackCombo1時可以切換到下一個攻擊動畫
-                    if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo1"))
-                    {
-                        animator_.SetTrigger(animID_AttackCombo2);
-
-                        animator_.ResetTrigger(animID_AttackCombo1);
-                    }
-                    //如果現在的狀態機為AttackCombo2時可以切換到下一個攻擊動畫
-                    else if (animator_.GetCurrentAnimatorStateInfo(0).IsName("AttackCombo2"))
-                    {
-                        animator_.SetTrigger(animID_AttackCombo3);
-
-                        animator_.ResetTrigger(animID_AttackCombo2);
-                    }
-                    else
-                    {
-                        animator_.ResetTrigger(animID_AttackCombo3);
-                    }
-                }
-                break;
-            case PlayerAnimState.BeAttack:
-                break;
-            case PlayerAnimState.Dead:
-                break;
-            default:
-                break;
-        }
-    }
+    }   
     #region - Player動畫事件管理 -
     void playertAnimationEventsToDo(PlayerAnimationEventsCommand command)
     {

@@ -303,6 +303,7 @@ public class PlayerControllerMover
         player.transform.DOMove(destination, 0.7f).OnComplete(() => {
             // 移动完成后的回调操作
             Debug.Log("Player has reached the enemy.");
+            if (player_Stats_.Aiming) { GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse()); }
         });
     }
 

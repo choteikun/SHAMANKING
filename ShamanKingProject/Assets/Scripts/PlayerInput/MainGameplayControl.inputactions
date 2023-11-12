@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerHeavyAttack",
+                    "type": "Button",
+                    "id": "d86ebde8-06a2-487f-81df-a011c6cca1c7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -404,7 +413,7 @@
                 {
                     "name": "modifier",
                     "id": "e7708097-2221-4e0d-a968-30b35d8bf0f1",
-                    "path": "<Keyboard>/g",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -442,6 +451,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TargetModeSwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40a0a122-645e-4a22-9f58-474f0479bc44",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerHeavyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "421ea05c-d524-4c83-b747-048c9a7ef6e8",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerHeavyAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

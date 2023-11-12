@@ -17,7 +17,7 @@ public class PlayerIkControllerView : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, aimButtonTrigger);
-        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => activateAimRig(0));
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Biteable|| cmd.HitObjecctTag == HitObjecctTag.Enemy)).Subscribe(cmd => activateAimRig(0));
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => activePossessableIK());
     }
     void aimButtonTrigger(PlayerAimingButtonCommand command)

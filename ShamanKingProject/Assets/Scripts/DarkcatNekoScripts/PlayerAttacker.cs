@@ -21,6 +21,7 @@ public class PlayerAttacker : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackCallHitBox, cmd => { activateHitBox(cmd.CallOrCancel); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackCallHitBox, cmd => { activateThrowHitBox(cmd.CallOrCancel); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackFinish, cmd => { activateThrowHitBox(false); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, cmd => { playerAimingHitGhost(cmd); });
     }
     private void Update()
     {
@@ -67,6 +68,17 @@ public class PlayerAttacker : MonoBehaviour
                 throwAttacking_ = false;
                 return;
             }
+        }
+    }
+
+    void playerAimingHitGhost(PlayerLaunchActionFinishCommand cmd)
+    {
+        if (!cmd.Hit) return;
+        if (cmd.HitInfo.HitTag == HitObjecctTag.Enemy)
+        {
+            var command = new PlayerGrabSuccessCommand() { CollidePoint = cmd.HitInfo.onHitPoint_.transform.position, AttackTarget = cmd.HitObjecct, AttackDamage = 20f };
+            Debug.Log(command.AttackTarget.name);
+            GameManager.Instance.MainGameEvent.Send(command);
         }
     }
 

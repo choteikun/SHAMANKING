@@ -7,7 +7,7 @@ public class PlayerDataModel
     public void PlayerDataModelInit()
     {
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => { SendBiteFinishResponse(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { PlayerStatCalculator.PlayerAddOrMinusSpirit(20); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccessForData, cmd => { PlayerStatCalculator.PlayerAddOrMinusSpirit(1); });
     }
 
     public async void SendBiteFinishResponse(PlayerLaunchActionFinishCommand command)

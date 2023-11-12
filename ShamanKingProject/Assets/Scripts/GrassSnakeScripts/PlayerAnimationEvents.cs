@@ -64,5 +64,6 @@ public class PlayerAnimationEvents : MonoBehaviour
     public void Player_Pull_Finish()
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "Player_Pull_Finish" });
+        GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
     }
 }

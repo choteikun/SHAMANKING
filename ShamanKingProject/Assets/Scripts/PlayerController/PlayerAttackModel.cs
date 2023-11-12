@@ -22,6 +22,16 @@ public class PlayerAttackModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpAttack, cmd => { whenGetAttackTrigger(AttackInputType.JumpAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { whenGetAttackTrigger(AttackInputType.Throw); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { whenGetAttackTrigger(AttackInputType.HeavyAttack); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd =>
+        {
+            isThrowing_ = true;
+        });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd =>
+        {
+            isThrowing_ = false;
+        });
+        //GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpTouchGround, cmd =>
         {
             if (isJumpAttacking_)
@@ -103,6 +113,9 @@ public class PlayerAttackModel
                 case AttackInputType.Throw:
                     addFirstThrowAttack();
                     return;
+                case AttackInputType.HeavyAttack:
+                    addFirstHeavyAttack();
+                    return;
             }
         }
     }
@@ -137,7 +150,7 @@ public class PlayerAttackModel
 
     void addFirstThrowAttack()
     {
-        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[4], GameManager.Instance.AttackBlockDatabase.Database[3].SkillFrame));
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[4], GameManager.Instance.AttackBlockDatabase.Database[4].SkillFrame));
         currentInputCount_++;
         if (!isAttacking_)
         {
@@ -148,7 +161,19 @@ public class PlayerAttackModel
             isAttacking_ = true;
         }
     }
-
+    void addFirstHeavyAttack()
+    {
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[5], GameManager.Instance.AttackBlockDatabase.Database[5].SkillFrame));
+        currentInputCount_++;
+        if (!isAttacking_)
+        {
+            //animator_.Rebind();
+            animator_.CrossFadeInFixedTime("HeavyAttack1", 0.25f);
+            PassedFrameAfterAttack = 0;
+            isThrowing_ = true;
+            isAttacking_ = true;
+        }
+    }
     void checkNextInput()
     {
         //確認是否有下一個動作

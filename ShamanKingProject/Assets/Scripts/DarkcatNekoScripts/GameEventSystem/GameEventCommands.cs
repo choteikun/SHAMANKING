@@ -49,6 +49,11 @@ namespace Gamemanager
     {
 
     }
+    public class PlayerHeavyAttackButtonCommand : GameEventMessageBase
+    {
+
+    }
+
 
     public class PlayerJumpAttackButtonCommand : GameEventMessageBase
     {
@@ -140,6 +145,18 @@ namespace Gamemanager
         public Vector3 CollidePoint;
         public GameObject AttackTarget;
         public float AttackDamage;
+    }
+    public class PlayerAttackSuccessResponse:GameEventMessageBase
+    {
+        public Vector3 CollidePoint;
+        public GameObject AttackTarget;
+        public float AttackDamage;
+        public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd)
+        {
+            CollidePoint = cmd.CollidePoint;
+            AttackTarget = cmd.AttackTarget;
+            AttackDamage = cmd.AttackDamage;
+        }
     }
 
     public class PlayerGrabSuccessCommand : GameEventMessageBase

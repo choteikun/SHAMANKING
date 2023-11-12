@@ -53,6 +53,7 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { cancelMoving(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, async cmd => { cancelMoving();await UniTask.DelayFrame(1); testRoll(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
         {
@@ -63,7 +64,7 @@ public class PlayerControllerView : MonoBehaviour
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { player_Stats_.Player_CanMove = true; });
 
-        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => aimingInterrupt());
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit &&( cmd.HitObjecctTag == HitObjecctTag.Biteable|| cmd.HitObjecctTag == HitObjecctTag.Enemy)).Subscribe(cmd => aimingInterrupt());
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);

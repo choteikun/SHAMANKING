@@ -64,7 +64,7 @@ public class CameraControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { stateMachine_.TransitionState("Target"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { stateMachine_.TransitionState("MainGame"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelCameraRotate);
-        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd =>backToMainGame());
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Biteable||cmd.HitObjecctTag == HitObjecctTag.Enemy)).Subscribe(cmd =>backToMainGame());
     }
 
     void changeRotateValue(PlayerControllerCameraRotateCommand command)
