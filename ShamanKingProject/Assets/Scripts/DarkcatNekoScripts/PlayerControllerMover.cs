@@ -15,7 +15,7 @@ public class PlayerControllerMover
 {
     [Header("Player")]
     [Tooltip("玩家移動速度")]
-    public float MoveSpeed = 15.0f;
+    public float MoveSpeed = 5.0f;
 
     [Tooltip("玩家衝刺速度")]
     public float SprintSpeed = 5.5f;

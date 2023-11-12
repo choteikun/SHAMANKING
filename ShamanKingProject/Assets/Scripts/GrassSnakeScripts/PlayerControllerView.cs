@@ -172,7 +172,7 @@ public class PlayerControllerView : MonoBehaviour
         // 使用 Vector3.Angle 計算兩個向量之間的角度
         Quaternion rotation = Quaternion.Euler(0, player_TargetRotation_, 0);
         Vector3 Inputforward = rotation * Vector3.forward;
-        var final= Inputforward * 10f + stickInputIndicator_.transform.position;
+        var final= Inputforward * 3f + stickInputIndicator_.transform.position;
         playerModel_.transform.LookAt(final);
         this.transform.DOMove(final, 0.4f).OnComplete(() => { player_Stats_.Player_CanMove = true; });
         dashPointTest.transform.position = final;
