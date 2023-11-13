@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace AI.FSM
@@ -10,6 +11,10 @@ namespace AI.FSM
         public BaseState TrueState;
         public BaseState FalseState;
 
+        public void Enter(BaseStateMachine stateMachine)
+        {
+            decision.Enter(stateMachine);
+        }
         public void Execute(BaseStateMachine stateMachine)
         {
             //如果符合決策並且TrueState不是RemainInState的情況下，將現在的state切換成TrueState
@@ -27,5 +32,7 @@ namespace AI.FSM
                 stateMachine.CurrentState.Enter(stateMachine);
             }
         }
+
+        
     }
 }

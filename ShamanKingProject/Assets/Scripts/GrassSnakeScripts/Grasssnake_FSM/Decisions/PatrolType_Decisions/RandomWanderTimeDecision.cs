@@ -14,6 +14,11 @@ namespace AI.FSM.Decisions
         int randomTimeToMoveValue = 25;
 
         float timer = 0;
+
+        public override void Enter(BaseStateMachine stateMachine)
+        {
+
+        }
         public override bool Decide(BaseStateMachine stateMachine)
         {
             //如果現在state裡有PatrolTypeEnemySupport且移動觸發器為true

@@ -9,6 +9,10 @@ namespace AI.FSM.Decisions
         public float waitTime = 3f;
         float timer = 0;
 
+        public override void Enter(BaseStateMachine stateMachine)
+        {
+
+        }
         public override bool Decide(BaseStateMachine stateMachine)
         {
             timer += Time.deltaTime;

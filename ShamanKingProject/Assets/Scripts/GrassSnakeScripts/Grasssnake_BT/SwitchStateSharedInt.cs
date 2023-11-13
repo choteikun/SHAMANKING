@@ -1,5 +1,7 @@
 using BehaviorDesigner.Runtime.Tasks;
 using BehaviorDesigner.Runtime;
+using Gamemanager;
+using System.Data;
 
 [TaskCategory("Snake")]
 [TaskDescription("藉由SharedInt切換外部行為樹.")]
@@ -40,9 +42,9 @@ public class SwitchStateSharedInt : Action
                 behavior = behaviorTrees[0];
             }
         }
-
         targetVariable.Value = targetValue.Value;
         behavior.DisableBehavior();
+        GameManager.Instance.BT_Event.Send(new BT_SwitchStateMessage() { StateIntType = targetValue.Value });
     }
 
     public override void OnReset()

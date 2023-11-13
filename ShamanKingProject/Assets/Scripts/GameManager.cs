@@ -6,6 +6,7 @@ using PixelCrushers.DialogueSystem;
 public class GameManager : ToSingletonMonoBehavior<GameManager>
 {
     public MainGameEventPack MainGameEvent { get; private set; } = new MainGameEventPack();
+    public BT_EventPack BT_Event { get; private set; } = new BT_EventPack();
     public UIGameEventPack UIGameEvent { get; private set; } = new UIGameEventPack();
 
     [field:SerializeField] public MainGameMediator MainGameMediator { get; private set; }

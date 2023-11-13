@@ -9,6 +9,7 @@ namespace AI.FSM.Activities
         {
             //依照GhostEnemyState將鬼魂敵人行為樹切換成戰鬥行為樹
             stateMachine.SwitchExternalBehavior((int)GhostEnemyState.GhostEnemy_FIGHT);
+
         }
 
         public override void Execute(BaseStateMachine stateMachine)

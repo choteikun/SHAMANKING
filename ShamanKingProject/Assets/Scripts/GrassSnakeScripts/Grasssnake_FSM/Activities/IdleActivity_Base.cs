@@ -1,4 +1,5 @@
 using UnityEngine;
+using Gamemanager;
 
 namespace AI.FSM.Activities
 {
@@ -7,7 +8,7 @@ namespace AI.FSM.Activities
     { 
         public override void Enter(BaseStateMachine stateMachine)
         {
-            //依照依照GhostEnemyState將鬼魂敵人行為樹切換成待機行為樹
+            //依照GhostEnemyState將鬼魂敵人行為樹切換成待機行為樹
             stateMachine.SwitchExternalBehavior((int)GhostEnemyState.GhostEnemy_IDLE);
         }
 
