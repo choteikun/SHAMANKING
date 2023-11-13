@@ -11,6 +11,7 @@ namespace AI.FSM.Decisions
         int switchStatebyInt;
         public override void Enter(BaseStateMachine stateMachine)
         {
+            Debug.Log("switchStatebyInt" + switchStatebyInt);
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
         }
         void getBT_Massage(BT_SwitchStateMessage  bT_SwitchStateMessage)

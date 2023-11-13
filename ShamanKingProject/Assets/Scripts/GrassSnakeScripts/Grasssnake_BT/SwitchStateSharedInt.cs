@@ -1,7 +1,8 @@
 using BehaviorDesigner.Runtime.Tasks;
 using BehaviorDesigner.Runtime;
 using Gamemanager;
-using System.Data;
+using UnityEngine;
+using TooltipAttribute = BehaviorDesigner.Runtime.Tasks.TooltipAttribute;
 
 [TaskCategory("Snake")]
 [TaskDescription("藉由SharedInt切換外部行為樹.")]
@@ -44,7 +45,12 @@ public class SwitchStateSharedInt : Action
         }
         targetVariable.Value = targetValue.Value;
         behavior.DisableBehavior();
-        GameManager.Instance.BT_Event.Send(new BT_SwitchStateMessage() { StateIntType = targetValue.Value });
+        //發送訊息給外面FSM的決策系統
+        GameManager.Instance.BT_Event.Send(new BT_SwitchStateMessage()
+        { 
+            StateIntType = targetValue.Value
+        });
+        Debug.Log("SwitchOnStart");
     }
 
     public override void OnReset()
