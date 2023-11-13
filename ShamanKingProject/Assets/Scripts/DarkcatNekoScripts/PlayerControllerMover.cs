@@ -84,7 +84,7 @@ public class PlayerControllerMover
         model_Transform_ = characterControllerObj_.GetComponentInChildren<Animator>().transform;
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJump, cmd => { jumpAction(); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, playerRollButtonTrigger);
+
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
         {
             if (cmd.AnimationEventName == "PlayerJumpAttackStart")

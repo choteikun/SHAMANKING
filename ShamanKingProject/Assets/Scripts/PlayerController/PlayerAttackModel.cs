@@ -23,6 +23,7 @@ public class PlayerAttackModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpAttack, cmd => { whenGetAttackTrigger(AttackInputType.JumpAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { whenGetAttackTrigger(AttackInputType.Throw); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { whenGetAttackTrigger(AttackInputType.HeavyAttack); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { whenGetAttackTrigger(AttackInputType.Dodge); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd =>
         {
             isThrowing_ = true;
@@ -116,6 +117,9 @@ public class PlayerAttackModel
                 case AttackInputType.HeavyAttack:
                     addFirstHeavyAttack();
                     return;
+                case AttackInputType.Dodge:
+                    addFirstDash();
+                    return;
             }
         }
     }
@@ -171,6 +175,18 @@ public class PlayerAttackModel
             animator_.CrossFadeInFixedTime("HeavyAttack1", 0.25f);
             PassedFrameAfterAttack = 0;
             isThrowing_ = true;
+            isAttacking_ = true;
+        }
+    }
+    void addFirstDash()
+    {
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[8], GameManager.Instance.AttackBlockDatabase.Database[8].SkillFrame));
+        currentInputCount_++;
+        if (!isAttacking_)
+        {
+            //animator_.Rebind();
+            animator_.CrossFadeInFixedTime("Girl_Dash", 0.25f);
+            PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
     }

@@ -36,6 +36,9 @@ public class PlayerControllerView : MonoBehaviour
     [SerializeField]
     GameObject dashPointTest;
 
+    [SerializeField]
+    Material[] test_;
+
 
 
     void Awake()
@@ -54,7 +57,8 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { cancelMoving(); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, async cmd => { cancelMoving();await UniTask.DelayFrame(1); testRoll(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll,  cmd => { cancelMoving();});
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStartRollMovementAnimation, cmd => { testRoll(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
         {
             if (cmd.AnimationEventName == "PlayerJumpAttackStart")
@@ -164,7 +168,7 @@ public class PlayerControllerView : MonoBehaviour
         player_Stats_.Player_CanMove = false;
     }
 
-    void testRoll()
+    async void testRoll()
     {
         Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
         var player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
@@ -173,8 +177,32 @@ public class PlayerControllerView : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(0, player_TargetRotation_, 0);
         Vector3 Inputforward = rotation * Vector3.forward;
         var final= Inputforward * 3f + stickInputIndicator_.transform.position;
-        playerModel_.transform.LookAt(final);
-        this.transform.DOMove(final, 0.4f).OnComplete(() => { player_Stats_.Player_CanMove = true; });
+        //playerModel_.transform.LookAt(final);
+
+        
+        this.transform.DOMove(final, 0.55f).SetEase(Ease.InSine);
+        DOVirtual.Float(-0.5f, 1.5f, 0.2f, value => {
+            Vector4 currentParams = test_[0].GetVector("_DissolveParams");
+            Debug.Log(currentParams);
+            currentParams.z = value;
+            currentParams.w = 0.5f;
+            foreach (var item in test_)
+            {
+
+                item.SetVector("_DissolveParams", currentParams);
+            }
+        });
+        await UniTask.Delay(250);
+        DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
+            Vector4 currentParams = test_[0].GetVector("_DissolveParams");
+            Debug.Log(currentParams);
+            currentParams.z = value;
+            currentParams.w = 0.5f;
+            foreach (var item in test_)
+            {
+                item.SetVector("_DissolveParams", currentParams);
+            }
+        }).SetEase(Ease.InSine);
         dashPointTest.transform.position = final;
     }
     void Update()
@@ -184,7 +212,7 @@ public class PlayerControllerView : MonoBehaviour
         stickInputIndicator();
         getInputAngle();
     }
-
+    
     private void FixedUpdate()
     {
         playerAttackModel_.PlayerAttackModelUpdate();

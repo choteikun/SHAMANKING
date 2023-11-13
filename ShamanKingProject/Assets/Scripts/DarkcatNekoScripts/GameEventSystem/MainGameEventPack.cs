@@ -135,4 +135,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerTargetButtonTriggerCommand> OnPlayerTargetButtonTrigger => getSubject<PlayerTargetButtonTriggerCommand>();
     public IObservable<SystemGetTarget> OnSystemGetTarget => getSubject<SystemGetTarget>();
     public IObservable<SystemResetTarget> OnSystemResetTarget => getSubject<SystemResetTarget>();
+
+    public IObservable<StartRollMovementAnimationEvent> OnStartRollMovementAnimation=> getSubject<StartRollMovementAnimationEvent>();
 }
