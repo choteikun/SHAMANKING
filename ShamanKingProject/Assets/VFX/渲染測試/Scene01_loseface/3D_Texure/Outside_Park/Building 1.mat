@@ -21,14 +21,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Building 1
-  m_Shader: {fileID: 4800000, guid: df12117ecd77c31469c224178886498e, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_Shader: {fileID: 4800000, guid: b7839dad95683814aa64166edc107ae2, type: 3}
+  m_ValidKeywords:
+  - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
+  m_InvalidKeywords:
+  - _FLIPBOOKBLENDING_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -407,10 +411,14 @@ Material:
     - _BrushSize: 0.8
     - _Bump2ndMap_UVMode: 0
     - _Bump2ndScale: 1
-    - _BumpScale: 1
+    - _BumpScale: 5.66
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ColorMask: 15
+    - _ColorMode: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -419,6 +427,10 @@ Material:
     - _DissolveNoiseStrength: 0.1
     - _DistanceFadeMode: 0
     - _DistanceFadeRimFresnelPower: 5
+    - _DistortionBlend: 0.5
+    - _DistortionEnabled: 0
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0.1
     - _DitherMaxValue: 255
     - _DitherTexelSize: 1
     - _DitherThreshold: 1
@@ -448,6 +460,8 @@ Material:
     - _FaceShadowMapPow: 0.2
     - _FaceShadowSmoothness: 0.1
     - _FlipNormal: 0
+    - _FlipbookBlending: 0
+    - _FlipbookMode: 0
     - _GSAAStrength: 0
     - _GlitterAngleRandomize: 0
     - _GlitterApplyShape: 0
@@ -564,6 +578,7 @@ Material:
     - _MatCapVRParallaxStrength: 1
     - _MatCapZRotCancel: 1
     - _Metallic: 0
+    - _Mode: 0
     - _MonochromeLighting: 0
     - _NoiseScale: 1
     - _NoiseStrength: 0.1
@@ -670,10 +685,13 @@ Material:
     - _SizeFalloff: 0
     - _Smoothness: 0.05
     - _SmoothnessTextureChannel: 1
+    - _SoftParticlesEnabled: 0
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0
     - _SpecClipMaskScale: 1
     - _SpecShadowStrength: 1
     - _SpecularBlur: 0
-    - _SpecularBorder: 0.5
+    - _SpecularBorder: 0.876
     - _SpecularClipStrength: 0
     - _SpecularFalloff: 1
     - _SpecularHighlights: 1
@@ -706,7 +724,7 @@ Material:
     - _UseAudioLink: 0
     - _UseBacklight: 0
     - _UseBump2ndMap: 0
-    - _UseBumpMap: 0
+    - _UseBumpMap: 1
     - _UseClippingCanceller: 0
     - _UseDither: 0
     - _UseEmission: 0
@@ -747,6 +765,8 @@ Material:
     - _BackfaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _BacklightColor: {r: 0.85, g: 0.8, b: 0.7, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+    - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color2nd: {r: 1, g: 1, b: 1, a: 1}
     - _Color3rd: {r: 1, g: 1, b: 1, a: 1}
@@ -775,7 +795,7 @@ Material:
     - _HalfToneColor: {r: 0, g: 0, b: 0, a: 1}
     - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
     - _Keys: {r: 0, g: 0, b: 0, a: 0}
-    - _LightDirectionOverride: {r: 0.001, g: 0.002, b: 0.001, a: 0}
+    - _LightDirectionOverride: {r: 0.001, g: 0.002, b: 0.001, a: 1}
     - _Main2ndDissolveColor: {r: 1, g: 1, b: 1, a: 1}
     - _Main2ndDissolveNoiseMask_ScrollRotate: {r: 0, g: 0, b: 0, a: 0}
     - _Main2ndDissolveParams: {r: 0, g: 0, b: 0.5, a: 0.1}
@@ -813,6 +833,7 @@ Material:
     - _ShadowAOShift2: {r: 1, g: 0, b: 1, a: 0}
     - _ShadowBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpherizeNormalOrigin: {r: 0, g: 0, b: 0, a: 0}
     - _e2ga0: {r: 1, g: 0, b: 0, a: 0}
