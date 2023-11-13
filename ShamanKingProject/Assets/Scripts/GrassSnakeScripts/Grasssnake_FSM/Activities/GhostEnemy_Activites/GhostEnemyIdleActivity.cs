@@ -7,6 +7,7 @@ namespace AI.FSM.Activities
     {
         public override void Enter(BaseStateMachine stateMachine)
         {
+            Debug.Log("IDLE_ACTIVITY");
             stateMachine.transform.GetChild(0).GetComponent<GhostEnemyAnimator>().SetEnemyState(1);
         }
 

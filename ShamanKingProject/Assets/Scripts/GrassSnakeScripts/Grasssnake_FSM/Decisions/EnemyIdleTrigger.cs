@@ -11,12 +11,13 @@ namespace AI.FSM.Decisions
         int switchStatebyInt;
         public override void Enter(BaseStateMachine stateMachine)
         {
-            Debug.Log("switchStatebyInt" + switchStatebyInt);
+            switchStatebyInt = 0;
             GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
         }
         void getBT_Massage(BT_SwitchStateMessage  bT_SwitchStateMessage)
         {
             switchStatebyInt = bT_SwitchStateMessage.StateIntType;
+            Debug.Log("switchStatebyInt" + switchStatebyInt);
         }
 
         public override bool Decide(BaseStateMachine stateMachine)
