@@ -1,4 +1,7 @@
+using Gamemanager;
 using UnityEngine;
+using UniRx;
+using System;
 
 /// <summary>
 /// 供狀態機與行為樹同步的GhostEnemyState
@@ -19,6 +22,8 @@ public enum GhostEnemyState
 **************************************************/
 public class GhostEnemyVariables : MonoBehaviour
 {
+    public GhostEnemyState ghostEnemyState;
+    //public ReactiveProperty<GhostEnemyState> ghostEnemyState = new ReactiveProperty<GhostEnemyState>(GhostEnemyState.GhostEnemy_IDLE);
     public bool WanderTrigger { get { return wanderTrigger; } set { wanderTrigger = value; } }
     [SerializeField]
     private bool wanderTrigger;
@@ -31,6 +36,10 @@ public class GhostEnemyVariables : MonoBehaviour
 
     void Start()
     {
+        //ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
+
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
+
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
         {
             if (cmd.AttackTarget == this.gameObject)
@@ -47,5 +56,21 @@ public class GhostEnemyVariables : MonoBehaviour
             }
         });
     }
-
+    void getBT_Massage(BT_SwitchStateMessage bT_SwitchStateMessage)
+    {
+        switch (bT_SwitchStateMessage.StateIntType)
+        {
+            case 1:
+                ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
+                break;
+            case 2:
+                ghostEnemyState = GhostEnemyState.GhostEnemy_MOVEMENT;
+                break;
+            case 3:
+                ghostEnemyState = GhostEnemyState.GhostEnemy_FIGHT;
+                break;
+            default:
+                break;
+        }
+    }
 }

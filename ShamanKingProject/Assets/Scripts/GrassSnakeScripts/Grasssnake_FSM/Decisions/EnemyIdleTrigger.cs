@@ -1,5 +1,3 @@
-using BehaviorDesigner.Runtime;
-using Gamemanager;
 using UnityEngine;
 
 namespace AI.FSM.Decisions
@@ -8,17 +6,20 @@ namespace AI.FSM.Decisions
     //該功能是依照行為樹裡的SetEnemyState變量去改變外部的State，若要使用它，請先確保你的BehaviorTree裡的變量包含Int變量 : SetEnemyState
     public class EnemyIdleTrigger : Decision
     {
-        int switchStatebyInt;
+        //int switchStatebyInt;
+        GhostEnemyVariables ghostEnemyVariables;
         public override void Enter(BaseStateMachine stateMachine)
         {
-            switchStatebyInt = 0;
-            GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
+            ghostEnemyVariables = stateMachine.GetComponent<GhostEnemyVariables>();
+            //switchStatebyInt = 0;
+            //stateMachine.GetComponent<GhostEnemyVariables>().ghostEnemyState.Subscribe(_ => { switchStatebyInt = (int)stateMachine.GetComponent<GhostEnemyVariables>().ghostEnemyState.Value;Debug.Log("switchStatebyInt" + switchStatebyInt); }).Dispose();
+            //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
         }
-        void getBT_Massage(BT_SwitchStateMessage  bT_SwitchStateMessage)
-        {
-            switchStatebyInt = bT_SwitchStateMessage.StateIntType;
-            Debug.Log("switchStatebyInt" + switchStatebyInt);
-        }
+        //void getBT_Massage(BT_SwitchStateMessage  bT_SwitchStateMessage)
+        //{
+        //    switchStatebyInt = bT_SwitchStateMessage.StateIntType;
+        //    Debug.Log("switchStatebyInt" + switchStatebyInt);
+        //}
 
         public override bool Decide(BaseStateMachine stateMachine)
         {
@@ -36,7 +37,15 @@ namespace AI.FSM.Decisions
                 //{
                 //    return false;
                 //}
-                if(switchStatebyInt == 1)
+                //if(switchStatebyInt == 1)
+                //{
+                //    return true;
+                //}
+                //else
+                //{
+                //    return false;
+                //}
+                if (ghostEnemyVariables.ghostEnemyState == GhostEnemyState.GhostEnemy_IDLE)
                 {
                     return true;
                 }
