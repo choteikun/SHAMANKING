@@ -50,12 +50,12 @@ public class GhostFollower : MonoBehaviour
         {
             if (cmd.AnimationEventName == "Player_Attack_Allow")
             {
+                Debug.Log("AttackFollow");
                 setTarget(attackFollowTarget_);
                 positionSmoothSpeed_ = 75f;
-
             }
         });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { setTarget(target_); positionSmoothSpeed_ = 15f; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { Debug.Log("OnPlayerMovementInterruptionFinish"); setTarget(target_); positionSmoothSpeed_ = 15f; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
         {
             if (cmd.AnimationEventName == "PlayerThrowAttackReady")
