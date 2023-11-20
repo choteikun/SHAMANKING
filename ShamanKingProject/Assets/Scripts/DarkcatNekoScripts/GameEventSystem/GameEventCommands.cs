@@ -239,7 +239,7 @@ namespace Gamemanager
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {
-        public int StateIntType;
+        public int IntTypeStateOfGhostEnemy;
     }
     #endregion
 

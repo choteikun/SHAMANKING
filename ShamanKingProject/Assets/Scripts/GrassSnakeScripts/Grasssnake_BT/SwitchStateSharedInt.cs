@@ -48,7 +48,7 @@ public class SwitchStateSharedInt : Action
         //發送訊息給外面FSM的決策系統
         GameManager.Instance.BT_Event.Send(new BT_SwitchStateMessage()
         { 
-            StateIntType = targetValue.Value
+            IntTypeStateOfGhostEnemy = targetValue.Value
         });
         Debug.Log("SwitchOnStart");
     }

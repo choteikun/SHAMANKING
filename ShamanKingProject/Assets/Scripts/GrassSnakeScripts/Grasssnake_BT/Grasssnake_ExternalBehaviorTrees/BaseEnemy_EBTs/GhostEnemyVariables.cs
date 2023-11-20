@@ -58,7 +58,7 @@ public class GhostEnemyVariables : MonoBehaviour
     }
     void getBT_Massage(BT_SwitchStateMessage bT_SwitchStateMessage)
     {
-        switch (bT_SwitchStateMessage.StateIntType)
+        switch (bT_SwitchStateMessage.IntTypeStateOfGhostEnemy)
         {
             case 1:
                 ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
