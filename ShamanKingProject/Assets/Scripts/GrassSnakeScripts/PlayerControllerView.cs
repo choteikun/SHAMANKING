@@ -3,6 +3,7 @@ using DG.Tweening;
 using Gamemanager;
 using System;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using UniRx;
 using UnityEngine;
 
@@ -212,7 +213,6 @@ public class PlayerControllerView : MonoBehaviour
         stickInputIndicator();
         getInputAngle();
     }
-    
     private void FixedUpdate()
     {
         playerAttackModel_.PlayerAttackModelUpdate();

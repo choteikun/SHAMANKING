@@ -67,6 +67,7 @@ public class PlayerControllerMover
     {
         controllerMoverStateMachine_ = new ControllerMoverStateMachine(this);
         controllerMoverStateMachine_.StageManagerInit();
+
     }
     public void Start(Player_Stats player_Stats)
     {
