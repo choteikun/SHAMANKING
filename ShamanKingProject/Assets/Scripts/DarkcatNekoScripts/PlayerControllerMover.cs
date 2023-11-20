@@ -128,6 +128,7 @@ public class PlayerControllerMover
             player_Stats_.PlayerJumpCount = 2;
         }
     }
+    
     void move()
     {
 
