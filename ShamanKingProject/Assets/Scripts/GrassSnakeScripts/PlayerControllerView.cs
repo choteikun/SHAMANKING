@@ -96,6 +96,10 @@ public class PlayerControllerView : MonoBehaviour
         }
         else
         {
+            if (player_Stats_.Targeting)
+            {
+                return;
+            }
             aimingInterrupt();
             playerControllerMover_.TransitionState("MainGame");
         } 
@@ -212,6 +216,7 @@ public class PlayerControllerView : MonoBehaviour
         stickInputIndicator();
         getInputAngle();
     }
+
     private void FixedUpdate()
     {
         playerAttackModel_.PlayerAttackModelUpdate();
