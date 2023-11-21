@@ -2,7 +2,6 @@ using BehaviorDesigner.Runtime;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gamemanager;
-using Language.Lua;
 using System;
 using UniRx;
 using UnityEngine;
@@ -49,11 +48,12 @@ public class GhostControllerView : MonoBehaviour
     }
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, ghostReactState);        
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, ghostReactState);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostAnimationEvents, ghostAnimationEventsToDo);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackFinish, cmd => { mat_DissolveWithRevertThrowAttack(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cmd => { mat_Revert(); });//有時候會在Ghost_Back start前就呼叫(尚未解決)
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerCancelPossess, cmd => { GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse()); });
-       // GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMoveStatusChange, cmd => { playerMoveStatusToChainBehavior(cmd); });
+        // GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMoveStatusChange, cmd => { playerMoveStatusToChainBehavior(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { playerAimReactivateChain(cmd); });
 
         behaviorTree = GetComponent<BehaviorTree>();
@@ -137,14 +137,14 @@ public class GhostControllerView : MonoBehaviour
         else
         {
             float tween = 0;
-            chainRevertTweener_ = DOTween.To(() => tween, x => tween = x, 1,2)
+            chainRevertTweener_ = DOTween.To(() => tween, x => tween = x, 1, 2)
             .OnUpdate(() =>
             {
-              
+
             })
             .OnComplete(() =>
             {
-                chain_Revert();              
+                chain_Revert();
             });
         }
     }
@@ -237,13 +237,66 @@ public class GhostControllerView : MonoBehaviour
     async void mat_DissolveWithRevert()
     {
         //溶解特效啟動1秒後結束
-        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, chainMat_);
-        mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material);
-        //0.1秒後才啟動邊緣光0.4秒後結束
-        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, chainMat_); }).AddTo(this);
-        Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material); }).AddTo(this);
-        await UniTask.Delay(300);
+        //mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, chainMat_);
+        //mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material);
+        ////0.1秒後才啟動邊緣光0.4秒後結束
+        //Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, chainMat_); }).AddTo(this);
+        //Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material); }).AddTo(this);
+        //await UniTask.Delay(300);
+        DOVirtual.Float(-0.5f, 1.5f, 0.2f, value =>
+        {
+            Vector4 currentParams = chainMat_.GetVector("_DissolveParams");
+            Debug.Log(currentParams);
+            currentParams.z = value;
+            currentParams.w = 0.5f;
+
+            chainMat_.SetVector("_DissolveParams", currentParams);
+        });
+        await UniTask.Delay(250);
+        DOVirtual.Float(1.5f, -1f, 0.6f, value =>
+        {
+            Vector4 currentParams = chainMat_.GetVector("_DissolveParams");
+            Debug.Log(currentParams);
+            currentParams.z = value;
+            currentParams.w = 0.5f;
+
+            chainMat_.SetVector("_DissolveParams", currentParams);
+        }).SetEase(Ease.InSine);
         GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse());
+        Debug.Log("mat_DissolveWithRevert");
+        ////1秒後回復原狀特效啟動1秒後結束
+        //Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1); }).AddTo(this);
+        ////1.9秒後邊緣光關閉0.1秒後結束
+        //Observable.Timer(TimeSpan.FromSeconds(1.9f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 0, 0, 0.1f); }).AddTo(this);
+    }
+    async void mat_DissolveWithRevertThrowAttack()
+    {
+        //溶解特效啟動1秒後結束
+        //mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, chainMat_);
+        //mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount = 0, 1, 0.5f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material);
+        ////0.1秒後才啟動邊緣光0.4秒後結束
+        //Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, chainMat_); }).AddTo(this);
+        //Observable.Timer(TimeSpan.FromSeconds(0.1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_SmoothStepAmount", ghost_Stats_.GhostShader_SmoothStepAmount = 1, 1, 0.4f, ghost_Stats_.Ghost_SkinnedMeshRenderer.material); }).AddTo(this);
+        //await UniTask.Delay(300);
+        DOVirtual.Float(-0.5f, 1.5f, 0.2f, value =>
+        {
+            Vector4 currentParams = chainMat_.GetVector("_DissolveParams");
+            Debug.Log(currentParams);
+            currentParams.z = value;
+            currentParams.w = 0.5f;
+
+            chainMat_.SetVector("_DissolveParams", currentParams);
+        });
+        await UniTask.Delay(250);
+        DOVirtual.Float(1.5f, -1f, 0.6f, value =>
+        {
+            Vector4 currentParams = chainMat_.GetVector("_DissolveParams");
+            Debug.Log(currentParams);
+            currentParams.z = value;
+            currentParams.w = 0.5f;
+
+            chainMat_.SetVector("_DissolveParams", currentParams);
+        }).SetEase(Ease.InSine);
         Debug.Log("mat_DissolveWithRevert");
         ////1秒後回復原狀特效啟動1秒後結束
         //Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { mat_ShaderValueFloatTo("_DissolveAmount", ghost_Stats_.GhostShader_DissolveAmount, 0, 1); }).AddTo(this);

@@ -189,7 +189,6 @@ public class PlayerControllerView : MonoBehaviour
             currentParams.w = 0.5f;
             foreach (var item in test_)
             {
-
                 item.SetVector("_DissolveParams", currentParams);
             }
         });

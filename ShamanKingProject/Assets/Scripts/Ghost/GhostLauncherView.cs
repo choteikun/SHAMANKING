@@ -20,6 +20,8 @@ public class GhostLauncherView : MonoBehaviour
     ObiRopeCursor ropeCursor_;
     [SerializeField]
     ObiRope rope_;
+    [SerializeField]
+    GameObject ghostFollowRestPoint_;
 
     [SerializeField]
     float basicLength_;
@@ -64,7 +66,7 @@ public class GhostLauncherView : MonoBehaviour
         {
             if (cmd.AnimationEventName == "Player_Pull_Finish")
             {
-                stopLaunchTweener(); ropeLength_ = 0;
+                stopLaunchTweener(); //ropeLength_ = 0;
             }
         });
 
@@ -146,6 +148,7 @@ public class GhostLauncherView : MonoBehaviour
             {
                 GameManager.Instance.MainGameEvent.Send(new PlayerThrowAttackFinishCommand());
                 GameManager.Instance.MainGameEvent.Send(new PlayerThrowAttackCallHitBoxCommand() { CallOrCancel = false });
+                throwAttackFollowTarget_.transform.DOMove(ghostFollowRestPoint_.transform.position, 0.3f);
             }
             );
     }

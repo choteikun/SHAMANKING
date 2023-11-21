@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 [System.Serializable]
 public class PlayerAttackModel
@@ -46,7 +47,7 @@ public class PlayerAttackModel
             if (isThrowing_)
             {
                 isThrowing_ = false;
-                backToIdle();
+                backToIdleFromThrowing();
             }
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
@@ -231,6 +232,19 @@ public class PlayerAttackModel
     {
         //呼叫動畫
         // animator_.Rebind();
+        GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+        animator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
+        Debug.Log("回歸");
+        isAttacking_ = false;
+        CurrentAttackInputs = new List<AttackBlockBase> { };
+        currentInputCount_ = -1;
+        PassedFrameAfterAttack = 0;
+    }
+    async void backToIdleFromThrowing()
+    {
+        //呼叫動畫
+        // animator_.Rebind();
+        await UniTask.Delay(200);
         GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
         animator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
         Debug.Log("回歸");
