@@ -51,6 +51,14 @@ public class PlayerControllerView : MonoBehaviour
     }
     void Start()
     {
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
+        {
+            if (cmd.AnimationEventName == "Player_Attack_Allow")
+            {
+                //playerModel_.transform.rotation = stickInputIndicator_.transform.rotation;
+                playerModel_.transform.DORotateQuaternion(stickInputIndicator_.transform.rotation, 0.15f);
+            }
+        });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, onAimButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { onTargetGetObject(); });

@@ -84,6 +84,7 @@ public class GhostFollower : MonoBehaviour
     void setTarget(Transform target)
     {
         //transform.SetParent(null);
+        Debug.Log(target.name); 
         targetObject_ = target;
     }
     //private void LateUpdate()

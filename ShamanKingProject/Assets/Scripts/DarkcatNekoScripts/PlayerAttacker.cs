@@ -7,7 +7,9 @@ using Gamemanager;
 
 public class PlayerAttacker : MonoBehaviour
 {
-    [SerializeField] GameObject playerLightAttackHitBox_;
+    [SerializeField] LayerMask enemyLayer_;
+    [SerializeField] GameObject playerAttackRayStartPoint_;//AttackRayStartPoint
+    [SerializeField] GameObject gizmosAnimationFollowObject_;
     [SerializeField] GameObject playerHitBoxCenter_;
     [SerializeField] Collider ghostCollider_;
     [SerializeField] float radius_;
@@ -27,7 +29,8 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (attacking_)
         {
-            searchObjectInAttackRange();
+            //searchObjectInAttackRange();
+            searchObjectInAttackRangeByRayCast();
         }
         if (throwAttacking_)
         {
@@ -41,6 +44,38 @@ public class PlayerAttacker : MonoBehaviour
     void activateThrowHitBox(bool callOrCancel)
     {
         throwAttacking_ = callOrCancel;
+    }
+    void searchObjectInAttackRangeByRayCast()
+    {
+        // 從核心點向攻擊點發射射線
+        Vector3 direction = playerHitBoxCenter_.transform.position - playerAttackRayStartPoint_.transform.position;
+        float distance = Vector3.Distance(playerAttackRayStartPoint_.transform.position, playerHitBoxCenter_.transform.position);
+
+        // 檢測射線上的所有敵人
+        RaycastHit[] hits = Physics.RaycastAll(playerAttackRayStartPoint_.transform.position, direction, distance, enemyLayer_);
+
+        // 創建一個陣列來儲存所有碰撞的敵人
+        List<GameObject> enemiesHit = new List<GameObject>();
+
+        foreach (RaycastHit hit in hits)
+        {
+            // 如果碰撞的對象是敵人，則加入陣列
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                enemiesHit.Add(hit.collider.gameObject);
+            }
+        }
+
+        // 現在 enemiesHit 陣列包含所有被射線擊中的敵人
+        // 你可以根據需要處理這些敵人
+        for (int i = 0; i < enemiesHit.Count; i++)
+        {
+            if (enemiesHit[i].CompareTag("Enemy"))
+            {
+                var collidePoint = ghostCollider_.ClosestPointOnBounds(enemiesHit[i].transform.position);
+                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = enemiesHit[i].gameObject, AttackDamage = 20f });
+            }
+        }
     }
     void searchObjectInAttackRange()
     {
@@ -86,5 +121,12 @@ public class PlayerAttacker : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(playerHitBoxCenter_.transform.position, 0.15f);
+
+        // 畫一條線從核心點到攻擊點
+        Gizmos.DrawLine(playerAttackRayStartPoint_.transform.position, playerHitBoxCenter_.transform.position);
+
+        Gizmos.color = Color.green;
+        // 如果需要，也可以在這裡添加更多的 Gizmos 繪製代碼
+        Gizmos.DrawLine(playerAttackRayStartPoint_.transform.position, gizmosAnimationFollowObject_.transform.position);
     }
 }

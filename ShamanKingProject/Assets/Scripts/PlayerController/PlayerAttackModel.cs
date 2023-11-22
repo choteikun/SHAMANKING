@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 [System.Serializable]
 public class PlayerAttackModel
 {
+    [SerializeField] GameObject inputIndicator_;
     public GameObject characterControllerObj_;
     public int PassedFrameAfterAttack;
     public List<AttackBlockBase> CurrentAttackInputs = new List<AttackBlockBase>();
