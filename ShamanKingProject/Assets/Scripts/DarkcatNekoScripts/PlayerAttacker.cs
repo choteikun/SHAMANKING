@@ -84,7 +84,7 @@ public class PlayerAttacker : MonoBehaviour
 
     void sendAttackSuccessCommand(GameObject[] sphereArray, List<GameObject> RaycastList)
     {
-        var uniqueItems = RaycastList.Except(sphereArray).Union(sphereArray.Except(RaycastList)).ToList();
+        var uniqueItems = RaycastList.Union(sphereArray).ToList();
         // 現在 enemiesHit 陣列包含所有被射線擊中的敵人
         // 你可以根據需要處理這些敵人
         for (int i = 0; i < uniqueItems.Count; i++)
