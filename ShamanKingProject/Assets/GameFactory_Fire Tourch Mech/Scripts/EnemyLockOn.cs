@@ -22,6 +22,7 @@ public class EnemyLockOn : MonoBehaviour
     float currentYOffset;
     Vector3 pos;
 
+    [SerializeField] GameObject gizmosUsedHip_;
 
     void Start()
     {
@@ -172,5 +173,7 @@ public class EnemyLockOn : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, noticeZone);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, playerKeepUpRange_);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(gizmosUsedHip_.transform.position, playerKeepUpRange_);
     }
 }
