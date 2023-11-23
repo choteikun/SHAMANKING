@@ -45,7 +45,7 @@ public class CMCameraController
         if (rotateAngle_ >= 0 && rotateAngle_ <= maxHeadAngle)
         {
            thirdPersonFollow_.CameraDistance = basicCameraDistance_ + rotateAngle_ * upperCameraDistance_ / maxHeadAngle;
-            composer_.m_ScreenY = 1 - rotateAngle_ * 0.5f / maxHeadAngle;
+            composer_.m_ScreenY = 0.75f - rotateAngle_ * 0.25f / maxHeadAngle;
 
         }
         //else if (rotateAngle_ >= 270 && rotateAngle_ <= 360)
