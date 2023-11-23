@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using Gamemanager;
+using System;
+using System.Linq;
 
 public class PlayerAttacker : MonoBehaviour
 {
@@ -29,8 +31,9 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (attacking_)
         {
-            //searchObjectInAttackRange();
-            searchObjectInAttackRangeByRayCast();
+            var sphereArray =  searchObjectInAttackRange();
+            var rayList = searchObjectInAttackRangeByRayCast();
+            sendAttackSuccessCommand(sphereArray, rayList);
         }
         if (throwAttacking_)
         {
@@ -45,7 +48,7 @@ public class PlayerAttacker : MonoBehaviour
     {
         throwAttacking_ = callOrCancel;
     }
-    void searchObjectInAttackRangeByRayCast()
+    List<GameObject> searchObjectInAttackRangeByRayCast()
     {
         // 從核心點向攻擊點發射射線
         Vector3 direction = playerHitBoxCenter_.transform.position - playerAttackRayStartPoint_.transform.position;
@@ -65,28 +68,31 @@ public class PlayerAttacker : MonoBehaviour
                 enemiesHit.Add(hit.collider.gameObject);
             }
         }
-
-        // 現在 enemiesHit 陣列包含所有被射線擊中的敵人
-        // 你可以根據需要處理這些敵人
-        for (int i = 0; i < enemiesHit.Count; i++)
-        {
-            if (enemiesHit[i].CompareTag("Enemy"))
-            {
-                var collidePoint = ghostCollider_.ClosestPointOnBounds(enemiesHit[i].transform.position);
-                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = enemiesHit[i].gameObject, AttackDamage = 20f });
-            }
-        }
+        return enemiesHit;      
     }
-    void searchObjectInAttackRange()
+    GameObject[] searchObjectInAttackRange()
     {
         radius_ = 0.15f + 0.375f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount;
-        int colliderCount = Physics.OverlapSphereNonAlloc(playerHitBoxCenter_.transform.position, radius_, colliders_);
+        int colliderCount = Physics.OverlapSphereNonAlloc(playerHitBoxCenter_.transform.position, radius_, colliders_);       
+        var gameobjectArray = new GameObject[colliderCount];
         for (int i = 0; i < colliderCount; i++)
         {
-            if (colliders_[i].CompareTag("Enemy"))
+            gameobjectArray[i] = colliders_[i].transform.gameObject;
+        }
+        return gameobjectArray;
+    }
+
+    void sendAttackSuccessCommand(GameObject[] sphereArray, List<GameObject> RaycastList)
+    {
+        var uniqueItems = RaycastList.Except(sphereArray).Union(sphereArray.Except(RaycastList)).ToList();
+        // 現在 enemiesHit 陣列包含所有被射線擊中的敵人
+        // 你可以根據需要處理這些敵人
+        for (int i = 0; i < uniqueItems.Count; i++)
+        {
+            if (uniqueItems[i].CompareTag("Enemy"))
             {
-                var collidePoint = ghostCollider_.ClosestPointOnBounds(colliders_[i].transform.position);
-                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() {CollidePoint = collidePoint, AttackTarget = colliders_[i].gameObject, AttackDamage = 20f });
+                var collidePoint = ghostCollider_.ClosestPointOnBounds(uniqueItems[i].transform.position);
+                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = uniqueItems[i].gameObject, AttackDamage = 20f });
             }
         }
     }
