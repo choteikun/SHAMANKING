@@ -46,14 +46,12 @@ public class GhostFollower : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd => { setTarget(launchFollowTarget_); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { worldUseFollowTarget_.transform.position = cmd.CollidePoint;setTarget(worldUseFollowTarget_);  });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => setTarget(cmd.HitInfo.onHitPoint_.transform));
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemAttackAllow, cmd =>
         {
-            if (cmd.AnimationEventName == "Player_Attack_Allow")
-            {
                 Debug.Log("AttackFollow");
                 setTarget(attackFollowTarget_);
                 positionSmoothSpeed_ = 75f;
-            }
+            
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { Debug.Log("OnPlayerMovementInterruptionFinish"); setTarget(target_); positionSmoothSpeed_ = 15f; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>

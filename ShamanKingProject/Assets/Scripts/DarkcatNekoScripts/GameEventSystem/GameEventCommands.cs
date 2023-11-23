@@ -236,6 +236,19 @@ namespace Gamemanager
 
     }
 
+    public class SystemAttackAllowCommand: GameEventMessageBase
+    {
+
+    }
+    public class AnimationMovementEnableCommand:GameEventMessageBase 
+    {
+
+    }
+    public class AnimationMovementDisableCommand : GameEventMessageBase
+    {
+
+    }
+
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

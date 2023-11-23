@@ -12,6 +12,7 @@ public class EnemyLockOn : MonoBehaviour
     //[Header("Settings")]
     [SerializeField] bool zeroVert_Look;
     [SerializeField] float noticeZone = 10;
+    [SerializeField] float playerKeepUpRange_ = 2f;
     [SerializeField] float lookAtSmoothing = 2;
     [Tooltip("Angle_Degree")][SerializeField] float maxNoticeAngle = 60;
 
@@ -26,6 +27,9 @@ public class EnemyLockOn : MonoBehaviour
     {
         cam = Camera.main.transform;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerTargetButtonTrigger, cmd => { triggerTargetButton(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { checkIfInAttackRangeAttackRange(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { checkIfInAttackRangeAttackRange(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { checkIfInAttackRangeAttackRange(); });
     }
 
     void Update()
@@ -71,7 +75,25 @@ public class EnemyLockOn : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new SystemResetTarget());
     }
 
-
+    void checkIfInAttackRangeAttackRange()
+    {
+        if (enemyLocked)
+        {
+            float dis = (transform.position - pos).magnitude;
+            if (dis  > playerKeepUpRange_)
+            {
+                GameManager.Instance.MainGameEvent.Send(new AnimationMovementEnableCommand());
+            }
+            else
+            {
+                GameManager.Instance.MainGameEvent.Send(new AnimationMovementDisableCommand());
+            }
+        }
+        else
+        {
+            GameManager.Instance.MainGameEvent.Send(new AnimationMovementEnableCommand());
+        }
+    }
     private Transform ScanNearBy()
     {
         Debug.Log("Finding");
@@ -123,7 +145,7 @@ public class EnemyLockOn : MonoBehaviour
     bool TargetOnRange()
     {
         float dis = (transform.position - pos).magnitude;
-        if (dis / 2 > noticeZone) return false; else return true;
+        if (dis /2 > noticeZone) return false; else return true;
     }
 
 
@@ -148,5 +170,7 @@ public class EnemyLockOn : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, noticeZone);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, playerKeepUpRange_);
     }
 }

@@ -132,6 +132,11 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<PlayerThrowAttackFinishCommand> OnPlayerThrowAttackFinish => getSubject<PlayerThrowAttackFinishCommand>();
 
+    public IObservable<SystemAttackAllowCommand> OnSystemAttackAllow => getSubject<SystemAttackAllowCommand>();
+    
+    public IObservable<AnimationMovementEnableCommand> OnAnimationMovementEnable => getSubject<AnimationMovementEnableCommand>();
+    public IObservable<AnimationMovementDisableCommand> OnAnimationMovementDisable => getSubject<AnimationMovementDisableCommand>();
+
     public IObservable<PlayerTargetButtonTriggerCommand> OnPlayerTargetButtonTrigger => getSubject<PlayerTargetButtonTriggerCommand>();
     public IObservable<SystemGetTarget> OnSystemGetTarget => getSubject<SystemGetTarget>();
     public IObservable<SystemResetTarget> OnSystemResetTarget => getSubject<SystemResetTarget>();
