@@ -8,6 +8,9 @@ using UnityEngine.UIElements;
 
 public class GhostLauncherView : MonoBehaviour
 {
+
+    [SerializeField] GameObject ghostMassPoint_;
+    [SerializeField] GameObject girlMassPoint_;
     [SerializeField]
     GameObject ghostLaunchFollowTarget_;
     [SerializeField]
@@ -39,6 +42,8 @@ public class GhostLauncherView : MonoBehaviour
 
     Tweener aimTargetEvent_;
     Tweener ropeExtrudeEvent_;
+
+    [SerializeField] bool attacking_ = false;
 
     private void Start()
     {
@@ -100,7 +105,18 @@ public class GhostLauncherView : MonoBehaviour
     }
     private void Update()
     {
+        //if (attacking_)
+        //{
+        //    var length = (ghostMassPoint_.transform.position - girlMassPoint_.transform.position).magnitude;
+        //    length = Mathf.Abs(length);
+        //    length = Mathf.Clamp(length, 0.25f, 10000);
+        //    ropeCursor_.ChangeLength(basicLength_ + length);
+        //}
+        //else
+        //{
+
         ropeCursor_.ChangeLength(basicLength_ + ropeLength_);
+        //}
         //Debug.Log(rope_.restLength);
     }
 

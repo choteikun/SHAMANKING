@@ -36,6 +36,7 @@ public class GhostFollower : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     [SerializeField] Rigidbody rb_;
 
+
     void Start()
     {
         setTarget(target_);
