@@ -248,6 +248,11 @@ namespace Gamemanager
     {
 
     }
+    public class AnimationMovementEventCommand:GameEventMessageBase
+    {
+        public float Distance;
+        public int Frame;
+    }
 
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase

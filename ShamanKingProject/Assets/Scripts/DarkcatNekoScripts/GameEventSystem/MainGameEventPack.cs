@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Gamemanager;
-using UniRx;
 using System;
-using UnityEngine.UI;
 
 public class MainGameEventPack : GameEventPack
 {
@@ -50,7 +45,7 @@ public class MainGameEventPack : GameEventPack
     /// </summary>
     public IObservable<PlayerLightAttackButtonCommand> OnPlayerLightAttack => getSubject<PlayerLightAttackButtonCommand>();
 
-    public IObservable<PlayerHeavyAttackButtonCommand> OnPlayerHeavyAttack=> getSubject<PlayerHeavyAttackButtonCommand>();
+    public IObservable<PlayerHeavyAttackButtonCommand> OnPlayerHeavyAttack => getSubject<PlayerHeavyAttackButtonCommand>();
 
     public IObservable<PlayerJumpAttackButtonCommand> OnPlayerJumpAttack => getSubject<PlayerJumpAttackButtonCommand>();
 
@@ -112,7 +107,7 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerBiteFinishResponse> OnPlayerBiteFinish => getSubject<PlayerBiteFinishResponse>();
 
     public IObservable<PlayerAttackSuccessCommand> OnPlayerAttackSuccess => getSubject<PlayerAttackSuccessCommand>();
-    public IObservable<PlayerAttackSuccessResponse> OnPlayerAttackSuccessForData=> getSubject<PlayerAttackSuccessResponse>();
+    public IObservable<PlayerAttackSuccessResponse> OnPlayerAttackSuccessForData => getSubject<PlayerAttackSuccessResponse>();
 
     public IObservable<PlayerControllerPossessableInteractButtonCommand> OnPlayerControllerPossessableInteract => getSubject<PlayerControllerPossessableInteractButtonCommand>();
 
@@ -133,13 +128,14 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerThrowAttackFinishCommand> OnPlayerThrowAttackFinish => getSubject<PlayerThrowAttackFinishCommand>();
 
     public IObservable<SystemAttackAllowCommand> OnSystemAttackAllow => getSubject<SystemAttackAllowCommand>();
-    
+
     public IObservable<AnimationMovementEnableCommand> OnAnimationMovementEnable => getSubject<AnimationMovementEnableCommand>();
     public IObservable<AnimationMovementDisableCommand> OnAnimationMovementDisable => getSubject<AnimationMovementDisableCommand>();
 
+    public IObservable<AnimationMovementEventCommand> OnAnimationMovementEvent => getSubject<AnimationMovementEventCommand>();
     public IObservable<PlayerTargetButtonTriggerCommand> OnPlayerTargetButtonTrigger => getSubject<PlayerTargetButtonTriggerCommand>();
     public IObservable<SystemGetTarget> OnSystemGetTarget => getSubject<SystemGetTarget>();
     public IObservable<SystemResetTarget> OnSystemResetTarget => getSubject<SystemResetTarget>();
 
-    public IObservable<StartRollMovementAnimationEvent> OnStartRollMovementAnimation=> getSubject<StartRollMovementAnimationEvent>();
+    public IObservable<StartRollMovementAnimationEvent> OnStartRollMovementAnimation => getSubject<StartRollMovementAnimationEvent>();
 }

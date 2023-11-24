@@ -51,7 +51,9 @@ public class GhostFollower : MonoBehaviour
                 Debug.Log("AttackFollow");
                 setTarget(attackFollowTarget_);
                 positionSmoothSpeed_ = 75f;
-            
+                rotationSmoothSpeed_ = 75f;
+
+
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { Debug.Log("OnPlayerMovementInterruptionFinish"); setTarget(target_); positionSmoothSpeed_ = 15f; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
@@ -119,7 +121,7 @@ public class GhostFollower : MonoBehaviour
         Quaternion targetLocalRotation = targetObject_.rotation;
 
         // 锁定局部Z轴旋转
-        targetLocalRotation = Quaternion.Euler(targetLocalRotation.eulerAngles.x, targetLocalRotation.eulerAngles.y, 0f);
+        targetLocalRotation = Quaternion.Euler(targetLocalRotation.eulerAngles.x, targetLocalRotation.eulerAngles.y, targetLocalRotation.eulerAngles.z);
 
         // 使用Lerp插值来平滑过渡
         Quaternion newRotation = Quaternion.Lerp(currentRotation, targetLocalRotation, rotationSmoothSpeed_ * Time.deltaTime);

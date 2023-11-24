@@ -71,4 +71,9 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new StartRollMovementAnimationEvent());
     }
+
+    public void PlayerAnimationMovementEvent(SO_AttackBlockBase attackBlock)
+    {
+        GameManager.Instance.MainGameEvent.Send(new AnimationMovementEventCommand() {Distance = attackBlock.Distance, Frame = attackBlock.Frame });
+    }
 }

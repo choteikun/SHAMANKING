@@ -102,6 +102,7 @@ public class PlayerControllerMover
             }
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { DashToGrabTarget(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAnimationMovementEvent, cmd => { animationMovement(cmd.Distance, cmd.Frame); });
     }
 
     public void Update()
@@ -130,6 +131,24 @@ public class PlayerControllerMover
         }
     }
     
+    async void animationMovement(float distance,int usedFrame)
+    {       
+        GameManager.Instance.MainGameEvent.Send(new AnimationMovementDisableCommand());
+        var frame = 0;
+        var speed = distance/usedFrame;
+        while (frame <= usedFrame)
+        {
+            Debug.Log("animationMovement");
+            frame += 1;
+            player_CC_.Move(model_Transform_.forward * speed * Time.deltaTime);
+            await UniTask.DelayFrame(1);
+        }
+        //// 计算目标位置
+        //Vector3 targetPosition = characterControllerObj_.transform.position + model_Transform_.transform.forward * distance;
+
+        //// 使用 DOTween 来移动 GameObject
+        //characterControllerObj_.transform.DOMove(targetPosition, 0.35f);
+    }
     void move()
     {
 

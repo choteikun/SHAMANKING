@@ -11,6 +11,8 @@ public class SO_AttackBlockBase : ScriptableObject
     public int LeastNeedAttackFrame;
     public AttackInputType M_SkillType;
     public List<NextComboSkillInfo> nextCombos = new List<NextComboSkillInfo>();
+    public float Distance;
+    public int Frame;
 
     public NextComboSkillInfo CheckNextAttack(AttackInputType input)
     {
