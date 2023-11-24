@@ -5,7 +5,6 @@ using UnityEngine.TextCore.Text;
 
 public class TestAnimatorScript : MonoBehaviour
 {
-
     Animator anim;
 
     private void Start()
@@ -14,7 +13,6 @@ public class TestAnimatorScript : MonoBehaviour
     }
     private void OnAnimatorMove()
     {
-        //SendMessageUpwards("OnUpdateRootMotion", anim.deltaPosition);
-        SendMessageUpwards("OnUpdateRootMotion", new Vector3(anim.deltaPosition.x, 0, anim.deltaPosition.z));
+        SendMessageUpwards("OnUpdateRootMotion", anim);
     }
 }

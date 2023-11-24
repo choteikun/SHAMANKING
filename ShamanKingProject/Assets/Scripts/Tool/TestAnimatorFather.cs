@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TestAnimatorFather : MonoBehaviour
 {
-    [SerializeField] GameObject playerAnimatorModel_;
     CharacterController cc;
     bool attackMoverEnabled = false;
     private void Start()
@@ -15,10 +14,9 @@ public class TestAnimatorFather : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { attackMoverEnabled = false; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { attackMoverEnabled = false; });
     }
-    public void OnUpdateRootMotion(object _deltaPos)
+    public void OnUpdateRootMotion(Animator anim)
     {
         if (!attackMoverEnabled) return;
-        var animModelVector3 = (Vector3)_deltaPos;
-        cc.Move(playerAnimatorModel_.transform.forward * animModelVector3.magnitude);
+        cc.Move(anim.transform.forward * anim.deltaPosition.magnitude);
     }
 }
