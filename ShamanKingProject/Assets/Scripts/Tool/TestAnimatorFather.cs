@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TestAnimatorFather : MonoBehaviour
 {
+    [SerializeField] GameObject playerAnimatorModel_;
     CharacterController cc;
     bool attackMoverEnabled = false;
     private void Start()
@@ -17,6 +18,7 @@ public class TestAnimatorFather : MonoBehaviour
     public void OnUpdateRootMotion(object _deltaPos)
     {
         if (!attackMoverEnabled) return;
-       cc.Move((Vector3)_deltaPos);
+        var animModelVector3 = (Vector3)_deltaPos;
+        cc.Move(playerAnimatorModel_.transform.forward * animModelVector3.magnitude);
     }
 }

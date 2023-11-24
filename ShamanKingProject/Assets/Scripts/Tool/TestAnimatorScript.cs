@@ -14,6 +14,7 @@ public class TestAnimatorScript : MonoBehaviour
     }
     private void OnAnimatorMove()
     {
-        SendMessageUpwards("OnUpdateRootMotion", new Vector3(anim.deltaPosition.x, 0, anim.deltaPosition.z) * 0.75f);
+        //SendMessageUpwards("OnUpdateRootMotion", anim.deltaPosition);
+        SendMessageUpwards("OnUpdateRootMotion", new Vector3(anim.deltaPosition.x, 0, anim.deltaPosition.z));
     }
 }
