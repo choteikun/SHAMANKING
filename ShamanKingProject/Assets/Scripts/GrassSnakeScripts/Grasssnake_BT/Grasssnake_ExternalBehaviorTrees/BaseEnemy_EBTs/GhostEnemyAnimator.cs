@@ -23,6 +23,6 @@ public class GhostEnemyAnimator : MonoBehaviour
     }
     public void EndOfHurtAnimation()
     {
-        GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "EndOfHurtAnimation" });
+        GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "EndOfHurtAnimation"});
     }
 }
