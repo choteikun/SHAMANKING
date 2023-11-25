@@ -115,7 +115,7 @@ public class GhostLauncherView : MonoBehaviour
         //else
         //{
 
-        ropeCursor_.ChangeLength(basicLength_ + ropeLength_);
+        //ropeCursor_.ChangeLength(basicLength_ + ropeLength_);
         //}
         //Debug.Log(rope_.restLength);
     }
