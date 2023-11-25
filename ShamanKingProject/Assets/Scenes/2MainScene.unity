@@ -706,6 +706,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &26480503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,7 +795,7 @@ MonoBehaviour:
         EnemyState_None","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,350.795929)"},"ID":3,"Name":"Set
         EnemyState_Idle","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,470.795929)"},"ID":4,"Name":"Set
         EnemyState_Movement","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,590.7959)"},"ID":5,"Name":"Set
-        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false}]}'
+        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StateMessageChecker","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StateMessageChecker","PropertyMappingOwner":9,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -802,14 +803,15 @@ MonoBehaviour:
         dataPosition: 
         unityObjects:
         - {fileID: 4905203264908605227}
-        - {fileID: 614766487}
-        - {fileID: 26480500}
-        - {fileID: 1648685474}
-        - {fileID: 26480500}
-        - {fileID: 26480500}
-        - {fileID: 26480500}
-        - {fileID: 26480500}
-        - {fileID: 26480500}
+        - {fileID: 8567884543773906901}
+        - {fileID: 8801815194022612093}
+        - {fileID: 2943818926336074645}
+        - {fileID: 8801815194022612093}
+        - {fileID: 8801815194022612093}
+        - {fileID: 8801815194022612093}
+        - {fileID: 8801815194022612093}
+        - {fileID: 8801815194022612093}
+        - {fileID: 8801815194022612093}
         byteData: 
         byteDataArray: 
       Version: 1.7.7
@@ -1535,6 +1537,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &126571159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1623,7 +1626,7 @@ MonoBehaviour:
         EnemyState_None","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,350.795929)"},"ID":3,"Name":"Set
         EnemyState_Idle","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,470.795929)"},"ID":4,"Name":"Set
         EnemyState_Movement","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,590.7959)"},"ID":5,"Name":"Set
-        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false}]}'
+        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StateMessageChecker","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StateMessageChecker","PropertyMappingOwner":9,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -1631,14 +1634,15 @@ MonoBehaviour:
         dataPosition: 
         unityObjects:
         - {fileID: 4905203264908605227}
-        - {fileID: 1355600261}
-        - {fileID: 126571156}
-        - {fileID: 1602833493}
-        - {fileID: 126571156}
-        - {fileID: 126571156}
-        - {fileID: 126571156}
-        - {fileID: 126571156}
-        - {fileID: 126571156}
+        - {fileID: 2138334500}
+        - {fileID: 266155787}
+        - {fileID: 916078539}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
         byteData: 
         byteDataArray: 
       Version: 1.7.7
@@ -2391,6 +2395,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &227567554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2479,7 +2484,7 @@ MonoBehaviour:
         EnemyState_None","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,350.795929)"},"ID":3,"Name":"Set
         EnemyState_Idle","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,470.795929)"},"ID":4,"Name":"Set
         EnemyState_Movement","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,590.7959)"},"ID":5,"Name":"Set
-        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false}]}'
+        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StateMessageChecker","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StateMessageChecker","PropertyMappingOwner":9,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -2487,14 +2492,15 @@ MonoBehaviour:
         dataPosition: 
         unityObjects:
         - {fileID: 4905203264908605227}
-        - {fileID: 1152809417}
-        - {fileID: 227567551}
-        - {fileID: 1877364014}
-        - {fileID: 227567551}
-        - {fileID: 227567551}
-        - {fileID: 227567551}
-        - {fileID: 227567551}
-        - {fileID: 227567551}
+        - {fileID: 2138334500}
+        - {fileID: 266155787}
+        - {fileID: 916078539}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
         byteData: 
         byteDataArray: 
       Version: 1.7.7
@@ -2937,6 +2943,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &266155790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3025,7 +3032,7 @@ MonoBehaviour:
         EnemyState_None","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,350.795929)"},"ID":3,"Name":"Set
         EnemyState_Idle","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,470.795929)"},"ID":4,"Name":"Set
         EnemyState_Movement","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,590.7959)"},"ID":5,"Name":"Set
-        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false}]}'
+        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StateMessageChecker","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StateMessageChecker","PropertyMappingOwner":9,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -3036,6 +3043,7 @@ MonoBehaviour:
         - {fileID: 2138334500}
         - {fileID: 266155787}
         - {fileID: 916078539}
+        - {fileID: 266155787}
         - {fileID: 266155787}
         - {fileID: 266155787}
         - {fileID: 266155787}
@@ -6238,89 +6246,6 @@ Transform:
   m_Father: {fileID: 1765205385}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 82.9945, y: -92.01396, z: -99.00014}
---- !u!1 &622037701
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 622037702}
-  - component: {fileID: 622037705}
-  - component: {fileID: 622037704}
-  m_Layer: 0
-  m_Name: GhostTailPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &622037702
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622037701}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.027, z: -0.469}
-  m_LocalScale: {x: 0.4078, y: 0.4078, z: 0.4078}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1870373547}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!23 &622037704
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622037701}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &622037705
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622037701}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &625065820
 GameObject:
   m_ObjectHideFlags: 0
@@ -9889,12 +9814,6 @@ Transform:
   m_Father: {fileID: 872196932}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -3.5374184, y: -2.3670888, z: -2.6751654}
---- !u!1 &1087060591 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1639234178565322, guid: 8df1e45cda2d3fe408e1644747052e0e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1765007973}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1087060594 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4828039368617044, guid: 8df1e45cda2d3fe408e1644747052e0e,
@@ -13862,12 +13781,6 @@ Transform:
   m_Father: {fileID: 1144926383}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 82.99452, y: -92.00158, z: -98.987656}
---- !u!1 &1602833493 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1639234178565322, guid: 8df1e45cda2d3fe408e1644747052e0e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1399322072}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1602833496 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4828039368617044, guid: 8df1e45cda2d3fe408e1644747052e0e,
@@ -14535,12 +14448,6 @@ Transform:
   m_Father: {fileID: 932589216}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1648685474 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1639234178565322, guid: 8df1e45cda2d3fe408e1644747052e0e,
-    type: 3}
-  m_PrefabInstance: {fileID: 587002317}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1648685477 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4828039368617044, guid: 8df1e45cda2d3fe408e1644747052e0e,
@@ -14920,6 +14827,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &1708297013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15008,7 +14916,7 @@ MonoBehaviour:
         EnemyState_None","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,350.795929)"},"ID":3,"Name":"Set
         EnemyState_Idle","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,470.795929)"},"ID":4,"Name":"Set
         EnemyState_Movement","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,590.7959)"},"ID":5,"Name":"Set
-        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false}]}'
+        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StateMessageChecker","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StateMessageChecker","PropertyMappingOwner":9,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -15016,14 +14924,15 @@ MonoBehaviour:
         dataPosition: 
         unityObjects:
         - {fileID: 4905203264908605227}
-        - {fileID: 1759956118}
-        - {fileID: 1708297010}
-        - {fileID: 1087060591}
-        - {fileID: 1708297010}
-        - {fileID: 1708297010}
-        - {fileID: 1708297010}
-        - {fileID: 1708297010}
-        - {fileID: 1708297010}
+        - {fileID: 2138334500}
+        - {fileID: 266155787}
+        - {fileID: 916078539}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
+        - {fileID: 266155787}
         byteData: 
         byteDataArray: 
       Version: 1.7.7
@@ -21374,9 +21283,8 @@ GameObject:
   - component: {fileID: 1870373547}
   - component: {fileID: 1870373549}
   - component: {fileID: 1870373548}
-  - component: {fileID: 1870373550}
   m_Layer: 0
-  m_Name: GhostTailPointRollPoint
+  m_Name: GhostTailPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21389,15 +21297,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870373546}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.622, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.982, z: 0}
   m_LocalScale: {x: 0.39896, y: 0.39896, z: 0.39896}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 622037702}
+  m_Children: []
   m_Father: {fileID: 5490092863622347060}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1870373548
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21448,22 +21355,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870373546}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1870373550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1870373546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8103a66295e09ae43a366d0e0d4691d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointA: {fileID: 1241964955472445550}
-  pointB: {fileID: 1241964953838132636}
-  radius: 0.2
-  t: -1
 --- !u!1 &1875512561
 GameObject:
   m_ObjectHideFlags: 0
@@ -21531,12 +21422,6 @@ Transform:
   m_Father: {fileID: 156795072}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1877364014 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1639234178565322, guid: 8df1e45cda2d3fe408e1644747052e0e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1147593214}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1877364017 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4828039368617044, guid: 8df1e45cda2d3fe408e1644747052e0e,
@@ -38341,7 +38226,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241964954673168814}
-  m_LocalRotation: {x: 0.21216564, y: 0.0067678024, z: -0.0014693835, w: 0.9772092}
+  m_LocalRotation: {x: 0.21216683, y: 0.0059165386, z: -0.0012845624, w: 0.97721475}
   m_LocalPosition: {x: 47.756, y: 10.5, z: -0.69799614}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -41642,11 +41527,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f29c9e398535249b5a05b4beee705c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponModel: {fileID: 622037702}
-  weaponController: {fileID: 622037702}
+  weaponModel: {fileID: 1870373547}
+  weaponController: {fileID: 1870373547}
   chainPoints:
   - {fileID: 4404521863016928605}
-  - {fileID: 622037702}
+  - {fileID: 1870373547}
   chainLine: {fileID: 2053968661}
   wallLayers:
     serializedVersion: 2
@@ -69684,6 +69569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88037f0aea81b44f974e5309d16b4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackMoveSpeed: 0.25
 --- !u!1 &5725918940180074747
 GameObject:
   m_ObjectHideFlags: 0
@@ -80330,6 +80216,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!136 &7840988381222297355
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -85555,7 +85442,7 @@ MonoBehaviour:
         EnemyState_None","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,350.795929)"},"ID":3,"Name":"Set
         EnemyState_Idle","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":1},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,470.795929)"},"ID":4,"Name":"Set
         EnemyState_Movement","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":2},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.SetSharedInt","NodeData":{"Offset":"(350,590.7959)"},"ID":5,"Name":"Set
-        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false}]}'
+        EnemyState_Fight","Instant":true,"SharedInttargetValue":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":3},"SharedInttargetVariable":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0}}],"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerObj","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"PlayerPos","IsShared":true,"PropertyMapping":"UnityEngine.Transform/position","Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyAnimator","IsShared":true,"GameObjectmValue":1},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"EnemyObj","IsShared":true,"GameObjectmValue":2},{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"SetEnemyState","IsShared":true,"Int32mValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"DashTrigger","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"WarningParticle","IsShared":true,"GameObjectmValue":3},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"EnemyHP","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HealthPoint","PropertyMappingOwner":4,"SinglemValue":0},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"EnemyHurt","IsShared":true,"PropertyMapping":"EnemyBeHitTest/HasTakenDamage","PropertyMappingOwner":5,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StunTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StunTrigger","PropertyMappingOwner":6,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"WanderTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/WanderTrigger","PropertyMappingOwner":7,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"UpdatePosTrigger","IsShared":true,"PropertyMapping":"GhostEnemyVariables/UpdatePosTrigger","PropertyMappingOwner":8,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"StateMessageChecker","IsShared":true,"PropertyMapping":"GhostEnemyVariables/StateMessageChecker","PropertyMappingOwner":9,"BooleanmValue":false}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -85566,6 +85453,7 @@ MonoBehaviour:
         - {fileID: 8567884543773906901}
         - {fileID: 8801815194022612093}
         - {fileID: 2943818926336074645}
+        - {fileID: 8801815194022612093}
         - {fileID: 8801815194022612093}
         - {fileID: 8801815194022612093}
         - {fileID: 8801815194022612093}

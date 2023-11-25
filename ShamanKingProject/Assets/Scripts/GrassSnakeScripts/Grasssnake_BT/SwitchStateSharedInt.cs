@@ -17,6 +17,8 @@ public class SwitchStateSharedInt : Action
     [RequiredField]
     [Tooltip("要設定的 SharedInt ")]
     public SharedInt targetVariable;
+    [Tooltip("該行為樹只接收自己發出的訊息")]
+    public SharedBool stateMessageChecker;
 
     private Behavior behavior;
 
@@ -44,8 +46,9 @@ public class SwitchStateSharedInt : Action
             }
         }
         targetVariable.Value = targetValue.Value;
+        stateMessageChecker.Value = true;
         behavior.DisableBehavior();
-        //發送訊息給外面FSM的決策系統
+        //發送訊息給外面FSM的決策系統//要再修改
         GameManager.Instance.BT_Event.Send(new BT_SwitchStateMessage()
         { 
             IntTypeStateOfGhostEnemy = targetValue.Value
