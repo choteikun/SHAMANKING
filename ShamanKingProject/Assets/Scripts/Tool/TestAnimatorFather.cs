@@ -17,6 +17,6 @@ public class TestAnimatorFather : MonoBehaviour
     public void OnUpdateRootMotion(Animator anim)
     {
         if (!attackMoverEnabled) return;
-        cc.Move(anim.transform.forward * anim.deltaPosition.magnitude);
+        cc.Move(anim.transform.forward * anim.deltaPosition.magnitude*0.35f);
     }
 }
