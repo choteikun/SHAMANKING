@@ -24,6 +24,7 @@ public class GhostEnemyVariables : MonoBehaviour
 {
     public GhostEnemyState ghostEnemyState;
     //public ReactiveProperty<GhostEnemyState> ghostEnemyState = new ReactiveProperty<GhostEnemyState>(GhostEnemyState.GhostEnemy_IDLE);
+    //public ReactiveProperty<bool> StateMessageChecker;
     public bool WanderTrigger { get { return wanderTrigger; } set { wanderTrigger = value; } }
     [SerializeField]
     private bool wanderTrigger;
@@ -33,9 +34,9 @@ public class GhostEnemyVariables : MonoBehaviour
     public bool StunTrigger { get { return stunTrigger; } set { stunTrigger = value; } }
     [SerializeField]
     private bool stunTrigger;
-    public bool StateMessageChecker { get { return stateMessageChecker; } set { stateMessageChecker = value; } }
-    [SerializeField]
-    private bool stateMessageChecker;
+    //public bool StateMessageChecker { get { return stateMessageChecker; } set { stateMessageChecker = value; } }
+    //[SerializeField]
+    //private bool stateMessageChecker;
     public int IntTypeStateOfGhostEnemy { get { return intTypeStateOfGhostEnemy; } set { intTypeStateOfGhostEnemy = value; } }
     [SerializeField]
     private int intTypeStateOfGhostEnemy;
@@ -82,19 +83,6 @@ public class GhostEnemyVariables : MonoBehaviour
     }
     //void getBT_Massage(BT_SwitchStateMessage bT_SwitchStateMessage)
     //{
-    //    switch (IntTypeStateOfGhostEnemy)
-    //    {
-    //        case 1:
-    //            ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
-    //            break;
-    //        case 2:
-    //            ghostEnemyState = GhostEnemyState.GhostEnemy_MOVEMENT;
-    //            break;
-    //        case 3:
-    //            ghostEnemyState = GhostEnemyState.GhostEnemy_FIGHT;
-    //            break;
-    //        default:
-    //            break;
-    //    }
+        
     //}
 }

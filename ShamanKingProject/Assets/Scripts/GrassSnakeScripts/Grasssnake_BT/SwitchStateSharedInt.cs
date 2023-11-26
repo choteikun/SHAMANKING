@@ -18,7 +18,6 @@ public class SwitchStateSharedInt : Action
     [Tooltip("要設定的 SharedInt ")]
     public SharedInt targetVariable;
 
-
     private Behavior behavior;
 
     public override void OnStart()
@@ -45,10 +44,7 @@ public class SwitchStateSharedInt : Action
             }
         }
         //發送訊息給外面FSM的決策系統
-        //GameManager.Instance.BT_Event.Send(new BT_SwitchStateMessage()
-        //{
-
-        //});
+        //GameManager.Instance.BT_Event.Send(new BT_SwitchStateMessage());
         targetVariable.Value = targetValue.Value;
         behavior.DisableBehavior();
         

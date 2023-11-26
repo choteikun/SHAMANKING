@@ -15,12 +15,9 @@ namespace AI.FSM
 
         public override void Enter(BaseStateMachine machine)
         {
+            //註冊事件用的
             foreach (var activity in Activities)
                 activity.Enter(machine);
-
-            //註冊事件用的
-            foreach (var transition in Transitions)
-                transition.Enter(machine);
         }
 
         public override void Execute(BaseStateMachine machine)
