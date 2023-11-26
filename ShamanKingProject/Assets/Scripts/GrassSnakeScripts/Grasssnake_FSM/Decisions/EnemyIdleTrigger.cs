@@ -1,4 +1,6 @@
 using UnityEngine;
+using Gamemanager;
+using UnityEditorInternal;
 
 namespace AI.FSM.Decisions
 {
@@ -10,7 +12,7 @@ namespace AI.FSM.Decisions
         GhostEnemyVariables ghostEnemyVariables;
         public override void Enter(BaseStateMachine stateMachine)
         {
-            ghostEnemyVariables = stateMachine.GetComponent<GhostEnemyVariables>();
+            //ghostEnemyVariables = stateMachine.GetComponent<GhostEnemyVariables>();
             //switchStatebyInt = 0;
             //stateMachine.GetComponent<GhostEnemyVariables>().ghostEnemyState.Subscribe(_ => { switchStatebyInt = (int)stateMachine.GetComponent<GhostEnemyVariables>().ghostEnemyState.Value;Debug.Log("switchStatebyInt" + switchStatebyInt); }).Dispose();
             //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
@@ -20,7 +22,6 @@ namespace AI.FSM.Decisions
         //    switchStatebyInt = bT_SwitchStateMessage.StateIntType;
         //    Debug.Log("switchStatebyInt" + switchStatebyInt);
         //}
-
         public override bool Decide(BaseStateMachine stateMachine)
         {
             //如果不是空的行為樹
@@ -45,7 +46,7 @@ namespace AI.FSM.Decisions
                 //{
                 //    return false;
                 //}
-                if (ghostEnemyVariables.ghostEnemyState == GhostEnemyState.GhostEnemy_IDLE)
+                if (stateMachine.GetComponent<GhostEnemyVariables>().ghostEnemyState == GhostEnemyState.GhostEnemy_IDLE)
                 {
                     return true;
                 }

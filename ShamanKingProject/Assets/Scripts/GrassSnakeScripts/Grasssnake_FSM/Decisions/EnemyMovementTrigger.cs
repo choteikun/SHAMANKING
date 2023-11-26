@@ -9,14 +9,14 @@ namespace AI.FSM.Decisions
         GhostEnemyVariables ghostEnemyVariables;
         public override void Enter(BaseStateMachine stateMachine)
         {
-            ghostEnemyVariables = stateMachine.GetComponent<GhostEnemyVariables>();
+            //ghostEnemyVariables = stateMachine.GetComponent<GhostEnemyVariables>();
         }
         public override bool Decide(BaseStateMachine stateMachine)
         {
             //如果不是空的行為樹
             if (stateMachine.BehaviorTree != null)
             {
-                if (ghostEnemyVariables.ghostEnemyState == GhostEnemyState.GhostEnemy_MOVEMENT)
+                if (stateMachine.GetComponent<GhostEnemyVariables>().ghostEnemyState == GhostEnemyState.GhostEnemy_MOVEMENT)
                 {
                     return true;
                 }

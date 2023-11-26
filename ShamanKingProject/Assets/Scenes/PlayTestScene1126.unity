@@ -706,6 +706,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &26480503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1535,6 +1536,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &126571159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2391,6 +2393,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &227567554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2937,6 +2940,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &266155790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14920,6 +14924,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!114 &1708297013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38341,7 +38346,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241964954673168814}
-  m_LocalRotation: {x: 0.21216564, y: 0.0067678024, z: -0.0014693835, w: 0.9772092}
+  m_LocalRotation: {x: 0.21216683, y: 0.0059165386, z: -0.0012845624, w: 0.97721475}
   m_LocalPosition: {x: 47.756, y: 10.5, z: -0.69799614}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -72758,7 +72763,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -80330,6 +80340,7 @@ MonoBehaviour:
   wanderTrigger: 0
   updatePosTrigger: 0
   stunTrigger: 0
+  stateMessageChecker: 0
 --- !u!136 &7840988381222297355
 CapsuleCollider:
   m_ObjectHideFlags: 0

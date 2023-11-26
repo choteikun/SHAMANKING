@@ -36,12 +36,15 @@ public class GhostEnemyVariables : MonoBehaviour
     public bool StateMessageChecker { get { return stateMessageChecker; } set { stateMessageChecker = value; } }
     [SerializeField]
     private bool stateMessageChecker;
+    public int IntTypeStateOfGhostEnemy { get { return intTypeStateOfGhostEnemy; } set { intTypeStateOfGhostEnemy = value; } }
+    [SerializeField]
+    private int intTypeStateOfGhostEnemy;
 
     void Start()
     {
         //ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
 
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
         {
@@ -59,25 +62,39 @@ public class GhostEnemyVariables : MonoBehaviour
             }
         });
     }
-    void getBT_Massage(BT_SwitchStateMessage bT_SwitchStateMessage)
+    void Update()
     {
-        if (StateMessageChecker)
+        Debug.LogWarning(IntTypeStateOfGhostEnemy);
+        switch (IntTypeStateOfGhostEnemy)
         {
-            switch (bT_SwitchStateMessage.IntTypeStateOfGhostEnemy)
-            {
-                case 1:
-                    ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
-                    break;
-                case 2:
-                    ghostEnemyState = GhostEnemyState.GhostEnemy_MOVEMENT;
-                    break;
-                case 3:
-                    ghostEnemyState = GhostEnemyState.GhostEnemy_FIGHT;
-                    break;
-                default:
-                    break;
-            }
-            StateMessageChecker = false;
+            case 1:
+                ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
+                break;
+            case 2:
+                ghostEnemyState = GhostEnemyState.GhostEnemy_MOVEMENT;
+                break;
+            case 3:
+                ghostEnemyState = GhostEnemyState.GhostEnemy_FIGHT;
+                break;
+            default:
+                break;
         }
     }
+    //void getBT_Massage(BT_SwitchStateMessage bT_SwitchStateMessage)
+    //{
+    //    switch (IntTypeStateOfGhostEnemy)
+    //    {
+    //        case 1:
+    //            ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
+    //            break;
+    //        case 2:
+    //            ghostEnemyState = GhostEnemyState.GhostEnemy_MOVEMENT;
+    //            break;
+    //        case 3:
+    //            ghostEnemyState = GhostEnemyState.GhostEnemy_FIGHT;
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
 }

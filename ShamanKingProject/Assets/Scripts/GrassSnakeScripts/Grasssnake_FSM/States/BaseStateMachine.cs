@@ -14,7 +14,7 @@ namespace AI.FSM
         private ExternalBehavior[] externalBehaviorTrees;
 
         //現在的state
-        public BaseState CurrentState { get; set; }
+        public BaseState CurrentState;
 
 
         private void Awake()
