@@ -25,21 +25,21 @@ public class GhostEnemyVariables : MonoBehaviour
     public GhostEnemyState ghostEnemyState;
     //public ReactiveProperty<GhostEnemyState> ghostEnemyState = new ReactiveProperty<GhostEnemyState>(GhostEnemyState.GhostEnemy_IDLE);
     //public ReactiveProperty<bool> StateMessageChecker;
-    public bool WanderTrigger { get { return wanderTrigger; } set { wanderTrigger = value; } }
+    public bool WanderTrigger { get { return wanderTrigger_; } set { wanderTrigger_ = value; } }
     [SerializeField]
-    private bool wanderTrigger;
-    public bool UpdatePosTrigger { get { return updatePosTrigger; } set { updatePosTrigger = value; } }
+    private bool wanderTrigger_;
+    public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
     [SerializeField]
-    private bool updatePosTrigger;
-    public bool StunTrigger { get { return stunTrigger; } set { stunTrigger = value; } }
+    private bool updatePosTrigger_;
+    public bool StunTrigger { get { return stunTrigger_; } set { stunTrigger_ = value; } }
     [SerializeField]
-    private bool stunTrigger;
+    private bool stunTrigger_;
     //public bool StateMessageChecker { get { return stateMessageChecker; } set { stateMessageChecker = value; } }
     //[SerializeField]
     //private bool stateMessageChecker;
-    public int IntTypeStateOfGhostEnemy { get { return intTypeStateOfGhostEnemy; } set { intTypeStateOfGhostEnemy = value; } }
+    public int IntTypeStateOfGhostEnemy { get { return intTypeStateOfGhostEnemy_; } set { intTypeStateOfGhostEnemy_ = value; } }
     [SerializeField]
-    private int intTypeStateOfGhostEnemy;
+    private int intTypeStateOfGhostEnemy_;
 
     void Start()
     {
@@ -51,7 +51,7 @@ public class GhostEnemyVariables : MonoBehaviour
         {
             if (cmd.AttackTarget == this.gameObject)
             {
-                stunTrigger = true;
+                stunTrigger_ = true;
 
             }
         });
@@ -59,13 +59,13 @@ public class GhostEnemyVariables : MonoBehaviour
         {
             if (cmd.AnimationEventName == "Player_Pull_Finish")
             {
-                stunTrigger = false;
+                stunTrigger_ = false;
             }
         });
     }
     void Update()
     {
-        Debug.LogWarning(IntTypeStateOfGhostEnemy);
+        //Debug.LogWarning(IntTypeStateOfGhostEnemy);
         switch (IntTypeStateOfGhostEnemy)
         {
             case 1:
