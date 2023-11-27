@@ -11,7 +11,7 @@ namespace Datamanager
         public DataGroup DataGroup = new DataGroup();
         public async Task InitDataMananger()
         {
-            var CSVString = await AddressableSearcher.GetAddressableAssetAsync<TextAsset>("CSV/BoomerCSV");
+            var CSVString = await AddressableSearcher.GetAddressableAssetAsync<TextAsset>("CSV/ShamanKingCSV");
             var stringData = await CSVClassGenerator.GenClassArrayByCSV<DatasPath>(CSVString);
             PropertyInfo[] propertyInfo = typeof(DataGroup).GetProperties();
             for (int i = 0; i < propertyInfo.Length; i++)
@@ -28,7 +28,7 @@ namespace Datamanager
             }
             await UniTask.Delay(100);
             //GameManager.Instance.GameFinishInit = true;
-            //
+            Debug.Log("FinishInit");
         }
         public T GetDataByID<T>(int id) where T : class
         {

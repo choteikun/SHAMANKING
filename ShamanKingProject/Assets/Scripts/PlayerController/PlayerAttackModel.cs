@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Datamanager;
 
 [System.Serializable]
 public class PlayerAttackModel
@@ -219,7 +220,7 @@ public class PlayerAttackModel
     {
         //呼叫動畫片段
         animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[actionID].SkillName, 0.25f);
-        Debug.Log("技能施放成功!");
+        Debug.Log("技能施放成功!");        
         PassedFrameAfterAttack = 0;
         currentInputCount_++;
         comboDeclaim = false;

@@ -7,6 +7,7 @@ namespace Datamanager
 {
     public class DataGroup
     {
+        public DataBase<GameEffectTemplete> GameEffectDataBase => TryGetDataBase<GameEffectTemplete>(); 
         //public DataBase<PlayerDataBaseTemplete> PlayerDataBase => TryGetDataBase<PlayerDataBaseTemplete>(); //最重要
         //public DataBase<MapDataStringTemplete> MapDataBase => TryGetDataBase<MapDataStringTemplete>(); //遊戲
         //public DataBase<CubeDataTemplete> CubeDataBase => TryGetDataBase<CubeDataTemplete>(); //遊戲
@@ -68,6 +69,25 @@ namespace Datamanager
     }
 }
 
+public class GameEffectTemplete : IWithIdData, IWithNameData
+{
+    public string Name { get; set; }
+    public int Id { get; set; }
+    public GameObject PrefabPath { get; set; }
+
+    public GameEffectTemplete Clone()
+    {
+        var result = new GameEffectTemplete()
+        {
+            Name = Name,
+            Id = Id,
+            PrefabPath = PrefabPath
+        };
+        return result;
+    }
+}
+
+#region Boomer
 public class MapDataStringTemplete : IWithIdData, IWithNameData
 {
     public string Name { get; set; }
@@ -254,3 +274,6 @@ public class EffectTemplete : IWithNameData
         };
     }
 }
+
+#endregion
+
