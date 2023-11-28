@@ -15,6 +15,7 @@ Shader "Fire"
 		_Float6("火焰scale2", Float) = 3
 		_TilingSpeed("Tiling&Speed", Vector) = (2,1,0,-1)
 		_TilingSpeed02("Tiling&Speed02", Vector) = (2,1,0,-1)
+		_Float8("火焰範圍", Range( 0 , 1)) = 0.5
 
 	}
 	
@@ -87,6 +88,7 @@ Shader "Fire"
 			uniform float4 _TilingSpeed;
 			uniform float _Float6;
 			uniform float4 _TilingSpeed02;
+			uniform float _Float8;
 					float2 voronoihash21( float2 p )
 					{
 						
@@ -194,7 +196,7 @@ Shader "Fire"
 				#endif
 				float temp_output_8_0 = ( _Float2 + _Float1 );
 				float mulTime23 = _Time.y * 3.0;
-				float time21 = mulTime23;
+				float time21 = ( mulTime23 * 1.0 );
 				float2 voronoiSmoothId21 = 0;
 				float2 appendResult31 = (float2(_TilingSpeed.z , _TilingSpeed.w));
 				float2 appendResult30 = (float2(_TilingSpeed.x , _TilingSpeed.y));
@@ -217,7 +219,8 @@ Shader "Fire"
 				float voroi32 = voronoi32( coords32, time32, id32, uv32, 0, voronoiSmoothId32 );
 				float blendOpSrc43 = voroi21;
 				float blendOpDest43 = voroi32;
-				float temp_output_45_0 = saturate( ( saturate( (( blendOpDest43 > 0.5 ) ? ( 1.0 - 2.0 * ( 1.0 - blendOpDest43 ) * ( 1.0 - blendOpSrc43 ) ) : ( 2.0 * blendOpDest43 * blendOpSrc43 ) ) )) );
+				float2 texCoord52 = i.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float temp_output_45_0 = saturate( ( ( saturate( (( blendOpDest43 > 0.5 ) ? ( 1.0 - 2.0 * ( 1.0 - blendOpDest43 ) * ( 1.0 - blendOpSrc43 ) ) : ( 2.0 * blendOpDest43 * blendOpSrc43 ) ) )) * (1.0 + (distance( float2( 0.5,0.5 ) , texCoord52 ) - 0.0) * (0.0 - 1.0) / (_Float8 - 0.0)) ) );
 				float4 lerpResult18 = lerp( _Color1 , _Color2 , step( ( _Float3 + temp_output_8_0 ) , temp_output_45_0 ));
 				float4 lerpResult10 = lerp( _Color0 , lerpResult18 , step( temp_output_8_0 , temp_output_45_0 ));
 				float4 appendResult7 = (float4(lerpResult10.rgb , step( ( _Float1 * 0.5 ) , temp_output_45_0 )));
@@ -237,9 +240,7 @@ Shader "Fire"
 Version=19109
 Node;AmplifyShaderEditor.VoronoiNode;21;-1120,752;Inherit;True;0;0;1;0;1;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;25;-1312,784;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;24;-1472,944;Inherit;False;Property;_Float4;火焰scale;8;0;Create;False;0;0;0;False;0;False;6;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;23;-1504,704;Inherit;False;1;0;FLOAT;3;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;26;-1488,816;Inherit;False;Constant;_Float5;Float 5;9;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PannerNode;28;-1328,512;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;30;-1808,480;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;31;-1808,576;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
@@ -264,7 +265,6 @@ Node;AmplifyShaderEditor.RangedFloatNode;1;912,32;Inherit;False;Property;_Float0
 Node;AmplifyShaderEditor.ColorNode;19;144,80;Inherit;False;Property;_Color2;最內顏色;7;1;[HDR];Create;False;0;0;0;False;0;False;0,0,0,1;0.8490566,0.8490566,0.8490566,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LerpOp;18;448,128;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.LerpOp;10;656,176;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SaturateNode;45;-290.259,942.6036;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;15;-534,246;Inherit;False;Property;_Float3;內內火焰;6;0;Create;False;0;0;0;False;0;False;0;1;0;0.5;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;9;-533,349;Inherit;False;Property;_Float2;內焰範圍;4;0;Create;False;0;0;0;False;0;False;0;0.71;0;0.5;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;2;-553.6398,593.6135;Inherit;True;Property;_TextureSample0;Texture Sample 0;1;0;Create;True;0;0;0;False;0;False;-1;None;69eeab36b534786489fab6a670d6ac8c;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -275,11 +275,18 @@ Node;AmplifyShaderEditor.RangedFloatNode;5;-596.2404,449.7089;Inherit;False;Prop
 Node;AmplifyShaderEditor.SimpleAddOpNode;8;-252,409;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;14;-145.3799,251.4682;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;-128.1699,564.7766;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0.5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector2Node;50;-947.1261,1870.999;Inherit;False;Constant;_Vector0;Vector 0;12;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.TextureCoordinatesNode;52;-996.4166,2055.086;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.DistanceOpNode;51;-591.4166,1971.087;Inherit;False;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;50;-831.1111,1379.566;Inherit;False;Constant;_Vector0;Vector 0;12;0;Create;True;0;0;0;False;0;False;0.5,0.5;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.TextureCoordinatesNode;52;-880.4016,1563.653;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.DistanceOpNode;51;-561.4018,1390.654;Inherit;True;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;53;-264.8123,1458.484;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;1;False;4;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;56;-74.07013,1171.546;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;55;340.7724,1249.154;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;54;-598.5246,1706.859;Inherit;False;Property;_Float8;火焰範圍;12;0;Create;False;0;0;0;False;0;False;0.5;0.5;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;26;-1488,816;Inherit;False;Constant;_Float5;Float 5;9;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;24;-1472,944;Inherit;False;Property;_Float4;火焰scale;8;0;Create;False;0;0;0;False;0;False;6;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;45;148.0148,873.8624;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 WireConnection;21;0;28;0
-WireConnection;21;1;23;0
+WireConnection;21;1;25;0
 WireConnection;21;2;24;0
 WireConnection;25;0;23;0
 WireConnection;25;1;26;0
@@ -313,7 +320,6 @@ WireConnection;18;2;17;0
 WireConnection;10;0;6;0
 WireConnection;10;1;18;0
 WireConnection;10;2;12;0
-WireConnection;45;0;43;0
 WireConnection;4;0;47;0
 WireConnection;4;1;45;0
 WireConnection;17;0;14;0
@@ -327,5 +333,10 @@ WireConnection;14;1;8;0
 WireConnection;47;0;5;0
 WireConnection;51;0;50;0
 WireConnection;51;1;52;0
+WireConnection;53;0;51;0
+WireConnection;53;2;54;0
+WireConnection;56;0;43;0
+WireConnection;56;1;53;0
+WireConnection;45;0;56;0
 ASEEND*/
-//CHKSM=D6BCBD5AF7469F28E4F1B9871E7AA66BBD21C7FE
+//CHKSM=407B5DD777BAA407CB2E61BC6F69A77EE66AFC83
