@@ -23,6 +23,8 @@ public enum GhostEnemyState
 public class GhostEnemyVariables : MonoBehaviour
 {
     public GhostEnemyState ghostEnemyState;
+
+
     //public ReactiveProperty<GhostEnemyState> ghostEnemyState = new ReactiveProperty<GhostEnemyState>(GhostEnemyState.GhostEnemy_IDLE);
     //public ReactiveProperty<bool> StateMessageChecker;
     public bool WanderTrigger { get { return wanderTrigger_; } set { wanderTrigger_ = value; } }
@@ -34,6 +36,7 @@ public class GhostEnemyVariables : MonoBehaviour
     public bool StunTrigger { get { return stunTrigger_; } set { stunTrigger_ = value; } }
     [SerializeField]
     private bool stunTrigger_;
+    
     //public bool StateMessageChecker { get { return stateMessageChecker; } set { stateMessageChecker = value; } }
     //[SerializeField]
     //private bool stateMessageChecker;
@@ -46,13 +49,12 @@ public class GhostEnemyVariables : MonoBehaviour
         //ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
 
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
-
+        
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
         {
             if (cmd.AttackTarget == this.gameObject)
             {
                 stunTrigger_ = true;
-
             }
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
@@ -81,8 +83,13 @@ public class GhostEnemyVariables : MonoBehaviour
                 break;
         }
     }
-    //void getBT_Massage(BT_SwitchStateMessage bT_SwitchStateMessage)
+    //public void OnUpdateRootMotion(Animator anim)
     //{
         
+    //    transform.position = anim.transform.position;
+    //}
+    //void getBT_Massage(BT_SwitchStateMessage bT_SwitchStateMessage)
+    //{
+
     //}
 }

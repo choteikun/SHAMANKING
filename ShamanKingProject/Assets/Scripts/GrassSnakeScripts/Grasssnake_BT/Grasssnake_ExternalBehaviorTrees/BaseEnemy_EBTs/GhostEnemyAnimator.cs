@@ -25,4 +25,8 @@ public class GhostEnemyAnimator : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "EndOfHurtAnimation"});
     }
+    //private void OnAnimatorMove()
+    //{
+    //    SendMessageUpwards("OnUpdateRootMotion", anim);
+    //}
 }

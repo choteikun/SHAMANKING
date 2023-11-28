@@ -1,5 +1,6 @@
 ﻿using BehaviorDesigner.Runtime.Tasks;
 using Gamemanager;
+using UnityEngine;
 
 [TaskCategory("Snake")]
 public class GhostBeHurtAnimationEventListener : Action
