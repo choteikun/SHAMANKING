@@ -29,12 +29,12 @@ public class PlayerAttacker : MonoBehaviour
     }
     private void Update()
     {
-        if (attacking_)
-        {
-            var sphereArray =  searchObjectInAttackRange();
-            var rayList = searchObjectInAttackRangeByRayCast();
-            sendAttackSuccessCommand(sphereArray, rayList);
-        }
+        //if (attacking_)
+        //{
+        //    var sphereArray =  searchObjectInAttackRange();
+        //    var rayList = searchObjectInAttackRangeByRayCast();
+        //    sendAttackSuccessCommand(sphereArray, rayList);
+        //}
         if (throwAttacking_)
         {
             searchObjectInGrabRange();
