@@ -2,6 +2,9 @@ using Gamemanager;
 using UnityEngine;
 using UniRx;
 using System;
+using UnityEngine.UI;
+using PixelCrushers.DialogueSystem.UnityGUI;
+using UnityEngine.AI;
 
 /// <summary>
 /// 供狀態機與行為樹同步的GhostEnemyState
@@ -23,7 +26,7 @@ public enum GhostEnemyState
 public class GhostEnemyVariables : MonoBehaviour
 {
     public GhostEnemyState ghostEnemyState;
-
+    private NavMeshAgent navMeshAgent_;
 
     //public ReactiveProperty<GhostEnemyState> ghostEnemyState = new ReactiveProperty<GhostEnemyState>(GhostEnemyState.GhostEnemy_IDLE);
     //public ReactiveProperty<bool> StateMessageChecker;
@@ -49,7 +52,8 @@ public class GhostEnemyVariables : MonoBehaviour
         //ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
 
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
-        
+
+        navMeshAgent_ = GetComponent<NavMeshAgent>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
         {
             if (cmd.AttackTarget == this.gameObject)
@@ -83,11 +87,10 @@ public class GhostEnemyVariables : MonoBehaviour
                 break;
         }
     }
-    //public void OnUpdateRootMotion(Animator anim)
-    //{
-        
-    //    transform.position = anim.transform.position;
-    //}
+    public void OnUpdateRootMotion(Animator anim)
+    {
+        navMeshAgent_.Move(anim.deltaPosition);
+    }
     //void getBT_Massage(BT_SwitchStateMessage bT_SwitchStateMessage)
     //{
 
