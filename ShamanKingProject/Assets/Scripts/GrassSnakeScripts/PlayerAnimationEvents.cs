@@ -2,6 +2,7 @@ using Gamemanager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
@@ -75,5 +76,15 @@ public class PlayerAnimationEvents : MonoBehaviour
     public void PlayerAnimationMovementEvent(SO_AttackBlockBase attackBlock)
     {
         GameManager.Instance.MainGameEvent.Send(new AnimationMovementEventCommand() {Distance = attackBlock.Distance, Frame = attackBlock.Frame });
+    }
+
+    public void AnimationSpawnAttackColliderCommand(string spawnCommand)
+    {
+        var parts = spawnCommand.Split(",");
+
+        var attackCollider = int.Parse( parts[0]);
+        var effectId = int.Parse(parts[1]);
+
+        GameManager.Instance.MainGameEvent.Send(new AnimationCallAttackEffectCommand() { ColliderId = attackCollider, SpawnEffectId = effectId,CommandSender = this.gameObject,AttackColliderType = AttackColliderType.Player });
     }
 }

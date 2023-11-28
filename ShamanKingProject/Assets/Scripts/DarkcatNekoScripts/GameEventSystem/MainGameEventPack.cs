@@ -138,4 +138,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<SystemResetTarget> OnSystemResetTarget => getSubject<SystemResetTarget>();
 
     public IObservable<StartRollMovementAnimationEvent> OnStartRollMovementAnimation => getSubject<StartRollMovementAnimationEvent>();
+
+    public IObservable<AnimationCallAttackEffectCommand> OnAnimationCallAttackEffect => getSubject<AnimationCallAttackEffectCommand>();
 }

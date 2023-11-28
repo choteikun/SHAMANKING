@@ -254,6 +254,20 @@ namespace Gamemanager
         public int Frame;
     }
 
+    public class AnimationCallAttackEffectCommand:GameEventMessageBase
+    {
+        public int ColliderId;
+        public int SpawnEffectId;
+        public GameObject CommandSender;
+        public AttackColliderType AttackColliderType;
+    }
+
+    public enum AttackColliderType
+    {
+        Player,
+        Monster,
+    }
+
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {
