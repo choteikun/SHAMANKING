@@ -78455,30 +78455,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: -0.14995956
-        y: 2.192236
-        z: -0.36239624
-      - x: -0.15332794
-        y: 2.0724068
-        z: -0.3717041
-      - x: -0.15669632
-        y: 1.9525776
-        z: -0.3810196
-      - x: -0.1600666
-        y: 1.8327484
-        z: -0.39032745
-      - x: -0.16343689
-        y: 1.7129192
-        z: -0.39964294
-      - x: -0.16680527
-        y: 1.59309
-        z: -0.4089508
-      - x: -0.17017365
-        y: 1.4732571
-        z: -0.41827393
-      - x: -0.17354202
-        y: 1.3534279
-        z: -0.42758942
+      - x: 0
+        y: 2.81386
+        z: -0.26994324
+      - x: 0
+        y: 2.7135677
+        z: -0.3362732
+      - x: 0
+        y: 2.6132755
+        z: -0.40259552
+      - x: 0
+        y: 2.5129833
+        z: -0.46891785
+      - x: 0
+        y: 2.412691
+        z: -0.53523254
+      - x: 0
+        y: 2.3124008
+        z: -0.6015625
+      - x: 0
+        y: 2.2121086
+        z: -0.6678848
+      - x: 0
+        y: 2.1118164
+        z: -0.7342148
       attributes:
       - Value: 1
       - Value: 2
@@ -78488,7 +78488,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.12024231
+      maxConnectionDistance: 0.120242216
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -78515,6 +78515,8 @@ GameObject:
   - component: {fileID: 1241964954530839939}
   - component: {fileID: 1241964954530839938}
   - component: {fileID: 1241964954530839941}
+  - component: {fileID: 1241964954530839943}
+  - component: {fileID: 1241964954530839942}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -78568,7 +78570,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241964954530839936}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.077681325, y: -0.37443995, z: -0.619696}
+  m_LocalPosition: {x: 0.07767191, y: -0.37444046, z: -0.6196968}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78606,6 +78608,82 @@ MonoBehaviour:
   m_Damping: 0.2
   m_DampingWhenOccluded: 0.2
   m_OptimalTargetDistance: 0
+--- !u!114 &1241964954530839942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241964954530839936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 0
+    m_ImpulseShape: 2
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &1241964954530839943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241964954530839936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!4 &1241964954538840090
 Transform:
   m_ObjectHideFlags: 0
@@ -79199,7 +79277,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241964954673168814}
-  m_LocalRotation: {x: 0.19963953, y: -0.6438113, z: 0.1793676, w: 0.71657413}
+  m_LocalRotation: {x: 0.19963835, y: -0.64381593, z: 0.1793689, w: 0.7165699}
   m_LocalPosition: {x: 50.517952, y: 10.5000725, z: 2.539519}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -80157,30 +80235,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: -0.5381317
-        y: 3.465374
-        z: -0.7519989
-      - x: -0.5625324
-        y: 3.2739735
-        z: -0.8670654
-      - x: -0.5446663
-        y: 3.0815163
-        z: -0.8903885
-      - x: -0.52223015
-        y: 2.8889465
-        z: -0.9038086
-      - x: -0.4952278
-        y: 2.6962624
-        z: -0.9072952
-      - x: -0.47164917
-        y: 2.5036602
-        z: -0.9182358
-      - x: -0.44978523
-        y: 2.3111057
-        z: -0.9328842
-      - x: -0.4250641
-        y: 2.1184769
-        z: -0.9413452
+      - x: 0
+        y: 4.094433
+        z: -0.42803955
+      - x: -0.0000019073486
+        y: 3.9000988
+        z: -0.54074097
+      - x: 0
+        y: 3.7057629
+        z: -0.5524521
+      - x: -0.0000019073486
+        y: 3.511425
+        z: -0.55322266
+      - x: 0
+        y: 3.317091
+        z: -0.5430832
+      - x: 0
+        y: 3.122755
+        z: -0.54113007
+      - x: -0.0000019073486
+        y: 2.928421
+        z: -0.5432739
+      - x: -0.0000019073486
+        y: 2.734085
+        z: -0.53860474
       attributes:
       - Value: 1
       - Value: 2
@@ -80190,7 +80268,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.22465499
+      maxConnectionDistance: 0.22464934
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -97820,6 +97898,7 @@ GameObject:
   - component: {fileID: 5717628474718875027}
   - component: {fileID: 5717628474718875026}
   - component: {fileID: 5717628474718875028}
+  - component: {fileID: 5717628474718875029}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -110626,6 +110705,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88037f0aea81b44f974e5309d16b4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5717628474718875029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905203264908605227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 795f87324c94736468596efbe509bb68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayFrame_: 10
 --- !u!1 &5725918940180074747
 GameObject:
   m_ObjectHideFlags: 0
@@ -113927,12 +114019,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
-    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
-    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
-    more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
