@@ -23,12 +23,13 @@ public class FirstBossVariables : MonoBehaviour
     private int intTypeStateOfFirstBoss_;
     public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
     private bool updatePosTrigger_;
+    public int FaceChangeCounter { get { return faceChangeCounter_; } set { faceChangeCounter_ = value; } }
+    private int faceChangeCounter_;
     public int MeleeAtkCounter { get { return meleeAtkCounter_; } set { meleeAtkCounter_ = value; } }
     private int meleeAtkCounter_;
     public int RangeAtkCounter { get { return rangedAtkCounter_; } set { rangedAtkCounter_ = value; } }
     private int rangedAtkCounter_;
-    public int FaceChangeCounter { get { return faceChangeCounter_; } set { faceChangeCounter_ = value; } }
-    private int faceChangeCounter_;
+   
 
     void Start()
     {
