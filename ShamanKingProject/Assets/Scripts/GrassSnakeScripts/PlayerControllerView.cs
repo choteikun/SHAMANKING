@@ -192,7 +192,7 @@ public class PlayerControllerView : MonoBehaviour
         //playerModel_.transform.LookAt(final);
 
         
-        this.transform.DOMove(final, 0.25f).SetEase(Ease.InSine);
+        this.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
         DOVirtual.Float(-0.5f, 1.5f, 0.1f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
             Debug.Log(currentParams);
@@ -203,7 +203,7 @@ public class PlayerControllerView : MonoBehaviour
                 item.SetVector("_DissolveParams", currentParams);
             }
         });
-        await UniTask.Delay(100);
+        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
             Debug.Log(currentParams);
@@ -251,6 +251,8 @@ public class Player_Stats
 {
     [Tooltip("玩家瞬移距離")]
     public float Player_DodgeDistance;
+    [Tooltip("玩家瞬移速度")]
+    public float Player_DodgeSpeed;
 
     [Tooltip("玩家移動速度")]
     public float Player_Speed;
