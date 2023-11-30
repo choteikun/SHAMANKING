@@ -1,10 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
+using Datamanager;
 using DG.Tweening;
 using Gamemanager;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.DebugUI;
 //using UnityEngine.InputSystem.Editor;
 
 public class GamepadControllerView : MonoBehaviour
@@ -31,10 +31,12 @@ public class GamepadControllerView : MonoBehaviour
 
     private async void Start()
     {
-        if (isDebuging_)input_.SwitchCurrentActionMap("MainGameplay");
+        var data = GameContainer.Get<DataManager>();//建置的時候記得刪掉
+        await data.InitDataMananger();
+        if (isDebuging_) input_.SwitchCurrentActionMap("MainGameplay");
         Debug.Log("start");
         await UniTask.Delay(500);
-        
+
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { isAttacking_ = false; Debug.Log("finishSend"); });
@@ -143,7 +145,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerJump()
     {
-        if (isAiming_||isAttacking_) return;
+        if (isAiming_ || isAttacking_) return;
         isJumping_ = true;
         GameManager.Instance.MainGameEvent.Send(new PlayerJumpButtonCommand() { });
         Debug.Log("Jump!");
@@ -178,10 +180,10 @@ public class GamepadControllerView : MonoBehaviour
     }
     async void OnPlayerHeavyAttack()
     {
-        if (isAiming_|| isJumping_) return;
+        if (isAiming_ || isJumping_) return;
         await UniTask.DelayFrame(1);
-            isAttacking_ = true;
-            GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() { });
+        isAttacking_ = true;
+        GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() { });
         Debug.Log("Attack!");
     }
 
@@ -220,7 +222,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnNextPage()
     {
-        GameManager.Instance.MainGameEvent.Send(new PlayerTutorialNextPageCommand() { TutorialID = nowTutorial_});
+        GameManager.Instance.MainGameEvent.Send(new PlayerTutorialNextPageCommand() { TutorialID = nowTutorial_ });
     }
 
     void OnThrowAttack()
