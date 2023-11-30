@@ -203,7 +203,7 @@ public class PlayerControllerView : MonoBehaviour
                 item.SetVector("_DissolveParams", currentParams);
             }
         });
-        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));
+        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000                                            ) - 100));
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
             Debug.Log(currentParams);
