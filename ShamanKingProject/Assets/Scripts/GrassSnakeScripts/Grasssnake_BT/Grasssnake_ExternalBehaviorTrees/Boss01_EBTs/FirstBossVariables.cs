@@ -38,6 +38,9 @@ public class FirstBossVariables : MonoBehaviour
     public float FirstBossHp { get { return firstBossHp_; } set { firstBossHp_ = value; } }
     [SerializeField, Tooltip("Boss血量")]
     private float firstBossHp_;
+    public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
+    [SerializeField, Tooltip("與玩家的距離")]
+    private float distanceFromPlayer_;
     public float FaceChangeProbability { get { return faceChangeProbability_; } set { faceChangeProbability_ = value; } }
     [SerializeField, Tooltip("Boss換臉機率")]
     private float faceChangeProbability_;
@@ -48,12 +51,18 @@ public class FirstBossVariables : MonoBehaviour
     public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
     private bool updatePosTrigger_;
 
+    public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
+    [SerializeField, Tooltip("PlayerObject")]
+    private GameObject playerObj_;
+
     void Start()
     {
-
+        playerObj_ = GameObject.FindWithTag("Player").gameObject;
+        IntTypeStateOfFirstBoss = 2;
     }
     void Update()
     {
+        DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
         switch (IntTypeStateOfFirstBoss)
         {
             case 1:
