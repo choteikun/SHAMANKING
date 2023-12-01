@@ -11,6 +11,6 @@ public class ReaTimePlayerData
     public float GhostSoulGageMaxAmount = 400;
     public float PlayerMaxHealthPoint = 100;
     public float PlayerNowHealthPoint = 100;
-    public float PlayerBasicAttack = 20;
+    public float PlayerBasicAttackPercentage = 1;
  
 }

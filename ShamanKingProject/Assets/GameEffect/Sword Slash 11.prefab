@@ -1,50 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2667535771490071518
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6564735464725585121}
-  - component: {fileID: 4562164224025899032}
-  m_Layer: 11
-  m_Name: Slash1-1 (1)
-  m_TagString: PlayerHitbox
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6564735464725585121
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2667535771490071518}
-  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -0, y: 0.059, z: 1.763}
-  m_LocalScale: {x: 0.28952563, y: 0.28110483, z: 0.28952563}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4115766046372933822}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 90, y: -90, z: 0}
---- !u!65 &4562164224025899032
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2667535771490071518}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.988407, y: 4.3226194, z: 0.4000001}
-  m_Center: {x: 0.6671063, y: -0.00000011920929, z: 0.000000007450581}
 --- !u!1 &3576113444521558562
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +115,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   lastFrame_: 3
-  collidePoint_: {fileID: 4562164224025899032}
+  minDamage_: 20
+  maxDamage_: 30
+  attackInputType_: 0
+  feedBackType_: 0
 --- !u!54 &4310078302272770511
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5094,7 +5052,6 @@ Transform:
   - {fileID: 4116277202469972096}
   - {fileID: 4116016224453619780}
   - {fileID: 3576113444521467394}
-  - {fileID: 6564735464725585121}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

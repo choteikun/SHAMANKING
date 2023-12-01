@@ -10,7 +10,11 @@ public class AttackColliderBehavior : MonoBehaviour
 
     [SerializeField] int lastFrame_;
 
-    [SerializeField] Collider collidePoint_;
+    [SerializeField] float minDamage_;
+    [SerializeField] float maxDamage_;
+
+    [SerializeField] AttackInputType attackInputType_;
+    [SerializeField] AttackFeedBackType feedBackType_;
     private async void Start()
     {
         await UniTask.DelayFrame(lastFrame_);
@@ -23,7 +27,14 @@ public class AttackColliderBehavior : MonoBehaviour
         {
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
             var collidePoint = other.ClosestPoint(this.gameObject.transform.position);
-            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = other.gameObject, AttackDamage = 20f });
+            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = other.gameObject, AttackDamage = getDamege(),AttackFeedBackType =feedBackType_,AttackInputType = attackInputType_ });
         }
+    }
+
+    float getDamege()
+    {
+        var damage = Random.Range(minDamage_, maxDamage_ + 1);
+        damage = damage * GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerBasicAttackPercentage;
+        return damage;
     }
 }

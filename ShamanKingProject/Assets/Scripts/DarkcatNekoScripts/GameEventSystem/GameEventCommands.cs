@@ -144,7 +144,14 @@ namespace Gamemanager
     {
         public Vector3 CollidePoint;
         public GameObject AttackTarget;
+        public AttackInputType AttackInputType;
         public float AttackDamage;
+        public AttackFeedBackType AttackFeedBackType;
+    }
+    public enum AttackFeedBackType
+    {
+        Light,
+        Heavy,
     }
     public class PlayerAttackSuccessResponse:GameEventMessageBase
     {

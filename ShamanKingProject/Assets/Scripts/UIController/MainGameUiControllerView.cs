@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainGameUiControllerView : MonoBehaviour
 {
-    [SerializeField] List<SpiritUIBehavior> spirits_;
+   
 
 
 }
