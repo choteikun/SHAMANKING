@@ -15,6 +15,10 @@ public class AttackColliderBehavior : MonoBehaviour
 
     [SerializeField] AttackInputType attackInputType_;
     [SerializeField] AttackFeedBackType feedBackType_;
+
+    [SerializeField] int attackAddSoul_;
+
+    [SerializeField] int hitEnemyCount_;
     private async void Start()
     {
         await UniTask.DelayFrame(lastFrame_);
@@ -27,7 +31,13 @@ public class AttackColliderBehavior : MonoBehaviour
         {
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
             var collidePoint = other.ClosestPoint(this.gameObject.transform.position);
-            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = other.gameObject, AttackDamage = getDamege(),AttackFeedBackType =feedBackType_,AttackInputType = attackInputType_ });
+            int soulAdded = attackAddSoul_;
+            if (hitEnemyCount_>0)
+            {
+                soulAdded = soulAdded / 4;
+            }
+            hitEnemyCount_++;
+            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = other.gameObject, AttackDamage = getDamege(),AttackFeedBackType =feedBackType_,AttackInputType = attackInputType_,AddSoulGage = soulAdded });
         }
     }
 

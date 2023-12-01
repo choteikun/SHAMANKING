@@ -32,7 +32,7 @@ public class EnemyBeHitTest : MonoBehaviour
     {
         if (cmd.AttackTarget == this.gameObject)
         {
-            if (!canGetHit_) return;
+            //if (!canGetHit_) return;
             canGetHit_ = false;
             healthPoint_ -= cmd.AttackDamage;
             onHitParticle_.transform.position = cmd.CollidePoint;

@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MainGameDebugUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] TextMeshProUGUI soulGageText_;
+
+    private void Start()
     {
-        
+        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSoulGageUpdate, cmd => { updateSoulGage(); });
     }
 
-    // Update is called once per frame
-    void Update()
+    void updateSoulGage()
     {
-        
+        soulGageText_.text = "SoulGage: " + GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount;
     }
 }

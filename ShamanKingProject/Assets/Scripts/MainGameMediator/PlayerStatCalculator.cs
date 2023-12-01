@@ -8,6 +8,6 @@ public static class PlayerStatCalculator
     {
         var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
         realTimePlayerData.GhostSoulGageCurrentAmount = Mathf.Clamp(realTimePlayerData.GhostSoulGageCurrentAmount + amount, 0, realTimePlayerData.GhostSoulGageMaxAmount);
-        GameManager.Instance.UIGameEvent.Send(new UISpiritUpdateCommand());
+        GameManager.Instance.UIGameEvent.Send(new UISoulGageUpdateCommand());
     }
 }

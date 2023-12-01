@@ -135,7 +135,7 @@ namespace Gamemanager
         public HitableItemTest HitInfo;
     }
 
-    public class UISpiritUpdateCommand:GameEventMessageBase
+    public class UISoulGageUpdateCommand:GameEventMessageBase
     {
 
     }
@@ -146,6 +146,7 @@ namespace Gamemanager
         public GameObject AttackTarget;
         public AttackInputType AttackInputType;
         public float AttackDamage;
+        public int AddSoulGage;
         public AttackFeedBackType AttackFeedBackType;
     }
     public enum AttackFeedBackType
@@ -158,11 +159,13 @@ namespace Gamemanager
         public Vector3 CollidePoint;
         public GameObject AttackTarget;
         public float AttackDamage;
+        public int AttackAddSoul;
         public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd)
         {
             CollidePoint = cmd.CollidePoint;
             AttackTarget = cmd.AttackTarget;
             AttackDamage = cmd.AttackDamage;
+            AttackAddSoul = cmd.AddSoulGage;
         }
     }
 

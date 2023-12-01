@@ -6,5 +6,5 @@ using UnityEngine;
 
 public class UIGameEventPack : GameEventPack
 {
-    public IObservable<UISpiritUpdateCommand> OnSpiritUpdate => getSubject<UISpiritUpdateCommand>();
+    public IObservable<UISoulGageUpdateCommand> OnSoulGageUpdate => getSubject<UISoulGageUpdateCommand>();
 }
