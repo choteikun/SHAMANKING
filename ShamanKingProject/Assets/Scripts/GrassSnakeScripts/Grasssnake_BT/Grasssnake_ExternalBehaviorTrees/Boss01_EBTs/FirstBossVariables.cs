@@ -39,14 +39,28 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("Boss血量")]
     private float firstBossHp_;
     public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
-    [SerializeField, Tooltip("與玩家的距離")]
+    [Tooltip("與玩家的距離")]
     private float distanceFromPlayer_;
     public float FaceChangeProbability { get { return faceChangeProbability_; } set { faceChangeProbability_ = value; } }
     [SerializeField, Tooltip("Boss換臉機率")]
     private float faceChangeProbability_;
-    public float SkillProbability { get { return skillProbability_; } set { skillProbability_ = value; } }
-    [SerializeField, Tooltip("Boss技能機率")]
-    private float skillProbability_;
+
+    #region -Boss Skill Probability-
+    public float TripleScratchProbability { get { return tripleScratchProbability_; } set { tripleScratchProbability_ = value; } }
+    [Tooltip("Boss三連爪擊機率")]
+    private float tripleScratchProbability_;
+    public float FireTackleProbability { get { return fireTackleProbability_; } set { fireTackleProbability_ = value; } }
+    [Tooltip("Boss閃焰衝撞機率")]
+    private float fireTackleProbability_;
+    public float FlamethrowerProbability { get { return flamethrowerProbability_; } set { flamethrowerProbability_ = value; } }
+    [Tooltip("Boss噴射火焰機率")]
+    private float flamethrowerProbability_;
+    public float FireTrackProbability { get { return fireTrackProbability_; } set { fireTrackProbability_ = value; } }
+    [Tooltip("Boss閃焰衝撞機率")]
+    private float fireTrackProbability_;
+
+    #endregion
+
 
     public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
     private bool updatePosTrigger_;
@@ -86,19 +100,67 @@ public class FirstBossVariables : MonoBehaviour
                 FaceChangeProbability = 0;
                 break;
             case 2:
-                FaceChangeProbability = 0;
-                break;
-            case 3:
                 FaceChangeProbability = 60;
                 break;
-            case 4:
+            case 3:
                 FaceChangeProbability = 80;
                 break;
-            case 5:
+            case 4:
                 FaceChangeProbability = 100;
                 break;
             default:
                 break;
         }
+        switch (MeleeAtkCounter)
+        {
+            case 0:
+                TripleScratchProbability = 0;
+                FireTackleProbability = 0;
+                break;
+            case 1:
+                TripleScratchProbability = 0;
+                FireTackleProbability = 0;
+                break;
+            case 2:
+                TripleScratchProbability = 20;
+                FireTackleProbability = 20;
+                break;
+            case 3:
+                TripleScratchProbability = 35;
+                FireTackleProbability = 35;
+                break;
+            case 4:
+                TripleScratchProbability = 50;
+                FireTackleProbability = 50;
+                break;
+            default:
+                break;
+        }
+        switch (RangeAtkCounter)
+        {
+            case 0:
+                FlamethrowerProbability = 0;
+                FireTrackProbability = 0;
+                break;
+            case 1:
+                FlamethrowerProbability = 0;
+                FireTrackProbability = 0;
+                break;
+            case 2:
+                FlamethrowerProbability = 20;
+                FireTrackProbability = 20;
+                break;
+            case 3:
+                FlamethrowerProbability = 35;
+                FireTrackProbability = 35;
+                break;
+            case 4:
+                FlamethrowerProbability = 50;
+                FireTrackProbability = 50;
+                break;
+            default:
+                break;
+        }
+
     }
 }
