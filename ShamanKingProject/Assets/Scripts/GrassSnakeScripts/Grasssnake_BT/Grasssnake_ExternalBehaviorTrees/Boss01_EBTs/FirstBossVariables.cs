@@ -34,6 +34,9 @@ public class FirstBossVariables : MonoBehaviour
     public int RangeAtkCounter { get { return rangedAtkCounter_; } set { rangedAtkCounter_ = value; } }
     [SerializeField, Tooltip("Boss遠程計時器")]
     private int rangedAtkCounter_;
+    public float ExplosionJudgmentTimer { get { return explosionJudgmentTimer_; } set { explosionJudgmentTimer_ = value; } }
+    [SerializeField, Tooltip("審判之炎爆計時器")]
+    private float explosionJudgmentTimer_;
 
     public float FirstBossHp { get { return firstBossHp_; } set { firstBossHp_ = value; } }
     [SerializeField, Tooltip("Boss血量")]
@@ -46,6 +49,9 @@ public class FirstBossVariables : MonoBehaviour
     private float faceChangeProbability_;
 
     #region -Boss Skill Probability-
+    public float ExplosionJudgmentProbability { get { return explosionJudgmentProbability_; } set { explosionJudgmentProbability_ = value; } }
+    [Tooltip("審判之炎爆機率")]
+    private float explosionJudgmentProbability_;
     public float TripleScratchProbability { get { return tripleScratchProbability_; } set { tripleScratchProbability_ = value; } }
     [Tooltip("Boss三連爪擊機率")]
     private float tripleScratchProbability_;
@@ -61,13 +67,17 @@ public class FirstBossVariables : MonoBehaviour
 
     #endregion
 
-
     public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
     private bool updatePosTrigger_;
+    public bool ExplosionJudgmentTrigger { get { return explosionJudgmentTrigger_; } set { explosionJudgmentTrigger_ = value; } }
+    [SerializeField, Tooltip("審判之炎爆觸發器")]
+    private bool explosionJudgmentTrigger_;
 
     public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
     [SerializeField, Tooltip("PlayerObject")]
     private GameObject playerObj_;
+
+
 
     void Start()
     {
@@ -77,6 +87,7 @@ public class FirstBossVariables : MonoBehaviour
     void Update()
     {
         DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
+        ExplosionJudgmentTimer += !ExplosionJudgmentTrigger ? 1 : 0;
         switch (IntTypeStateOfFirstBoss)
         {
             case 1:
@@ -100,13 +111,13 @@ public class FirstBossVariables : MonoBehaviour
                 FaceChangeProbability = 0;
                 break;
             case 2:
-                FaceChangeProbability = 60;
+                FaceChangeProbability = 0.6f;
                 break;
             case 3:
-                FaceChangeProbability = 80;
+                FaceChangeProbability = 0.8f;
                 break;
             case 4:
-                FaceChangeProbability = 100;
+                FaceChangeProbability = 1.0f;
                 break;
             default:
                 break;
@@ -122,16 +133,16 @@ public class FirstBossVariables : MonoBehaviour
                 FireTackleProbability = 0;
                 break;
             case 2:
-                TripleScratchProbability = 20;
-                FireTackleProbability = 20;
+                TripleScratchProbability = 0.2f;
+                FireTackleProbability = 0.2f;
                 break;
             case 3:
-                TripleScratchProbability = 35;
-                FireTackleProbability = 35;
+                TripleScratchProbability = 0.35f;
+                FireTackleProbability = 0.35f;
                 break;
             case 4:
-                TripleScratchProbability = 50;
-                FireTackleProbability = 50;
+                TripleScratchProbability = 0.5f;
+                FireTackleProbability = 0.5f;
                 break;
             default:
                 break;
@@ -147,20 +158,45 @@ public class FirstBossVariables : MonoBehaviour
                 FireTrackProbability = 0;
                 break;
             case 2:
-                FlamethrowerProbability = 20;
-                FireTrackProbability = 20;
+                FlamethrowerProbability = 0.2f;
+                FireTrackProbability = 0.2f;
                 break;
             case 3:
-                FlamethrowerProbability = 35;
-                FireTrackProbability = 35;
+                FlamethrowerProbability = 0.35f;
+                FireTrackProbability = 0.35f;
                 break;
             case 4:
-                FlamethrowerProbability = 50;
-                FireTrackProbability = 50;
+                FlamethrowerProbability = 0.5f;
+                FireTrackProbability = 0.5f;
                 break;
             default:
                 break;
         }
-
+        switch (ExplosionJudgmentTimer)
+        {
+            case 0:
+                ExplosionJudgmentProbability = 0;
+                ExplosionJudgmentTrigger = true;
+                break;
+            case 10:
+                ExplosionJudgmentProbability = 0;
+                ExplosionJudgmentTrigger = true;
+                break;
+            case 20:
+                ExplosionJudgmentProbability = 0.4f;
+                ExplosionJudgmentTrigger = true;
+                break;
+            case 30:
+                ExplosionJudgmentProbability = 0.75f;
+                ExplosionJudgmentTrigger = true;
+                break;
+            case 40:
+                ExplosionJudgmentProbability = 1.0f;
+                ExplosionJudgmentTrigger = true;
+                ExplosionJudgmentTimer = 0;
+                break;
+            default:
+                break;
+        }
     }
 }
