@@ -2,12 +2,14 @@ using Cysharp.Threading.Tasks;
 using Gamemanager;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class AttackColliderBehavior : MonoBehaviour
 {
     [SerializeField] LayerMask layerMask_;
-
+    [SerializeField] int startDelayFrame_;
     [SerializeField] int lastFrame_;
 
     [SerializeField] float minDamage_;
@@ -19,6 +21,8 @@ public class AttackColliderBehavior : MonoBehaviour
     [SerializeField] int attackAddSoul_;
 
     [SerializeField] int hitEnemyCount_;
+
+    [SerializeField] bool canTrigger_ = false;
     private async void Start()
     {
         await UniTask.DelayFrame(lastFrame_);
@@ -37,10 +41,15 @@ public class AttackColliderBehavior : MonoBehaviour
                 soulAdded = soulAdded / 4;
             }
             hitEnemyCount_++;
-            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = other.gameObject, AttackDamage = getDamege(),AttackFeedBackType =feedBackType_,AttackInputType = attackInputType_,AddSoulGage = soulAdded });
+            var command = new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = other.gameObject, AttackDamage = getDamege(), AttackFeedBackType = feedBackType_, AttackInputType = attackInputType_, AddSoulGage = soulAdded };
+            awaitSendAttackMessage(command);
         }
     }
-
+    async void awaitSendAttackMessage(PlayerAttackSuccessCommand cmd)
+    {
+        await UniTask.DelayFrame(startDelayFrame_);
+        GameManager.Instance.MainGameEvent.Send(cmd);
+    }
     float getDamege()
     {
         var damage = Random.Range(minDamage_, maxDamage_ + 1);

@@ -287,5 +287,7 @@ public enum AttackInputType
     JumpAttack,
     Throw,
     SpecialAttack,
+    ChainAttack,
 }
+
 
