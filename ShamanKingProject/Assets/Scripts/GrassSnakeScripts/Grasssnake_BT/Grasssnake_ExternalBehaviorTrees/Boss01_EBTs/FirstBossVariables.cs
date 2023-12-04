@@ -26,13 +26,13 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("檢查現在Boss的面具用的Int參數")]
     private int intTypeOfBossFace_;
     public int FaceChangeCounter { get { return faceChangeCounter_; } set { faceChangeCounter_ = value; } }
-    [SerializeField, Tooltip("Boss換臉計時器")]
+    [SerializeField, Tooltip("Boss換臉計數器")]
     private int faceChangeCounter_;
     public int MeleeAtkCounter { get { return meleeAtkCounter_; } set { meleeAtkCounter_ = value; } }
-    [SerializeField, Tooltip("Bossr近戰計時器")]
+    [SerializeField, Tooltip("Bossr近戰計數器")]
     private int meleeAtkCounter_;
     public int RangeAtkCounter { get { return rangedAtkCounter_; } set { rangedAtkCounter_ = value; } }
-    [SerializeField, Tooltip("Boss遠程計時器")]
+    [SerializeField, Tooltip("Boss遠程計數器")]
     private int rangedAtkCounter_;
     public float ExplosionJudgmentTimer { get { return explosionJudgmentTimer_; } set { explosionJudgmentTimer_ = value; } }
     [SerializeField, Tooltip("審判之炎爆計時器")]
@@ -56,13 +56,13 @@ public class FirstBossVariables : MonoBehaviour
     [Tooltip("Boss三連爪擊機率")]
     private float tripleScratchProbability_;
     public float FireTackleProbability { get { return fireTackleProbability_; } set { fireTackleProbability_ = value; } }
-    [Tooltip("Boss閃焰衝撞機率")]
+    [Tooltip("Boss閃焰衝鋒機率")]
     private float fireTackleProbability_;
     public float FlamethrowerProbability { get { return flamethrowerProbability_; } set { flamethrowerProbability_ = value; } }
     [Tooltip("Boss噴射火焰機率")]
     private float flamethrowerProbability_;
     public float FireTrackProbability { get { return fireTrackProbability_; } set { fireTrackProbability_ = value; } }
-    [Tooltip("Boss閃焰衝撞機率")]
+    [Tooltip("Boss追蹤業火機率")]
     private float fireTrackProbability_;
 
     #endregion
@@ -81,7 +81,7 @@ public class FirstBossVariables : MonoBehaviour
 
     void Start()
     {
-        playerObj_ = GameObject.FindWithTag("Player").gameObject;
+        PlayerObj = GameObject.FindWithTag("Player").gameObject;
         IntTypeStateOfFirstBoss = 2;
     }
     void Update()

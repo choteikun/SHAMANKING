@@ -47,8 +47,13 @@ public class GhostEnemyVariables : MonoBehaviour
     [SerializeField]
     private int intTypeStateOfGhostEnemy_;
 
+    public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
+    [SerializeField]
+    private GameObject playerObj_;
+
     void Start()
     {
+        PlayerObj = GameObject.FindWithTag("Player").gameObject;
         //ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
 
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
