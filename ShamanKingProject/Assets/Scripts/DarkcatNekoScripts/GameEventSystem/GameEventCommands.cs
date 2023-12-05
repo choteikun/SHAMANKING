@@ -154,6 +154,12 @@ namespace Gamemanager
         Light,
         Heavy,
     }
+
+    public class EnemyAttackSuccessCommand:GameEventMessageBase
+    {
+        public Vector3 CollidePoint;
+        public float AttackDamage;
+    }
     public class PlayerAttackSuccessResponse:GameEventMessageBase
     {
         public Vector3 CollidePoint;
@@ -276,6 +282,11 @@ namespace Gamemanager
     {
         Player,
         Monster,
+    }
+
+    public class PlayerBeAttackByEnemySuccessResponse:GameEventMessageBase
+    {
+
     }
 
     #region 行為樹給FSM的通知

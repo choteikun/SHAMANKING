@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Datamanager;
+using Gamemanager;
 
 [System.Serializable]
 public class PlayerAttackModel
@@ -60,6 +61,7 @@ public class PlayerAttackModel
                 backToPulling();
             }
         });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { Debug.LogWarning("PlayerGetHit"); playerGetHit(); });
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
         animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
     }
@@ -181,6 +183,25 @@ public class PlayerAttackModel
             isAttacking_ = true;
         }
     }
+    void playerGetHit()
+    {
+        Debug.Log("受擊");
+        GameManager.Instance.MainGameEvent.Send(new PlayerBeAttackByEnemySuccessResponse());
+        isAttacking_ = false;
+        CurrentAttackInputs = new List<AttackBlockBase> { };
+        currentInputCount_ = -1;
+        PassedFrameAfterAttack = 0;
+        comboDeclaim = false;
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[18], GameManager.Instance.AttackBlockDatabase.Database[18].SkillFrame));
+        currentInputCount_++;
+        if (!isAttacking_)
+        {
+            animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[18].SkillName, 0);
+            PassedFrameAfterAttack = 0;
+            isAttacking_ = true;
+        }
+        
+    }
     void addFirstDash()
     {
         CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[8], GameManager.Instance.AttackBlockDatabase.Database[8].SkillFrame));
@@ -288,6 +309,7 @@ public enum AttackInputType
     Throw,
     SpecialAttack,
     ChainAttack,
+    GetHurt,
 }
 
 

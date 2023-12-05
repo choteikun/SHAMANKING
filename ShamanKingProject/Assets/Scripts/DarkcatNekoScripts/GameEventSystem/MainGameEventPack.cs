@@ -140,4 +140,9 @@ public class MainGameEventPack : GameEventPack
     public IObservable<StartRollMovementAnimationEvent> OnStartRollMovementAnimation => getSubject<StartRollMovementAnimationEvent>();
 
     public IObservable<AnimationCallAttackEffectCommand> OnAnimationCallAttackEffect => getSubject<AnimationCallAttackEffectCommand>();
+
+    public IObservable<EnemyAttackSuccessCommand> OnEnemyAttackSuccess => getSubject<EnemyAttackSuccessCommand>();
+
+    public IObservable<PlayerBeAttackByEnemySuccessResponse> OnPlayerBeAttackByEnemySuccess => getSubject<PlayerBeAttackByEnemySuccessResponse>();
+
 }
