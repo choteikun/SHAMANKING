@@ -1,12 +1,7 @@
-using PixelCrushers.DialogueSystem;
+using Cysharp.Threading.Tasks;
 using Gamemanager;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
-using Datamanager;
-using Gamemanager;
 
 [System.Serializable]
 public class PlayerAttackModel
@@ -45,7 +40,7 @@ public class PlayerAttackModel
                 backToLanding();
             }
         });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackFinish, cmd => 
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttackFinish, cmd =>
         {
             if (isThrowing_)
             {
@@ -76,23 +71,23 @@ public class PlayerAttackModel
         {
             PassedFrameAfterAttack++;
             checkNextInput();
-        }     
+        }
     }
 
     void whenGetAttackTrigger(AttackInputType inputType)
     {
-        if (CurrentAttackInputs.Count>0)
+        if (CurrentAttackInputs.Count > 0)
         {
             //檢查現在是否是輸入窗口       
             if (PassedFrameAfterAttack < CurrentAttackInputs[currentInputCount_].LeastNeedAttackFrame) return;
             //檢查現在的物件裡 他是否有下一段接技
             if (comboDeclaim) return;
             var nextAttack = GameManager.Instance.AttackBlockDatabase.Database[CurrentAttackInputs[currentInputCount_].SkillId].CheckNextAttack(inputType);
-            if (nextAttack!= null)
+            if (nextAttack != null)
             {
                 //如果有 則根據id加進操作欄
                 CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[nextAttack.NextAttackId], GameManager.Instance.AttackBlockDatabase.Database[nextAttack.NextAttackId].SkillFrame));
-                if (PassedFrameAfterAttack<=nextAttack.SkippedFrame)
+                if (PassedFrameAfterAttack <= nextAttack.SkippedFrame)
                 {
                     CurrentAttackInputs[CurrentAttackInputs.Count - 2].FrameShouldBeSkipped = nextAttack.SkippedFrame;
                     comboDeclaim = true;
@@ -102,16 +97,16 @@ public class PlayerAttackModel
                     ChangeAction(nextAttack.NextAttackId);
                 }
             }
-            
+
             //如果沒有 忽略這次的操作
         }
         else
         {
 
-            switch(inputType)
+            switch (inputType)
             {
                 case AttackInputType.LightAttack:
-                addFirstLightAttack();
+                    addFirstLightAttack();
                     return;
                 case AttackInputType.JumpAttack:
                     addFirstJumpAttack();
@@ -200,7 +195,7 @@ public class PlayerAttackModel
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
-        
+
     }
     void addFirstDash()
     {
@@ -221,14 +216,14 @@ public class PlayerAttackModel
         //如果有 切換進下一個動作
         //如果沒有 繼續動作
         //如果沒有 回到idle
-        if (CurrentAttackInputs.Count>currentInputCount_+1)
+        if (CurrentAttackInputs.Count > currentInputCount_ + 1)
         {
-            if (PassedFrameAfterAttack>= CurrentAttackInputs[currentInputCount_].FrameShouldBeSkipped)
+            if (PassedFrameAfterAttack >= CurrentAttackInputs[currentInputCount_].FrameShouldBeSkipped)
             {
                 ChangeAction(CurrentAttackInputs[currentInputCount_ + 1].SkillId);
             }
         }
-        else 
+        else
         {
             if (PassedFrameAfterAttack >= CurrentAttackInputs[currentInputCount_].FrameShouldBeSkipped)
             {
@@ -241,7 +236,7 @@ public class PlayerAttackModel
     {
         //呼叫動畫片段
         animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[actionID].SkillName, 0.25f);
-        Debug.Log("技能施放成功!");        
+        Debug.Log("技能施放成功!");
         PassedFrameAfterAttack = 0;
         currentInputCount_++;
         comboDeclaim = false;
