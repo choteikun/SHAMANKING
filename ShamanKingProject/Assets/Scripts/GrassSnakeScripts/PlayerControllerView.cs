@@ -47,8 +47,7 @@ public class PlayerControllerView : MonoBehaviour
         playerAnimatorView_ = new PlayerAnimator(this.gameObject);
         playerControllerMover_ = new PlayerControllerMover(this.gameObject);
         playerAttackModel_ = new PlayerAttackModel(this.gameObject);
-        playerControllerMover_.Awake();
-        GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject = this.gameObject;
+        playerControllerMover_.Awake();       
     }
     void Start()
     {
@@ -83,6 +82,7 @@ public class PlayerControllerView : MonoBehaviour
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
         playerAttackModel_.PlayerAttackModelInit();
+        GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject = this.gameObject;
     }
 
     #region - Player取得方向指令 -
