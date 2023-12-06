@@ -12,5 +12,5 @@ public class ReaTimePlayerData
     public float PlayerMaxHealthPoint = 100;
     public float PlayerNowHealthPoint = 100;
     public float PlayerBasicAttackPercentage = 1;
- 
+    public GameObject PlayerGameObject;
 }

@@ -14,7 +14,10 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
     async void Start()
     {
         await UniTask.DelayFrame(lastFrame_);
+        if (this.gameObject!=null)
+        {
         Destroy(this.gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

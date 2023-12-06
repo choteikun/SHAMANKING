@@ -14,8 +14,8 @@ namespace Gamemanager
         public bool IsSmallMove = false;
         public Vector2 Direction;
     }
-    
-    public class PlayerControllerCameraRotateCommand:GameEventMessageBase
+
+    public class PlayerControllerCameraRotateCommand : GameEventMessageBase
     {
         public Vector2 RotateValue;
     }
@@ -36,12 +36,12 @@ namespace Gamemanager
 
     }
 
-    public class PlayerJumpButtonCommand:GameEventMessageBase
+    public class PlayerJumpButtonCommand : GameEventMessageBase
     {
 
     }
 
-    public class PlayerLaunchGhostButtonCommand: GameEventMessageBase 
+    public class PlayerLaunchGhostButtonCommand : GameEventMessageBase
     {
 
     }
@@ -60,11 +60,11 @@ namespace Gamemanager
 
     }
 
-    public class PlayerCancelPossessCommand:GameEventMessageBase
+    public class PlayerCancelPossessCommand : GameEventMessageBase
     {
 
     }
-    public class PlayerLaunchActionFinishCommand: GameEventMessageBase
+    public class PlayerLaunchActionFinishCommand : GameEventMessageBase
 
     {
         public bool Hit = false;
@@ -73,7 +73,7 @@ namespace Gamemanager
         public HitableItemTest HitInfo;
     }
 
-    public class PlayerThrowAttackFinishCommand:GameEventMessageBase
+    public class PlayerThrowAttackFinishCommand : GameEventMessageBase
     {
 
     }
@@ -104,7 +104,7 @@ namespace Gamemanager
 
     }
 
-    public class PlayerAttackCallHitBoxCommand:GameEventMessageBase 
+    public class PlayerAttackCallHitBoxCommand : GameEventMessageBase
     {
         public bool CallOrCancel;
     }
@@ -113,18 +113,18 @@ namespace Gamemanager
     {
         public bool CallOrCancel;
     }
-    public class SupportAimSystemGetHitableItemCommand:GameEventMessageBase
+    public class SupportAimSystemGetHitableItemCommand : GameEventMessageBase
     {
         public GameObject HitObject;
         public HitableItemTest HitableItemInfo;
     }
 
-    public class SupportAimSystemLeaveHitableItemCommand:GameEventMessageBase
+    public class SupportAimSystemLeaveHitableItemCommand : GameEventMessageBase
     {
         public GameObject LeaveObject;
     }
 
-    public class PlayerAttackCommand:GameEventMessageBase
+    public class PlayerAttackCommand : GameEventMessageBase
     {
         public string AttackName;
     }
@@ -135,12 +135,12 @@ namespace Gamemanager
         public HitableItemTest HitInfo;
     }
 
-    public class UISoulGageUpdateCommand:GameEventMessageBase
+    public class UISoulGageUpdateCommand : GameEventMessageBase
     {
 
     }
 
-    public class PlayerAttackSuccessCommand:GameEventMessageBase
+    public class PlayerAttackSuccessCommand : GameEventMessageBase
     {
         public Vector3 CollidePoint;
         public GameObject AttackTarget;
@@ -155,12 +155,12 @@ namespace Gamemanager
         Heavy,
     }
 
-    public class EnemyAttackSuccessCommand:GameEventMessageBase
+    public class EnemyAttackSuccessCommand : GameEventMessageBase
     {
         public Vector3 CollidePoint;
         public float AttackDamage;
     }
-    public class PlayerAttackSuccessResponse:GameEventMessageBase
+    public class PlayerAttackSuccessResponse : GameEventMessageBase
     {
         public Vector3 CollidePoint;
         public GameObject AttackTarget;
@@ -181,7 +181,7 @@ namespace Gamemanager
         public GameObject AttackTarget;
         public float AttackDamage;
     }
-    public class PlayerGrabSuccessResponse:GameEventMessageBase
+    public class PlayerGrabSuccessResponse : GameEventMessageBase
     {
         public Vector3 CollidePoint;
         public GameObject AttackTarget;
@@ -190,24 +190,24 @@ namespace Gamemanager
         public PlayerGrabSuccessResponse(PlayerGrabSuccessCommand cmd)
         {
             CollidePoint = cmd.CollidePoint;
-            AttackTarget = cmd.AttackTarget; 
+            AttackTarget = cmd.AttackTarget;
             AttackDamage = cmd.AttackDamage;
         }
     }
 
-    public class PlayerControllerPossessableInteractButtonCommand:GameEventMessageBase
+    public class PlayerControllerPossessableInteractButtonCommand : GameEventMessageBase
     {
 
     }
 
-    public class PlayerMoveStatusChangeCommand:GameEventMessageBase
+    public class PlayerMoveStatusChangeCommand : GameEventMessageBase
     {
         public bool IsMoving;
     }
 
-    public class PlayerJumpTouchGroundCommand:GameEventMessageBase
+    public class PlayerJumpTouchGroundCommand : GameEventMessageBase
     {
-        
+
     }
 
     public class GameConversationEndCommand : GameEventMessageBase
@@ -215,17 +215,17 @@ namespace Gamemanager
 
     }
 
-    public class SystemCallTutorialCommand:GameEventMessageBase
+    public class SystemCallTutorialCommand : GameEventMessageBase
     {
         public float TutorialID;
     }
 
-    public class PlayerTutorialNextPageCommand:GameEventMessageBase
+    public class PlayerTutorialNextPageCommand : GameEventMessageBase
     {
         public float TutorialID;
     }
 
-    public class PlayerEndTutorialCommand:GameEventMessageBase
+    public class PlayerEndTutorialCommand : GameEventMessageBase
     {
         public int TutorialID;
     }
@@ -235,11 +235,11 @@ namespace Gamemanager
 
     }
 
-    public class PlayerTargetButtonTriggerCommand:GameEventMessageBase
+    public class PlayerTargetButtonTriggerCommand : GameEventMessageBase
     {
 
     }
-    public class SystemGetTarget:GameEventMessageBase
+    public class SystemGetTarget : GameEventMessageBase
     {
         public GameObject Target;
     }
@@ -252,11 +252,11 @@ namespace Gamemanager
 
     }
 
-    public class SystemAttackAllowCommand: GameEventMessageBase
+    public class SystemAttackAllowCommand : GameEventMessageBase
     {
 
     }
-    public class AnimationMovementEnableCommand:GameEventMessageBase 
+    public class AnimationMovementEnableCommand : GameEventMessageBase
     {
 
     }
@@ -264,13 +264,13 @@ namespace Gamemanager
     {
 
     }
-    public class AnimationMovementEventCommand:GameEventMessageBase
+    public class AnimationMovementEventCommand : GameEventMessageBase
     {
         public float Distance;
         public int Frame;
     }
 
-    public class AnimationCallAttackEffectCommand:GameEventMessageBase
+    public class AnimationCallAttackEffectCommand : GameEventMessageBase
     {
         public int ColliderId;
         public int SpawnEffectId;
@@ -284,11 +284,20 @@ namespace Gamemanager
         Monster,
     }
 
-    public class PlayerBeAttackByEnemySuccessResponse:GameEventMessageBase
+    public class PlayerBeAttackByEnemySuccessResponse : GameEventMessageBase
     {
 
     }
 
+    public class SystemCallFireballLocateCommand : GameEventMessageBase
+    {
+
+    }
+
+    public class SystemCallFireballSpawnCommand : GameEventMessageBase
+    {
+
+    }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

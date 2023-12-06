@@ -48,6 +48,7 @@ public class PlayerControllerView : MonoBehaviour
         playerControllerMover_ = new PlayerControllerMover(this.gameObject);
         playerAttackModel_ = new PlayerAttackModel(this.gameObject);
         playerControllerMover_.Awake();
+        GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject = this.gameObject;
     }
     void Start()
     {

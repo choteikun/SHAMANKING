@@ -2,13 +2,16 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
-
+using Datamanager;
+using Gamemanager;
 namespace Datamanager
 {
     public class DataManager
     {
         public DataGroup DataGroup = new DataGroup();
+        public ReaTimePlayerData reaTimePlayerData = new ReaTimePlayerData();
         public async Task InitDataMananger()
         {
             var CSVString = await AddressableSearcher.GetAddressableAssetAsync<TextAsset>("CSV/ShamanKingCSV");

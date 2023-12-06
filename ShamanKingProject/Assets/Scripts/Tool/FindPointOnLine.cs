@@ -11,16 +11,16 @@ public class FindPointOnLine : MonoBehaviour
     public Transform pointA;
     public Transform pointB;
     public float radius;
-    public float t;  // ¤ñ¨Ò¦]¤l¡A±±¨îCÂI¦b½uAB¤Wªº¦ì¸m
+    public float t;  // ï¿½ï¿½Ò¦]ï¿½lï¿½Aï¿½ï¿½ï¿½ï¿½Cï¿½Iï¿½bï¿½uABï¿½Wï¿½ï¿½ï¿½ï¿½m
 
-    private Vector3 previousPosition;  // «O¦s¤W¤@´Vªº¦ì¸m
+    private Vector3 previousPosition;  // ï¿½Oï¿½sï¿½Wï¿½@ï¿½Vï¿½ï¿½ï¿½ï¿½m
     bool isAttacking_ = false;
 
     Vector3 startLocalPosition_;
     Quaternion startLocalRotation_;
     private void Start()
     {
-        // ¦bStart¨ç¼Æ¤¤ªì©l¤Æ¤W¤@´Vªº¦ì¸m
+        // ï¿½bStartï¿½ï¿½Æ¤ï¿½ï¿½ï¿½lï¿½Æ¤Wï¿½@ï¿½Vï¿½ï¿½ï¿½ï¿½m
         previousPosition = transform.position;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemAttackAllow, cmd => { isAttacking_ = true; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { attackFinish(); });
@@ -40,42 +40,42 @@ public class FindPointOnLine : MonoBehaviour
     }
     void attackTailFollower()
     {
-        //// ¤ñ¸û·í«e¦ì¸m©M¤W¤@´Vªº¦ì¸m
+        //// ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½mï¿½Mï¿½Wï¿½@ï¿½Vï¿½ï¿½ï¿½ï¿½m
         //if (transform.position != previousPosition)
         //{
-        //    // ¦pªG¦ì¸m¤£¦P¡A°õ¦æif»y¥y
-        //    // ­pºâ½uABªº¤è¦V¦V¶q
+        //    // ï¿½pï¿½Gï¿½ï¿½mï¿½ï¿½ï¿½Pï¿½Aï¿½ï¿½ï¿½ï¿½ifï¿½yï¿½y
+        //    // ï¿½pï¿½ï¿½uABï¿½ï¿½ï¿½ï¿½Vï¿½Vï¿½q
         //    Vector3 AB = pointB.position - previousPosition;
 
-        //    // ¥¿³W¤Æ¦V¶qAB
+        //    // ï¿½ï¿½ï¿½Wï¿½Æ¦Vï¿½qAB
         //    Vector3 AB_normalized = AB.normalized;
 
-        //    // ­pºâÂICªº¦ì¸m
+        //    // ï¿½pï¿½ï¿½ï¿½ICï¿½ï¿½ï¿½ï¿½m
         //    Vector3 pointC = pointB.position + AB_normalized * t * radius;
 
-        //    // ±NÂICªº¦ì¸m³]¸m¬°Unity¤¤ªºª«Åé¦ì¸m¡A¨Ò¦p¤@­Ó²yÅé
+        //    // ï¿½Nï¿½ICï¿½ï¿½ï¿½ï¿½mï¿½]ï¿½mï¿½ï¿½Unityï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Aï¿½Ò¦pï¿½@ï¿½Ó²yï¿½ï¿½
         //    transform.position = pointC;
         //}
         //else
         //{
             if (pointA != null && pointB != null)
             {
-                // ­pºâ½uABªº¤è¦V¦V¶q
+                // ï¿½pï¿½ï¿½uABï¿½ï¿½ï¿½ï¿½Vï¿½Vï¿½q
                 Vector3 AB = pointB.position - pointA.position;
 
-                // ¥¿³W¤Æ¦V¶qAB
+                // ï¿½ï¿½ï¿½Wï¿½Æ¦Vï¿½qAB
                 Vector3 AB_normalized = AB.normalized;
 
-                // ­pºâÂICªº¦ì¸m
+                // ï¿½pï¿½ï¿½ï¿½ICï¿½ï¿½ï¿½ï¿½m
                 Vector3 pointC = pointB.position + AB_normalized * t * radius;
 
-                // ±NÂICªº¦ì¸m³]¸m¬°Unity¤¤ªºª«Åé¦ì¸m¡A¨Ò¦p¤@­Ó²yÅé
+                // ï¿½Nï¿½ICï¿½ï¿½ï¿½ï¿½mï¿½]ï¿½mï¿½ï¿½Unityï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Aï¿½Ò¦pï¿½@ï¿½Ó²yï¿½ï¿½
                 transform.position = pointC;
             }
         //}
         var target = pointB;
         transform.LookAt(target);
-        // §ó·s¤W¤@´Vªº¦ì¸m
+        // ï¿½ï¿½sï¿½Wï¿½@ï¿½Vï¿½ï¿½ï¿½ï¿½m
     }
     void attackFinish()
     {

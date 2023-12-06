@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UniRx;
+using Datamanager;
 
 [System.Serializable]
 public class MainGameMediator
@@ -18,6 +19,7 @@ public class MainGameMediator
     {
         playerControllerModel_.PlayerControllerModelInit();
         playerDataModel_.PlayerDataModelInit();
+        RealTimePlayerData = GameContainer.Get<DataManager>().reaTimePlayerData;
     }
     
     public void DisposeObserber()

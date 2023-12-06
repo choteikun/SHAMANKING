@@ -9,6 +9,7 @@ public class GameManager : ToSingletonMonoBehavior<GameManager>
     public BT_EventPack BT_Event { get; private set; } = new BT_EventPack();
     public UIGameEventPack UIGameEvent { get; private set; } = new UIGameEventPack();
 
+    public HellDogGameEventPack HellDogGameEvent { get; private set; } = new HellDogGameEventPack();
     [field:SerializeField] public MainGameMediator MainGameMediator { get; private set; }
     [SerializeField] public SO_AttackBlockDatabase AttackBlockDatabase;
  
