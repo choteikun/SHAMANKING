@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// 供狀態機與行為樹同步的FirstBossState
@@ -16,6 +17,7 @@ public enum FirstBossState
 * Description
 *   該腳本主要放置一些讓行為樹使用的變量(Variable Mappings require a C# property)
 **************************************************/
+[RequireComponent(typeof(Rigidbody))]
 public class FirstBossVariables : MonoBehaviour
 {
     [Tooltip("Boss狀態")]
@@ -38,9 +40,9 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("審判之炎爆計時器")]
     private float explosionJudgmentTimer_;
 
-    public int FirstBossHp { get { return firstBossHp_; } set { firstBossHp_ = value; } }
+    public float FirstBossHp { get { return firstBossHp_; } set { firstBossHp_ = value; } }
     [SerializeField, Tooltip("Boss血量")]
-    private int firstBossHp_;
+    private float firstBossHp_;
     public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
     [Tooltip("與玩家的距離")]
     private float distanceFromPlayer_;
@@ -68,6 +70,7 @@ public class FirstBossVariables : MonoBehaviour
     #endregion
 
     public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
+    [SerializeField, Tooltip("更新玩家位置的觸發器")]
     private bool updatePosTrigger_;
     public bool ExplosionJudgmentTrigger { get { return explosionJudgmentTrigger_; } set { explosionJudgmentTrigger_ = value; } }
     [SerializeField, Tooltip("審判之炎爆觸發器")]
@@ -76,13 +79,26 @@ public class FirstBossVariables : MonoBehaviour
     public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
     [SerializeField, Tooltip("PlayerObject")]
     private GameObject playerObj_;
+    public Rigidbody Rigidbody { get { return rb_; } set { rb_ = value; } }
+    [SerializeField, Tooltip("FirstBossRigidbody")]
+    private Rigidbody rb_;
 
-
+    // Root Motion的位移量 用於腳本運用Root Motion
+    private Vector3 deltaPos_;
 
     void Start()
     {
         PlayerObj = GameObject.FindWithTag("Player").gameObject;
+        Rigidbody = GetComponent<Rigidbody>();
         IntTypeStateOfFirstBoss = 2;
+    }
+    void FixedUpdate()
+    {
+        // 運用Root Motion 要放到修改rb.velocity以前進行
+        rb_.position += deltaPos_;
+
+        // 清零目前物理幀累積的deltaPos_
+        deltaPos_ = Vector3.zero;
     }
     void Update()
     {
@@ -198,5 +214,10 @@ public class FirstBossVariables : MonoBehaviour
             default:
                 break;
         }
+    }
+    public void OnUpdateRootMotion(Animator anim)
+    {
+        // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
+        deltaPos_ += anim.deltaPosition;
     }
 }
