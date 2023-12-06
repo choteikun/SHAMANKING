@@ -7899,6 +7899,103 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1720951325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1720951326}
+  - component: {fileID: 1720951329}
+  - component: {fileID: 1720951328}
+  - component: {fileID: 1720951327}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1720951326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720951325}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.041, y: 0, z: 0.54}
+  m_LocalScale: {x: 0.46967, y: 0.46967, z: 0.46967}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3690414366363370216}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1720951327
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720951325}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1720951328
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720951325}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1720951329
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720951325}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1748711502
 GameObject:
   m_ObjectHideFlags: 0
@@ -30046,30 +30143,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: -0.08956528
-        y: 1.9882545
-        z: -0.06210327
-      - x: -0.14128876
-        y: 2.0481415
-        z: -0.15262604
-      - x: -0.19301605
-        y: 2.1080284
-        z: -0.2431488
-      - x: -0.24474335
-        y: 2.1679153
-        z: -0.3336792
-      - x: -0.29646683
-        y: 2.2278023
-        z: -0.42421722
-      - x: -0.34819412
-        y: 2.2876892
-        z: -0.51473236
-      - x: -0.39992142
-        y: 2.3475761
-        z: -0.6052551
-      - x: -0.4516449
-        y: 2.407465
-        z: -0.69579315
+      - x: 0.42105675
+        y: 2.3797054
+        z: 0.33396912
+      - x: 0.5173435
+        y: 2.3377743
+        z: 0.39252472
+      - x: 0.6136265
+        y: 2.295845
+        z: 0.45108032
+      - x: 0.70990944
+        y: 2.2539139
+        z: 0.5096359
+      - x: 0.8061924
+        y: 2.2119846
+        z: 0.5681915
+      - x: 0.90247726
+        y: 2.1700573
+        z: 0.62674713
+      - x: 0.99876213
+        y: 2.1281261
+        z: 0.6852951
+      - x: 1.0950451
+        y: 2.086197
+        z: 0.7438507
       attributes:
       - Value: 1
       - Value: 2
@@ -30079,7 +30176,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.120246105
+      maxConnectionDistance: 0.12024194
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -31710,30 +31807,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: 0.21443939
-        y: 2.4131393
-        z: 0.41510773
-      - x: 0.20209503
-        y: 2.2530956
-        z: 0.25793457
-      - x: 0.19460678
-        y: 2.0678654
-        z: 0.19846344
-      - x: 0.18764114
-        y: 1.8799114
-        z: 0.14955139
-      - x: 0.18120003
-        y: 1.6892395
-        z: 0.111198425
-      - x: 0.17436981
-        y: 1.5006084
-        z: 0.06492615
-      - x: 0.16733742
-        y: 1.3129959
-        z: 0.014694214
-      - x: 0.1606369
-        y: 1.123682
-        z: -0.028938293
+      - x: -0.03122902
+        y: 3.5059223
+        z: 0.033050537
+      - x: 0.1469059
+        y: 3.3839588
+        z: -0.029090881
+      - x: 0.24003029
+        y: 3.2161255
+        z: -0.061706543
+      - x: 0.32396126
+        y: 3.0433369
+        z: -0.09114075
+      - x: 0.39870262
+        y: 2.8655891
+        z: -0.117378235
+      - x: 0.48033714
+        y: 2.6915607
+        z: -0.14601135
+      - x: 0.56541824
+        y: 2.51939
+        z: -0.17584229
+      - x: 0.6447544
+        y: 2.3441238
+        z: -0.20367432
       attributes:
       - Value: 1
       - Value: 2
@@ -31743,7 +31840,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.2246548
+      maxConnectionDistance: 0.2246524
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -42699,10 +42796,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3690414366363370219}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.6818733, y: 1.2772474, z: -0.83925176}
+  m_LocalPosition: {x: -0.6818733, y: 1.277247, z: -0.83925176}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 1720951326}
   m_Father: {fileID: 6350426925939271240}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72106,8 +72204,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!4 &8260887273966446384
 Transform:
   m_ObjectHideFlags: 0
