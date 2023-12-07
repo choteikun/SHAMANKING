@@ -9,6 +9,7 @@ public class GhostEnemyAnimator : MonoBehaviour
     readonly int animID_EnemyState = Animator.StringToHash("EnemyState");
     #endregion
 
+    string ghostIdentityName_; 
     Animator anim;
 
     void Awake()
@@ -16,7 +17,10 @@ public class GhostEnemyAnimator : MonoBehaviour
         anim = GetComponent<Animator>();
         anim.SetInteger(animID_EnemyState, 0);
     }
-
+    void Start()
+    {
+        ghostIdentityName_ = GetComponentInParent<GameObject>().name;
+    }
     public void SetEnemyState(int state)
     {
         anim.SetInteger(animID_EnemyState, state);
@@ -24,6 +28,10 @@ public class GhostEnemyAnimator : MonoBehaviour
     public void EndOfHurtAnimation()
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerAnimationEventsCommand() { AnimationEventName = "EndOfHurtAnimation"});
+    }
+    public void GhostEnemyIdentityCheck()
+    {
+        GameManager.Instance.MainGameEvent.Send(new GhostIdentityCheckCommand() { GhostIdentityName = ghostIdentityName_ });
     }
     private void OnAnimatorMove()
     {

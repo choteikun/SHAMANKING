@@ -146,4 +146,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerBeAttackByEnemySuccessResponse> OnPlayerBeAttackByEnemySuccess => getSubject<PlayerBeAttackByEnemySuccessResponse>();
 
     public IObservable<PlayerRootSuccessCommand> OnPlayerRootSuccess => getSubject<PlayerRootSuccessCommand>();
+    public IObservable<GhostIdentityCheckCommand> OnGhostIdentityCheck => getSubject<GhostIdentityCheckCommand>();
 }

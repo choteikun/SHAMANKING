@@ -91,6 +91,10 @@ namespace Gamemanager
         public string AnimationEventName;
         public GhostAnimationType AnimationType;
     }
+    public class GhostIdentityCheckCommand : GameEventMessageBase
+    {
+        public string GhostIdentityName;
+    }
     public class PlayerAnimationEventsCommand : GameEventMessageBase
     {
         public string AnimationEventName;
