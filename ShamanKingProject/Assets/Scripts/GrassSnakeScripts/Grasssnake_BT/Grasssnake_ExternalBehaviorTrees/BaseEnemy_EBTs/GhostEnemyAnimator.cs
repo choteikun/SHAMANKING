@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gamemanager;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
 
 public class GhostEnemyAnimator : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class GhostEnemyAnimator : MonoBehaviour
     }
     void Start()
     {
-        ghostIdentityName_ = GetComponentInParent<GameObject>().name;
+        ghostIdentityName_ = this.gameObject.transform.parent.name;
     }
     public void SetEnemyState(int state)
     {

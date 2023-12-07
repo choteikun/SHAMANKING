@@ -14,6 +14,7 @@ public class DialogueManagerLUA : MonoBehaviour
         Lua.RegisterFunction("CallTutorialSystem", this, SymbolExtensions.GetMethodInfo(() =>CallTutorialSystem(0) ));
         Lua.RegisterFunction("CallFirstSceneCameraTransfer", this, SymbolExtensions.GetMethodInfo(() => CallFirstSceneCameraTransfer(0)));
         Lua.RegisterFunction("CallFirstSceneCameraTransferBack", this, SymbolExtensions.GetMethodInfo(() => CallCameraTransferBack()));
+        Lua.RegisterFunction("CallScene1Wave", this, SymbolExtensions.GetMethodInfo(() => CallScene1Wave(0)));
     }
 
     public void ChangeContinueButtonToAlways()
@@ -44,8 +45,8 @@ public class DialogueManagerLUA : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new SystemCallCameraTransferBackCommand());
     }
-    public void CallScene1Wave()
+    public void CallScene1Wave(float waveID)
     {
-
+        GameManager.Instance.MainGameEvent.Send(new SystemCallWaveStartCommand() { SceneName = "Scene1", WaveID = (int)waveID });
     }
 }

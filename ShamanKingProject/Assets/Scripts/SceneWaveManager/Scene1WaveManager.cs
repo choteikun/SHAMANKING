@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PixelCrushers.DialogueSystem;
+using static Unity.Burst.Intrinsics.X86.Avx;
+using Gamemanager;
 
 public class Scene1WaveManager : MonoBehaviour
 {
@@ -11,7 +13,18 @@ public class Scene1WaveManager : MonoBehaviour
     [SerializeField] GameObject[] waveWalls_;
     void Start()
     {
-        
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallWaveStart, cmd =>
+        {
+        if (cmd.SceneName == "Scene1")
+            {
+                waveWalls_[cmd.WaveID-1].SetActive(true);
+            } });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostIdentityCheck, cmd =>
+        {
+            if (cmd.GhostIdentityName == "Wave1_GhostEnemy")
+            {
+                checkWave1GhostKilled();
+            } });
     }
     
     void Update()
@@ -23,6 +36,7 @@ public class Scene1WaveManager : MonoBehaviour
         wave1GhostKilled_++;
         if (wave1GhostKilled_>=1)
         {
+            waveWalls_[0].SetActive(false);
             DialogueManager.StartConversation("chapter 1_1_2");
         }
     }

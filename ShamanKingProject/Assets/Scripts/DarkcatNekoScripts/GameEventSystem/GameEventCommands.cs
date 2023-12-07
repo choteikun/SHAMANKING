@@ -317,6 +317,11 @@ namespace Gamemanager
     {
 
     }
+    public class SystemCallWaveStartCommand:GameEventMessageBase
+    {
+        public string SceneName;
+        public int WaveID;
+    }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

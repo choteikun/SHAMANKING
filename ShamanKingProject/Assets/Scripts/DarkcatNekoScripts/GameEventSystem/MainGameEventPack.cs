@@ -152,4 +152,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<SystemCallFirstSceneCameraTransferCommand> OnSystemCallFirstSceneCameraTransfer => getSubject<SystemCallFirstSceneCameraTransferCommand>();
 
     public IObservable<SystemCallCameraTransferBackCommand> OnSystemCallCameraTransferBack => getSubject<SystemCallCameraTransferBackCommand>();
+    public IObservable<GhostIdentityCheckCommand> OnGhostIdentityCheck => getSubject<GhostIdentityCheckCommand>();
+    public IObservable<SystemCallWaveStartCommand> OnSystemCallWaveStart => getSubject<SystemCallWaveStartCommand>();
 }
