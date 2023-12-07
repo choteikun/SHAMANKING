@@ -31,8 +31,8 @@ public class GamepadControllerView : MonoBehaviour
 
     private async void Start()
     {
-        var data = GameContainer.Get<DataManager>();//建置的時候記得刪掉
-        await data.InitDataMananger();
+        //var data = GameContainer.Get<DataManager>();//建置的時候記得刪掉
+        //await data.InitDataMananger();
         if (isDebuging_) input_.SwitchCurrentActionMap("MainGameplay");
         Debug.Log("start");
         await UniTask.Delay(500);

@@ -32,7 +32,7 @@ public class EnemyBeHitTest : MonoBehaviour
             onHitParticle_.transform.position = cmd.CollidePoint;
             //onHitParticle_.GetComponent<ParticleSystem>().Play();
             onHitParticle_.GetComponent<VisualEffect>().Play();
-            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
+            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));           
             StartCoroutine("beAttackTimer");
         }
     }
