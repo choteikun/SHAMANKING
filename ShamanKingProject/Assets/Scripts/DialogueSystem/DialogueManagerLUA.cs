@@ -1,6 +1,7 @@
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using Gamemanager;
+using System.Xml.Serialization;
 
 public class DialogueManagerLUA : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class DialogueManagerLUA : MonoBehaviour
         Lua.RegisterFunction("ChangeContinueButtonToNever", this, SymbolExtensions.GetMethodInfo(() => ChangeContinueButtonToNever()));
         Lua.RegisterFunction("ChangeContinueButtonToOptional", this, SymbolExtensions.GetMethodInfo(() => ChangeContinueButtonToOptional()));
         Lua.RegisterFunction("CallTutorialSystem", this, SymbolExtensions.GetMethodInfo(() =>CallTutorialSystem(0) ));
+        Lua.RegisterFunction("CallFirstSceneCameraTransfer", this, SymbolExtensions.GetMethodInfo(() => CallFirstSceneCameraTransfer(0)));
+        Lua.RegisterFunction("CallFirstSceneCameraTransferBack", this, SymbolExtensions.GetMethodInfo(() => CallCameraTransferBack()));
     }
 
     public void ChangeContinueButtonToAlways()
@@ -32,5 +35,13 @@ public class DialogueManagerLUA : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new SystemCallTutorialCommand() { TutorialID = tutorialNum });
         DialogueManager.StopConversation();
+    }
+    public void CallFirstSceneCameraTransfer(float firstSceneCameraTransfer)
+    {
+        GameManager.Instance.MainGameEvent.Send(new SystemCallFirstSceneCameraTransferCommand() {CameraId = firstSceneCameraTransfer });
+    }
+    public void CallCameraTransferBack()
+    {
+        GameManager.Instance.MainGameEvent.Send(new SystemCallCameraTransferBackCommand());
     }
 }

@@ -2010,11 +2010,70 @@ MonoBehaviour:
         type: 0
         typeString: 
       - title: Actor
-        value: 2
+        value: 4
         type: 5
         typeString: CustomFieldType_Actor
       - title: Conversant
         value: -1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Menu Text
+        value: 
+        type: 0
+        typeString: 
+      - title: Dialogue Text
+        value: "\u524D\u65B9\u6709\u6575\u4EBA"
+        type: 0
+        typeString: 
+      - title: Sequence
+        value: 
+        type: 0
+        typeString: 
+      conversationID: 6
+      isRoot: 0
+      isGroup: 0
+      nodeColor: 
+      delaySimStatus: 0
+      falseConditionAction: Block
+      conditionPriority: 2
+      outgoingLinks:
+      - originConversationID: 6
+        originDialogueID: 1
+        destinationConversationID: 6
+        destinationDialogueID: 2
+        isConnector: 0
+        priority: 2
+      conditionsString: 
+      userScript: 'StandConversationStart();
+
+        CallFirstSceneCameraTransfer(0);
+
+        ChangeContinueButtonToNever()'
+      onExecute:
+        m_PersistentCalls:
+          m_Calls: []
+      canvasRect:
+        serializedVersion: 2
+        x: 101
+        y: 162
+        width: 160
+        height: 30
+    - id: 2
+      fields:
+      - title: Title
+        value: 
+        type: 0
+        typeString: 
+      - title: Description
+        value: 
+        type: 0
+        typeString: 
+      - title: Actor
+        value: -1
+        type: 5
+        typeString: CustomFieldType_Actor
+      - title: Conversant
+        value: 2
         type: 5
         typeString: CustomFieldType_Actor
       - title: Menu Text
@@ -2038,14 +2097,16 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: 
+      userScript: 'CallTutorialSystem(1);
+
+        CallFirstSceneCameraTransferBack()'
       onExecute:
         m_PersistentCalls:
           m_Calls: []
       canvasRect:
         serializedVersion: 2
         x: 102
-        y: 221
+        y: 223
         width: 160
         height: 30
     entryGroups: []
@@ -2225,7 +2286,7 @@ MonoBehaviour:
         value: None()
         type: 0
         typeString: 
-      conversationID: 0
+      conversationID: 8
       isRoot: 0
       isGroup: 0
       nodeColor: 

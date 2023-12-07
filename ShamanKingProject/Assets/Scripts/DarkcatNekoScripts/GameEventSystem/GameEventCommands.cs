@@ -216,7 +216,10 @@ namespace Gamemanager
     {
 
     }
+    public class GameStandingConversationStartCommand:GameEventMessageBase
+    {
 
+    }
     public class GameConversationEndCommand : GameEventMessageBase
     {
 
@@ -302,6 +305,15 @@ namespace Gamemanager
     }
 
     public class SystemCallFireballSpawnCommand : GameEventMessageBase
+    {
+
+    }
+
+    public class SystemCallFirstSceneCameraTransferCommand:GameEventMessageBase
+    {
+        public float CameraId;
+    }
+    public class SystemCallCameraTransferBackCommand:GameEventMessageBase
     {
 
     }

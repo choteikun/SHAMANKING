@@ -10,8 +10,12 @@ public class PlayerDialogueSystem : MonoBehaviour
     void Start()
     {
         Lua.RegisterFunction("ConversationEnd", this, SymbolExtensions.GetMethodInfo(() => SendConversationEndMessage()));
+        Lua.RegisterFunction("StandConversationStart", this, SymbolExtensions.GetMethodInfo(() => SendStandConversationStartMessage()));
     }
-
+    public void SendStandConversationStartMessage()
+    {
+        GameManager.Instance.MainGameEvent.Send(new GameStandingConversationStartCommand());
+    }
     public void SendConversationEndMessage()
     {
         GameManager.Instance.MainGameEvent.Send(new GameConversationEndCommand());

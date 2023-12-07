@@ -41,6 +41,7 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { isAttacking_ = false; Debug.Log("finishSend"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpTouchGround, cmd => { isJumping_ = false; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameStandingConversationStart, cmd => { input_.SwitchCurrentActionMap("Freeze"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameConversationEnd, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallTutorial, cmd => { input_.SwitchCurrentActionMap("PlayerTutorialInput"); nowTutorial_ = (int)cmd.TutorialID; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerEndTutorial, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });

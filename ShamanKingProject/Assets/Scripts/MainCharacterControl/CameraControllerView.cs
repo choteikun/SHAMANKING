@@ -51,6 +51,8 @@ public class CameraControllerView : MonoBehaviour
     public Quaternion MainCamQuaternion_ { get; private set; }
     public Quaternion AimQuaternion { get; private set; }
 
+    public bool canMove_ = true;
+
     private void Awake()
     {
         stateMachine_ = new CameraControllerStateMachine(this);
@@ -65,6 +67,8 @@ public class CameraControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { stateMachine_.TransitionState("MainGame"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelCameraRotate);
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Biteable||cmd.HitObjecctTag == HitObjecctTag.Enemy)).Subscribe(cmd =>backToMainGame());
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallFirstSceneCameraTransfer, cmd => { canMove_ = false; nowRotateGamepadValue_ = Vector2.zero;  });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallCameraTransferBack, cmd => { canMove_ = true; });
     }
 
     void changeRotateValue(PlayerControllerCameraRotateCommand command)
@@ -73,6 +77,7 @@ public class CameraControllerView : MonoBehaviour
     }
     private void Update()
     {
+        if (!canMove_) return;
         rotateCameraFollowedObject();
         cmCameraController_.CMTVUpdater(maxHeadAngle_);
         stateMachine_.StageManagerUpdate();
