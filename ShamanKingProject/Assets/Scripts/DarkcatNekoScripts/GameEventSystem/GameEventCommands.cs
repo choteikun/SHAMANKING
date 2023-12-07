@@ -194,7 +194,10 @@ namespace Gamemanager
             AttackDamage = cmd.AttackDamage;
         }
     }
+    public class PlayerRootSuccessCommand : GameEventMessageBase 
+    {
 
+    }
     public class PlayerControllerPossessableInteractButtonCommand : GameEventMessageBase
     {
 

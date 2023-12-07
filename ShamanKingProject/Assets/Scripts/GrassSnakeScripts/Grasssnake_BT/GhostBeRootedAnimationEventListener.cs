@@ -1,10 +1,10 @@
-﻿using BehaviorDesigner.Runtime;
+using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
 
 
 [TaskCategory("Snake")]
-public class GhostBeGrabedAnimationEventListener : Action
+public class GhostBeRootedAnimationEventListener : Action
 {
     private System.IDisposable onNextSubscription;
     bool success = false;
@@ -19,12 +19,9 @@ public class GhostBeGrabedAnimationEventListener : Action
     public override void OnStart()
     {
         success = false;
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRootSuccess, cmd =>
         {
-            if (cmd.AnimationEventName == "Player_Pull_Finish")
-            {
-                success = true;
-            }
+            success = true;
         });
         var currentGameObject = GetDefaultGameObject(targetGameObject.Value);
         if (currentGameObject != prevGameObject)

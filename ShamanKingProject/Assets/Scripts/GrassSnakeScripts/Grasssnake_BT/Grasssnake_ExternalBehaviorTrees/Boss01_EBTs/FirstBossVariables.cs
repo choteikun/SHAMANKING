@@ -43,6 +43,9 @@ public class FirstBossVariables : MonoBehaviour
     public float FirstBossHp { get { return firstBossHp_; } set { firstBossHp_ = value; } }
     [SerializeField, Tooltip("Boss血量")]
     private float firstBossHp_;
+    public float FistBossBreakDownPoint { get { return fistBossBreakUpPoint_; } set { fistBossBreakUpPoint_ = value; } }
+    [SerializeField, Tooltip("Boss BreakDown Point")]
+    private float fistBossBreakUpPoint_;
     public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
     [Tooltip("與玩家的距離")]
     private float distanceFromPlayer_;
@@ -75,6 +78,9 @@ public class FirstBossVariables : MonoBehaviour
     public bool ExplosionJudgmentTrigger { get { return explosionJudgmentTrigger_; } set { explosionJudgmentTrigger_ = value; } }
     [SerializeField, Tooltip("審判之炎爆觸發器")]
     private bool explosionJudgmentTrigger_;
+    public bool RootTrigger { get { return rootTrigger_; } set { rootTrigger_ = value; } }
+    [SerializeField, Tooltip("禁錮觸發器")]
+    private bool rootTrigger_;
 
     public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
     [SerializeField, Tooltip("PlayerObject")]

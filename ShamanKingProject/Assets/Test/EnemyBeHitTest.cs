@@ -9,8 +9,6 @@ public class EnemyBeHitTest : MonoBehaviour
 
     public float HealthPoint { get { return healthPoint_; } set { healthPoint_ = value; } }
     [SerializeField] float healthPoint_ = 100;
-    public bool HasTakenDamage { get { return hasTakenDamage_; } set { hasTakenDamage_ = value; } }
-    [SerializeField] bool hasTakenDamage_;
 
     [SerializeField] bool canGetHit_ = true;
     [SerializeField] bool canGetGrab_ = true;
@@ -23,10 +21,6 @@ public class EnemyBeHitTest : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { checkDamage(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccess, cmd => { checkGrab(cmd); });
-    }
-    private void Update()
-    {
-        hasTakenDamage_ = !canGetHit_;
     }
     void checkDamage(PlayerAttackSuccessCommand cmd)
     {

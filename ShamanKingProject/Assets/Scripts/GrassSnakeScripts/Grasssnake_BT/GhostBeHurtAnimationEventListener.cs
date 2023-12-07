@@ -1,6 +1,5 @@
 ﻿using BehaviorDesigner.Runtime.Tasks;
 using Gamemanager;
-using UnityEngine;
 
 [TaskCategory("Snake")]
 public class GhostBeHurtAnimationEventListener : Action
@@ -11,7 +10,7 @@ public class GhostBeHurtAnimationEventListener : Action
     {
         success = false;
         onNextSubscription = GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd => { OnNext(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { success = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { if (cmd.AttackInputType == AttackInputType.ChainAttack) return; success = true; });
     }
     public override TaskStatus OnUpdate()
     {

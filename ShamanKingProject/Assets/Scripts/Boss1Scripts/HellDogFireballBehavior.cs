@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Datamanager;
-using PixelCrushers;
+using UnityEngine;
 
 public class HellDogFireballBehavior : MonoBehaviour
 {
