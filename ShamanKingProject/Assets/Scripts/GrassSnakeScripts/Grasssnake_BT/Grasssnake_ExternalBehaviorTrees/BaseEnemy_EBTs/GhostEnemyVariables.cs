@@ -57,6 +57,9 @@ public class GhostEnemyVariables : MonoBehaviour
     public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
     [SerializeField]
     private GameObject playerObj_;
+    public Collider GhostEnemyCollider { get { return ghostEnemyCollider_; } set { ghostEnemyCollider_ = value; } }
+    [SerializeField]
+    private Collider ghostEnemyCollider_;
 
     void Start()
     {
@@ -66,6 +69,7 @@ public class GhostEnemyVariables : MonoBehaviour
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
 
         navMeshAgent_ = GetComponent<NavMeshAgent>();
+        ghostEnemyCollider_ =GetComponent<Collider>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
         {
             if (cmd.AttackTarget == this.gameObject)
