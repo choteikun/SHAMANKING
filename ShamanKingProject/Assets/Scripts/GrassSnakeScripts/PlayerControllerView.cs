@@ -40,6 +40,8 @@ public class PlayerControllerView : MonoBehaviour
     [SerializeField]
     Material[] test_;
 
+    [SerializeField]
+    LayerMask groundLayer_;
 
 
     void Awake()
@@ -190,10 +192,16 @@ public class PlayerControllerView : MonoBehaviour
         // 使用 Vector3.Angle 計算兩個向量之間的角度
         Quaternion rotation = Quaternion.Euler(0, player_TargetRotation_, 0);
         Vector3 Inputforward = rotation * Vector3.forward;
+       
         var final= Inputforward * player_Stats_.Player_DodgeDistance + stickInputIndicator_.transform.position;
         //playerModel_.transform.LookAt(final);
+        if (Physics.Raycast(stickInputIndicator_.transform.position, Inputforward, out RaycastHit hit, player_Stats_.Player_DodgeDistance, groundLayer_))
+        {
+            // 擊中了Layer為Ground的碰撞器，hit變數中包含擊中點的信息
+            final = hit.point;
+            // 在這裡您可以使用hitPoint來進一步處理碰撞點
+        }
 
-        
         this.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
         DOVirtual.Float(-0.5f, 1.5f, 0.1f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
@@ -205,7 +213,7 @@ public class PlayerControllerView : MonoBehaviour
                 item.SetVector("_DissolveParams", currentParams);
             }
         });
-        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000                                            ) - 100));
+        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
             Debug.Log(currentParams);

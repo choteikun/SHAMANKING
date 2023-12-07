@@ -49,4 +49,6 @@ public class DialogueManagerLUA : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new SystemCallWaveStartCommand() { SceneName = "Scene1", WaveID = (int)waveID });
     }
+
+   
 }
