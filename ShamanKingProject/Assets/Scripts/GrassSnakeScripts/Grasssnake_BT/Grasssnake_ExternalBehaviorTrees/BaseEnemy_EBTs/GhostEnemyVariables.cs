@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using PixelCrushers.DialogueSystem.UnityGUI;
 using UnityEngine.AI;
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 
 /// <summary>
 /// 供狀態機與行為樹同步的GhostEnemyState
