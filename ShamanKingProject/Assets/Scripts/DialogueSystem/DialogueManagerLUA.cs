@@ -44,4 +44,8 @@ public class DialogueManagerLUA : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new SystemCallCameraTransferBackCommand());
     }
+    public void CallScene1Wave()
+    {
+
+    }
 }
