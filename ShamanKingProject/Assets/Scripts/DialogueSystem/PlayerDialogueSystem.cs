@@ -11,6 +11,7 @@ public class PlayerDialogueSystem : MonoBehaviour
     {
         Lua.RegisterFunction("ConversationEnd", this, SymbolExtensions.GetMethodInfo(() => SendConversationEndMessage()));
         Lua.RegisterFunction("StandConversationStart", this, SymbolExtensions.GetMethodInfo(() => SendStandConversationStartMessage()));
+        Lua.RegisterFunction("StandConversationEnd", this, SymbolExtensions.GetMethodInfo(() => SendStandConversationEndMessage()));
     }
     public void SendStandConversationStartMessage()
     {
@@ -20,5 +21,9 @@ public class PlayerDialogueSystem : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new GameConversationEndCommand());
         DialogueManager.StopConversation();
+    }
+    public void SendStandConversationEndMessage()
+    {
+        GameManager.Instance.MainGameEvent.Send(new GameStandingConversationEndCommand());
     }
 }

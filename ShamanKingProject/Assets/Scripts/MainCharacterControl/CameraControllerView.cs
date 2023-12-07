@@ -68,7 +68,10 @@ public class CameraControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, launchCancelCameraRotate);
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Biteable||cmd.HitObjecctTag == HitObjecctTag.Enemy)).Subscribe(cmd =>backToMainGame());
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallFirstSceneCameraTransfer, cmd => { canMove_ = false; nowRotateGamepadValue_ = Vector2.zero;  });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameStandingConversationStart, cmd => { canMove_ = false; nowRotateGamepadValue_ = Vector2.zero; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallCameraTransferBack, cmd => { canMove_ = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameStandingConversationEnd, cmd => { canMove_ = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameConversationEnd, cmd => { canMove_ = true; });
     }
 
     void changeRotateValue(PlayerControllerCameraRotateCommand command)

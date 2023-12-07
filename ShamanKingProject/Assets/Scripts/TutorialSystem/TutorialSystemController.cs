@@ -17,6 +17,7 @@ public class TutorialSystemController : MonoBehaviour
     [SerializeField] Sprite[] thirdTutorial_;
     [SerializeField] int tutorialLastPicCount_;
     [SerializeField] List<Sprite[]> tempTutorials = new List<Sprite[]>();
+    [SerializeField] GameObject ticketGate_;
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallTutorial, cmd => { callTutorial(cmd); });
@@ -64,8 +65,8 @@ public class TutorialSystemController : MonoBehaviour
     {
         switch(tutorialID)
         {
-            case 2:
-                DialogueManager.StartConversation("AfterBattleTutorial");
+            case 1:
+                ticketGate_.SetActive(true);
                 return;
         }
     }

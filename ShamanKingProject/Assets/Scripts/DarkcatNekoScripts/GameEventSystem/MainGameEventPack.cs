@@ -148,6 +148,7 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerRootSuccessCommand> OnPlayerRootSuccess => getSubject<PlayerRootSuccessCommand>();
 
     public IObservable<GameStandingConversationStartCommand> OnGameStandingConversationStart => getSubject<GameStandingConversationStartCommand>();
+    public IObservable<GameStandingConversationEndCommand> OnGameStandingConversationEnd => getSubject<GameStandingConversationEndCommand>();
 
     public IObservable<SystemCallFirstSceneCameraTransferCommand> OnSystemCallFirstSceneCameraTransfer => getSubject<SystemCallFirstSceneCameraTransferCommand>();
 

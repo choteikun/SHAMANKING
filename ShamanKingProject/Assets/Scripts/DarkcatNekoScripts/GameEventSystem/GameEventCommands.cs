@@ -220,6 +220,10 @@ namespace Gamemanager
     {
 
     }
+    public class GameStandingConversationEndCommand:GameEventMessageBase
+    {
+
+    }
     public class GameConversationEndCommand : GameEventMessageBase
     {
 
