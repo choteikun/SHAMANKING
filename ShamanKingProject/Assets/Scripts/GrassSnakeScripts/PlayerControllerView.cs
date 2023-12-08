@@ -2,10 +2,13 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gamemanager;
 using System;
+using System.Collections;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using TMPro;
 using UniRx;
 using UnityEngine;
+
 
 public class PlayerControllerView : MonoBehaviour
 {
@@ -201,11 +204,13 @@ public class PlayerControllerView : MonoBehaviour
             final = hit.point;
             // 在這裡您可以使用hitPoint來進一步處理碰撞點
         }
-
-        this.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
+        Debug.Log(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.name);
+        dashPointTest.transform.position = final;
+        //this.gameObject.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
+        StartCoroutine(MoveToPosition(final, player_Stats_.Player_DodgeSpeed));
         DOVirtual.Float(-0.5f, 1.5f, 0.1f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
-            Debug.Log(currentParams);
+           // Debug.Log(currentParams);
             currentParams.z = value;
             currentParams.w = 0.5f;
             foreach (var item in test_)
@@ -216,7 +221,7 @@ public class PlayerControllerView : MonoBehaviour
         await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
-            Debug.Log(currentParams);
+           // Debug.Log(currentParams);
             currentParams.z = value;
             currentParams.w = 0.5f;
             foreach (var item in test_)
@@ -224,7 +229,22 @@ public class PlayerControllerView : MonoBehaviour
                 item.SetVector("_DissolveParams", currentParams);
             }
         }).SetEase(Ease.InSine);
-        dashPointTest.transform.position = final;
+        
+    }
+    IEnumerator MoveToPosition(Vector3 target, float duration)
+    {
+        Vector3 startPosition = transform.position;
+        float startTime = Time.time;
+
+        while (Time.time < startTime + duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            t = Mathf.Sin(t * Mathf.PI * 0.5f); // 使用 Sine 函數作為緩動函數
+            transform.position = Vector3.Lerp(startPosition, target, t);
+            yield return null;
+        }
+
+        transform.position = target; // 確保最終位置正確
     }
     void Update()
     {
