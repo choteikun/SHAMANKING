@@ -10,6 +10,19 @@ public class EnemyBeHitTest : MonoBehaviour
     public float HealthPoint { get { return healthPoint_; } set { healthPoint_ = value; } }
     [SerializeField] float healthPoint_ = 100;
 
+    [SerializeField] public bool Break = false;
+
+    [SerializeField] bool beenHurt_ = false;
+    [SerializeField] int avoidDamageTicks_ = 0;
+    [SerializeField] int maxNeedAvoidDamegeTicks_ = 250;
+    [SerializeField] public float BreakPoint = 0;
+    [SerializeField] public float MaxBreakPoint = 400;
+
+    [SerializeField] public bool BlueShieldOn = false;
+    [SerializeField] float blueShieldPoint_;
+    [SerializeField] float maxBlueShieldPoint_;
+
+
     [SerializeField] bool canGetHit_ = true;
     [SerializeField] bool canGetGrab_ = true;
     [SerializeField] float beHitTimer_ = 0.2f;
@@ -26,9 +39,10 @@ public class EnemyBeHitTest : MonoBehaviour
     {
         if (cmd.AttackTarget == this.gameObject)
         {
-            //if (!canGetHit_) return;
             canGetHit_ = false;
             healthPoint_ -= cmd.AttackDamage;
+            checkBreakPoint(cmd.AttackDamage);
+            checkBlueShieldDamage(cmd.AttackDamage);
             onHitParticle_.transform.position = cmd.CollidePoint;
             //onHitParticle_.GetComponent<ParticleSystem>().Play();
             onHitParticle_.GetComponent<VisualEffect>().Play();
@@ -36,6 +50,37 @@ public class EnemyBeHitTest : MonoBehaviour
             StartCoroutine("beAttackTimer");
         }
     }
+    public void GainBlueShield(int maxBlueShield)
+    {
+        BlueShieldOn = true;
+        blueShieldPoint_ = maxBlueShield;
+        maxBlueShieldPoint_ = maxBlueShield;
+    }
+
+    public void RevertBreakPoint()
+    {
+        Break = false;
+        BreakPoint = 0;
+    }
+    void checkBlueShieldDamage(float damage)
+    {
+        blueShieldPoint_ = blueShieldPoint_ - damage;
+        if (blueShieldPoint_<=0)
+        {
+            BlueShieldOn = false;
+            blueShieldPoint_ = 0;
+        }
+    }
+    void checkBreakPoint(float damage)
+    {
+        beenHurt_ = true;
+        avoidDamageTicks_ = 0;
+        BreakPoint += damage;
+        if (BreakPoint >= MaxBreakPoint)
+        {
+            Break = true;
+        }
+    }    
     void checkGrab(PlayerGrabSuccessCommand cmd)
     {
         if (cmd.AttackTarget == this.gameObject)
@@ -48,6 +93,25 @@ public class EnemyBeHitTest : MonoBehaviour
             GameManager.Instance.MainGameEvent.Send(new PlayerGrabSuccessResponse(cmd));
             Debug.Log("GrabSuccess");
             StartCoroutine("beGrabTimer");
+        }
+    }
+    private void FixedUpdate()
+    {
+        if (beenHurt_)
+        {
+            avoidDamageTicks_++;
+            if (avoidDamageTicks_>= maxNeedAvoidDamegeTicks_)
+            {
+                beenHurt_ = false;
+                avoidDamageTicks_ = 0;
+            }
+        }
+        else
+        {
+            if (!Break)
+            {
+                BreakPoint = Mathf.Clamp(BreakPoint - 5 * Time.deltaTime,0,MaxBreakPoint) ;            
+            }
         }
     }
     public IEnumerator beAttackTimer()
