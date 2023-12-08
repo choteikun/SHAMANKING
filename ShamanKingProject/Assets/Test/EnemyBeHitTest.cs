@@ -1,6 +1,7 @@
 using Gamemanager;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.VFX;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
@@ -10,17 +11,17 @@ public class EnemyBeHitTest : MonoBehaviour
     public float HealthPoint { get { return healthPoint_; } set { healthPoint_ = value; } }
     [SerializeField] float healthPoint_ = 100;
 
-    [SerializeField] public bool Break = false;
+    [SerializeField] public bool Break = false; //是否已經在break狀態
 
-    [SerializeField] bool beenHurt_ = false;
-    [SerializeField] int avoidDamageTicks_ = 0;
-    [SerializeField] int maxNeedAvoidDamegeTicks_ = 250;
-    [SerializeField] public float BreakPoint = 0;
-    [SerializeField] public float MaxBreakPoint = 400;
+    [SerializeField] bool beenHurt_ = false; //是否在戰鬥狀態
+    [SerializeField] int avoidDamageTicks_ = 0;//已經脫離戰鬥狀態幾貞
+    [SerializeField] int maxNeedAvoidDamegeTicks_ = 250;//脫離戰鬥需要幾貞
+    [SerializeField] public float BreakPoint = 0;//BK值已經累積幾點
+    [SerializeField] public float MaxBreakPoint = 400;//滿BK值需要幾點
 
-    [SerializeField] public bool BlueShieldOn = false;
-    [SerializeField] float blueShieldPoint_;
-    [SerializeField] float maxBlueShieldPoint_;
+    [SerializeField] public bool BlueShieldOn = false;//是否擁有藍盾 可以防止被斷招
+    [SerializeField] float blueShieldPoint_; //目前剩餘藍盾點數
+    [SerializeField] float maxBlueShieldPoint_; //藍盾滿條的量
 
 
     [SerializeField] bool canGetHit_ = true;
@@ -50,19 +51,19 @@ public class EnemyBeHitTest : MonoBehaviour
             StartCoroutine("beAttackTimer");
         }
     }
-    public void GainBlueShield(int maxBlueShield)
+    public void GainBlueShield(int maxBlueShield) //獲得藍盾 
     {
         BlueShieldOn = true;
         blueShieldPoint_ = maxBlueShield;
         maxBlueShieldPoint_ = maxBlueShield;
     }
 
-    public void RevertBreakPoint()
+    public void RevertBreakPoint() //取消Break狀態 讓一個break循環可以再來一次
     {
         Break = false;
         BreakPoint = 0;
     }
-    void checkBlueShieldDamage(float damage)
+    void checkBlueShieldDamage(float damage)//扣除藍盾
     {
         blueShieldPoint_ = blueShieldPoint_ - damage;
         if (blueShieldPoint_<=0)
@@ -71,8 +72,9 @@ public class EnemyBeHitTest : MonoBehaviour
             blueShieldPoint_ = 0;
         }
     }
-    void checkBreakPoint(float damage)
+    void checkBreakPoint(float damage)//增加bk值
     {
+        if (Break) return;
         beenHurt_ = true;
         avoidDamageTicks_ = 0;
         BreakPoint += damage;
@@ -95,7 +97,7 @@ public class EnemyBeHitTest : MonoBehaviour
             StartCoroutine("beGrabTimer");
         }
     }
-    private void FixedUpdate()
+    private void FixedUpdate() //脫離戰鬥後減少bk值
     {
         if (beenHurt_)
         {
