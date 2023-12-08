@@ -194,25 +194,25 @@ public class FirstBossVariables : MonoBehaviour
             default:
                 break;
         }
-        switch (ExplosionJudgmentTimer)
+        switch (ExplosionJudgmentTimer / 60)
         {
-            case 0:
+            case 0f:
                 ExplosionJudgmentProbability = 0;
                 ExplosionJudgmentTrigger = true;
                 break;
-            case 10:
+            case 10.0f:
                 ExplosionJudgmentProbability = 0;
                 ExplosionJudgmentTrigger = true;
                 break;
-            case 20:
+            case 20.0f:
                 ExplosionJudgmentProbability = 0.4f;
                 ExplosionJudgmentTrigger = true;
                 break;
-            case 30:
+            case 30.0f:
                 ExplosionJudgmentProbability = 0.75f;
                 ExplosionJudgmentTrigger = true;
                 break;
-            case 40:
+            case 40.0f:
                 ExplosionJudgmentProbability = 1.0f;
                 ExplosionJudgmentTrigger = true;
                 ExplosionJudgmentTimer = 0;

@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class BossHellDogAnimationEvent : MonoBehaviour
 {
-
+    public void BossCurAnimationEnd()
+    {
+        GameManager.Instance.MainGameEvent.Send(new BossCurAnimationEndCommand());
+    }
     public void SystemCallFireballLocate()
     {
         GameManager.Instance.HellDogGameEvent.Send(new SystemCallFireballLocateCommand());
