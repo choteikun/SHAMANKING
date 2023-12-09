@@ -53,7 +53,10 @@ namespace Gamemanager
     {
 
     }
+    public class PlayerExecutionAttackCommand:GameEventMessageBase
+    {
 
+    }
 
     public class PlayerJumpAttackButtonCommand : GameEventMessageBase
     {

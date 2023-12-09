@@ -188,6 +188,14 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() { });
         Debug.Log("Attack!");
     }
+    async void OnPlayerExecutionAttack()
+    {
+        if (isAiming_ || isJumping_) return;
+        await UniTask.DelayFrame(1);
+        isAttacking_ = true;
+        GameManager.Instance.MainGameEvent.Send(new PlayerExecutionAttackCommand() { });
+        Debug.Log("Attack!");
+    }
 
     void OnPlayerPossessCancel()
     {

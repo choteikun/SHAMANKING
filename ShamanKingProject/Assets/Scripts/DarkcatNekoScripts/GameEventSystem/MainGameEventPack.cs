@@ -47,6 +47,8 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<PlayerHeavyAttackButtonCommand> OnPlayerHeavyAttack => getSubject<PlayerHeavyAttackButtonCommand>();
 
+    public IObservable<PlayerExecutionAttackCommand> OnPlayerExecutionAttack => getSubject<PlayerExecutionAttackCommand>();
+
     public IObservable<PlayerJumpAttackButtonCommand> OnPlayerJumpAttack => getSubject<PlayerJumpAttackButtonCommand>();
 
     /// <summary>
