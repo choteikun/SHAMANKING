@@ -1,27 +1,34 @@
 using Gamemanager;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.VFX;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class EnemyBeHitTest : MonoBehaviour
 {
 
     public float HealthPoint { get { return healthPoint_; } set { healthPoint_ = value; } }
     [SerializeField] float healthPoint_ = 100;
+    public bool GainBlueShieldTrigger { get { return gainBlueShieldTrigger_; } set { gainBlueShieldTrigger_ = value; } }
+    [SerializeField] bool gainBlueShieldTrigger_;
+    public bool RevertBreakPointTrigger { get { return revertBreakPointTrigger_; } set { revertBreakPointTrigger_ = value; } }
+    [SerializeField] bool revertBreakPointTrigger_;
 
-    [SerializeField] public bool Break = false; //¬O§_¤w¸g¦bbreakª¬ºA
+    [SerializeField] public bool Break { get { return break_; } set { break_ = value; } } //æ˜¯å¦å·²ç¶“åœ¨breakç‹€æ…‹
+    [SerializeField] bool break_ = false;
+    public float BlueShieldSettingParameter { get { return blueShieldSettingParameter_; } set { blueShieldSettingParameter_ = value; } }
+    [SerializeField] float blueShieldSettingParameter_;
 
-    [SerializeField] bool beenHurt_ = false; //¬O§_¦b¾Ô°«ª¬ºA
-    [SerializeField] int avoidDamageTicks_ = 0;//¤w¸g²æÂ÷¾Ô°«ª¬ºA´X­s
-    [SerializeField] int maxNeedAvoidDamegeTicks_ = 250;//²æÂ÷¾Ô°«»İ­n´X­s
-    [SerializeField] public float BreakPoint = 0;//BK­È¤w¸g²Ö¿n´XÂI
-    [SerializeField] public float MaxBreakPoint = 400;//º¡BK­È»İ­n´XÂI
+    [SerializeField] bool beenHurt_ = false; //æ˜¯å¦åœ¨æˆ°é¬¥ç‹€æ…‹
+    [SerializeField] int avoidDamageTicks_ = 0;//å·²ç¶“è„«é›¢æˆ°é¬¥ç‹€æ…‹å¹¾è²
+    [SerializeField] int maxNeedAvoidDamegeTicks_ = 250;//è„«é›¢æˆ°é¬¥éœ€è¦å¹¾è²
+    [SerializeField] public float BreakPoint = 0;//BKå€¼å·²ç¶“ç´¯ç©å¹¾é»
+    [SerializeField] public float MaxBreakPoint = 400;//æ»¿BKå€¼éœ€è¦å¹¾é»
 
-    [SerializeField] public bool BlueShieldOn = false;//¬O§_¾Ö¦³ÂÅ¬Ş ¥i¥H¨¾¤î³QÂ_©Û
-    [SerializeField] float blueShieldPoint_; //¥Ø«e³Ñ¾lÂÅ¬ŞÂI¼Æ
-    [SerializeField] float maxBlueShieldPoint_; //ÂÅ¬Şº¡±øªº¶q
+    [SerializeField] public bool BlueShieldOn { get { return blueShieldOn_; } set { blueShieldOn_ = value; } }//æ˜¯å¦æ“æœ‰è—ç›¾ å¯ä»¥é˜²æ­¢è¢«æ–·æ‹›
+    [SerializeField] bool blueShieldOn_ = false;
+    [SerializeField] public float CurBlueShieldPoint { get { return curBlueShieldPoint_; } set { curBlueShieldPoint_ = value; } } //ç›®å‰å‰©é¤˜è—ç›¾é»æ•¸
+    [SerializeField] float curBlueShieldPoint_;
+    [SerializeField] float maxBlueShieldPoint_; //è—ç›¾æ»¿æ¢çš„é‡
 
 
     [SerializeField] bool canGetHit_ = true;
@@ -47,32 +54,32 @@ public class EnemyBeHitTest : MonoBehaviour
             onHitParticle_.transform.position = cmd.CollidePoint;
             //onHitParticle_.GetComponent<ParticleSystem>().Play();
             onHitParticle_.GetComponent<VisualEffect>().Play();
-            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));           
+            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
             StartCoroutine("beAttackTimer");
         }
     }
-    public void GainBlueShield(int maxBlueShield) //Àò±oÂÅ¬Ş 
+    public void GainBlueShield(float maxBlueShield) //ç²å¾—è—ç›¾ 
     {
         BlueShieldOn = true;
-        blueShieldPoint_ = maxBlueShield;
+        CurBlueShieldPoint = maxBlueShield;
         maxBlueShieldPoint_ = maxBlueShield;
     }
 
-    public void RevertBreakPoint() //¨ú®øBreakª¬ºA Åı¤@­Óbreak´`Àô¥i¥H¦A¨Ó¤@¦¸
+    public void RevertBreakPoint() //å–æ¶ˆBreakç‹€æ…‹ è®“ä¸€å€‹breakå¾ªç’°å¯ä»¥å†ä¾†ä¸€æ¬¡
     {
         Break = false;
         BreakPoint = 0;
     }
-    void checkBlueShieldDamage(float damage)//¦©°£ÂÅ¬Ş
+    void checkBlueShieldDamage(float damage)//æ‰£é™¤è—ç›¾
     {
-        blueShieldPoint_ = blueShieldPoint_ - damage;
-        if (blueShieldPoint_<=0)
+        CurBlueShieldPoint = CurBlueShieldPoint - damage;
+        if (CurBlueShieldPoint <= 0)
         {
             BlueShieldOn = false;
-            blueShieldPoint_ = 0;
+            CurBlueShieldPoint = 0;
         }
     }
-    void checkBreakPoint(float damage)//¼W¥[bk­È
+    void checkBreakPoint(float damage)//å¢åŠ bkå€¼
     {
         if (Break) return;
         beenHurt_ = true;
@@ -82,7 +89,7 @@ public class EnemyBeHitTest : MonoBehaviour
         {
             Break = true;
         }
-    }    
+    }
     void checkGrab(PlayerGrabSuccessCommand cmd)
     {
         if (cmd.AttackTarget == this.gameObject)
@@ -97,12 +104,25 @@ public class EnemyBeHitTest : MonoBehaviour
             StartCoroutine("beGrabTimer");
         }
     }
-    private void FixedUpdate() //²æÂ÷¾Ô°««á´î¤Öbk­È
+    private void Update()
+    {
+        if (GainBlueShieldTrigger)
+        {
+            GainBlueShield(BlueShieldSettingParameter);
+            GainBlueShieldTrigger = false;
+        }
+        if (RevertBreakPointTrigger)
+        {
+            RevertBreakPoint();
+            RevertBreakPointTrigger = false;
+        }
+    }
+    private void FixedUpdate() //è„«é›¢æˆ°é¬¥å¾Œæ¸›å°‘bkå€¼
     {
         if (beenHurt_)
         {
             avoidDamageTicks_++;
-            if (avoidDamageTicks_>= maxNeedAvoidDamegeTicks_)
+            if (avoidDamageTicks_ >= maxNeedAvoidDamegeTicks_)
             {
                 beenHurt_ = false;
                 avoidDamageTicks_ = 0;
@@ -112,7 +132,7 @@ public class EnemyBeHitTest : MonoBehaviour
         {
             if (!Break)
             {
-                BreakPoint = Mathf.Clamp(BreakPoint - 5 * Time.deltaTime,0,MaxBreakPoint) ;            
+                BreakPoint = Mathf.Clamp(BreakPoint - 5 * Time.deltaTime, 0, MaxBreakPoint);
             }
         }
     }
@@ -127,4 +147,3 @@ public class EnemyBeHitTest : MonoBehaviour
         canGetGrab_ = true;
     }
 }
-

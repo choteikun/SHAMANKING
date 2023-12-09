@@ -74,35 +74,44 @@ public class GhostEnemyVariables : MonoBehaviour
         {
             if (cmd.AttackTarget == this.gameObject)
             {
-                stunTrigger_ = true;
+                StunTrigger = true;
             }
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
         {
             if (cmd.AnimationEventName == "Player_Pull_Finish")
             {
-                stunTrigger_ = false;
+                StunTrigger = false;
             }
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, async cmd =>
         {
-            if (cmd.AttackTarget == this.gameObject && cmd.AttackInputType != AttackInputType.ChainAttack)
+            if (cmd.AttackTarget == this.gameObject)
             {
                 hasTakenDamage_ = true;
                 await UniTask.DelayFrame(1);
                 hasTakenDamage_ = false;
             }
         });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, async cmd =>
-        {
-            if (cmd.AttackTarget == this.gameObject && cmd.AttackInputType == AttackInputType.ChainAttack)
-            {
-                RootTrigger = true;
-                await UniTask.Delay(5000);
-                rootTrigger_ = false;
-                GameManager.Instance.MainGameEvent.Send(new PlayerRootSuccessCommand());
-            }
-        });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, async cmd =>
+        //{
+        //    if (cmd.AttackTarget == this.gameObject && cmd.AttackInputType != AttackInputType.ChainAttack)
+        //    {
+        //        hasTakenDamage_ = true;
+        //        await UniTask.DelayFrame(1);
+        //        hasTakenDamage_ = false;
+        //    }
+        //});
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, async cmd =>
+        //{
+        //    if (cmd.AttackTarget == this.gameObject && cmd.AttackInputType == AttackInputType.ChainAttack)
+        //    {
+        //        RootTrigger = true;
+        //        await UniTask.Delay(5000);
+        //        RootTrigger = false;
+        //        GameManager.Instance.MainGameEvent.Send(new PlayerRootSuccessCommand());
+        //    }
+        //});
 
     }
     void Update()
