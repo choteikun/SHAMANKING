@@ -49,14 +49,15 @@ public class EnemyBeHitTest : MonoBehaviour
     {
         if (cmd.AttackTarget == this.gameObject)
         {
-            if (Break && cmd.AttackInputType == AttackInputType.ExecutionAttack && canBeExecute_)
+            if (break_ && cmd.AttackInputType == AttackInputType.ExecutionAttack && canBeExecute_)
             {
                 canBeExecute_ = false;
                 GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
                 //呼叫處決特效
-                await UniTask.Delay(500);
+                await UniTask.Delay(2000);
                 healthPoint_ -= executionDamage_;
                 RevertBreakPoint();
+
                 canBeExecute_ = true;
             }
             else
@@ -71,6 +72,14 @@ public class EnemyBeHitTest : MonoBehaviour
                 GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
                 StartCoroutine("beAttackTimer");
             }            
+        }
+    }
+    async void breakRevertTimer()
+    {
+        await UniTask.Delay(5000);
+        if (break_)
+       {
+            RevertBreakPoint();
         }
     }
     public void GainBlueShield(float maxBlueShield) //獲得藍盾 
@@ -103,6 +112,7 @@ public class EnemyBeHitTest : MonoBehaviour
         if (BreakPoint >= MaxBreakPoint)
         {
             Break = true;
+            breakRevertTimer();
         }
     }
     void checkGrab(PlayerGrabSuccessCommand cmd)
