@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Gamemanager;
 using System.Collections;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.VFX;
 
 public class EnemyBeHitTest : MonoBehaviour
 {
-
+    [SerializeField] float executionDamage_;
     public float HealthPoint { get { return healthPoint_; } set { healthPoint_ = value; } }
     [SerializeField] float healthPoint_ = 100;
     public bool GainBlueShieldTrigger { get { return gainBlueShieldTrigger_; } set { gainBlueShieldTrigger_ = value; } }
@@ -15,6 +16,7 @@ public class EnemyBeHitTest : MonoBehaviour
 
     [SerializeField] public bool Break { get { return break_; } set { break_ = value; } } //是否已經在break狀態
     [SerializeField] bool break_ = false;
+    [SerializeField] bool canBeExecute_ = true;
     public float BlueShieldSettingParameter { get { return blueShieldSettingParameter_; } set { blueShieldSettingParameter_ = value; } }
     [SerializeField] float blueShieldSettingParameter_;
 
@@ -43,19 +45,32 @@ public class EnemyBeHitTest : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { checkDamage(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccess, cmd => { checkGrab(cmd); });
     }
-    void checkDamage(PlayerAttackSuccessCommand cmd)
+    async void checkDamage(PlayerAttackSuccessCommand cmd)
     {
         if (cmd.AttackTarget == this.gameObject)
         {
-            canGetHit_ = false;
-            healthPoint_ -= cmd.AttackDamage;
-            checkBreakPoint(cmd.AttackDamage);
-            checkBlueShieldDamage(cmd.AttackDamage);
-            onHitParticle_.transform.position = cmd.CollidePoint;
-            //onHitParticle_.GetComponent<ParticleSystem>().Play();
-            onHitParticle_.GetComponent<VisualEffect>().Play();
-            GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
-            StartCoroutine("beAttackTimer");
+            if (Break && cmd.AttackInputType == AttackInputType.ExecutionAttack && canBeExecute_)
+            {
+                canBeExecute_ = false;
+                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
+                //呼叫處決特效
+                await UniTask.Delay(500);
+                healthPoint_ -= executionDamage_;
+                RevertBreakPoint();
+                canBeExecute_ = true;
+            }
+            else
+            {
+                canGetHit_ = false;
+                healthPoint_ -= cmd.AttackDamage;
+                checkBreakPoint(cmd.AttackDamage);
+                checkBlueShieldDamage(cmd.AttackDamage);
+                onHitParticle_.transform.position = cmd.CollidePoint;
+                //onHitParticle_.GetComponent<ParticleSystem>().Play();
+                onHitParticle_.GetComponent<VisualEffect>().Play();
+                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
+                StartCoroutine("beAttackTimer");
+            }            
         }
     }
     public void GainBlueShield(float maxBlueShield) //獲得藍盾 
