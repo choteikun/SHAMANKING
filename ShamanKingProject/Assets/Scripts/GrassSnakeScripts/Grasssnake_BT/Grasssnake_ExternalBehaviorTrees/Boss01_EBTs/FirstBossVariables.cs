@@ -108,7 +108,11 @@ public class FirstBossVariables : MonoBehaviour
     }
     void Update()
     {
-        DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
+        if (UpdatePosTrigger)
+        {
+            DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
+        }
+        
         ExplosionJudgmentTimer += !ExplosionJudgmentTrigger ? 1 : 0;
         switch (IntTypeStateOfFirstBoss)
         {
@@ -223,6 +227,10 @@ public class FirstBossVariables : MonoBehaviour
     }
     public void OnUpdateRootMotion(Animator anim)
     {
+        //if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_JumpBack"))
+        //{
+
+        //}
         // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
         deltaPos_ += anim.deltaPosition;
     }

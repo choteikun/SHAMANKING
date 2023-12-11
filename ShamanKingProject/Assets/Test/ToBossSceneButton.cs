@@ -7,7 +7,7 @@ public class ToBossSceneButton : MonoBehaviour
 {
     public void ToBossScene()
     {
-        SceneManager.LoadScene("Boss_Scene");
+        SceneManager.LoadScene("SnakeBossTestScene");
     }
     private void Update()
     {

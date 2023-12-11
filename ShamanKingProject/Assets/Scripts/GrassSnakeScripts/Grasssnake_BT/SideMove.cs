@@ -25,7 +25,7 @@ public class SideMove : Action
         transform.position = Vector3.MoveTowards(transform.position, transform.position + SidePosValue, speed.Value * Time.deltaTime);
         if (lookAtTarget.Value && (position - transform.position).sqrMagnitude > 0.01f)
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(position - transform.position), maxLookAtRotationDelta.Value);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(new Vector3(position.x, 0, position.z) - new Vector3(transform.position.x, 0, transform.position.z)), maxLookAtRotationDelta.Value);
         }
         return TaskStatus.Running;
     }
