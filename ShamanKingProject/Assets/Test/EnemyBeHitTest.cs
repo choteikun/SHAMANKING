@@ -21,8 +21,8 @@ public class EnemyBeHitTest : MonoBehaviour
     [SerializeField] float blueShieldSettingParameter_;
 
     [SerializeField] bool beenHurt_ = false; //是否在戰鬥狀態
-    [SerializeField] int avoidDamageTicks_ = 0;//已經脫離戰鬥狀態幾貞
-    [SerializeField] int maxNeedAvoidDamegeTicks_ = 250;//脫離戰鬥需要幾貞
+    [SerializeField] int avoidDamageTicks_ = 0;//已經脫離戰鬥狀態幾幀
+    [SerializeField] int maxNeedAvoidDamegeTicks_ = 250;//脫離戰鬥需要幾幀
     [SerializeField] public float BreakPoint = 0;//BK值已經累積幾點
     [SerializeField] public float MaxBreakPoint = 400;//滿BK值需要幾點
 
