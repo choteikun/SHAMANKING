@@ -360,6 +360,7 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;110;1459.766,1967.354;Inherit;True;2;2;
 Node;AmplifyShaderEditor.WorldPosInputsNode;107;853.7662,1452.756;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;106;1160.76,1613.44;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;109;885.9659,1670.754;Inherit;False;Property;_Float14;Wobble;18;0;Create;False;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;119;-609.6856,1766.17;Inherit;True;Property;_TextureSample1;Texture Sample 1;21;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;21;0;28;0
 WireConnection;21;1;25;0
 WireConnection;21;2;24;0
@@ -462,5 +463,6 @@ WireConnection;110;0;106;0
 WireConnection;110;1;108;0
 WireConnection;106;0;107;0
 WireConnection;106;1;109;0
+WireConnection;119;1;52;0
 ASEEND*/
-//CHKSM=F9B626F5BD7671B1EF6B0823F5331EC27B7722BC
+//CHKSM=6CC2E73B6B41A01C13E896734CFF0F0351EF5A6C
