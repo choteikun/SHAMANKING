@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 /// <summary>
 /// 供狀態機與行為樹同步的FirstBossState
@@ -91,6 +90,8 @@ public class FirstBossVariables : MonoBehaviour
 
     // Root Motion的位移量 用於腳本運用Root Motion
     private Vector3 deltaPos_;
+    // Root Motion的旋轉量 用於腳本運用Root Motion
+    private Quaternion deltaRot_;
 
     void Start()
     {
@@ -105,6 +106,8 @@ public class FirstBossVariables : MonoBehaviour
 
         // 清零目前物理幀累積的deltaPos_
         deltaPos_ = Vector3.zero;
+
+
     }
     void Update()
     {
@@ -232,6 +235,12 @@ public class FirstBossVariables : MonoBehaviour
 
         //}
         // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
+        
         deltaPos_ += anim.deltaPosition;
+        //if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_JumpBack"))
+        //{
+        //    deltaRot_ = anim.rootRotation;
+        //}
+        //else {}
     }
 }

@@ -36,7 +36,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
 
             rigidbody.AddForce(force.Value, forceMode);
 
-            return TaskStatus.Success;
+            return TaskStatus.Success; 
         }
 
         public override void OnReset()

@@ -1,7 +1,8 @@
 
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider), typeof(AudioSource))]
+[RequireComponent(typeof(Collider), typeof(AudioSource), typeof(Rigidbody))]
 public class FireTrackBall : MonoBehaviour
 {
     [SerializeField, Tooltip("最大轉彎速度")]
@@ -38,6 +39,7 @@ public class FireTrackBall : MonoBehaviour
 
     private void Start()
     {
+        Target = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
         if (!audioSource.isPlaying)
@@ -56,10 +58,10 @@ public class FireTrackBall : MonoBehaviour
             col.enabled = false;
         }
         // 禁止所有粒子系統
-        foreach (ParticleSystem ps in FireBallEffects)
-        {
-            ps.Stop();
-        }
+        //foreach (ParticleSystem ps in FireBallEffects)
+        //{
+        //    ps.Stop();
+        //}
         // 停止播放音效
         if (audioSource.isPlaying)
             audioSource.Stop();

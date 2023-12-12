@@ -26,4 +26,8 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     {
         GameManager.Instance.HellDogGameEvent.Send(new SystemCallFireballSpawnCommand());
     }
+    public void SystemCallFireTrackBallSpawn()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new SystemCallFireTrackBallSpawnCommand());
+    }
 }

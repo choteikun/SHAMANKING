@@ -315,7 +315,10 @@ namespace Gamemanager
     {
 
     }
+    public class SystemCallFireTrackBallSpawnCommand : GameEventMessageBase
+    {
 
+    }
     public class SystemCallFirstSceneCameraTransferCommand:GameEventMessageBase
     {
         public float CameraId;
