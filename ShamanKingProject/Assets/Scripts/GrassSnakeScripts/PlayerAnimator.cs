@@ -13,6 +13,7 @@ using UnityEditor;
 public class PlayerAnimator 
 {
     #region 提前Hash進行優化
+    readonly int animID_Charging = Animator.StringToHash("Charging");
     readonly int animID_TargetMove = Animator.StringToHash("TargetMove");
     readonly int animID_AimMove = Animator.StringToHash("AimMove");
     readonly int animID_PossessMove = Animator.StringToHash("PossessMove");
@@ -137,9 +138,11 @@ public class PlayerAnimator
         setVerticalAnimVel();
 
         //設置玩家瞄準狀態
-        setPlayer_animID_Aiming();
+        //setPlayer_animID_Aiming();
         //設置玩家鎖敵狀態
-        set_animID_TargetingMove();
+        //set_animID_TargetingMove();
+        //設置玩家蓄力狀態
+        setPlayer_animID_Charging();
 
         //回到idle的計時器
         timeoutToIdle();
@@ -373,6 +376,17 @@ public class PlayerAnimator
 
             animator_.SetFloat(animID_TargetMoveX, player_horizontalAnimX);
             animator_.SetFloat(animID_TargetMoveY, player_horizontalAnimY);
+        }
+    }
+    void setPlayer_animID_Charging()
+    {
+        if (player_Stats_.Charging)
+        {
+            animator_.SetBool(animID_Charging, true);
+        }
+        else
+        {
+            animator_.SetBool(animID_Charging, false);
         }
     }
     //重置所有瞄準的bool動畫

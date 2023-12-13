@@ -64,7 +64,8 @@ public class PlayerControllerView : MonoBehaviour
             
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerChargingButtonTrigger, onAimButtonTrigger);
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, onAimButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerChargingButtonTrigger, onPlayerChargingButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { onTargetGetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
@@ -102,10 +103,10 @@ public class PlayerControllerView : MonoBehaviour
     #endregion
 
     #region - Player取得瞄準指令 -
-    void onAimButtonTrigger(PlayerChargingButtonCommand playerAimingButtonCommand)
+    void onAimButtonTrigger(PlayerAimingButtonCommand playerAimingButtonCommand)
     {
-        player_Stats_.Aiming = playerAimingButtonCommand.ChargingButtonIsPressed;
-        if (playerAimingButtonCommand.ChargingButtonIsPressed)
+        player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
+        if (playerAimingButtonCommand.AimingButtonIsPressed)
         {
             player_Stats_.Targeting = false;
             playerControllerMover_.TransitionState("Aim");
@@ -132,6 +133,26 @@ public class PlayerControllerView : MonoBehaviour
         playerControllerMover_.TransitionState("MainGame");
     }
     #endregion
+    #region - Player取得蓄力指令 -
+    void onPlayerChargingButtonTrigger(PlayerChargingButtonCommand playerChargingButtonCommand)
+    {
+        player_Stats_.Charging = playerChargingButtonCommand.ChargingButtonIsPressed;
+        if (playerChargingButtonCommand.ChargingButtonIsPressed)
+        {
+            playerControllerMover_.TransitionState("Aim");
+        }
+        else
+        {
+            if (player_Stats_.Targeting)
+            {
+                return;
+            }
+            chargingInterrupt();
+            playerControllerMover_.TransitionState("MainGame");
+        }
+    }
+    #endregion
+
 
     void stickInputIndicator()
     {
@@ -182,6 +203,11 @@ public class PlayerControllerView : MonoBehaviour
     void aimingInterrupt()
     {
         player_Stats_.Aiming = false;
+        playerControllerMover_.TransitionState("MainGame");
+    }
+    void chargingInterrupt()
+    {
+        player_Stats_.Charging = false;
         playerControllerMover_.TransitionState("MainGame");
     }
     void cancelMoving()
@@ -316,6 +342,8 @@ public class Player_Stats
 
     [Tooltip("玩家瞄準狀態")]
     public bool Aiming = false;
+    [Tooltip("玩家蓄力狀態")]
+    public bool Charging = false;
 
     [Tooltip("玩家落下狀態")]
     public bool Falling;
