@@ -130,6 +130,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerShootAttack",
+                    "type": "Button",
+                    "id": "3ebf51da-95d8-4661-97a7-3f03ce4da0f5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerCharge",
+                    "type": "Button",
+                    "id": "7cfeb203-08ac-4e45-a6ce-c8e53a4b03e1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -312,7 +330,7 @@
                 {
                     "name": "",
                     "id": "b8b4670e-6c10-4daf-8f87-fe1d7c9ece91",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
@@ -389,7 +407,7 @@
                 {
                     "name": "modifier",
                     "id": "390ff470-d572-4863-b637-6fd154502bc3",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -444,7 +462,7 @@
                 {
                     "name": "",
                     "id": "da142ad7-d66b-4e9a-85c2-4c8251cff7e6",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/rightStickPress",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
@@ -466,7 +484,7 @@
                 {
                     "name": "",
                     "id": "40a0a122-645e-4a22-9f58-474f0479bc44",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -487,23 +505,78 @@
                 },
                 {
                     "name": "",
-                    "id": "6e7cbd67-3bac-4554-9aea-c4e243c9d244",
-                    "path": "<Gamepad>/leftShoulder",
+                    "id": "17940db2-e996-441e-9a98-3a384b6cbdf3",
+                    "path": "<Keyboard>/ctrl",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "PlayerExecutionAttack",
+                    "action": "PlayerShootAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "74d48222-f92b-4453-828e-bda5b2442000",
-                    "path": "<Keyboard>/tab",
+                    "id": "5c855c8a-3f98-43e5-9f30-650dd21dd175",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerShootAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "6fd16fab-29ac-427b-b0bd-c6e7a10ed324",
+                    "path": "ButtonWithOneModifier",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "PlayerExecutionAttack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "fb35bbc1-4118-4074-b909-258db9dc5ee0",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerExecutionAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button",
+                    "id": "f34cd275-6f65-4254-acf0-8d69576aba7d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerExecutionAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "aa071941-005c-40fc-a167-ca6c17cc7eb2",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "216f2196-8fe8-41a8-b60c-060be50004c2",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerCharge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -841,6 +841,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 3
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &-5710304525662259838
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: KeepShootAttack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: fb6addd2e9cbcd54eb89fe4eed3363c9, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-5559711987691011337
 AnimatorState:
   serializedVersion: 6
@@ -1653,19 +1679,19 @@ AnimatorStateMachine:
     second:
     - {fileID: 3242045185941493407}
     - {fileID: 2083756027479825831}
-  - first: {fileID: 8033060388811791116}
-    second:
-    - {fileID: -3858859084907979358}
-  - first: {fileID: 1827687160985373151}
-    second:
-    - {fileID: 2681894506142077419}
-    - {fileID: -3426632437883035123}
   - first: {fileID: -1487834313206244893}
     second: []
   - first: {fileID: -508111573602529641}
     second:
     - {fileID: -922391206401741294}
     - {fileID: -4977010233233235369}
+  - first: {fileID: 1827687160985373151}
+    second:
+    - {fileID: 2681894506142077419}
+    - {fileID: -3426632437883035123}
+  - first: {fileID: 8033060388811791116}
+    second:
+    - {fileID: -3858859084907979358}
   m_StateMachineBehaviours:
   - {fileID: -6421028823431876781}
   m_AnyStatePosition: {x: 1120, y: 200, z: 0}
@@ -2132,6 +2158,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 3883832622403149894}
     m_Position: {x: 10, y: 430, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -5710304525662259838}
+    m_Position: {x: 20, y: 480, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -3256,7 +3285,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ExecutionAttack
+  m_Name: ShootAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

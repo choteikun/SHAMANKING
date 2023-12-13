@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e394f3e609550de44a242e6e6faff5b0, type: 3}
-  m_Name: 6_HeavyAttack2
+  m_Name: 20_PlayerKeepShoot
   m_EditorClassIdentifier: 
-  SkillName: HeavyAttack2
-  SkillId: 6
-  SkillFrame: 190
-  LeastNeedAttackFrame: 0
-  M_SkillType: 1
+  SkillName: KeepShootAttack
+  SkillId: 20
+  SkillFrame: 60
+  LeastNeedAttackFrame: 5
+  M_SkillType: 9
   nextCombos:
+  - RequiredInputType: 9
+    SkippedFrame: 5
+    NextAttackId: 20
   - RequiredInputType: 2
     SkippedFrame: 10
     NextAttackId: 8

@@ -19,6 +19,7 @@ public class MainGameEventPack : GameEventPack
     /// 按下與放開瞄準鏡的瞬間
     /// </summary>
     public IObservable<PlayerAimingButtonCommand> OnAimingButtonTrigger => getSubject<PlayerAimingButtonCommand>();
+    public IObservable<PlayerChargingButtonCommand> OnPlayerChargingButtonTrigger => getSubject<PlayerChargingButtonCommand>();
 
     /// <summary>
     /// 手把輸入角色翻滾
@@ -49,6 +50,8 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<PlayerExecutionAttackCommand> OnPlayerExecutionAttack => getSubject<PlayerExecutionAttackCommand>();
 
+    public IObservable<PlayerShootAttackCommand> OnPlayerShootAttack => getSubject<PlayerShootAttackCommand>();
+
     public IObservable<PlayerJumpAttackButtonCommand> OnPlayerJumpAttack => getSubject<PlayerJumpAttackButtonCommand>();
 
     /// <summary>
@@ -65,6 +68,8 @@ public class MainGameEventPack : GameEventPack
     /// 少女發出的動畫事件
     /// </summary>
     public IObservable<PlayerAnimationEventsCommand> OnPlayerAnimationEvents => getSubject<PlayerAnimationEventsCommand>();
+
+    public IObservable<AnimationCallRepeatShootAttackCommand> OnAnimationCallRepeatShootAttack => getSubject<AnimationCallRepeatShootAttackCommand>();
 
     /// <summary>
     /// 幽靈的發射事件完整結束時發出的信號

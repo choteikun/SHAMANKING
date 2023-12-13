@@ -77,7 +77,7 @@ public class EnemyBeHitTest : MonoBehaviour
     async void breakRevertTimer()
     {
         await UniTask.Delay(5000);
-        if (break_)
+        if (break_&&canBeExecute_)
        {
             RevertBreakPoint();
         }

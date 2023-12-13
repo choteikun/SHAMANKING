@@ -10,13 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e394f3e609550de44a242e6e6faff5b0, type: 3}
-  m_Name: 19_PlayerExecutionAttack
+  m_Name: 19_PlayerShootAttack
   m_EditorClassIdentifier: 
-  SkillName: ExecutioAttack
+  SkillName: ShootAttack
   SkillId: 19
   SkillFrame: 110
   LeastNeedAttackFrame: 0
-  M_SkillType: 8
-  nextCombos: []
+  M_SkillType: 9
+  nextCombos:
+  - RequiredInputType: 9
+    SkippedFrame: 50
+    NextAttackId: 20
+  - RequiredInputType: 2
+    SkippedFrame: 50
+    NextAttackId: 8
   Distance: 0
   Frame: 0

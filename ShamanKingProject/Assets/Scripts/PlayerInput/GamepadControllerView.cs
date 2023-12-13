@@ -121,12 +121,35 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerControllerCameraRotateCommand() { RotateValue = output });
     }
 
-    void OnPlayerAim(InputValue value)
+    //void OnPlayerAim(InputValue value)
+    //{
+    //    if (value.isPressed == isAiming_ || (isLaunching_) || isPosscessing_ || isAttacking_) return;
+    //    GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
+    //    isAiming_ = value.isPressed;
+    //    //Debug.Log("Aim" + isAiming_.ToString());
+    //    if (value.isPressed)
+    //    {
+    //        var delayTimer = 0f;
+    //        aimingDelayer_ = DOTween.To(() => delayTimer, x => delayTimer = x, 1, 0.25f).OnComplete(
+    //            () =>
+    //            {
+    //                aimingDelay_ = false;
+    //            }
+    //            );
+    //    }
+    //    else
+    //    {
+    //        aimingDelayer_.Kill();
+    //        aimingDelay_ = true;
+    //    }
+
+    //}
+    void OnPlayerCharge(InputValue value)
     {
         if (value.isPressed == isAiming_ || (isLaunching_) || isPosscessing_ || isAttacking_) return;
-        GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = value.isPressed });
+        GameManager.Instance.MainGameEvent.Send(new PlayerChargingButtonCommand() { ChargingButtonIsPressed = value.isPressed });
         isAiming_ = value.isPressed;
-        //Debug.Log("Aim" + isAiming_.ToString());
+        Debug.Log("Charge" + isAiming_.ToString());
         if (value.isPressed)
         {
             var delayTimer = 0f;
@@ -144,7 +167,6 @@ public class GamepadControllerView : MonoBehaviour
         }
 
     }
-
     void OnPlayerJump()
     {
         if (isAiming_ || isAttacking_) return;
@@ -154,14 +176,14 @@ public class GamepadControllerView : MonoBehaviour
     }
 
 
-    void OnPlayerLaunch()
-    {
-        if (!isAiming_ || aimingDelay_ || isLaunching_ || isPosscessing_) return;
-        GameManager.Instance.MainGameEvent.Send(new PlayerLaunchGhostButtonCommand() { });
-        isLaunching_ = true;
-        //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
-        //isAiming_ =false;
-    }
+    //void OnPlayerLaunch()
+    //{
+    //    if (!isAiming_ || aimingDelay_ || isLaunching_ || isPosscessing_) return;
+    //    GameManager.Instance.MainGameEvent.Send(new PlayerLaunchGhostButtonCommand() { });
+    //    isLaunching_ = true;
+    //    //GameManager.Instance.MainGameEvent.Send(new PlayerAimingButtonCommand() { AimingButtonIsPressed = false });
+    //    //isAiming_ =false;
+    //}
 
     async void OnPlayerLightAttack()
     {
@@ -237,6 +259,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnThrowAttack()
     {
+        if (isAiming_) return;
         if (isJumping_)
         {
             return;
@@ -250,6 +273,15 @@ public class GamepadControllerView : MonoBehaviour
     {
         if (isAiming_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerTargetButtonTriggerCommand());
+    }
+
+    async void OnPlayerShootAttack()
+    {
+        if (isAiming_ || isJumping_) return;
+        await UniTask.DelayFrame(1);
+        isAttacking_ = true;
+        GameManager.Instance.MainGameEvent.Send(new PlayerShootAttackCommand() { });
+        Debug.Log("Attack!");
     }
 }
 

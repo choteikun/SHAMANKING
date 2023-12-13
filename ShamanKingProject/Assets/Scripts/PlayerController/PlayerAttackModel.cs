@@ -22,6 +22,7 @@ public class PlayerAttackModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { whenGetAttackTrigger(AttackInputType.Throw); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { whenGetAttackTrigger(AttackInputType.HeavyAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { whenGetAttackTrigger(AttackInputType.ExecutionAttack); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerShootAttack, cmd => { whenGetAttackTrigger(AttackInputType.ShootAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { whenGetAttackTrigger(AttackInputType.Dodge); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd =>
         {
@@ -123,6 +124,9 @@ public class PlayerAttackModel
                 case AttackInputType.ExecutionAttack:
                     addFirstExecutionAttack();
                     return;
+                case AttackInputType.ShootAttack:
+                    addFirstShootAttack();
+                    return;
             }
         }
     }
@@ -169,24 +173,36 @@ public class PlayerAttackModel
     }
     void addFirstHeavyAttack()
     {
-        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[5], GameManager.Instance.AttackBlockDatabase.Database[5].SkillFrame));
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[12], GameManager.Instance.AttackBlockDatabase.Database[12].SkillFrame));
         currentInputCount_++;
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("HeavyAttack1", 0.25f);
+            animator_.CrossFadeInFixedTime("HeavyAttack3", 0.25f);
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
     }
     void addFirstExecutionAttack()
     {
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[6], GameManager.Instance.AttackBlockDatabase.Database[6].SkillFrame));
+        currentInputCount_++;
+        if (!isAttacking_)
+        {
+            //animator_.Rebind();
+            animator_.CrossFadeInFixedTime("HeavyAttack2", 0.25f);
+            PassedFrameAfterAttack = 0;
+            isAttacking_ = true;
+        }
+    }
+    void addFirstShootAttack()
+    {
         CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[19], GameManager.Instance.AttackBlockDatabase.Database[19].SkillFrame));
         currentInputCount_++;
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("ExecutionAttack", 0.25f);
+            animator_.CrossFadeInFixedTime("ShootAttack", 0.25f);
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
@@ -319,6 +335,7 @@ public enum AttackInputType
     ChainAttack,
     GetHurt,
     ExecutionAttack,
+    ShootAttack,
 }
 
 

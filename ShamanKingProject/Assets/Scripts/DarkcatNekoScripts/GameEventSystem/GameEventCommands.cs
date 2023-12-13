@@ -30,6 +30,10 @@ namespace Gamemanager
     {
         public bool AimingButtonIsPressed = false;
     }
+    public class PlayerChargingButtonCommand : GameEventMessageBase
+    {
+        public bool ChargingButtonIsPressed = false;
+    }
 
     public class PlayerRollingButtonCommand : GameEventMessageBase
     {
@@ -57,7 +61,10 @@ namespace Gamemanager
     {
 
     }
+    public class PlayerShootAttackCommand:GameEventMessageBase
+    {
 
+    }
     public class PlayerJumpAttackButtonCommand : GameEventMessageBase
     {
 
@@ -160,6 +167,7 @@ namespace Gamemanager
     {
         Light,
         Heavy,
+        None,
     }
 
     public class EnemyAttackSuccessCommand : GameEventMessageBase
@@ -294,7 +302,13 @@ namespace Gamemanager
         public GameObject CommandSender;
         public AttackColliderType AttackColliderType;
     }
-
+    public class AnimationCallRepeatShootAttackCommand:GameEventMessageBase
+    {
+        public int ColliderId;
+        public int SpawnEffectId;
+        public GameObject CommandSender;
+        public AttackColliderType AttackColliderType;
+    }
     public enum AttackColliderType
     {
         Player,

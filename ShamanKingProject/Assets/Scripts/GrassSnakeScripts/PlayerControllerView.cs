@@ -64,12 +64,13 @@ public class PlayerControllerView : MonoBehaviour
             
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, onAimButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerChargingButtonTrigger, onAimButtonTrigger);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { onTargetGetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { cancelMoving(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerShootAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerBeAttackByEnemySuccess, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll,  cmd => { cancelMoving();});
@@ -101,10 +102,10 @@ public class PlayerControllerView : MonoBehaviour
     #endregion
 
     #region - Player取得瞄準指令 -
-    void onAimButtonTrigger(PlayerAimingButtonCommand playerAimingButtonCommand)
+    void onAimButtonTrigger(PlayerChargingButtonCommand playerAimingButtonCommand)
     {
-        player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
-        if (playerAimingButtonCommand.AimingButtonIsPressed)
+        player_Stats_.Aiming = playerAimingButtonCommand.ChargingButtonIsPressed;
+        if (playerAimingButtonCommand.ChargingButtonIsPressed)
         {
             player_Stats_.Targeting = false;
             playerControllerMover_.TransitionState("Aim");

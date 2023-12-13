@@ -25,10 +25,11 @@ public class AttackFeedbackBehavior : MonoBehaviour
         {
             attackHeavyHitTimeScale();
         }
-        else
+        else if(cmd.AttackFeedBackType == AttackFeedBackType.Light)
         {
             attackHitTimeScale();
         }
+        
     }
 
     async void attackHitTimeScale()
