@@ -107,7 +107,6 @@ public class FirstBossVariables : MonoBehaviour
         // 清零目前物理幀累積的deltaPos_
         deltaPos_ = Vector3.zero;
 
-        
     }
     void Update()
     {
@@ -230,19 +229,14 @@ public class FirstBossVariables : MonoBehaviour
     }
     public void OnUpdateRootMotion(Animator anim)
     {
-        //if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_JumpBack"))
-        //{
-
-        //}
-        // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
-        
-        deltaPos_ += anim.deltaPosition;
-        transform.rotation = anim.rootRotation;
+        //過濾掉不需要套用動畫位移的動畫
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_Run"))
+        {
+            // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
+            deltaPos_ += anim.deltaPosition;
+            transform.rotation = anim.rootRotation;
+        }
         //deltaRot_ = anim.deltaRotation;
-        //if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_NormalAtk_JumpAttack"))
-        //{
-        //    transform.rotation = anim.rootRotation;
-        //}
-        //else {}
+        
     }
 }
