@@ -1,3 +1,4 @@
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
 using UnityEngine;
 
 /// <summary>
@@ -21,6 +22,12 @@ public class FirstBossVariables : MonoBehaviour
 {
     [Tooltip("Boss狀態")]
     public FirstBossState FirstBossState;
+
+    [Tooltip("Boss跑步速度")]
+    public float FirstBossRunSpeed;
+    [Tooltip("Boss跳撲速度")]
+    public float FirstBossJumpForwardSpeed;
+
     public int IntTypeStateOfFirstBoss { get { return intTypeStateOfFirstBoss_; } set { intTypeStateOfFirstBoss_ = value; } }
     private int intTypeStateOfFirstBoss_;
     public int IntTypeOfBossFace { get { return intTypeOfBossFace_; } set { intTypeOfBossFace_ = value; } }
@@ -46,7 +53,7 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("Boss BreakDown Point")]
     private float fistBossBreakUpPoint_;
     public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
-    [Tooltip("與玩家的距離")]
+    [SerializeField, Tooltip("與玩家的距離")]
     private float distanceFromPlayer_;
     public float FaceChangeProbability { get { return faceChangeProbability_; } set { faceChangeProbability_ = value; } }
     [SerializeField, Tooltip("Boss換臉機率")]
@@ -88,10 +95,18 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("FirstBossRigidbody")]
     private Rigidbody rb_;
 
+    public Vector3 RunForwardVec { get { return runForwardVec_; } set { runForwardVec_ = value; } }
+    [SerializeField, Tooltip("RunForwardVec")]
+    private Vector3 runForwardVec_;
+    public Vector3 JumpForwardVec { get { return jumpForwardVec_; } set { jumpForwardVec_ = value; } }
+    [SerializeField, Tooltip("JumpForwardVec")]
+    private Vector3 jumpForwardVec_;
+
     // Root Motion的位移量 用於腳本運用Root Motion
     private Vector3 deltaPos_;
     // Root Motion的旋轉量 用於腳本運用Root Motion
     private Quaternion deltaRot_;
+
 
     void Start()
     {
@@ -106,10 +121,13 @@ public class FirstBossVariables : MonoBehaviour
 
         // 清零目前物理幀累積的deltaPos_
         deltaPos_ = Vector3.zero;
-
     }
     void Update()
     {
+        getRunForwardVector();
+
+        getJumpForwardAtkVector();
+
         if (UpdatePosTrigger)
         {
             DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
@@ -227,6 +245,17 @@ public class FirstBossVariables : MonoBehaviour
                 break;
         }
     }
+    void getRunForwardVector()
+    {
+        RunForwardVec = transform.forward * FirstBossRunSpeed;
+    }
+    void getJumpForwardAtkVector()
+    {
+        //根據Boss當下對玩家距離的判斷決定位移的速度(這個速度會在跳撲動畫位移時加上去)
+        JumpForwardVec = transform.forward * DistanceFromPlayer * FirstBossJumpForwardSpeed;
+    }
+
+
     public void OnUpdateRootMotion(Animator anim)
     {
         //過濾掉不需要套用動畫位移的動畫
@@ -236,6 +265,7 @@ public class FirstBossVariables : MonoBehaviour
             deltaPos_ += anim.deltaPosition;
             transform.rotation = anim.rootRotation;
         }
+
         //deltaRot_ = anim.deltaRotation;
         
     }
