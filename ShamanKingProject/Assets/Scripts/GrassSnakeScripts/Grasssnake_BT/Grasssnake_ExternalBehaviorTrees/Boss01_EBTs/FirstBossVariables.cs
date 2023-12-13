@@ -107,7 +107,7 @@ public class FirstBossVariables : MonoBehaviour
         // 清零目前物理幀累積的deltaPos_
         deltaPos_ = Vector3.zero;
 
-
+        
     }
     void Update()
     {
@@ -237,9 +237,11 @@ public class FirstBossVariables : MonoBehaviour
         // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
         
         deltaPos_ += anim.deltaPosition;
-        //if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_JumpBack"))
+        transform.rotation = anim.rootRotation;
+        //deltaRot_ = anim.deltaRotation;
+        //if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_NormalAtk_JumpAttack"))
         //{
-        //    deltaRot_ = anim.rootRotation;
+        //    transform.rotation = anim.rootRotation;
         //}
         //else {}
     }

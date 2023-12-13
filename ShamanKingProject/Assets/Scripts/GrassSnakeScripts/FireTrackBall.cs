@@ -118,9 +118,12 @@ public class FireTrackBall : MonoBehaviour
         transform.position += transform.forward * CurrentVelocity * deltaTime;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider collider)
     {
         // 當發生碰撞，爆炸
-        Explode();
+        if (collider.CompareTag("Player"))
+        {
+            Explode();
+        }
     }
 }
