@@ -40,6 +40,7 @@ public class DialogueManagerLUA : MonoBehaviour
     public void CallFirstSceneCameraTransfer(float firstSceneCameraTransfer)
     {
         GameManager.Instance.MainGameEvent.Send(new SystemCallFirstSceneCameraTransferCommand() {CameraId = firstSceneCameraTransfer });
+        GameManager.Instance.MainGameEvent.Send(new PlayerChargingButtonCommand() { ChargingButtonIsPressed = false });
     }
     public void CallCameraTransferBack()
     {
