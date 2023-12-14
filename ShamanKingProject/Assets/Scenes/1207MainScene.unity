@@ -45766,6 +45766,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     Aiming: 0
+    Charging: 0
     Falling: 0
     SpeedChangeRate: 10
     Player_InputMagnitude: 0
@@ -45838,6 +45839,7 @@ GameObject:
   - component: {fileID: 5717628474718875026}
   - component: {fileID: 5717628474718875028}
   - component: {fileID: 5717628474718875029}
+  - component: {fileID: 5717628474718875030}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -58336,6 +58338,20 @@ MonoBehaviour:
   delayFrame_: 5
   heavyForce_: 1.5
   heavyDelayFrame_: 15
+--- !u!114 &5717628474718875030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905203264908605227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef53e40be2a4874284c36aeebaff83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCharging_: 0
+  chargingSpeed_: 10
 --- !u!1 &5725918940180074747
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ public class MainGameMediator
     {
         playerControllerModel_.PlayerControllerModelInit();
         playerDataModel_.PlayerDataModelInit();
-        RealTimePlayerData = GameContainer.Get<DataManager>().reaTimePlayerData;
+        RealTimePlayerData = GameContainer.Get<DataManager>().realTimePlayerData;
     }
     
     public void DisposeObserber()
