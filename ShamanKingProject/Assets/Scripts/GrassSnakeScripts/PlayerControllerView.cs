@@ -167,7 +167,6 @@ public class PlayerControllerView : MonoBehaviour
             float rotation = Mathf.SmoothDampAngle(stickInputIndicator_.transform.rotation.eulerAngles.y, player_TargetRotation_, ref turnSmoothVelocity_, 0.01f);
             //將模型旋轉至相對於相機位置的輸入方向
             stickInputIndicator_.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-        
     }
     void getInputAngle() 
     {
