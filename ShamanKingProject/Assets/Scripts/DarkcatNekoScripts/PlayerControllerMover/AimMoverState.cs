@@ -5,7 +5,7 @@ using UnityEngine;
 public class AimMoverState : StateBase
 {
     private float player_speed_;
-    private float aimSpeed_ = 2.5f;
+    private float aimSpeed_ = 1.5f;
     public AimMoverState(StageManager m)
     {
         stateManager = m;
