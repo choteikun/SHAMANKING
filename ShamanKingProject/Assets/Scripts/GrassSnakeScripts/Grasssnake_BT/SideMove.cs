@@ -20,23 +20,23 @@ public class SideMove : Action
     public Vector3 SidePosValue;
 
 
-    public override void OnStart()
-    {
-        var position = Target();
-        if (position != null)
-        {
-            // 計算方向向量
-            Vector3 direction = position - transform.position;
-            direction.y = 0f; // 避免傾斜
+    //public override void OnStart()
+    //{
+    //    var position = Target();
+    //    if (position != null)
+    //    {
+    //        // 計算方向向量
+    //        Vector3 direction = position - transform.position;
+    //        direction.y = 0f; // 避免傾斜
 
-            // 計算目標旋轉角度
-            Quaternion toRotation = Quaternion.LookRotation(direction);
+    //        // 計算目標旋轉角度
+    //        Quaternion toRotation = Quaternion.LookRotation(direction);
 
-            // 使用DoTween實現在0.75秒內完成的旋轉動畫
-            transform.DORotateQuaternion(toRotation, maxLookAtRotationDelta.Value);
-        }
+    //        // 使用DoTween實現在0.75秒內完成的旋轉動畫
+    //        transform.DORotateQuaternion(toRotation, maxLookAtRotationDelta.Value);
+    //    }
 
-    }
+    //}
     public override TaskStatus OnUpdate()
     {
         var position = Target();
