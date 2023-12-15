@@ -173,15 +173,32 @@ public class PlayerAttackModel
     }
     void addFirstHeavyAttack()
     {
-        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[12], GameManager.Instance.AttackBlockDatabase.Database[12].SkillFrame));
-        currentInputCount_++;
-        if (!isAttacking_)
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount == GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount)
         {
-            //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("HeavyAttack3", 0.25f);
-            PassedFrameAfterAttack = 0;
-            isAttacking_ = true;
+            PlayerStatCalculator.PlayerAddOrMinusSpirit(GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount*-1);
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[12], GameManager.Instance.AttackBlockDatabase.Database[12].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                //animator_.Rebind();
+                animator_.CrossFadeInFixedTime("HeavyAttack3", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
         }
+        else
+        {
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[21], GameManager.Instance.AttackBlockDatabase.Database[21].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                //animator_.Rebind();
+                animator_.CrossFadeInFixedTime("BasicHeavyAttack", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
+        }
+       
     }
     void addFirstExecutionAttack()
     {

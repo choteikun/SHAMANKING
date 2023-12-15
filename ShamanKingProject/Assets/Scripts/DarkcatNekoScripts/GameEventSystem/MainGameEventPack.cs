@@ -163,4 +163,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<GhostIdentityCheckCommand> OnGhostIdentityCheck => getSubject<GhostIdentityCheckCommand>();
     public IObservable<SystemCallWaveStartCommand> OnSystemCallWaveStart => getSubject<SystemCallWaveStartCommand>();
     public IObservable<BossCurAnimationEndCommand> OnBossCurAnimationEnd => getSubject<BossCurAnimationEndCommand>();
+    public IObservable<SystemStopChargingCommand> OnSystemStopCharging => getSubject<SystemStopChargingCommand>();
 }

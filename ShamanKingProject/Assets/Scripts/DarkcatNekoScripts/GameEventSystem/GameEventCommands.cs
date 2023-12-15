@@ -34,7 +34,10 @@ namespace Gamemanager
     {
         public bool ChargingButtonIsPressed = false;
     }
+    public class SystemStopChargingCommand: GameEventMessageBase
+    {
 
+    }
     public class PlayerRollingButtonCommand : GameEventMessageBase
     {
 
