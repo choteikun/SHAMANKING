@@ -55,6 +55,9 @@ public class FirstBossVariables : MonoBehaviour
     public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
     [SerializeField, Tooltip("與玩家的距離")]
     private float distanceFromPlayer_;
+    public float AngleFacingPlayer { get { return angleFacingPlayer_; } set { angleFacingPlayer_ = value; } }
+    [SerializeField, Tooltip("當前面向玩家的角度")]
+    private float angleFacingPlayer_;
     public float FaceChangeProbability { get { return faceChangeProbability_; } set { faceChangeProbability_ = value; } }
     [SerializeField, Tooltip("Boss換臉機率")]
     private float faceChangeProbability_;
@@ -95,12 +98,14 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("FirstBossRigidbody")]
     private Rigidbody rb_;
 
+    
     public Vector3 RunForwardVec { get { return runForwardVec_; } set { runForwardVec_ = value; } }
     [SerializeField, Tooltip("RunForwardVec")]
     private Vector3 runForwardVec_;
     public Vector3 JumpForwardVec { get { return jumpForwardVec_; } set { jumpForwardVec_ = value; } }
     [SerializeField, Tooltip("JumpForwardVec")]
     private Vector3 jumpForwardVec_;
+    
 
     // Root Motion的位移量 用於腳本運用Root Motion
     private Vector3 deltaPos_;
@@ -127,6 +132,8 @@ public class FirstBossVariables : MonoBehaviour
         getRunForwardVector();
 
         getJumpForwardAtkVector();
+
+        getAngleFacingPlayer();
 
         if (UpdatePosTrigger)
         {
@@ -255,7 +262,26 @@ public class FirstBossVariables : MonoBehaviour
         JumpForwardVec = transform.forward * DistanceFromPlayer * FirstBossJumpForwardSpeed;
     }
 
-
+    void getAngleFacingPlayer()
+    {
+        //Boss到玩家的方向向量
+        Vector3 toPlayer = PlayerObj.transform.position - transform.position;
+        //Boss的正前方向量
+        Vector3 forward = transform.forward;
+        //計算點積
+        float dotProduct = Vector3.Dot(forward, toPlayer);
+        //計算夾角弧度
+        float angle = Mathf.Acos(dotProduct / (forward.magnitude * toPlayer.magnitude)) * Mathf.Rad2Deg;
+        //判斷夾角正負
+        if(Vector3.Cross(forward, toPlayer).y < 0)
+        {
+            AngleFacingPlayer = -angle;
+        }
+        else
+        {
+            AngleFacingPlayer = angle;
+        }
+    }
     public void OnUpdateRootMotion(Animator anim)
     {
         //過濾掉不需要套用動畫位移的動畫
