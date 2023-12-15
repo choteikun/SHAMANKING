@@ -101,8 +101,9 @@ public class PlayerAnimator
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerLaunchGhostButtonTrigger);
-        
-        
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { Debug.LogWarning("PlayerGetHurt"); playerGetHurt(); });
+
+
         GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && cmd.HitObjecctTag == HitObjecctTag.Possessable).Subscribe(cmd => playerPossessMoveAnimSet());
 
 
@@ -126,6 +127,14 @@ public class PlayerAnimator
     void onTargetResetObject()
     {
         animator_.SetBool(animID_TargetMove, false);
+    }
+    void playerGetHurt()
+    {
+        if (player_Stats_.Charging)
+        {
+            animator_.CrossFadeInFixedTime("PlayerChargingHurt", 0);
+        }
+        else { animator_.CrossFadeInFixedTime("PlayerHurt", 0); }
     }
     public void Update()
     {
