@@ -6,17 +6,13 @@ using UnityEngine;
 
 public class PlayerProjectileSpawner : MonoBehaviour
 {
-    
+    [SerializeField] int shootDelay_;
+    [SerializeField] int projectileID_;
     async void Start()
     {
-        await UniTask.DelayFrame(5);
-        var TamaPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(13).PrefabPath;
+        await UniTask.DelayFrame(shootDelay_);
+        var TamaPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(projectileID_).PrefabPath;
         var fireballObject = Instantiate(TamaPrefab, transform.position, transform.rotation);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

@@ -214,15 +214,32 @@ public class PlayerAttackModel
     }
     void addFirstShootAttack()
     {
-        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[19], GameManager.Instance.AttackBlockDatabase.Database[19].SkillFrame));
-        currentInputCount_++;
-        if (!isAttacking_)
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount == GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount)
         {
-            //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("ShootAttack", 0.25f);
-            PassedFrameAfterAttack = 0;
-            isAttacking_ = true;
+            PlayerStatCalculator.PlayerAddOrMinusSpirit(GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount * -1);
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[22], GameManager.Instance.AttackBlockDatabase.Database[22].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                //animator_.Rebind();
+                animator_.CrossFadeInFixedTime("PowerShootAttack", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
         }
+        else
+        {
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[19], GameManager.Instance.AttackBlockDatabase.Database[19].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                //animator_.Rebind();
+                animator_.CrossFadeInFixedTime("ShootAttack", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
+        }
+       
     }
     void playerGetHit()
     {
