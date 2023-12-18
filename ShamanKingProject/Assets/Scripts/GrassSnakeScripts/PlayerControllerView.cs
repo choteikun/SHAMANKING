@@ -139,14 +139,6 @@ public class PlayerControllerView : MonoBehaviour
     void onPlayerChargingButtonTrigger(PlayerChargingButtonCommand playerChargingButtonCommand)
     {
         player_Stats_.Charging = playerChargingButtonCommand.ChargingButtonIsPressed;
-        if (player_Stats_.Charging)
-        {
-            player_Stats_.Player_Speed = player_Stats_.Player_ChargingSpeed;
-        }
-        else
-        {
-            player_Stats_.Player_Speed = playerControllerMover_.MoveSpeed;
-        }
     }
     #endregion
 
