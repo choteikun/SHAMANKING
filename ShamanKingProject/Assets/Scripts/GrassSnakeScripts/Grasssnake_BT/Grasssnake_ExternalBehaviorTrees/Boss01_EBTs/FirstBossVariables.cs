@@ -97,6 +97,9 @@ public class FirstBossVariables : MonoBehaviour
     public Rigidbody Rigidbody { get { return rb_; } set { rb_ = value; } }
     [SerializeField, Tooltip("FirstBossRigidbody")]
     private Rigidbody rb_;
+    public Collider FirstBossCollider { get { return firstBossCollider_; } set { firstBossCollider_ = value; } }
+    [SerializeField, Tooltip("FirstBossCollider")]
+    private Collider firstBossCollider_;
 
     
     public Vector3 RunForwardVec { get { return runForwardVec_; } set { runForwardVec_ = value; } }
@@ -117,6 +120,7 @@ public class FirstBossVariables : MonoBehaviour
     {
         PlayerObj = GameObject.FindWithTag("Player").gameObject;
         Rigidbody = GetComponent<Rigidbody>();
+        if (!FirstBossCollider) { FirstBossCollider = GameObject.Find("FirstBossCollider").GetComponent<Collider>(); }
         IntTypeStateOfFirstBoss = 2;
     }
     void FixedUpdate()
@@ -291,8 +295,6 @@ public class FirstBossVariables : MonoBehaviour
             deltaPos_ += anim.deltaPosition;
             transform.rotation = anim.rootRotation;
         }
-
         //deltaRot_ = anim.deltaRotation;
-        
     }
 }
