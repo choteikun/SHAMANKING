@@ -6086,7 +6086,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 906797666}
-  - {fileID: 1747182375}
   m_Father: {fileID: 6350426925939271240}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.79}
@@ -7652,69 +7651,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1001 &1747182374
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1260588920}
-    m_Modifications:
-    - target: {fileID: 1341365785022538, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_Name
-      value: PowerShootMagicCircle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e39e8100ba92441428d5a2748de0427b, type: 3}
---- !u!4 &1747182375 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4968965343043920, guid: e39e8100ba92441428d5a2748de0427b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1747182374}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1748711502
 GameObject:
   m_ObjectHideFlags: 0
@@ -45818,6 +45754,7 @@ MonoBehaviour:
     Player_DodgeDistance: 2.3
     Player_DodgeSpeed: 0.35
     Player_Speed: 0
+    Player_ChargingSpeed: 2.5
     Player_DashSpeed: 20
     Player_DashTime: 0.15
     Grounded: 1
