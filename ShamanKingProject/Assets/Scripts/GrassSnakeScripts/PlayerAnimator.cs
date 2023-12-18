@@ -14,6 +14,7 @@ public class PlayerAnimator
 {
     #region 提前Hash進行優化
     readonly int animID_Charging = Animator.StringToHash("Charging");
+    readonly int animID_TargetingChargeMove = Animator.StringToHash("TargetingChargeMove");
     readonly int animID_TargetMove = Animator.StringToHash("TargetMove");
     readonly int animID_AimMove = Animator.StringToHash("AimMove");
     readonly int animID_PossessMove = Animator.StringToHash("PossessMove");
@@ -149,7 +150,7 @@ public class PlayerAnimator
         //設置玩家瞄準狀態
         //setPlayer_animID_Aiming();
         //設置玩家鎖敵狀態
-        //set_animID_TargetingMove();
+        set_animID_TargetingMove();
         //設置玩家蓄力狀態
         setPlayer_animID_Charging();
 
@@ -308,74 +309,74 @@ public class PlayerAnimator
         animator_.SetFloat(animID_AimMoveY, player_horizontalAnimY);
     }
    
-    void setPlayer_animID_Aiming()
-    {
-        if (player_Stats_.Aiming)
-        {
-            aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
-            setPlayer_AimingMoveXY();
-            //取消鎖敵動畫
-            animator_.SetBool(animID_TargetMove, false);
+    //void setPlayer_animID_Aiming()
+    //{
+    //    if (player_Stats_.Aiming)
+    //    {
+    //        aimMove_ = player_Stats_.Player_Dir != Vector2.zero ? true : false;
+    //        setPlayer_AimingMoveXY();
+    //        //取消鎖敵動畫
+    //        animator_.SetBool(animID_TargetMove, false);
 
-            //接收到可附身移動且如果移動向量不為零則
-            if (possessMove_ && player_Stats_.Player_Dir != Vector2.zero)
-            {
-                animator_.SetBool(animID_PossessMove, true);
-                animator_.SetBool(animID_PossessIdle, false);
-                //附身狀態不會播放擊發動畫
-                aimRecoil = false;
-                animator_.SetBool(animID_AimRecoil, false);
-            }
-            //接收到可附身移動且如果移動向量為零則
-            else if (possessMove_ && player_Stats_.Player_Dir == Vector2.zero)
-            {
-                animator_.SetBool(animID_PossessIdle, true);
-                animator_.SetBool(animID_PossessMove, false);
-                //附身狀態不會播放擊發動畫
-                aimRecoil = false;
-                animator_.SetBool(animID_AimRecoil, false);
-            }
-            //不在附身移動狀態
-            else
-            {
-                //如果可以播放擊發動畫
-                if (aimRecoil)
-                {
-                    //播放擊發動畫
-                    animator_.SetBool(animID_AimRecoil, true);
-                    //關閉瞄準下的Idle & Move動畫
-                    animator_.SetBool(animID_AimIdle, false);
-                    animator_.SetBool(animID_AimMove, false);
-                }
-                //擊發動畫為false
-                else
-                {
-                    //傳出至NoneAnim
-                    animator_.SetBool(animID_AimRecoil, false);
+    //        //接收到可附身移動且如果移動向量不為零則
+    //        if (possessMove_ && player_Stats_.Player_Dir != Vector2.zero)
+    //        {
+    //            animator_.SetBool(animID_PossessMove, true);
+    //            animator_.SetBool(animID_PossessIdle, false);
+    //            //附身狀態不會播放擊發動畫
+    //            aimRecoil = false;
+    //            animator_.SetBool(animID_AimRecoil, false);
+    //        }
+    //        //接收到可附身移動且如果移動向量為零則
+    //        else if (possessMove_ && player_Stats_.Player_Dir == Vector2.zero)
+    //        {
+    //            animator_.SetBool(animID_PossessIdle, true);
+    //            animator_.SetBool(animID_PossessMove, false);
+    //            //附身狀態不會播放擊發動畫
+    //            aimRecoil = false;
+    //            animator_.SetBool(animID_AimRecoil, false);
+    //        }
+    //        //不在附身移動狀態
+    //        else
+    //        {
+    //            //如果可以播放擊發動畫
+    //            if (aimRecoil)
+    //            {
+    //                //播放擊發動畫
+    //                animator_.SetBool(animID_AimRecoil, true);
+    //                //關閉瞄準下的Idle & Move動畫
+    //                animator_.SetBool(animID_AimIdle, false);
+    //                animator_.SetBool(animID_AimMove, false);
+    //            }
+    //            //擊發動畫為false
+    //            else
+    //            {
+    //                //傳出至NoneAnim
+    //                animator_.SetBool(animID_AimRecoil, false);
 
-                    //瞄準移動下且為非擊發鬼魂時
-                    if (aimMove_)
-                    {
-                        animator_.SetBool(animID_AimMove, true);
-                        animator_.SetBool(animID_AimIdle, false);
+    //                //瞄準移動下且為非擊發鬼魂時
+    //                if (aimMove_)
+    //                {
+    //                    animator_.SetBool(animID_AimMove, true);
+    //                    animator_.SetBool(animID_AimIdle, false);
 
-                    }
-                    //瞄準待機時
-                    else
-                    {
-                        animator_.SetBool(animID_AimMove, false);
-                        animator_.SetBool(animID_AimIdle, true);
-                    }
-                }
+    //                }
+    //                //瞄準待機時
+    //                else
+    //                {
+    //                    animator_.SetBool(animID_AimMove, false);
+    //                    animator_.SetBool(animID_AimIdle, true);
+    //                }
+    //            }
                 
-            }
+    //        }
             
-        }
-        else
-        {
-            resetPlayer_AimingAllActions();
-        }  
-    }
+    //    }
+    //    else
+    //    {
+    //        resetPlayer_AimingAllActions();
+    //    }  
+    //}
     void set_animID_TargetingMove()
     {
         if (player_Stats_.Targeting) 
@@ -389,6 +390,14 @@ public class PlayerAnimator
     }
     void setPlayer_animID_Charging()
     {
+        if (player_Stats_.Charging && player_Stats_.Targeting)
+        {
+            animator_.SetBool(animID_TargetingChargeMove, true);
+        }
+        else
+        {
+            animator_.SetBool(animID_TargetingChargeMove, false);
+        }
         if (player_Stats_.Charging)
         {
             animator_.SetBool(animID_Charging, true);

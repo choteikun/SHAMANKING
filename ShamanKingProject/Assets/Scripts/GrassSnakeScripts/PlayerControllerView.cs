@@ -104,24 +104,24 @@ public class PlayerControllerView : MonoBehaviour
     #endregion
 
     #region - Player取得瞄準指令 -
-    void onAimButtonTrigger(PlayerAimingButtonCommand playerAimingButtonCommand)
-    {
-        player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
-        if (playerAimingButtonCommand.AimingButtonIsPressed)
-        {
-            player_Stats_.Targeting = false;
-            playerControllerMover_.TransitionState("Aim");
-        }
-        else
-        {
-            if (player_Stats_.Targeting)
-            {
-                return;
-            }
-            aimingInterrupt();
-            playerControllerMover_.TransitionState("MainGame");
-        } 
-    }
+    //void onAimButtonTrigger(PlayerAimingButtonCommand playerAimingButtonCommand)
+    //{
+    //    player_Stats_.Aiming = playerAimingButtonCommand.AimingButtonIsPressed;
+    //    if (playerAimingButtonCommand.AimingButtonIsPressed)
+    //    {
+    //        player_Stats_.Targeting = false;
+    //        playerControllerMover_.TransitionState("Aim");
+    //    }
+    //    else
+    //    {
+    //        if (player_Stats_.Targeting)
+    //        {
+    //            return;
+    //        }
+    //        aimingInterrupt();
+    //        playerControllerMover_.TransitionState("MainGame");
+    //    } 
+    //}
 
     void onTargetGetObject()
     {
@@ -139,18 +139,13 @@ public class PlayerControllerView : MonoBehaviour
     void onPlayerChargingButtonTrigger(PlayerChargingButtonCommand playerChargingButtonCommand)
     {
         player_Stats_.Charging = playerChargingButtonCommand.ChargingButtonIsPressed;
-        if (playerChargingButtonCommand.ChargingButtonIsPressed)
+        if (player_Stats_.Charging)
         {
-            playerControllerMover_.TransitionState("Aim");
+            player_Stats_.Player_Speed = player_Stats_.Player_ChargingSpeed;
         }
         else
         {
-            if (player_Stats_.Targeting)
-            {
-                return;
-            }
-            chargingInterrupt();
-            playerControllerMover_.TransitionState("MainGame");
+            player_Stats_.Player_Speed = playerControllerMover_.MoveSpeed;
         }
     }
     #endregion
@@ -315,6 +310,9 @@ public class Player_Stats
 
     [Tooltip("玩家移動速度")]
     public float Player_Speed;
+
+    [Tooltip("玩家蓄力時的移動速度")]
+    public float Player_ChargingSpeed = 2.5f;
 
     [Tooltip("玩家衝刺速度")]
     public float Player_DashSpeed = 20;
