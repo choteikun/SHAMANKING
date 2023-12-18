@@ -177,6 +177,7 @@ namespace Gamemanager
     {
         public Vector3 CollidePoint;
         public float AttackDamage;
+        public EnemyHitPower ThisAttackHitPower;
     }
     public class PlayerAttackSuccessResponse : GameEventMessageBase
     {

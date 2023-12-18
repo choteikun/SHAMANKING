@@ -57,7 +57,7 @@ public class PlayerAttackModel
                 backToPulling();
             }
         });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { Debug.LogWarning("PlayerGetHit"); playerGetHit(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { Debug.LogWarning("PlayerGetHit"); playerGetHit(cmd); });
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
         animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
     }
@@ -241,22 +241,43 @@ public class PlayerAttackModel
         }
        
     }
-    void playerGetHit()
+    void playerGetHit(EnemyAttackSuccessCommand cmd)
     {
-        Debug.Log("受擊");
-        GameManager.Instance.MainGameEvent.Send(new PlayerBeAttackByEnemySuccessResponse());
-        isAttacking_ = false;
-        CurrentAttackInputs = new List<AttackBlockBase> { };
-        currentInputCount_ = -1;
-        PassedFrameAfterAttack = 0;
-        comboDeclaim = false;
-        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[18], GameManager.Instance.AttackBlockDatabase.Database[18].SkillFrame));
-        currentInputCount_++;
-        if (!isAttacking_)
+        if (cmd.ThisAttackHitPower == EnemyHitPower.Light)
         {
-            animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[18].SkillName, 0);
+            Debug.Log("受擊");
+            GameManager.Instance.MainGameEvent.Send(new PlayerBeAttackByEnemySuccessResponse());
+            isAttacking_ = false;
+            CurrentAttackInputs = new List<AttackBlockBase> { };
+            currentInputCount_ = -1;
             PassedFrameAfterAttack = 0;
-            isAttacking_ = true;
+            comboDeclaim = false;
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[18], GameManager.Instance.AttackBlockDatabase.Database[18].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[18].SkillName, 0);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
+        }
+        else if (cmd.ThisAttackHitPower == EnemyHitPower.HardKnockBack)
+        {
+            Debug.Log("受擊");
+            GameManager.Instance.MainGameEvent.Send(new PlayerBeAttackByEnemySuccessResponse());
+            isAttacking_ = false;
+            CurrentAttackInputs = new List<AttackBlockBase> { };
+            currentInputCount_ = -1;
+            PassedFrameAfterAttack = 0;
+            comboDeclaim = false;
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[23], GameManager.Instance.AttackBlockDatabase.Database[23].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[23].SkillName, 0);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
         }
 
     }

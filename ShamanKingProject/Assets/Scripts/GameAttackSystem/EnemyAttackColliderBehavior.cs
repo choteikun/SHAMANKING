@@ -6,6 +6,7 @@ using Gamemanager;
 
 public class EnemyAttackColliderBehavior : MonoBehaviour
 {
+    [SerializeField] EnemyHitPower thisAttackHitPower_;
     [SerializeField] LayerMask layerMask_;
     [SerializeField] int lastFrame_;
 
@@ -27,7 +28,7 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
         {
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
             var collidePoint = other.ClosestPoint(this.gameObject.transform.position);           
-            var command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege() };
+            var command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(),ThisAttackHitPower = thisAttackHitPower_ };
             awaitSendAttackMessage(command);
             Debug.Log("HitTarget" + other.name);
         }
@@ -42,4 +43,11 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
         damage = damage * GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerBasicAttackPercentage;
         return damage;
     }
+}
+
+public enum EnemyHitPower
+{
+    Light,
+    HardKnockBack,
+    OneShot,
 }

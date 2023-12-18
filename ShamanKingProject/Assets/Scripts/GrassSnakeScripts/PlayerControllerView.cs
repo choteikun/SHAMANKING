@@ -142,7 +142,6 @@ public class PlayerControllerView : MonoBehaviour
     }
     #endregion
 
-
     void stickInputIndicator()
     {
         Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
