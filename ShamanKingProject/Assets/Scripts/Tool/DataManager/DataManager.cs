@@ -11,7 +11,7 @@ namespace Datamanager
     public class DataManager
     {
         public DataGroup DataGroup = new DataGroup();
-        public ReaTimePlayerData realTimePlayerData = new ReaTimePlayerData();
+        public RealTimePlayerData realTimePlayerData = new RealTimePlayerData();
         public async Task InitDataMananger()
         {
             var CSVString = await AddressableSearcher.GetAddressableAssetAsync<TextAsset>("CSV/ShamanKingCSV");

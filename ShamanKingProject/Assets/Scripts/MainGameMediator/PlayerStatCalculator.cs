@@ -14,4 +14,11 @@ public static class PlayerStatCalculator
             GameManager.Instance.MainGameEvent.Send(new SystemStopChargingCommand());
         }
     }
+    public static void PlayerInvincibleSwitch(bool trigger)
+    {
+        var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
+        realTimePlayerData.PlayerInvincible = trigger;
+        GameManager.Instance.UIGameEvent.Send(new UIPlayerInvincibleUpdateCommand());
+    }
+  
 }

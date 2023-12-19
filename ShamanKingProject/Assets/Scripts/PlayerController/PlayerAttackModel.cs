@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Gamemanager;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 [System.Serializable]
 public class PlayerAttackModel
@@ -14,7 +15,7 @@ public class PlayerAttackModel
     bool comboDeclaim = false;
     private Animator animator_;
     bool isJumpAttacking_ = false;
-    bool isThrowing_ = false;
+    bool isThrowing_ = false;   
     public void PlayerAttackModelInit()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
@@ -280,7 +281,7 @@ public class PlayerAttackModel
             }
         }
 
-    }
+    }   
     void addFirstDash()
     {
         CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[8], GameManager.Instance.AttackBlockDatabase.Database[8].SkillFrame));

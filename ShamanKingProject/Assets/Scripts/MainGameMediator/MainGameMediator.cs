@@ -13,7 +13,7 @@ public class MainGameMediator
     PlayerControllerModel playerControllerModel_ = new PlayerControllerModel();
 
     PlayerDataModel playerDataModel_ = new PlayerDataModel();
-    [field: SerializeField] public ReaTimePlayerData RealTimePlayerData { get; private set; } = new ReaTimePlayerData();
+    [field: SerializeField] public RealTimePlayerData RealTimePlayerData { get; private set; } = new RealTimePlayerData();
 
     public void MainGameMediatorInit()
     {

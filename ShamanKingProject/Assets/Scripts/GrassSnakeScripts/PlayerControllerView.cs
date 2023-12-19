@@ -44,7 +44,7 @@ public class PlayerControllerView : MonoBehaviour
     Material[] test_;
 
     [SerializeField]
-    LayerMask groundLayer_;
+    LayerMask groundLayer_;   
 
 
     void Awake()
@@ -74,7 +74,7 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerShootAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerBeAttackByEnemySuccess, cmd => { cancelMoving(); });
-        
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { playerModelTurn(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll,  cmd => { cancelMoving();});
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStartRollMovementAnimation, cmd => { testRoll(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
@@ -141,6 +141,19 @@ public class PlayerControllerView : MonoBehaviour
         player_Stats_.Charging = playerChargingButtonCommand.ChargingButtonIsPressed;
     }
     #endregion
+
+    void playerModelTurn(EnemyAttackSuccessCommand cmd)
+    {
+        dashPointTest.transform.position = cmd.AttackerPos;
+        // 計算物件A到座標B的方向向量
+        Vector3 direction = cmd.CollidePoint - playerModel_.transform.position;
+        direction.y = 0;
+        // 將方向向量轉換為旋轉
+        Quaternion rotation = Quaternion.LookRotation(direction);
+
+        // 將物件A的Rotation設定為計算出的旋轉
+        playerModel_.transform.rotation = rotation;
+    }
 
     void stickInputIndicator()
     {
@@ -232,7 +245,7 @@ public class PlayerControllerView : MonoBehaviour
             {
                 item.SetVector("_DissolveParams", currentParams);
             }
-        });
+        }).OnComplete(() => { PlayerStatCalculator.PlayerInvincibleSwitch(true);Debug.LogError("StartAvoiding"); });
         await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
@@ -243,7 +256,7 @@ public class PlayerControllerView : MonoBehaviour
             {
                 item.SetVector("_DissolveParams", currentParams);
             }
-        }).SetEase(Ease.InSine);
+        }).SetEase(Ease.InSine).OnComplete(() => { PlayerStatCalculator.PlayerInvincibleSwitch(false); });
         
     }
     IEnumerator MoveToPosition(Vector3 target, float duration)

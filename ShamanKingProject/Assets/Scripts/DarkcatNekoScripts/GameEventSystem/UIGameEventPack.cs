@@ -7,4 +7,5 @@ using UnityEngine;
 public class UIGameEventPack : GameEventPack
 {
     public IObservable<UISoulGageUpdateCommand> OnSoulGageUpdate => getSubject<UISoulGageUpdateCommand>();
+    public IObservable<UIPlayerInvincibleUpdateCommand> OnPlayerInvincibleUpdate => getSubject<UIPlayerInvincibleUpdateCommand>();
 }

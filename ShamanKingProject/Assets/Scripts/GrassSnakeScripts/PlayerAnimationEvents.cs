@@ -96,5 +96,12 @@ public class PlayerAnimationEvents : MonoBehaviour
 
         GameManager.Instance.MainGameEvent.Send(new AnimationCallRepeatShootAttackCommand() { ColliderId = attackCollider, SpawnEffectId = effectId, CommandSender = this.gameObject, AttackColliderType = AttackColliderType.Player });
     }
-
+    public void AnimationTriggerInvincibleOn()
+    {
+        PlayerStatCalculator.PlayerInvincibleSwitch(true);
+    }
+    public void AnimationTriggerInvincibleOff()
+    {
+        PlayerStatCalculator.PlayerInvincibleSwitch(false);
+    }
 }

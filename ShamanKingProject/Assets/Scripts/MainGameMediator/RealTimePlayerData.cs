@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class ReaTimePlayerData
+public class RealTimePlayerData
 {
     public int GhostNowGageBlockAmount => (int)GhostSoulGageCurrentAmount / 100;
     public float GhostSoulGageCurrentAmount = 0;
@@ -12,5 +12,6 @@ public class ReaTimePlayerData
     public float PlayerMaxHealthPoint = 100;
     public float PlayerNowHealthPoint = 100;
     public float PlayerBasicAttackPercentage = 1;
+    public bool PlayerInvincible = false;
     public GameObject PlayerGameObject;
 }

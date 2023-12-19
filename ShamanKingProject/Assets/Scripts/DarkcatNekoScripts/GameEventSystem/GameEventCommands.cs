@@ -156,6 +156,10 @@ namespace Gamemanager
     {
 
     }
+    public class UIPlayerInvincibleUpdateCommand : GameEventMessageBase
+    {
+
+    }
 
     public class PlayerAttackSuccessCommand : GameEventMessageBase
     {
@@ -178,6 +182,7 @@ namespace Gamemanager
         public Vector3 CollidePoint;
         public float AttackDamage;
         public EnemyHitPower ThisAttackHitPower;
+        public Vector3 AttackerPos;
     }
     public class PlayerAttackSuccessResponse : GameEventMessageBase
     {

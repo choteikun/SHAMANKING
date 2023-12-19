@@ -26,16 +26,18 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
         // 检查collider是否在LayerMask中
         if ((layerMask_.value & (1 << other.gameObject.layer)) > 0)
         {
+            if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerInvincible) return;
+            Debug.LogError("Hit!!!");
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
             var collidePoint = other.ClosestPoint(this.gameObject.transform.position);           
-            var command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(),ThisAttackHitPower = thisAttackHitPower_ };
+            var command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(),ThisAttackHitPower = thisAttackHitPower_,AttackerPos = this.gameObject.transform.position };
             awaitSendAttackMessage(command);
             Debug.Log("HitTarget" + other.name);
         }
     }
     void awaitSendAttackMessage(EnemyAttackSuccessCommand cmd)
     {
-        GameManager.Instance.MainGameEvent.Send(cmd);
+        GameManager.Instance.MainGameEvent.Send(cmd);       
     }
     float getDamege()
     {
