@@ -9,8 +9,10 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: DepthCrack
   m_Shader: {fileID: 4800000, guid: c32d4676e2e5d0b42b582be28c6ffe77, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - _RECEIVE_SHADOWS_OFF
+  m_InvalidKeywords:
+  - _RECEIVESHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -21,7 +23,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Tex0:
-        m_Texture: {fileID: 2800000, guid: 3ea13700c6e79a34491eaeca795351db, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0625e372e80dfa44cad5c89e43a970fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -41,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample4:
-        m_Texture: {fileID: 2800000, guid: 3ba870c2546237f47929106b46fc323b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1a865bc33c75b604bbf9d67d0d367736, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample5:
@@ -72,18 +74,18 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _EnvironmentReflections: 1
-    - _Float0: 0.186
+    - _Float0: 0.39
     - _Float1: 1
     - _Float2: 0
-    - _Float3: 0
+    - _Float3: 1
     - _Float5: 0
-    - _Float7: 1
+    - _Float7: 0.725
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
     - _SpecularHighlights: 1
     m_Colors:
-    - _Color0: {r: 0, g: 1, b: 0.5512054, a: 0}
+    - _Color0: {r: 0, g: 4, b: 0.053429604, a: 0}
     - _Color1: {r: 0, g: 1, b: 0.5512054, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Vector0: {r: 0, g: 0, b: 0, a: 0}
