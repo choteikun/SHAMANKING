@@ -24,7 +24,7 @@ public class FirstBossVariables : MonoBehaviour
     public FirstBossState FirstBossState;
 
     [Tooltip("Boss跑步速度")]
-    public float FirstBossRunSpeed;
+    public float FirstBossRunForwardSpeed;
     [Tooltip("Boss跳撲速度")]
     public float FirstBossJumpForwardSpeed;
 
@@ -139,11 +139,12 @@ public class FirstBossVariables : MonoBehaviour
 
         getAngleFacingPlayer();
 
-        if (UpdatePosTrigger)
-        {
-            DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
-        }
-        
+        //if (UpdatePosTrigger)
+        //{
+        //    DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
+        //}
+        DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
+
         ExplosionJudgmentTimer += !ExplosionJudgmentTrigger ? 1 : 0;
         switch (IntTypeStateOfFirstBoss)
         {
@@ -258,7 +259,7 @@ public class FirstBossVariables : MonoBehaviour
     }
     void getRunForwardVector()
     {
-        RunForwardVec = transform.forward * FirstBossRunSpeed;
+        RunForwardVec = transform.forward * DistanceFromPlayer * FirstBossRunForwardSpeed;
     }
     void getJumpForwardAtkVector()
     {
