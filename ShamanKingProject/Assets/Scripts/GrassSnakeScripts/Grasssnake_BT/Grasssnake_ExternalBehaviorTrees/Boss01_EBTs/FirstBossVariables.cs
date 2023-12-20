@@ -46,12 +46,6 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("審判之炎爆計時器")]
     private float explosionJudgmentTimer_;
 
-    public float FirstBossHp { get { return firstBossHp_; } set { firstBossHp_ = value; } }
-    [SerializeField, Tooltip("Boss血量")]
-    private float firstBossHp_;
-    public float FistBossBreakDownPoint { get { return fistBossBreakUpPoint_; } set { fistBossBreakUpPoint_ = value; } }
-    [SerializeField, Tooltip("Boss BreakDown Point")]
-    private float fistBossBreakUpPoint_;
     public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
     [SerializeField, Tooltip("與玩家的距離")]
     private float distanceFromPlayer_;
@@ -95,10 +89,10 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("PlayerObject")]
     private GameObject playerObj_;
     public Rigidbody Rigidbody { get { return rb_; } set { rb_ = value; } }
-    [SerializeField, Tooltip("FirstBossRigidbody")]
+    [SerializeField, Tooltip("BossRigidbody")]
     private Rigidbody rb_;
     public Collider FirstBossCollider { get { return firstBossCollider_; } set { firstBossCollider_ = value; } }
-    [SerializeField, Tooltip("FirstBossCollider")]
+    [SerializeField, Tooltip("BossCollider")]
     private Collider firstBossCollider_;
 
     
@@ -112,8 +106,6 @@ public class FirstBossVariables : MonoBehaviour
 
     // Root Motion的位移量 用於腳本運用Root Motion
     private Vector3 deltaPos_;
-    // Root Motion的旋轉量 用於腳本運用Root Motion
-    private Quaternion deltaRot_;
 
 
     void Start()
