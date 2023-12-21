@@ -1,5 +1,6 @@
 using Gamemanager;
 using System;
+using System.Diagnostics.Contracts;
 
 public class MainGameEventPack : GameEventPack
 {
@@ -164,4 +165,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<SystemCallWaveStartCommand> OnSystemCallWaveStart => getSubject<SystemCallWaveStartCommand>();
     public IObservable<BossCurAnimationEndCommand> OnBossCurAnimationEnd => getSubject<BossCurAnimationEndCommand>();
     public IObservable<SystemStopChargingCommand> OnSystemStopCharging => getSubject<SystemStopChargingCommand>();
+    public IObservable<BossCallSprintColliderSwitchCommand> OnBossCallSprintColliderSwitch => getSubject<BossCallSprintColliderSwitchCommand>();
 }

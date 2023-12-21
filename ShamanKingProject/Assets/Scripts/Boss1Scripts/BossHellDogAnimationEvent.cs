@@ -30,4 +30,12 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     {
         GameManager.Instance.HellDogGameEvent.Send(new SystemCallFireTrackBallSpawnCommand());
     }
+    public void SystemCallSprintColliderOn()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallSprintColliderSwitchCommand() { OnOrOff = true });
+    }
+    public void SystemCallSprintColliderOff()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallSprintColliderSwitchCommand() { OnOrOff = false });
+    }
 }

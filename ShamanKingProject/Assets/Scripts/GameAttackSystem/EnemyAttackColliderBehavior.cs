@@ -12,8 +12,10 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
 
     [SerializeField] float minDamage_;
     [SerializeField] float maxDamage_;
+    [SerializeField] bool unbreakble_ = false;
     async void Start()
     {
+        if (unbreakble_) return;
         await UniTask.DelayFrame(lastFrame_);
         if (this.gameObject!=null)
         {
