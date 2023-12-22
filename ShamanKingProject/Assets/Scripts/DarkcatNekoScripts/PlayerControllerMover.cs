@@ -319,6 +319,7 @@ public class PlayerControllerMover
         var player = characterControllerObj_.transform.gameObject;
 
         var vector = cmd.AttackTarget.transform.position - player.transform.position;
+        vector.y = 0;//水平化操作
         var direction = vector.normalized;
         var length = vector.magnitude;
         var destination = player.transform.position+ direction * (length-1.5f);
