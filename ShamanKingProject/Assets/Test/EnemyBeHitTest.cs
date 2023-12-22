@@ -16,6 +16,9 @@ public class EnemyBeHitTest : MonoBehaviour
 
     [SerializeField] public bool Break { get { return break_; } set { break_ = value; } } //是否已經在break狀態
     [SerializeField] bool break_ = false;
+    public bool BeExecuted { get { return beExecuted_; } set { beExecuted_ = value; } } //是否已經在處決狀態
+    [SerializeField] bool beExecuted_ = false;
+
     [SerializeField] bool canBeExecute_ = true;
     public float BlueShieldSettingParameter { get { return blueShieldSettingParameter_; } set { blueShieldSettingParameter_ = value; } }
     [SerializeField] float blueShieldSettingParameter_;
@@ -54,10 +57,14 @@ public class EnemyBeHitTest : MonoBehaviour
                 canBeExecute_ = false;
                 GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
                 //呼叫處決特效
+                if (!BeExecuted)
+                {
+                    BeExecuted = true;
+                }
                 await UniTask.Delay(2000);
+                BeExecuted = false;
                 healthPoint_ -= executionDamage_;
                 RevertBreakPoint();
-
                 canBeExecute_ = true;
             }
             else
@@ -78,7 +85,7 @@ public class EnemyBeHitTest : MonoBehaviour
     {
         await UniTask.Delay(5000);
         if (break_&&canBeExecute_)
-       {
+        {
             RevertBreakPoint();
         }
     }
