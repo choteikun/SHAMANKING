@@ -4170,6 +4170,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 760769978004318689}
   - {fileID: 1335884046}
   m_Father: {fileID: 6350426925939271240}
   m_RootOrder: 20
@@ -5401,7 +5402,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 991186073}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1335884047
 BoxCollider:
@@ -16088,6 +16089,81 @@ Transform:
   m_Father: {fileID: 5798579722747293784}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 19.854975, y: -0.8902975, z: -2.7217298}
+--- !u!1001 &760769978004318688
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 991186073}
+    m_Modifications:
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.889
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410606116269013484, guid: 34fd14fc314e38d4eb9318282460b124,
+        type: 3}
+      propertyPath: m_Name
+      value: Green_Ground_Impulse
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 34fd14fc314e38d4eb9318282460b124, type: 3}
+--- !u!4 &760769978004318689 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1406433497102667890, guid: 34fd14fc314e38d4eb9318282460b124,
+    type: 3}
+  m_PrefabInstance: {fileID: 760769978004318688}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &780319725403860439
 Transform:
   m_ObjectHideFlags: 0
@@ -17892,6 +17968,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fd23acbc7e4e09e46b322d2cd62ca243, type: 3}
   - {fileID: 21300000, guid: 548b45dca03b4d24aa49bd82c7cb4064, type: 3}
   tutorialLastPicCount_: 0
+  ticketGate_: {fileID: 0}
 --- !u!1 &1241964953557105636
 GameObject:
   m_ObjectHideFlags: 0
@@ -18413,6 +18490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soulGageText_: {fileID: 1267263331}
+  invincibleText_: {fileID: 0}
 --- !u!114 &1241964953789358192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28232,6 +28310,7 @@ MonoBehaviour:
   input_: {fileID: 1241964954822050125}
   mouse_X_Horrzontal_sensitivity_: 1.05
   isAiming_: 0
+  isCharging_: 0
   isLaunching_: 0
   isPosscessing_: 0
   isBiting_: 0
@@ -31191,6 +31270,7 @@ MonoBehaviour:
       PlayerMaxHealthPoint: 100
       PlayerNowHealthPoint: 100
       PlayerBasicAttackPercentage: 1
+      PlayerInvincible: 0
       PlayerGameObject: {fileID: 0}
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
@@ -46925,6 +47005,7 @@ MonoBehaviour:
     Player_DodgeDistance: 2.3
     Player_DodgeSpeed: 0.35
     Player_Speed: 0
+    Player_ChargingSpeed: 2.5
     Player_DashSpeed: 20
     Player_DashTime: 0.15
     Grounded: 1
@@ -46938,6 +47019,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     Aiming: 0
+    Charging: 0
     Falling: 0
     SpeedChangeRate: 10
     Player_InputMagnitude: 0
@@ -46957,7 +47039,6 @@ MonoBehaviour:
     Gravity: 0
     JumpHeight: 0
   playerAttackModel_:
-    inputIndicator_: {fileID: 0}
     characterControllerObj_: {fileID: 0}
     PassedFrameAfterAttack: 0
     CurrentAttackInputs: []
@@ -46970,6 +47051,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 715a3625f9adced4a89279b3cbe288db, type: 2}
   - {fileID: 2100000, guid: efea048aa0d59914f91699e120d8727e, type: 2}
   - {fileID: 2100000, guid: 6837dcc3d8e007b4ca12293a1c91abd2, type: 2}
+  groundLayer_:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!143 &4905203264908605225
 CharacterController:
   m_ObjectHideFlags: 0
@@ -62306,7 +62390,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef24aae91f8da24ea03da833ed31855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  executionDamage_: 0
   healthPoint_: 500
+  gainBlueShieldTrigger_: 0
+  revertBreakPointTrigger_: 0
+  break_: 0
+  beExecuted_: 0
+  canBeExecute_: 1
+  blueShieldSettingParameter_: 0
+  beenHurt_: 0
+  avoidDamageTicks_: 0
+  maxNeedAvoidDamegeTicks_: 250
+  BreakPoint: 0
+  MaxBreakPoint: 400
+  blueShieldOn_: 0
+  curBlueShieldPoint_: 0
+  maxBlueShieldPoint_: 0
   canGetHit_: 1
   canGetGrab_: 1
   beHitTimer_: 0
@@ -63314,6 +63413,7 @@ MonoBehaviour:
     upperCameraDistance_: 5.2
   headRotateSpeedLimitValue_: 0.7
   aimClampAngle_: 30
+  canMove_: 1
 --- !u!1 &6350426926159942574
 GameObject:
   m_ObjectHideFlags: 0
