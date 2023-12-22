@@ -2,6 +2,7 @@ using Gamemanager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Datamanager;
 
 public class BossHellDogAnimationEvent : MonoBehaviour
 {
@@ -37,5 +38,10 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     public void SystemCallSprintColliderOff()
     {
         GameManager.Instance.HellDogGameEvent.Send(new BossCallSprintColliderSwitchCommand() { OnOrOff = false });
+    }
+    public void AnimationCallSpawnPunishmentManager()
+    {
+        var punishmentManagerPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(19).PrefabPath;
+        var punishmentManagerObject = Instantiate(punishmentManagerPrefab, Vector3.zero, Quaternion.identity);
     }
 }

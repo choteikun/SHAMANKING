@@ -15,7 +15,6 @@ public class HellDogSprintBehavior : MonoBehaviour
 
     void switchSprintCollider(BossCallSprintColliderSwitchCommand cmd)
     {
-        Debug.Log("Innnn");
         sprintAttackUseCollider_.SetActive(cmd.OnOrOff);
     }
 }
