@@ -1,8 +1,6 @@
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
-using DG.Tweening;
 using UnityEngine;
-using static Thry.AnimationParser;
 using TooltipAttribute = BehaviorDesigner.Runtime.Tasks.TooltipAttribute;
 
 [TaskCategory("Snake")]
