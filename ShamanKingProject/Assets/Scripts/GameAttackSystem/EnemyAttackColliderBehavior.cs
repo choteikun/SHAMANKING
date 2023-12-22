@@ -13,6 +13,7 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
     [SerializeField] float minDamage_;
     [SerializeField] float maxDamage_;
     [SerializeField] bool unbreakble_ = false;
+    [SerializeField] bool unDodgeable_ = false;
     async void Start()
     {
         if (unbreakble_) return;
@@ -28,7 +29,7 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
         // 检查collider是否在LayerMask中
         if ((layerMask_.value & (1 << other.gameObject.layer)) > 0)
         {
-            if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerInvincible) return;
+            if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerInvincible&&unDodgeable_ == false) return;
             Debug.LogError("Hit!!!");
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
             var collidePoint = other.ClosestPoint(this.gameObject.transform.position);           

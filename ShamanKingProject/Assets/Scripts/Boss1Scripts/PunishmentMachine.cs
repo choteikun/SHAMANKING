@@ -9,7 +9,8 @@ public class PunishmentMachine : MonoBehaviour
     [SerializeField] GameObject centerHint_;
     [SerializeField] GameObject outerHitBox_;
     [SerializeField] GameObject centerHitBox_;
-    [SerializeField] int hintFrame_;
+    [SerializeField] int centerHintFrame_;
+    [SerializeField] int outerHintFrame_;
 
     void Start()
     {
@@ -19,13 +20,13 @@ public class PunishmentMachine : MonoBehaviour
     async void punishmentAttack()
     {
         centerHint_.SetActive(true);
-        await UniTask.DelayFrame(hintFrame_);
+        await UniTask.DelayFrame(centerHintFrame_);
         centerHint_.SetActive(false);
         centerHitBox_.SetActive(true);
         await UniTask.DelayFrame(3);
         Destroy(centerHitBox_);
         outerHint_.SetActive(true);
-        await UniTask.DelayFrame(hintFrame_);
+        await UniTask.DelayFrame(outerHintFrame_);
         outerHint_.SetActive(false);
         outerHitBox_.SetActive(true);
         await UniTask.DelayFrame(3);
