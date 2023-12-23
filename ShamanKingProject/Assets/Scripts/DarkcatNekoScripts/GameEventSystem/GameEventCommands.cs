@@ -363,6 +363,11 @@ namespace Gamemanager
     {
         public bool OnOrOff;
     }
+
+    public class BossCallJumpAttackLocateCommand:GameEventMessageBase
+    {
+
+    }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

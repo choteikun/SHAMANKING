@@ -11,5 +11,6 @@ public class HellDogGameEventPack : GameEventPack
     public IObservable<SystemCallFireTrackBallSpawnCommand> OnSystemCallFireTrackBallSpawn => getSubject<SystemCallFireTrackBallSpawnCommand>();
 
     public IObservable<BossCallSprintColliderSwitchCommand> OnBossCallSprintColliderSwitch => getSubject<BossCallSprintColliderSwitchCommand>();
+    public IObservable<BossCallJumpAttackLocateCommand> OnBossCallJumpAttackLocate => getSubject<BossCallJumpAttackLocateCommand>();
 
 }
