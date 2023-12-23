@@ -19,6 +19,7 @@ public class NormalJumpAttackBehavior : MonoBehaviour
 
     void locatePlayerPosition()
     {
+        jumpEndPoint_.transform.position = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position;
         var vector = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position - this.transform.position;
         distance_ = vector.magnitude;
     }

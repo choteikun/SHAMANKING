@@ -102,14 +102,18 @@ public class FirstBossVariables : MonoBehaviour
     public Vector3 JumpForwardVec { get { return jumpForwardVec_; } set { jumpForwardVec_ = value; } }
     [SerializeField, Tooltip("JumpForwardVec")]
     private Vector3 jumpForwardVec_;
-    
+
+    [SerializeField]private float jumpAtkDistance_;
 
     // Root Motion的位移量 用於腳本運用Root Motion
     private Vector3 deltaPos_;
 
+    private bool isJumpAttacking_ = false;
 
     void Start()
     {
+        GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallJumpAttackLocate, cmd => { locatePlayerPosition(); });
+
         PlayerObj = GameObject.FindWithTag("Player").gameObject;
         Rigidbody = GetComponent<Rigidbody>();
         if (!FirstBossCollider) { FirstBossCollider = GameObject.Find("FirstBossCollider").GetComponent<Collider>(); }
@@ -117,18 +121,23 @@ public class FirstBossVariables : MonoBehaviour
     }
     void FixedUpdate()
     {
-        // 運用Root Motion 要放到修改rb.velocity以前進行
-        rb_.position += deltaPos_;
+        if (isJumpAttacking_)
+        {
+            rb_.position += deltaPos_ * jumpAtkDistance_ / 40f;
+        }
+        else
+        {
+            // 運用Root Motion 要放到修改rb.velocity以前進行
+            rb_.position += deltaPos_;
+
+            getRunForwardVector();
+        }
 
         // 清零目前物理幀累積的deltaPos_
         deltaPos_ = Vector3.zero;
     }
     void Update()
     {
-        getRunForwardVector();
-
-        getJumpForwardAtkVector();
-
         getAngleFacingPlayer();
 
         //if (UpdatePosTrigger)
@@ -279,15 +288,28 @@ public class FirstBossVariables : MonoBehaviour
             AngleFacingPlayer = angle;
         }
     }
+    void locatePlayerPosition()
+    {
+        var vector = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position - this.transform.position;
+        jumpAtkDistance_ = vector.magnitude;
+    }
     public void OnUpdateRootMotion(Animator anim)
     {
         //過濾掉不需要套用動畫位移的動畫
-        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_Run"))
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_Run") || !anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_NormalAtk_JumpAttack"))
         {
             // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
             deltaPos_ += anim.deltaPosition;
             transform.rotation = anim.rootRotation;
         }
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_NormalAtk_JumpAttack"))
+        {
+            isJumpAttacking_ = true;
+            //deltaPos_ += anim.deltaPosition * jumpAtkDistance_ / 19.8f;
+            deltaPos_ += anim.deltaPosition;
+            transform.rotation = anim.rootRotation;
+        }
+        else { isJumpAttacking_ = false; }
         //deltaRot_ = anim.deltaRotation;
     }
 }
