@@ -1,26 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Datamanager;
 
 public class NormalJumpAttackBehavior : MonoBehaviour
 {
-    [SerializeField] GameObject jumpEndPoint_;
-    [SerializeField] float distance_;
     void Start()
     {
-        GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallJumpAttackLocate, cmd => { locatePlayerPosition(); });
+        GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallJumpAttackLocate, cmd => { spawnAttackManager(); });
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
-    void locatePlayerPosition()
+   void spawnAttackManager()
     {
-        jumpEndPoint_.transform.position = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position;
-        var vector = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position - this.transform.position;
-        distance_ = vector.magnitude;
+        var attackManagerPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(20).PrefabPath;
+        var pos = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position;
+        pos.y = 12f;
+        var attackManagerObject = Instantiate(attackManagerPrefab,pos,Quaternion.identity);
     }
 }
