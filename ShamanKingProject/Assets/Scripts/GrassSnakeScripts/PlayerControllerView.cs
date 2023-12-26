@@ -237,6 +237,7 @@ public class PlayerControllerView : MonoBehaviour
         dashPointTest.transform.position = final;
         //this.gameObject.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
         StartCoroutine(MoveToPosition(final, player_Stats_.Player_DodgeSpeed));
+        PlayerStatCalculator.PlayerInvincibleSwitch(true);
         DOVirtual.Float(-0.5f, 1.5f, 0.1f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
            // Debug.Log(currentParams);
@@ -246,8 +247,9 @@ public class PlayerControllerView : MonoBehaviour
             {
                 item.SetVector("_DissolveParams", currentParams);
             }
-        }).OnComplete(() => { PlayerStatCalculator.PlayerInvincibleSwitch(true);Debug.LogError("StartAvoiding"); });
+        }).OnComplete(() => {  });
         await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));
+        PlayerStatCalculator.PlayerInvincibleSwitch(false);
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
            // Debug.Log(currentParams);
@@ -257,7 +259,7 @@ public class PlayerControllerView : MonoBehaviour
             {
                 item.SetVector("_DissolveParams", currentParams);
             }
-        }).SetEase(Ease.InSine).OnComplete(() => { PlayerStatCalculator.PlayerInvincibleSwitch(false); });
+        }).SetEase(Ease.InSine).OnComplete(() => {  });
         
     }
     IEnumerator MoveToPosition(Vector3 target, float duration)
