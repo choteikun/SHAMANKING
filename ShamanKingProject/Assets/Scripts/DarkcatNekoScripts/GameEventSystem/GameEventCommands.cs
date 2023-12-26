@@ -373,7 +373,10 @@ namespace Gamemanager
     {
         public bool TurnedOn;
     }
+    public class UICallPlayerHealthBarUIUpdateCommand:GameEventMessageBase
+    {
 
+    }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

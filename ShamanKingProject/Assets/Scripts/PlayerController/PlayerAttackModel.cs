@@ -244,6 +244,7 @@ public class PlayerAttackModel
     }
     void playerGetHit(EnemyAttackSuccessCommand cmd)
     {
+        PlayerStatCalculator.PlayerAddOrMinusHealth(cmd.AttackDamage * -1);
         if (cmd.ThisAttackHitPower == EnemyHitPower.Light)
         {
             Debug.Log("受擊");

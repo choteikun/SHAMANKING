@@ -20,5 +20,11 @@ public static class PlayerStatCalculator
         realTimePlayerData.PlayerInvincible = trigger;
         GameManager.Instance.UIGameEvent.Send(new UIPlayerInvincibleUpdateCommand());
     }
-  
+   
+    public static void PlayerAddOrMinusHealth(float amount)
+    {
+        var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
+        realTimePlayerData.PlayerNowHealthPoint = Mathf.Clamp(realTimePlayerData.PlayerNowHealthPoint + amount, 0, realTimePlayerData.PlayerMaxHealthPoint);
+        GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
+    }
 }
