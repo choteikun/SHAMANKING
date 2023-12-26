@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Datamanager;
 public class FlameThrowerBehavior : MonoBehaviour
 {
     [SerializeField] GameObject flameThrowerManagerCenter_;
     [SerializeField] GameObject bossPos_;
+    [SerializeField] GameObject flameHitboxSpawnPos_;
     [SerializeField] float centerDistance_;
     [SerializeField] bool isFlameThrowing = false;
     [SerializeField] int frameCounter = 0;
     void Start()
     {
-        
+        GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallFlameThrowerSwitch, cmd => { isFlameThrowing = cmd.TurnedOn; });
     }
 
     // Update is called once per frame
@@ -21,7 +22,7 @@ public class FlameThrowerBehavior : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        
+        hitboxSpawner();
     }
     void throwerManagerPosUpdater()
     {
@@ -37,8 +38,14 @@ public class FlameThrowerBehavior : MonoBehaviour
             frameCounter += 1;
             if (frameCounter == 4)
             {
-                var hitbox = 
+                frameCounter = 0;
+                var hitboxPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(21).PrefabPath;
+                var hitboxObject = Instantiate(hitboxPrefab, flameHitboxSpawnPos_.transform.position, flameHitboxSpawnPos_.transform.rotation);
             }
+        }
+        else
+        {
+            frameCounter = 0;
         }
     }
 }

@@ -144,9 +144,10 @@ public class PlayerControllerView : MonoBehaviour
 
     void playerModelTurn(EnemyAttackSuccessCommand cmd)
     {
+        Debug.Log(cmd.AttackerPos);
         dashPointTest.transform.position = cmd.AttackerPos;
         // 計算物件A到座標B的方向向量
-        Vector3 direction = cmd.CollidePoint - playerModel_.transform.position;
+        Vector3 direction = cmd.AttackerPos - playerModel_.transform.position;
         direction.y = 0;
         // 將方向向量轉換為旋轉
         Quaternion rotation = Quaternion.LookRotation(direction);

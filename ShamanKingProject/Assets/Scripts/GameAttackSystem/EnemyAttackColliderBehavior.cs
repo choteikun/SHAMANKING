@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gamemanager;
+using UnityEditor.EditorTools;
 
 public class EnemyAttackColliderBehavior : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
     [SerializeField] float maxDamage_;
     [SerializeField] bool unbreakble_ = false;
     [SerializeField] bool unDodgeable_ = false;
+    [SerializeField] BossSpecialColliderType colliderType_ = BossSpecialColliderType.Normal;
+    [SerializeField] GameObject specialAttackerPos_;
     async void Start()
     {
         if (unbreakble_) return;
@@ -32,8 +35,16 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
             if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerInvincible&&unDodgeable_ == false) return;
             Debug.LogError("Hit!!!");
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
-            var collidePoint = other.ClosestPoint(this.gameObject.transform.position);           
-            var command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(),ThisAttackHitPower = thisAttackHitPower_,AttackerPos = this.gameObject.transform.position };
+            var collidePoint = other.ClosestPoint(this.gameObject.transform.position);
+            var command = new EnemyAttackSuccessCommand();
+            if (colliderType_ == BossSpecialColliderType.Normal)
+            {
+                 command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(),ThisAttackHitPower = thisAttackHitPower_,AttackerPos = this.gameObject.transform.position };
+            }
+            else if (colliderType_ == BossSpecialColliderType.FlameThrower)
+            {
+                 command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(), ThisAttackHitPower = thisAttackHitPower_, AttackerPos = specialAttackerPos_.transform.position };
+            }
             awaitSendAttackMessage(command);
             Debug.Log("HitTarget" + other.name);
         }
@@ -55,4 +66,10 @@ public enum EnemyHitPower
     Light,
     HardKnockBack,
     OneShot,
+}
+
+public enum BossSpecialColliderType
+{
+    Normal,
+    FlameThrower,
 }

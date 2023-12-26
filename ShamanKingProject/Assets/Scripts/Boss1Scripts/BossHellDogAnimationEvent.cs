@@ -48,4 +48,13 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     {
         GameManager.Instance.HellDogGameEvent.Send(new BossCallJumpAttackLocateCommand());
     }
+
+    public void BossFlameThrowerTriggerOn()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallFlameThrowerSwitchCommand() { TurnedOn = true });
+    }
+    public void BossFlameThrowerTriggerOff()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallFlameThrowerSwitchCommand() { TurnedOn = false });
+    }
 }
