@@ -242,11 +242,11 @@ public class FirstBossVariables : MonoBehaviour
                 ExplosionJudgmentTrigger = true;
                 break;
             case 20.0f:
-                ExplosionJudgmentProbability = 0.4f;
+                ExplosionJudgmentProbability = 0.2f;
                 ExplosionJudgmentTrigger = true;
                 break;
             case 30.0f:
-                ExplosionJudgmentProbability = 0.75f;
+                ExplosionJudgmentProbability = 0.5f;
                 ExplosionJudgmentTrigger = true;
                 break;
             case 40.0f:
