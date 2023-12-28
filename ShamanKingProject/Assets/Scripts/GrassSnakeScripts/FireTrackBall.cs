@@ -15,7 +15,7 @@ public class FireTrackBall : MonoBehaviour
     private float MaximumVelocity = 30.0f;
 
     [SerializeField, Tooltip("生命週期")]
-    private float MaximumLifeTime = 8.0f;
+    private float MaximumLifeTime = 20.0f;
 
     [SerializeField, Tooltip("上升期時間")]
     private float AccelerationPeriod = 0.5f;
@@ -39,7 +39,7 @@ public class FireTrackBall : MonoBehaviour
 
     private void Start()
     {
-        Target = GameObject.FindGameObjectWithTag("Player").transform;
+        Target = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform;
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
         if (!audioSource.isPlaying)
