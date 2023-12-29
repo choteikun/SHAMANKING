@@ -81,6 +81,9 @@ public class FirstBossVariables : MonoBehaviour
     public bool ExplosionJudgmentTrigger { get { return explosionJudgmentTrigger_; } set { explosionJudgmentTrigger_ = value; } }
     [SerializeField, Tooltip("審判之炎爆觸發器")]
     private bool explosionJudgmentTrigger_;
+    public bool PreludeTrigger { get { return preludeTrigger_; } set { preludeTrigger_ = value; } }
+    [SerializeField, Tooltip("開場白行為觸發器")]
+    private bool preludeTrigger_;
     public bool RootTrigger { get { return rootTrigger_; } set { rootTrigger_ = value; } }
     [SerializeField, Tooltip("禁錮觸發器")]
     private bool rootTrigger_;
@@ -117,6 +120,7 @@ public class FirstBossVariables : MonoBehaviour
         PlayerObj = GameObject.FindWithTag("Player").gameObject;
         Rigidbody = GetComponent<Rigidbody>();
         if (!FirstBossCollider) { FirstBossCollider = GameObject.Find("FirstBossCollider").GetComponent<Collider>(); }
+        PreludeTrigger = true;
         IntTypeStateOfFirstBoss = 2;
     }
     void FixedUpdate()
