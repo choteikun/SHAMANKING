@@ -1,9 +1,6 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Gamemanager;
-using UnityEditor.EditorTools;
+using UnityEngine;
 
 public class EnemyAttackColliderBehavior : MonoBehaviour
 {
@@ -21,9 +18,9 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
     {
         if (unbreakble_) return;
         await UniTask.DelayFrame(lastFrame_);
-        if (this.gameObject!=null)
+        if (this.gameObject != null)
         {
-        Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
 
@@ -32,18 +29,18 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
         // 检查collider是否在LayerMask中
         if ((layerMask_.value & (1 << other.gameObject.layer)) > 0)
         {
-            if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerInvincible&&unDodgeable_ == false) return;
+            if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerInvincible && unDodgeable_ == false) return;
             Debug.LogError("Hit!!!");
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
             var collidePoint = other.ClosestPoint(this.gameObject.transform.position);
             var command = new EnemyAttackSuccessCommand();
             if (colliderType_ == BossSpecialColliderType.Normal)
             {
-                 command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(),ThisAttackHitPower = thisAttackHitPower_,AttackerPos = this.gameObject.transform.position };
+                command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(), ThisAttackHitPower = thisAttackHitPower_, AttackerPos = this.gameObject.transform.position };
             }
             else if (colliderType_ == BossSpecialColliderType.FlameThrower)
             {
-                 command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(), ThisAttackHitPower = thisAttackHitPower_, AttackerPos = specialAttackerPos_.transform.position };
+                command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(), ThisAttackHitPower = thisAttackHitPower_, AttackerPos = specialAttackerPos_.transform.position };
             }
             awaitSendAttackMessage(command);
             Debug.Log("HitTarget" + other.name);
@@ -51,7 +48,7 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
     }
     void awaitSendAttackMessage(EnemyAttackSuccessCommand cmd)
     {
-        GameManager.Instance.MainGameEvent.Send(cmd);       
+        GameManager.Instance.MainGameEvent.Send(cmd);
     }
     float getDamege()
     {
