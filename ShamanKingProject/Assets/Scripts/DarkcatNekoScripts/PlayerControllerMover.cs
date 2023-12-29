@@ -316,19 +316,21 @@ public class PlayerControllerMover
 
    async void DashToGrabTarget(PlayerGrabSuccessResponse cmd)  
     {
-        var player = characterControllerObj_.transform.gameObject;
+        var player = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject;
 
         var vector = cmd.AttackTarget.transform.position - player.transform.position;
         vector.y = 0;//水平化操作
         var direction = vector.normalized;
         var length = vector.magnitude;
         var destination = player.transform.position+ direction * (length-1.5f);
+
         await UniTask.Delay(150);
+        
         player.transform.DOMove(destination, 0.7f).OnComplete(() => {
             // 移动完成后的回调操作
             Debug.Log("Player has reached the enemy.");
             if (player_Stats_.Aiming) { GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse()); }
         });
     }
-
+   
 }

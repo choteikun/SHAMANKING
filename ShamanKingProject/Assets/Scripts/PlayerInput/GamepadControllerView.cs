@@ -86,7 +86,7 @@ public class GamepadControllerView : MonoBehaviour
     }
     void OnPlayerRoll()
     {
-        if (isAiming_) return;
+        //if (isAiming_) return;
         GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());
         Debug.Log("Roll!");
     }
@@ -197,8 +197,8 @@ public class GamepadControllerView : MonoBehaviour
         if (buttonEastPressed_) return;
         if (isJumping_)
         {
-            isAttacking_ = true;
-            GameManager.Instance.MainGameEvent.Send(new PlayerJumpAttackButtonCommand() { });
+            //isAttacking_ = true;
+            //GameManager.Instance.MainGameEvent.Send(new PlayerJumpAttackButtonCommand() { });
         }
         else
         {

@@ -8,7 +8,8 @@ public class EnemyBeHitTest : MonoBehaviour
 {
     [SerializeField] float executionDamage_;
     public float HealthPoint { get { return healthPoint_; } set { healthPoint_ = value; } }
-    [SerializeField] float healthPoint_ = 100;
+   [SerializeField] float healthPoint_ = 100;
+    [SerializeField] float maxHealthPoint_;
     public bool GainBlueShieldTrigger { get { return gainBlueShieldTrigger_; } set { gainBlueShieldTrigger_ = value; } }
     [SerializeField] bool gainBlueShieldTrigger_;
     public bool RevertBreakPointTrigger { get { return revertBreakPointTrigger_; } set { revertBreakPointTrigger_ = value; } }
@@ -55,7 +56,6 @@ public class EnemyBeHitTest : MonoBehaviour
             if (break_ && cmd.AttackInputType == AttackInputType.ExecutionAttack && canBeExecute_)
             {
                 canBeExecute_ = false;
-                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
                 //呼叫處決特效
                 if (!BeExecuted)
                 {
@@ -64,6 +64,8 @@ public class EnemyBeHitTest : MonoBehaviour
                 await UniTask.Delay(2000);
                 BeExecuted = false;
                 healthPoint_ -= executionDamage_;
+                var percentage = healthPoint_ / maxHealthPoint_;
+                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage));
                 RevertBreakPoint();
                 canBeExecute_ = true;
             }
@@ -71,20 +73,21 @@ public class EnemyBeHitTest : MonoBehaviour
             {
                 canGetHit_ = false;
                 healthPoint_ -= cmd.AttackDamage;
+                var percentage = healthPoint_ / maxHealthPoint_;
                 checkBreakPoint(cmd.AttackDamage);
                 checkBlueShieldDamage(cmd.AttackDamage);
                 onHitParticle_.transform.position = cmd.CollidePoint;
                 //onHitParticle_.GetComponent<ParticleSystem>().Play();
                 onHitParticle_.GetComponent<VisualEffect>().Play();
-                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd));
+                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage));
                 StartCoroutine("beAttackTimer");
-            }            
+            }
         }
     }
     async void breakRevertTimer()
     {
         await UniTask.Delay(5000);
-        if (break_&&canBeExecute_)
+        if (break_ && canBeExecute_)
         {
             RevertBreakPoint();
         }

@@ -190,12 +190,14 @@ namespace Gamemanager
         public GameObject AttackTarget;
         public float AttackDamage;
         public int AttackAddSoul;
-        public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd)
+        public float EnemyHealthPercentage;
+        public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd, float enemyHealthPercentage)
         {
             CollidePoint = cmd.CollidePoint;
             AttackTarget = cmd.AttackTarget;
             AttackDamage = cmd.AttackDamage;
             AttackAddSoul = cmd.AddSoulGage;
+            EnemyHealthPercentage = enemyHealthPercentage;
         }
     }
 
@@ -377,6 +379,7 @@ namespace Gamemanager
     {
 
     }
+    
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

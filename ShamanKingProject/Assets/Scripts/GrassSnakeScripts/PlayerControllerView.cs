@@ -92,6 +92,7 @@ public class PlayerControllerView : MonoBehaviour
         playerControllerMover_.Start(player_Stats_);
         playerAttackModel_.PlayerAttackModelInit();
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject = this.gameObject;
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { DashToGrabTarget(cmd); });
     }
 
     #region - Player取得方向指令 -
@@ -262,7 +263,7 @@ public class PlayerControllerView : MonoBehaviour
         }).SetEase(Ease.InSine).OnComplete(() => {  });
         
     }
-    IEnumerator MoveToPosition(Vector3 target, float duration)
+    public IEnumerator MoveToPosition(Vector3 target, float duration)
     {
         Vector3 startPosition = transform.position;
         float startTime = Time.time;
@@ -276,6 +277,24 @@ public class PlayerControllerView : MonoBehaviour
         }
 
         transform.position = target; // 確保最終位置正確
+    }
+    async void DashToGrabTarget(PlayerGrabSuccessResponse cmd)
+    {
+        var player = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject;
+
+        var vector = cmd.AttackTarget.transform.position - player.transform.position;
+        vector.y = 0;//水平化操作
+        var direction = vector.normalized;
+        var length = vector.magnitude;
+        var destination = player.transform.position + direction * (length - 1.5f);
+
+        await UniTask.Delay(150);
+        StartCoroutine(MoveToPosition(destination,0.7f));
+        //player.transform.DOMove(destination, 0.7f).OnComplete(() => {
+        //    // 移动完成后的回调操作
+        //    Debug.Log("Player has reached the enemy.");
+        //    if (player_Stats_.Aiming) { GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse()); }
+        //});
     }
     void Update()
     {
