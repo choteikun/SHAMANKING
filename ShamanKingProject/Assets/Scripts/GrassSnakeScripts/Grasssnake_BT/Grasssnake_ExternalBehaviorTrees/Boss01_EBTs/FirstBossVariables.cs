@@ -117,7 +117,7 @@ public class FirstBossVariables : MonoBehaviour
     {
         GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallJumpAttackLocate, cmd => { locatePlayerPosition(); });
 
-        PlayerObj = GameObject.FindWithTag("Player").gameObject;
+        PlayerObj = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject;
         Rigidbody = GetComponent<Rigidbody>();
         if (!FirstBossCollider) { FirstBossCollider = GameObject.Find("FirstBossCollider").GetComponent<Collider>(); }
         PreludeTrigger = true;

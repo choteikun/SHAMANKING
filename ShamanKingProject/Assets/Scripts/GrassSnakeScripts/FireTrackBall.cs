@@ -6,20 +6,22 @@ using UnityEngine;
 public class FireTrackBall : MonoBehaviour
 {
     [SerializeField, Tooltip("最大轉彎速度")]
-    private float MaximumRotationSpeed = 120.0f;
+    private float maximumRotationSpeed_ = 150.0f;
 
     [SerializeField, Tooltip("加速度")]
-    private float AcceleratedVeocity = 12.8f;
+    private float acceleratedVeocity_ = 15f;
 
     [SerializeField, Tooltip("最高速度")]
-    private float MaximumVelocity = 30.0f;
+    private float maximumVelocity_ = 30.0f;
 
     [SerializeField, Tooltip("生命週期")]
-    private float MaximumLifeTime = 20.0f;
+    private float maximumLifeTime_ = 15.0f;
 
     [SerializeField, Tooltip("上升期時間")]
-    private float AccelerationPeriod = 0.5f;
+    private float accelerationPeriod_ = 1.5f;
 
+    [SerializeField, Tooltip("BossObj")]
+    private GameObject firstBoss_ = null;
     [SerializeField, Tooltip("爆炸特效預製體")]
     private GameObject[] ExplosionPrefabs = null;
 
@@ -40,6 +42,7 @@ public class FireTrackBall : MonoBehaviour
     private void Start()
     {
         Target = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform;
+
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
         if (!audioSource.isPlaying)
@@ -81,7 +84,7 @@ public class FireTrackBall : MonoBehaviour
         lifeTime += deltaTime;
 
         // 如果超出生命週期，則直接爆炸。
-        if (lifeTime > MaximumLifeTime)
+        if (lifeTime > maximumLifeTime_)
         {
             Explode();
             return;
@@ -89,7 +92,7 @@ public class FireTrackBall : MonoBehaviour
 
         // 計算朝向目標的方向偏移量，如果處於上升期，則忽略目標
         Vector3 offset =
-            ((lifeTime < AccelerationPeriod) && (Target != null))
+            ((lifeTime < accelerationPeriod_) && (Target != null))
             ? Vector3.up
             : (Target.position - transform.position).normalized;
 
@@ -97,7 +100,7 @@ public class FireTrackBall : MonoBehaviour
         float angle = Vector3.Angle(transform.forward, offset);
 
         // 根據最大旋轉速度，計算轉向目標共計所需的時間
-        float needTime = angle / (MaximumRotationSpeed * (CurrentVelocity / MaximumVelocity));
+        float needTime = angle / (maximumRotationSpeed_ * (CurrentVelocity / maximumVelocity_));
 
         // 如果角度很小，就直接對準目標
         if (needTime < 0.001f)
@@ -111,8 +114,9 @@ public class FireTrackBall : MonoBehaviour
         }
 
         // 如果目前速度小於最高速度，則進行加速
-        if (CurrentVelocity < MaximumVelocity)
-            CurrentVelocity += deltaTime * AcceleratedVeocity;
+        if (CurrentVelocity < maximumVelocity_)
+            CurrentVelocity += deltaTime * acceleratedVeocity_;
+
 
         // 朝自己的前方位移
         transform.position += transform.forward * CurrentVelocity * deltaTime;
