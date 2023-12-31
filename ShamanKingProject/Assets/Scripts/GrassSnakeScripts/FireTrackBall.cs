@@ -17,10 +17,10 @@ public class FireTrackBall : MonoBehaviour
     private float maximumLifeTime_ = 15.0f;
 
     [SerializeField, Tooltip("上升期時間")]
-    private float accelerationPeriod_ = 2.3f;
+    private float accelerationPeriod_ = 2f;
 
     [SerializeField, Tooltip("繞著目標的旋轉速度")]
-    private float rotateAroundSpeed_ = 2f;
+    private float rotateAroundSpeed_ = 1.2f;
 
     [SerializeField, Tooltip("BossObj")]
     private GameObject firstBossObj_;
@@ -104,7 +104,6 @@ public class FireTrackBall : MonoBehaviour
             Explode();
             return;
         }
-
         // 計算朝向目標的方向偏移量，如果處於上升期，則忽略目標
         Vector3 offset =
             ((lifeTime_ < accelerationPeriod_) && (Target != null))
@@ -132,18 +131,14 @@ public class FireTrackBall : MonoBehaviour
         if (CurrentVelocity < maximumVelocity_)
             CurrentVelocity += deltaTime * acceleratedVeocity_;
 
+        RotateAroundTarget();
 
         // 朝自己的前方位移
         transform.position += transform.forward * CurrentVelocity * deltaTime;
-        //繞著Boss中心旋轉的觸發器
-        if (!rotateAroundTrigger_)
-        {
-            RotateAroundTarget();
-        }
     }
 
     //繞著Boss中心旋轉
-    async void RotateAroundTarget()
+    void RotateAroundTarget()
     {
         transform.RotateAround(rotateAroundVec_, Vector3.up, 360 * rotateAroundSpeed_ * Time.deltaTime);
         //遞減旋轉速度
@@ -152,9 +147,6 @@ public class FireTrackBall : MonoBehaviour
         {
             rotateAroundSpeed_ = 0;
         }
-        await UniTask.Delay((int)accelerationPeriod_ * 1000);
-        //關閉觸發器
-        rotateAroundTrigger_ = true;
     }
     private void OnTriggerEnter(Collider collider)
     {
