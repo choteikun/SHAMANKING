@@ -12,6 +12,7 @@ public class Scene1WaveManager : MonoBehaviour
     [SerializeField] int wave3GhostKilled_ = 0;
     [SerializeField] GameObject[] waveWalls_;
     [SerializeField] GhostSpawner[] wave2Spawners_;
+    [SerializeField] GameObject BossSceneTransfer_;
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallWaveStart, cmd =>
@@ -34,7 +35,7 @@ public class Scene1WaveManager : MonoBehaviour
             } });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostIdentityCheck, cmd =>
         {
-            if (cmd.GhostIdentityName == "Wave2_GhostEnemy(Clone)")
+            if (cmd.GhostIdentityName == "Wave2_GhostEnemy")
             {
                 checkWave2GhostKilled();
             }
@@ -68,7 +69,8 @@ public class Scene1WaveManager : MonoBehaviour
         if (wave2GhostKilled_ >= 4)
         {
             waveWalls_[1].SetActive(false);
-            DialogueManager.StartConversation("chapter1_2_2");
+            BossSceneTransfer_.SetActive(true);
+            //DialogueManager.StartConversation("chapter1_2_2");
         }
     }
     void checkWave3GhostKilled() 

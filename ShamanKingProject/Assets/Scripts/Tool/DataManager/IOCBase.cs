@@ -1,8 +1,5 @@
-
-using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 public class IOCContainer
 {
     private Dictionary<Type, object> mInstances = new Dictionary<Type, object>();

@@ -10,7 +10,7 @@ public class GhostEnemyAnimator : MonoBehaviour
     readonly int animID_EnemyState = Animator.StringToHash("EnemyState");
     #endregion
 
-    string ghostIdentityName_; 
+   [SerializeField] string ghostIdentityName_; 
     Animator anim;
 
     void Awake()
@@ -20,7 +20,7 @@ public class GhostEnemyAnimator : MonoBehaviour
     }
     void Start()
     {
-        ghostIdentityName_ = this.gameObject.transform.parent.name;
+        //ghostIdentityName_ = this.gameObject.transform.parent.name;
     }
     public void SetEnemyState(int state)
     {
