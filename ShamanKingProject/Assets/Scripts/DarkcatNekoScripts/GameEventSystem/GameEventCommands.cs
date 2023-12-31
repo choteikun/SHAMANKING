@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -191,13 +192,15 @@ namespace Gamemanager
         public float AttackDamage;
         public int AttackAddSoul;
         public float EnemyHealthPercentage;
-        public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd, float enemyHealthPercentage)
+        public float EnemyBreakPercentage;
+        public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd, float enemyHealthPercentage,float enemyBreakPercentage)
         {
             CollidePoint = cmd.CollidePoint;
             AttackTarget = cmd.AttackTarget;
             AttackDamage = cmd.AttackDamage;
             AttackAddSoul = cmd.AddSoulGage;
             EnemyHealthPercentage = enemyHealthPercentage;
+            EnemyBreakPercentage = enemyBreakPercentage;
         }
     }
 
@@ -379,7 +382,13 @@ namespace Gamemanager
     {
 
     }
-    
+    public class UIUpdateBreakCommand:GameEventMessageBase
+    {
+        public GameObject AttackTarget;
+        public float BreakPercentage;
+    }
+
+
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

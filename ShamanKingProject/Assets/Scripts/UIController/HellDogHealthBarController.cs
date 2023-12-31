@@ -7,6 +7,7 @@ public class HellDogHealthBarController : MonoBehaviour
 {
     [SerializeField] Image redHealthBar_;
     [SerializeField] Image healthBar_;
+    [SerializeField] Image breakBar_;
     [SerializeField] float nowPercentage_ = 1;
     [SerializeField] GameObject attackTarget_;
     Tweener redHealthBarTweener_;
@@ -14,6 +15,7 @@ public class HellDogHealthBarController : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccessForData, cmd => { bossHealthChangeAnimation(cmd); });
+        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnUIUpdateBreak, cmd => {if(attackTarget_ == cmd.AttackTarget) breakBar_.fillAmount = cmd.BreakPercentage; });
     }
 
 
@@ -38,5 +40,6 @@ public class HellDogHealthBarController : MonoBehaviour
               x => healthBar_.fillAmount = x, // 赋值方法
               nowPercentage_, // 目标值
               0.1f); // 动画持续时间
+        breakBar_.fillAmount = response.EnemyBreakPercentage;
     }
 }

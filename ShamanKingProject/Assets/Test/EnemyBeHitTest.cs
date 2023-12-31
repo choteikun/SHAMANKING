@@ -65,7 +65,8 @@ public class EnemyBeHitTest : MonoBehaviour
                 BeExecuted = false;
                 healthPoint_ -= executionDamage_;
                 var percentage = healthPoint_ / maxHealthPoint_;
-                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage));
+                var breakPercentage = BreakPoint / MaxBreakPoint;
+                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage, breakPercentage));
                 RevertBreakPoint();
                 canBeExecute_ = true;
             }
@@ -75,11 +76,12 @@ public class EnemyBeHitTest : MonoBehaviour
                 healthPoint_ -= cmd.AttackDamage;
                 var percentage = healthPoint_ / maxHealthPoint_;
                 checkBreakPoint(cmd.AttackDamage);
+                var breakPercentage = BreakPoint / MaxBreakPoint;
                 checkBlueShieldDamage(cmd.AttackDamage);
                 onHitParticle_.transform.position = cmd.CollidePoint;
                 //onHitParticle_.GetComponent<ParticleSystem>().Play();
                 onHitParticle_.GetComponent<VisualEffect>().Play();
-                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage));
+                GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage,breakPercentage));
                 StartCoroutine("beAttackTimer");
             }
         }
@@ -168,6 +170,8 @@ public class EnemyBeHitTest : MonoBehaviour
             if (!Break)
             {
                 BreakPoint = Mathf.Clamp(BreakPoint - 5 * Time.deltaTime, 0, MaxBreakPoint);
+                var breakPercentage = BreakPoint / MaxBreakPoint;
+                GameManager.Instance.UIGameEvent.Send(new UIUpdateBreakCommand() { AttackTarget = gameObject,BreakPercentage = breakPercentage });
             }
         }
     }

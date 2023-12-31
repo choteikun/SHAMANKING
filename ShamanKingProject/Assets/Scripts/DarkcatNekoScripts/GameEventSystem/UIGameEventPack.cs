@@ -1,4 +1,5 @@
 using Gamemanager;
+using StarterAssets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,4 +11,6 @@ public class UIGameEventPack : GameEventPack
     public IObservable<UIPlayerInvincibleUpdateCommand> OnPlayerInvincibleUpdate => getSubject<UIPlayerInvincibleUpdateCommand>();
 
     public IObservable<UICallPlayerHealthBarUIUpdateCommand> OnCallPlayerHealthBarUIUpdate => getSubject<UICallPlayerHealthBarUIUpdateCommand>();
+
+    public IObservable<UIUpdateBreakCommand> OnUIUpdateBreak => getSubject<UIUpdateBreakCommand>();
 }
