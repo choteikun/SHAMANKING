@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 4779456973108918409}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 43.136143, y: 5.661783, z: -16.37391}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -205,7 +205,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4779456973108918409}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -225,16 +225,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6490915cb1c154c4494bb99cd38dac6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaximumRotationSpeed: 150
-  AcceleratedVeocity: 15
-  MaximumVelocity: 30
-  MaximumLifeTime: 15
-  AccelerationPeriod: 1.5
-  ExplosionPrefabs:
-  - {fileID: 6690547690136172951, guid: 2bc240d51cfe9b5419406519aba9f3c8, type: 3}
-  FireBallRenderer: {fileID: 2124257222811848607}
-  FireBallEffects:
-  - {fileID: 6690547690136172945, guid: 2bc240d51cfe9b5419406519aba9f3c8, type: 3}
+  maximumRotationSpeed_: 100
+  acceleratedVeocity_: 5
+  maximumVelocity_: 25
+  maximumLifeTime_: 15
+  accelerationPeriod_: 2.5
+  rotateAroundSpeed_: 2
+  firstBossObj_: {fileID: 0}
+  explosionPrefabs_:
+  - {fileID: 6690547690136172951, guid: f48b888f074392d40939c90cdfb5644b, type: 3}
+  fireBallRenderer_: {fileID: 2124257222811848607}
+  fireBallEffects_: []
   Target: {fileID: 0}
   CurrentVelocity: 0
 --- !u!114 &912522569444519852
