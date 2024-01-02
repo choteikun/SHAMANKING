@@ -1757,6 +1757,37 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &304947603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 304947604}
+  m_Layer: 10
+  m_Name: Wave1_GhostEnemy (1)
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &304947604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304947603}
+  m_LocalRotation: {x: -0, y: -0.6168214, z: -0, w: -0.7871032}
+  m_LocalPosition: {x: 0, y: 1.6000004, z: -22}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 868864589}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 436.169, z: 0}
 --- !u!1 &334135870
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,7 +2059,7 @@ Transform:
   - {fileID: 708535924}
   - {fileID: 911304653}
   m_Father: {fileID: 868864589}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &401844153
 GameObject:
@@ -3445,7 +3476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &708535924
 Transform:
   m_ObjectHideFlags: 0
@@ -4856,6 +4887,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 172083196776043916}
+  - {fileID: 304947604}
   - {fileID: 367744689}
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -5046,7 +5078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &911304653
 Transform:
   m_ObjectHideFlags: 0
@@ -5247,9 +5279,8 @@ MonoBehaviour:
   wave2Spawners_:
   - {fileID: 1216943080}
   - {fileID: 134268949}
-  - {fileID: 708535925}
-  - {fileID: 911304654}
   BossSceneTransfer_: {fileID: 802734177}
+  wave2Count_: 2
 --- !u!1 &1060948545
 GameObject:
   m_ObjectHideFlags: 0
@@ -18301,8 +18332,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 304947604}
+  m_Follow: {fileID: 304947604}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -18328,7 +18359,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105641302}
-  m_LocalRotation: {x: 0.000000014901159, y: -0, z: -0.0000000074505797, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22924,17 +22955,23 @@ MonoBehaviour:
   tutorialCanvas_: {fileID: 1241964954602892607}
   tutorialPic_: {fileID: 1241964955189383218}
   firstTutorial_:
-  - {fileID: 21300000, guid: 567767d50c6cd40468ab660bee8f7f70, type: 3}
+  - {fileID: 21300000, guid: eec6ba8d257f34649b53c03af95e7c60, type: 3}
   secondTutorial_:
-  - {fileID: 21300000, guid: a92eaa689b5e01240ad16cacf775ef67, type: 3}
-  - {fileID: 21300000, guid: 18456b4fca8ee24499613b118a4c2352, type: 3}
-  - {fileID: 21300000, guid: 9deea03b9ebc02c4daf523512964b537, type: 3}
-  - {fileID: 21300000, guid: 51f027a94f76e7b45863239dc4bde612, type: 3}
+  - {fileID: 21300000, guid: a021fca3b6098154ba58fd033fe92b4f, type: 3}
+  - {fileID: 21300000, guid: 61a903cbe81154245bffaae4e7076047, type: 3}
+  - {fileID: 21300000, guid: a4dff136b2684874d827711ecef8941d, type: 3}
+  - {fileID: 21300000, guid: cc07a0da3c5a2a544816f1b43477a8fe, type: 3}
+  - {fileID: 21300000, guid: 3c560059aa16a4d49ac93d654eb9ad65, type: 3}
+  - {fileID: 21300000, guid: d8a6c2b4f239d4942a20f2fc708a608a, type: 3}
+  - {fileID: 21300000, guid: 555d93013c707b14fae110d0f0703f10, type: 3}
   thirdTutorial_:
-  - {fileID: 21300000, guid: 613c0139ff8db73429a7c0dae1aa8aa9, type: 3}
-  - {fileID: 21300000, guid: e71165a30cba4bb449c93d03369930ca, type: 3}
-  - {fileID: 21300000, guid: fd23acbc7e4e09e46b322d2cd62ca243, type: 3}
-  - {fileID: 21300000, guid: 548b45dca03b4d24aa49bd82c7cb4064, type: 3}
+  - {fileID: 21300000, guid: a021fca3b6098154ba58fd033fe92b4f, type: 3}
+  - {fileID: 21300000, guid: 61a903cbe81154245bffaae4e7076047, type: 3}
+  - {fileID: 21300000, guid: a4dff136b2684874d827711ecef8941d, type: 3}
+  - {fileID: 21300000, guid: cc07a0da3c5a2a544816f1b43477a8fe, type: 3}
+  - {fileID: 21300000, guid: 3c560059aa16a4d49ac93d654eb9ad65, type: 3}
+  - {fileID: 21300000, guid: d8a6c2b4f239d4942a20f2fc708a608a, type: 3}
+  - {fileID: 21300000, guid: 555d93013c707b14fae110d0f0703f10, type: 3}
   tutorialLastPicCount_: 0
   ticketGate_: {fileID: 1241964954287244510}
 --- !u!1 &1241964953557105636

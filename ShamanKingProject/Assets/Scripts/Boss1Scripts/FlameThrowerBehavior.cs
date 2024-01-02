@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Datamanager;
+using UnityEngine.VFX;
+using Gamemanager;
+
 public class FlameThrowerBehavior : MonoBehaviour
 {
     [SerializeField] GameObject flameThrowerManagerCenter_;
@@ -10,9 +13,12 @@ public class FlameThrowerBehavior : MonoBehaviour
     [SerializeField] float centerDistance_;
     [SerializeField] bool isFlameThrowing = false;
     [SerializeField] int frameCounter = 0;
+    [SerializeField] VisualEffect fireBeam_;
+    [SerializeField] GameObject fireBeamObject_;
+    [SerializeField] GameObject fireBeamFollowObject_;
     void Start()
     {
-        GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallFlameThrowerSwitch, cmd => { isFlameThrowing = cmd.TurnedOn; });
+        GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallFlameThrowerSwitch, cmd => { isFlameThrowing = cmd.TurnedOn; startFlameThrowerVFX(cmd); });
     }
 
     // Update is called once per frame
@@ -36,6 +42,10 @@ public class FlameThrowerBehavior : MonoBehaviour
         if (isFlameThrowing) 
         {
             frameCounter += 1;
+            fireBeamObject_.transform.position = fireBeamFollowObject_.transform.position;
+            var rotation = fireBeamFollowObject_.transform.rotation.eulerAngles;
+            rotation.x = 0;
+            fireBeamObject_.transform.rotation = Quaternion.Euler(rotation);
             if (frameCounter == 4)
             {
                 frameCounter = 0;
@@ -48,9 +58,12 @@ public class FlameThrowerBehavior : MonoBehaviour
             frameCounter = 0;
         }
     }
-    void startFlameThrowerVFX()
+    void startFlameThrowerVFX(BossCallFlameThrowerSwitchCommand cmd)
     {
-
+        if (cmd.TurnedOn)
+        {           
+        fireBeam_.Play();
+        }
     }
          
 }

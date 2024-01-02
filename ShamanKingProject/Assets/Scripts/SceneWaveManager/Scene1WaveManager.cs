@@ -13,6 +13,7 @@ public class Scene1WaveManager : MonoBehaviour
     [SerializeField] GameObject[] waveWalls_;
     [SerializeField] GhostSpawner[] wave2Spawners_;
     [SerializeField] GameObject BossSceneTransfer_;
+    [SerializeField] int wave2Count_;
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallWaveStart, cmd =>
@@ -66,7 +67,7 @@ public class Scene1WaveManager : MonoBehaviour
     void checkWave2GhostKilled()
     {
         wave2GhostKilled_++;
-        if (wave2GhostKilled_ >= 4)
+        if (wave2GhostKilled_ >= wave2Count_)
         {
             waveWalls_[1].SetActive(false);
             BossSceneTransfer_.SetActive(true);
