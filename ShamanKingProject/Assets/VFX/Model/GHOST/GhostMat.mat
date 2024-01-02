@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dissolve
-  m_Shader: {fileID: 4800000, guid: 017f7ef6b8f22744c86c2d4dc128b60b, type: 3}
+  m_Name: GhostMat
+  m_Shader: {fileID: 4800000, guid: 9dcf45ffd6a93bb4d8ec00df929da114, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,21 +20,36 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _DissolveTex:
-        m_Texture: {fileID: 28828065244276170, guid: 9afe3a3ddb0db2642accad446fc2a398,
-          type: 2}
+    - _Tex0:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _EmissionTex:
-        m_Texture: {fileID: 2800000, guid: 9f212ff8e12813349b4e3b56f7aa1662, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
+    - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: b8e8fae34f17ddb49a99a9736b9e7dff, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Metelitic:
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 841a282c89e9e1c4aaad7223383f1b21, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 2800000, guid: b7c0a23291d727745841828af1e7d179, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample3:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample4:
+        m_Texture: {fileID: 2800000, guid: d38488af7c889cf4994cb65bb2977cd2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0.35}
+    - _TextureSample5:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample6:
+        m_Texture: {fileID: 2800000, guid: 9f212ff8e12813349b4e3b56f7aa1662, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -56,14 +71,20 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _DissolveStrenth: -1
-    - _Edge: 2.47
     - _EnvironmentReflections: 1
+    - _Float0: 0
+    - _Float1: 1
+    - _Float2: -0.05
+    - _Float3: 1
+    - _Float5: 0
+    - _Float7: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SpecularHighlights: 1
-    - _Strenth: 0.67
     m_Colors:
-    - _EmissionColor: {r: 2, g: 1.2392157, b: 0, a: 0}
+    - _Color0: {r: 0.4009434, g: 1, b: 0.47669214, a: 0}
+    - _Color1: {r: 0, g: 1.2443413, b: 0.30693752, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Vector0: {r: 1, g: 1, b: 0.9, a: 0.95}
   m_BuildTextureStacks: []
