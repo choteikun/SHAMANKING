@@ -48,4 +48,9 @@ public class FlameThrowerBehavior : MonoBehaviour
             frameCounter = 0;
         }
     }
+    void startFlameThrowerVFX()
+    {
+
+    }
+         
 }
