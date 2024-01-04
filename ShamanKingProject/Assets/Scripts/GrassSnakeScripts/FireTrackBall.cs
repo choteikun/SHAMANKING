@@ -43,6 +43,7 @@ public class FireTrackBall : MonoBehaviour
     private float lifeTime_ = 0.0f; // 生命期
 
     private bool rotateAroundTrigger_;
+    float delayFrame_ = 100;
 
     Vector3 rotateAroundVec_;
 
@@ -92,7 +93,10 @@ public class FireTrackBall : MonoBehaviour
         // 三秒後刪除飛彈物體，這時候煙霧已經散去，可以刪掉物體了
         Destroy(gameObject, 3.0f);
     }
-
+    private void FixedUpdate()
+    {
+        delayFrame_--;
+    }
     private void Update()
     {
         float deltaTime = Time.deltaTime;
@@ -150,8 +154,9 @@ public class FireTrackBall : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collider)
     {
+        if (delayFrame_ >= 0) return;
         // 當發生碰撞，爆炸
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag("Player") || collider.CompareTag("Object"))
         {
             Debug.LogError("FireBall Hit!!");
             Explode();

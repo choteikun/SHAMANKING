@@ -12,9 +12,11 @@ public class FireballProjectileBehavior : MonoBehaviour
     {
         //rb = GetComponent<Rigidbody>();
         Destroy(gameObject, 5);
+        
     }
     private void FixedUpdate()
     {
+        //delayTimer_.c
         if (speed != 0)
         {
             //rb.velocity = transform.forward * speed;
@@ -23,7 +25,7 @@ public class FireballProjectileBehavior : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {      
         if (other.CompareTag("Player")|| other.CompareTag("Object"))
         {
             //Ray ray = new Ray(transform.position, transform.forward);
