@@ -1,6 +1,5 @@
-using UnityEngine;
-using UniRx;
 using Gamemanager;
+using UnityEngine;
 
 public class EnemyLockOn : MonoBehaviour
 {
@@ -30,7 +29,7 @@ public class EnemyLockOn : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerTargetButtonTrigger, cmd => { triggerTargetButton(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { checkIfInAttackRangeAttackRange(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { checkIfInAttackRangeAttackRange(); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { checkIfInAttackRangeAttackRange(); });       
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { checkIfInAttackRangeAttackRange(); });
     }
 
     void Update()
@@ -81,7 +80,7 @@ public class EnemyLockOn : MonoBehaviour
         if (enemyLocked)
         {
             float dis = (transform.position - pos).magnitude;
-            if (dis  > playerKeepUpRange_)
+            if (dis > playerKeepUpRange_)
             {
                 GameManager.Instance.MainGameEvent.Send(new AnimationMovementEnableCommand());
             }
@@ -102,7 +101,9 @@ public class EnemyLockOn : MonoBehaviour
         float closestAngle = maxNoticeAngle;
         Transform closestTarget = null;
         if (nearbyTargets.Length <= 0)
-        { Debug.Log("Cant find"); return null; }
+        {
+            Debug.Log("Cant find"); return null;
+        }
         Debug.Log("Finding" + nearbyTargets.Length.ToString());
         for (int i = 0; i < nearbyTargets.Length; i++)
         {
@@ -146,7 +147,7 @@ public class EnemyLockOn : MonoBehaviour
     bool TargetOnRange()
     {
         float dis = (transform.position - pos).magnitude;
-        if (dis /2 > noticeZone) return false; else return true;
+        if (dis / 2 > noticeZone) return false; else return true;
     }
 
 
