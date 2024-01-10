@@ -53,6 +53,9 @@ public class GhostEnemyVariables : MonoBehaviour
     public int IntTypeStateOfGhostEnemy { get { return intTypeStateOfGhostEnemy_; } set { intTypeStateOfGhostEnemy_ = value; } }
     [SerializeField]
     private int intTypeStateOfGhostEnemy_;
+    public float Aggression { get { return aggression_; } set { aggression_ = value; } }
+    [SerializeField, Tooltip("攻擊慾望")]
+    private float aggression_;
 
     public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
     [SerializeField]
