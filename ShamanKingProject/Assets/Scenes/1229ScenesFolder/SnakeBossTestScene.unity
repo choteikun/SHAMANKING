@@ -6240,6 +6240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f6dc76b3fc4af4c90a21b48e969f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTarget: {fileID: 0}
   enemyTarget_Locator: {fileID: 6035100176091304811}
   targetLayers:
     serializedVersion: 2
@@ -28025,7 +28026,7 @@ GameObject:
   - component: {fileID: 4826912297521653419}
   - component: {fileID: 4826912297521653416}
   m_Layer: 5
-  m_Name: NowCombo
+  m_Name: HeavyCharge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28051,7 +28052,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'NowCombo:'
+  m_text: 'HeavyCharge:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -45453,6 +45454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soulGageText_: {fileID: 4826912299020440850}
   invincibleText_: {fileID: 4826912297293250663}
+  heavyChargeFinish_: {fileID: 4826912297521653416}
 --- !u!1 &6035100176729765357
 GameObject:
   m_ObjectHideFlags: 0
@@ -49015,6 +49017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4ef98f86245034d8429f8e279f06ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heavyAttackCharger_: 0
   input_: {fileID: 6035100177792774972}
   mouse_X_Horrzontal_sensitivity_: 1.05
   isAiming_: 0

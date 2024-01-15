@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 
 public class GamepadControllerView : MonoBehaviour
 {
-
+    [SerializeField] bool heavyAttackCharger_ = false;
     [SerializeField] PlayerInput input_;
     [SerializeField] float mouse_X_Horrzontal_sensitivity_ = 1.2f;
 
@@ -147,25 +147,6 @@ public class GamepadControllerView : MonoBehaviour
     //}
     void OnPlayerCharge(InputValue value)
     {
-        //if (value.isPressed == isAiming_ || (isLaunching_) || isPosscessing_ || isAttacking_) return;
-        //GameManager.Instance.MainGameEvent.Send(new PlayerChargingButtonCommand() { ChargingButtonIsPressed = value.isPressed });
-        //isAiming_ = value.isPressed;
-        //Debug.Log("Charge" + isAiming_.ToString());
-        //if (value.isPressed)
-        //{
-        //    var delayTimer = 0f;
-        //    aimingDelayer_ = DOTween.To(() => delayTimer, x => delayTimer = x, 1, 0.25f).OnComplete(
-        //        () =>
-        //        {
-        //            aimingDelay_ = false;
-        //        }
-        //        );
-        //}
-        //else
-        //{
-        //    aimingDelayer_.Kill();
-        //    aimingDelay_ = true;
-        //}
         if (isJumping_ || (isLaunching_) || isPosscessing_ || isAttacking_) return;
         if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount == GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount) return;
         isCharging_ = !isCharging_;
@@ -207,13 +188,20 @@ public class GamepadControllerView : MonoBehaviour
         }
         Debug.Log("Attack!");
     }
+    void OnPlayerHeavyAttackCharge()
+    {
+        heavyAttackCharger_ = true;
+        GameManager.Instance.UIGameEvent.Send(new DebugUIHeavyAttackCharge());
+        Debug.Log("PlayerHeavyAttackCharge!");
+    }
     async void OnPlayerHeavyAttack()
     {
         if (isAiming_ || isJumping_) return;
         await UniTask.DelayFrame(1);
         isAttacking_ = true;
-        GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() { });
-        Debug.Log("Attack!");
+        GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() {Charged=heavyAttackCharger_ });
+        Debug.Log("HeavyAttack!"+heavyAttackCharger_);
+        heavyAttackCharger_ = false;
     }
     async void OnPlayerExecutionAttack()
     {

@@ -59,7 +59,7 @@ namespace Gamemanager
     }
     public class PlayerHeavyAttackButtonCommand : GameEventMessageBase
     {
-
+        public bool Charged;
     }
     public class PlayerExecutionAttackCommand:GameEventMessageBase
     {
@@ -390,6 +390,11 @@ namespace Gamemanager
     {
         public GameObject AttackTarget;
         public float BreakPercentage;
+    }
+
+    public class DebugUIHeavyAttackCharge : GameEventMessageBase
+    {
+        
     }
 
 

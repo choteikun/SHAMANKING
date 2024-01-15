@@ -123,6 +123,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "PlayerHeavyAttackCharge",
+                    "type": "Button",
+                    "id": "7cd19f2e-2cd5-47de-9e63-4bb5b340d69f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "PlayerExecutionAttack",
                     "type": "Button",
                     "id": "60a41781-dd58-49e0-9e53-d1a773f01f75",
@@ -141,7 +150,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PlayerCharge",
+                    "name": "PlayerGuard",
                     "type": "Button",
                     "id": "7cfeb203-08ac-4e45-a6ce-c8e53a4b03e1",
                     "expectedControlType": "Button",
@@ -485,7 +494,7 @@
                     "name": "",
                     "id": "40a0a122-645e-4a22-9f58-474f0479bc44",
                     "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
+                    "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
                     "action": "PlayerHeavyAttack",
@@ -496,7 +505,7 @@
                     "name": "",
                     "id": "421ea05c-d524-4c83-b747-048c9a7ef6e8",
                     "path": "<Keyboard>/q",
-                    "interactions": "",
+                    "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
                     "action": "PlayerHeavyAttack",
@@ -576,7 +585,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "PlayerCharge",
+                    "action": "PlayerGuard",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -587,7 +596,29 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "PlayerCharge",
+                    "action": "PlayerGuard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "686310fe-0ea9-46c7-8642-6823ef8c8647",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Hold(duration=1.2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerHeavyAttackCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e29b1663-304c-4e4e-8146-6d90214662d9",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Hold(duration=1.2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerHeavyAttackCharge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

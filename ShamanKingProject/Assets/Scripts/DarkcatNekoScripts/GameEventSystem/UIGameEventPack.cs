@@ -13,4 +13,6 @@ public class UIGameEventPack : GameEventPack
     public IObservable<UICallPlayerHealthBarUIUpdateCommand> OnCallPlayerHealthBarUIUpdate => getSubject<UICallPlayerHealthBarUIUpdateCommand>();
 
     public IObservable<UIUpdateBreakCommand> OnUIUpdateBreak => getSubject<UIUpdateBreakCommand>();
+
+    public IObservable<DebugUIHeavyAttackCharge> OnDebugUIHeavyAttackCharge => getSubject<DebugUIHeavyAttackCharge>();
 }

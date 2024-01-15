@@ -37,10 +37,10 @@ public class DialogueManagerLUA : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new SystemCallTutorialCommand() { TutorialID = tutorialNum });
         DialogueManager.StopConversation();
     }
-    public void CallFirstSceneCameraTransfer(float firstSceneCameraTransfer)
+    public void CallFirstSceneCameraTransfer(float firstSceneCameraTransfer)//要記得取消蓄力
     {
         GameManager.Instance.MainGameEvent.Send(new SystemCallFirstSceneCameraTransferCommand() {CameraId = firstSceneCameraTransfer });
-        GameManager.Instance.MainGameEvent.Send(new PlayerChargingButtonCommand() { ChargingButtonIsPressed = false });
+        //GameManager.Instance.MainGameEvent.Send(new PlayerChargingButtonCommand() { ChargingButtonIsPressed = false }); 
     }
     public void CallCameraTransferBack()
     {

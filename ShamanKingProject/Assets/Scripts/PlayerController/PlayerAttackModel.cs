@@ -2,11 +2,10 @@ using Cysharp.Threading.Tasks;
 using Gamemanager;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 [System.Serializable]
 public class PlayerAttackModel
-{    
+{
     public GameObject characterControllerObj_;
     public int PassedFrameAfterAttack;
     public List<AttackBlockBase> CurrentAttackInputs = new List<AttackBlockBase>();
@@ -15,13 +14,13 @@ public class PlayerAttackModel
     bool comboDeclaim = false;
     private Animator animator_;
     bool isJumpAttacking_ = false;
-    bool isThrowing_ = false;   
+    bool isThrowing_ = false;
     public void PlayerAttackModelInit()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpAttack, cmd => { whenGetAttackTrigger(AttackInputType.JumpAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { whenGetAttackTrigger(AttackInputType.Throw); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { whenGetAttackTrigger(AttackInputType.HeavyAttack); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { whenGetAttackTrigger(AttackInputType.HeavyAttack, cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { whenGetAttackTrigger(AttackInputType.ExecutionAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerShootAttack, cmd => { whenGetAttackTrigger(AttackInputType.ShootAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { whenGetAttackTrigger(AttackInputType.Dodge); });
@@ -75,7 +74,6 @@ public class PlayerAttackModel
             checkNextInput();
         }
     }
-
     void whenGetAttackTrigger(AttackInputType inputType)
     {
         if (CurrentAttackInputs.Count > 0)
@@ -117,7 +115,66 @@ public class PlayerAttackModel
                     addFirstThrowAttack();
                     return;
                 case AttackInputType.HeavyAttack:
-                    addFirstHeavyAttack();
+                    var cmd = new PlayerHeavyAttackButtonCommand() { Charged = false };
+                    addFirstHeavyAttack(cmd);
+                    return;
+                case AttackInputType.Dodge:
+                    addFirstDash();
+                    return;
+                case AttackInputType.ExecutionAttack:
+                    addFirstExecutionAttack();
+                    return;
+                case AttackInputType.ShootAttack:
+                    addFirstShootAttack();
+                    return;
+            }
+        }
+    }
+    void whenGetAttackTrigger(AttackInputType inputType, GameEventMessageBase cmd)
+    {
+        if (CurrentAttackInputs.Count > 0)
+        {
+            //檢查現在是否是輸入窗口       
+            if (PassedFrameAfterAttack < CurrentAttackInputs[currentInputCount_].LeastNeedAttackFrame) return;
+            //檢查現在的物件裡 他是否有下一段接技
+            if (comboDeclaim) return;
+            var nextAttack = GameManager.Instance.AttackBlockDatabase.Database[CurrentAttackInputs[currentInputCount_].SkillId].CheckNextAttack(inputType);
+            if (nextAttack != null)
+            {
+                //如果有 則根據id加進操作欄
+                CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[nextAttack.NextAttackId], GameManager.Instance.AttackBlockDatabase.Database[nextAttack.NextAttackId].SkillFrame));
+                if (PassedFrameAfterAttack <= nextAttack.SkippedFrame)
+                {
+                    CurrentAttackInputs[CurrentAttackInputs.Count - 2].FrameShouldBeSkipped = nextAttack.SkippedFrame;
+                    comboDeclaim = true;
+                }
+                else
+                {
+                    ChangeAction(nextAttack.NextAttackId);
+                }
+            }
+
+            //如果沒有 忽略這次的操作
+        }
+        else
+        {
+
+            switch (inputType)
+            {
+                case AttackInputType.LightAttack:
+                    addFirstLightAttack();
+                    return;
+                case AttackInputType.JumpAttack:
+                    addFirstJumpAttack();
+                    return;
+                case AttackInputType.Throw:
+                    addFirstThrowAttack();
+                    return;
+                case AttackInputType.HeavyAttack:
+                    if (cmd is PlayerHeavyAttackButtonCommand command)
+                    {
+                        addFirstHeavyAttack(command);
+                    }
                     return;
                 case AttackInputType.Dodge:
                     addFirstDash();
@@ -172,11 +229,10 @@ public class PlayerAttackModel
             isAttacking_ = true;
         }
     }
-    void addFirstHeavyAttack()
+    void addFirstHeavyAttack(PlayerHeavyAttackButtonCommand cmd)
     {
-        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount == GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount)
+        if (cmd.Charged)
         {
-            PlayerStatCalculator.PlayerAddOrMinusSpirit(GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount*-1);
             CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[12], GameManager.Instance.AttackBlockDatabase.Database[12].SkillFrame));
             currentInputCount_++;
             if (!isAttacking_)
@@ -199,8 +255,9 @@ public class PlayerAttackModel
                 isAttacking_ = true;
             }
         }
-       
+
     }
+
     void addFirstExecutionAttack()
     {
         CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[6], GameManager.Instance.AttackBlockDatabase.Database[6].SkillFrame));
@@ -240,7 +297,7 @@ public class PlayerAttackModel
                 isAttacking_ = true;
             }
         }
-       
+
     }
     void playerGetHit(EnemyAttackSuccessCommand cmd)
     {
@@ -282,7 +339,7 @@ public class PlayerAttackModel
             }
         }
 
-    }   
+    }
     void addFirstDash()
     {
         CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[8], GameManager.Instance.AttackBlockDatabase.Database[8].SkillFrame));
