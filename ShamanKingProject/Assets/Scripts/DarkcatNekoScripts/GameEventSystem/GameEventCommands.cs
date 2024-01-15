@@ -177,7 +177,10 @@ namespace Gamemanager
         Heavy,
         None,
     }
-
+    public class EnemyDeathCommand : GameEventMessageBase
+    {
+        public GameObject DeathTarget;
+    }
     public class EnemyAttackSuccessCommand : GameEventMessageBase
     {
         public Vector3 CollidePoint;
@@ -368,6 +371,7 @@ namespace Gamemanager
     {
         public bool OnOrOff;
     }
+  
 
     public class BossCallJumpAttackLocateCommand:GameEventMessageBase
     {
@@ -387,6 +391,7 @@ namespace Gamemanager
         public GameObject AttackTarget;
         public float BreakPercentage;
     }
+
 
 
     #region 行為樹給FSM的通知

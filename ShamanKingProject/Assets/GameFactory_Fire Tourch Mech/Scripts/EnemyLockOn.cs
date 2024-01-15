@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyLockOn : MonoBehaviour
 {
+    [SerializeField]
     Transform currentTarget;
     //Animator anim;
     [SerializeField] GameObject enemyTarget_Locator;
@@ -27,6 +28,7 @@ public class EnemyLockOn : MonoBehaviour
     {
         cam = Camera.main.transform;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerTargetButtonTrigger, cmd => { triggerTargetButton(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyDeath, cmd => { targetDeathReset(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { checkIfInAttackRangeAttackRange(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { checkIfInAttackRangeAttackRange(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { checkIfInAttackRangeAttackRange(); });
@@ -120,7 +122,9 @@ public class EnemyLockOn : MonoBehaviour
         Debug.Log("Finding" + closestTarget.name.ToString());
         if (!closestTarget)
         { Debug.Log("Cant find"); return null; }
-        float h1 = closestTarget.GetComponent<CapsuleCollider>().height;
+        if (closestTarget.GetComponent<CapsuleCollider>() == null)
+        { Debug.Log("Cant find"); return null; }
+        float h1 = closestTarget.GetComponent<CapsuleCollider>().height;//如果沒有掛橢圓collider
         float h2 = closestTarget.localScale.y;
         float h = h1 * h2;
         float half_h = (h / 2) / 2;
@@ -176,5 +180,12 @@ public class EnemyLockOn : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, playerKeepUpRange_);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(gizmosUsedHip_.transform.position, playerKeepUpRange_);
+    }
+    void targetDeathReset(EnemyDeathCommand cmd)
+    {
+        if (cmd.DeathTarget == currentTarget)
+        {
+            ResetTarget();
+        }
     }
 }

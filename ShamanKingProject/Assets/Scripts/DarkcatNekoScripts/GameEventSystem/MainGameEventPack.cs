@@ -117,6 +117,8 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerAttackSuccessCommand> OnPlayerAttackSuccess => getSubject<PlayerAttackSuccessCommand>();
     public IObservable<PlayerAttackSuccessResponse> OnPlayerAttackSuccessForData => getSubject<PlayerAttackSuccessResponse>();
 
+    public IObservable<EnemyDeathCommand> OnEnemyDeath => getSubject<EnemyDeathCommand>();
+
     public IObservable<PlayerControllerPossessableInteractButtonCommand> OnPlayerControllerPossessableInteract => getSubject<PlayerControllerPossessableInteractButtonCommand>();
 
     public IObservable<PlayerMoveStatusChangeCommand> OnPlayerMoveStatusChange => getSubject<PlayerMoveStatusChangeCommand>();

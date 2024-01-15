@@ -63,7 +63,7 @@ public class EnemyBeHitTest : MonoBehaviour
                 }
                 await UniTask.Delay(2000);
                 BeExecuted = false;
-                healthPoint_ -= executionDamage_;
+                checkDeath(executionDamage_);
                 var percentage = healthPoint_ / maxHealthPoint_;
                 var breakPercentage = BreakPoint / MaxBreakPoint;
                 GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage, breakPercentage));
@@ -73,7 +73,7 @@ public class EnemyBeHitTest : MonoBehaviour
             else
             {
                 canGetHit_ = false;
-                healthPoint_ -= cmd.AttackDamage;
+                checkDeath(cmd.AttackDamage);
                 var percentage = healthPoint_ / maxHealthPoint_;
                 checkBreakPoint(cmd.AttackDamage);
                 var breakPercentage = BreakPoint / MaxBreakPoint;
@@ -184,5 +184,14 @@ public class EnemyBeHitTest : MonoBehaviour
     {
         yield return new WaitForSeconds(beGrabTimer_);
         canGetGrab_ = true;
+    }
+
+    void checkDeath(float damage)
+    {
+        healthPoint_ -= damage;
+        if (healthPoint_<=0)
+        {
+            GameManager.Instance.MainGameEvent.Send(new EnemyDeathCommand() { DeathTarget = this.gameObject });
+        }
     }
 }
