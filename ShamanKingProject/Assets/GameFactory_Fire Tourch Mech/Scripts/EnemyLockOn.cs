@@ -183,7 +183,7 @@ public class EnemyLockOn : MonoBehaviour
     }
     void targetDeathReset(EnemyDeathCommand cmd)
     {
-        if (cmd.DeathTarget == currentTarget)
+        if (cmd.DeathTarget.transform == currentTarget)
         {
             ResetTarget();
         }
