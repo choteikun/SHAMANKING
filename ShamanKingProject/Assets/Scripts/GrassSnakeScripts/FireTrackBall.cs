@@ -158,7 +158,6 @@ public class FireTrackBall : MonoBehaviour
         // 當發生碰撞，爆炸
         if (collider.CompareTag("Player") || collider.CompareTag("Object"))
         {
-            Debug.LogError("FireBall Hit!!");
             Explode();
         }
     }

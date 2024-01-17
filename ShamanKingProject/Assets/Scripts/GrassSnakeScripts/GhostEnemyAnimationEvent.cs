@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GhostEnemyAnimationEvent : MonoBehaviour
 {
+    [SerializeField] GameObject shadowBallPrefab;
     [SerializeField] GameObject shadowBallSpawnPoint_;
 
     void Start()
@@ -16,8 +17,6 @@ public class GhostEnemyAnimationEvent : MonoBehaviour
     }
     void shadowballSpawn()
     {
-        //var shadowballPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(9).PrefabPath;
-        //var fireballObject = Instantiate(shadowballPrefab, shadowBallSpawnPoint_.transform.position, shadowBallSpawnPoint_.transform.rotation);
-        //fireballObject.transform.LookAt(shadowBallSpawnPoint_.transform);
+        Instantiate(shadowBallPrefab, shadowBallSpawnPoint_.transform.position, shadowBallSpawnPoint_.transform.rotation);
     }
 }
