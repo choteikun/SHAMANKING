@@ -1,7 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gamemanager;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+using Cysharp.Threading.Tasks;
+
 public static class PlayerStatCalculator 
 {
     public static void PlayerAddOrMinusSpirit(float amount)
@@ -32,5 +35,31 @@ public static class PlayerStatCalculator
     {
         var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
         realTimePlayerData.PlayerGuarding = trigger;
+        if (trigger)
+        {
+            realTimePlayerData.PlayerGuardPoint = realTimePlayerData.PlayerMaxGuardPoint;
+            StartCountingAsync();
+        }
+    }
+    async static void StartCountingAsync()
+    {
+        await CountAsync();
+
+        // 达到50时输出消息
+        Debug.Log("Counter reached 50!");
+    }
+
+    async static UniTask CountAsync()
+    {
+        var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
+        realTimePlayerData.PlayerGuardPerfectTimerFrame = 0;
+        while (realTimePlayerData.PlayerGuardPerfectTimerFrame < realTimePlayerData.PlayerGuardPerfectTimerMaxFrame)
+        {
+            // 模拟一帧的等待
+            await UniTask.Yield();
+
+            // 计数器递增
+            realTimePlayerData.PlayerGuardPerfectTimerFrame++;
+        }
     }
 }

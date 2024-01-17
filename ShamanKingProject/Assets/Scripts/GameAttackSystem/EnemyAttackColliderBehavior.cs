@@ -29,6 +29,28 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
         // 检查collider是否在LayerMask中
         if ((layerMask_.value & (1 << other.gameObject.layer)) > 0)
         {
+            if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuarding)
+            {
+                if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPerfectTimerFrame< GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPerfectTimerMaxFrame)
+                {
+                    //完美格檔
+                    //回滿盾
+                    Debug.LogWarning("Perry!");
+                    return;
+                }
+                else
+                {
+                    GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint = Mathf.Clamp(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint - getDamege(), 0, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint);
+                    if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint != 0)
+                    {
+                        return;
+                    }
+                    else 
+                    {
+                        GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
+                    }
+                }
+            }
             if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerInvincible && unDodgeable_ == false) return;
             Debug.LogError("Hit!!!");
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
