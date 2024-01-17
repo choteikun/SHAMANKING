@@ -8,7 +8,7 @@ public class PlayerCharger : MonoBehaviour
     [SerializeField] float chargingSpeed_;
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerChargingButtonTrigger, cmd => { isCharging_ = cmd.ChargingButtonIsPressed; });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGuardingButtonTrigger, cmd => { isCharging_ = cmd.GuardingButtonIsPressed; });
     }
 
     private void FixedUpdate()

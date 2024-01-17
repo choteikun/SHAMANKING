@@ -9,10 +9,10 @@ public static class PlayerStatCalculator
         var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
         realTimePlayerData.GhostSoulGageCurrentAmount = Mathf.Clamp(realTimePlayerData.GhostSoulGageCurrentAmount + amount, 0, realTimePlayerData.GhostSoulGageMaxAmount);
         GameManager.Instance.UIGameEvent.Send(new UISoulGageUpdateCommand());
-        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount == GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount)
-        {
-            GameManager.Instance.MainGameEvent.Send(new SystemStopChargingCommand());
-        }
+        //if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount == GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount)
+        //{
+        //    GameManager.Instance.MainGameEvent.Send(new SystemStopChargingCommand());
+        //}
     }
     public static void PlayerInvincibleSwitch(bool trigger)
     {
@@ -26,5 +26,11 @@ public static class PlayerStatCalculator
         var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
         realTimePlayerData.PlayerNowHealthPoint = Mathf.Clamp(realTimePlayerData.PlayerNowHealthPoint + amount, 0, realTimePlayerData.PlayerMaxHealthPoint);
         GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
+    }
+
+    public static void PlayerGuardingSwitch(bool trigger)
+    {
+        var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
+        realTimePlayerData.PlayerGuarding = trigger;
     }
 }

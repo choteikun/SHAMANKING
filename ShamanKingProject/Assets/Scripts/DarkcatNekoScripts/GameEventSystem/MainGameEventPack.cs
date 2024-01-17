@@ -20,7 +20,7 @@ public class MainGameEventPack : GameEventPack
     /// 按下與放開瞄準鏡的瞬間
     /// </summary>
     public IObservable<PlayerAimingButtonCommand> OnAimingButtonTrigger => getSubject<PlayerAimingButtonCommand>();
-    public IObservable<PlayerChargingButtonCommand> OnPlayerChargingButtonTrigger => getSubject<PlayerChargingButtonCommand>();
+    public IObservable<PlayerGuardingButtonCommand> OnPlayerGuardingButtonTrigger => getSubject<PlayerGuardingButtonCommand>();
 
     /// <summary>
     /// 手把輸入角色翻滾
@@ -166,6 +166,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<GhostIdentityCheckCommand> OnGhostIdentityCheck => getSubject<GhostIdentityCheckCommand>();
     public IObservable<SystemCallWaveStartCommand> OnSystemCallWaveStart => getSubject<SystemCallWaveStartCommand>();
     public IObservable<BossCurAnimationEndCommand> OnBossCurAnimationEnd => getSubject<BossCurAnimationEndCommand>();
-    public IObservable<SystemStopChargingCommand> OnSystemStopCharging => getSubject<SystemStopChargingCommand>();
+    public IObservable<SystemStopGuardingCommand> OnSystemStopGuarding => getSubject<SystemStopGuardingCommand>();
     public IObservable<BossCallSprintColliderSwitchCommand> OnBossCallSprintColliderSwitch => getSubject<BossCallSprintColliderSwitchCommand>();
 }

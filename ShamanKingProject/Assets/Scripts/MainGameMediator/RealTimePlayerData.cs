@@ -13,5 +13,6 @@ public class RealTimePlayerData
     public float PlayerNowHealthPoint = 300;
     public float PlayerBasicAttackPercentage = 1;
     public bool PlayerInvincible = false;
+    public bool PlayerGuarding = false;
     public GameObject PlayerGameObject;
 }

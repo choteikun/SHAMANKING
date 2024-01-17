@@ -14,7 +14,7 @@ public class GamepadControllerView : MonoBehaviour
     [SerializeField] float mouse_X_Horrzontal_sensitivity_ = 1.2f;
 
     [SerializeField] bool isAiming_;
-    [SerializeField] bool isCharging_;
+    [SerializeField] bool isGuarding_;
     [SerializeField] bool isLaunching_;
     [SerializeField] bool isPosscessing_ = false;
     [SerializeField] bool isBiting_ = false;
@@ -38,7 +38,7 @@ public class GamepadControllerView : MonoBehaviour
         Debug.Log("start");
         await UniTask.Delay(500);
 
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemStopCharging, cmd => { if (isCharging_) isAiming_ = false; isCharging_ = false; GameManager.Instance.MainGameEvent.Send(new PlayerChargingButtonCommand() { ChargingButtonIsPressed = isCharging_ }); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemStopGuarding, cmd => { if (isGuarding_) isAiming_ = false; isGuarding_ = false; GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ }); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { isAttacking_ = false; Debug.Log("finishSend"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpTouchGround, cmd => { isJumping_ = false; });
@@ -145,14 +145,14 @@ public class GamepadControllerView : MonoBehaviour
     //    }
 
     //}
-    void OnPlayerCharge(InputValue value)
-    {
-        if (isJumping_ || (isLaunching_) || isPosscessing_ || isAttacking_) return;
-        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount == GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount) return;
-        isCharging_ = !isCharging_;
-        isAiming_ = !isAiming_;
-        GameManager.Instance.MainGameEvent.Send(new PlayerChargingButtonCommand() { ChargingButtonIsPressed = isCharging_ });
-    }
+    //void OnPlayerCharge(InputValue value)
+    //{
+    //    if (isJumping_ || (isLaunching_) || isPosscessing_ || isAttacking_) return;
+    //    if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount == GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount) return;
+    //    isCharging_ = !isCharging_; 
+    //    isAiming_ = !isAiming_;
+    //    GameManager.Instance.MainGameEvent.Send(new PlayerChargingButtonCommand() { ChargingButtonIsPressed = isCharging_ });
+    //}
     void OnPlayerJump()
     {
         if (isAiming_ || isAttacking_) return;
@@ -174,6 +174,10 @@ public class GamepadControllerView : MonoBehaviour
     async void OnPlayerLightAttack()
     {
         if (isAiming_) return;
+        if (isGuarding_)
+        {
+            GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
+        }
         await UniTask.DelayFrame(1);
         if (buttonEastPressed_) return;
         if (isJumping_)
@@ -196,6 +200,10 @@ public class GamepadControllerView : MonoBehaviour
     }
     async void OnPlayerHeavyAttack()
     {
+        if (isGuarding_)
+        {
+            GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
+        }
         if (isAiming_ || isJumping_) return;
         await UniTask.DelayFrame(1);
         isAttacking_ = true;
@@ -205,6 +213,10 @@ public class GamepadControllerView : MonoBehaviour
     }
     async void OnPlayerExecutionAttack()
     {
+        if (isGuarding_)
+        {
+            GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
+        }
         if (isAiming_ || isJumping_) return;
         await UniTask.DelayFrame(1);
         isAttacking_ = true;
@@ -252,6 +264,10 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnThrowAttack()
     {
+        if (isGuarding_)
+        {
+            GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
+        }
         if (isAiming_) return;
         if (isJumping_)
         {
@@ -268,13 +284,24 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerTargetButtonTriggerCommand());
     }
 
-    async void OnPlayerShootAttack()
+    //async void OnPlayerShootAttack()
+    //{
+    //    if (isAiming_ || isJumping_) return;
+    //    await UniTask.DelayFrame(1);
+    //    isAttacking_ = true;
+    //    GameManager.Instance.MainGameEvent.Send(new PlayerShootAttackCommand() { });
+    //    Debug.Log("Attack!");
+    //}
+
+    void OnPlayerGuard(InputValue value)
     {
-        if (isAiming_ || isJumping_) return;
-        await UniTask.DelayFrame(1);
-        isAttacking_ = true;
-        GameManager.Instance.MainGameEvent.Send(new PlayerShootAttackCommand() { });
-        Debug.Log("Attack!");
+        if (isJumping_||isAttacking_ ) return;
+
+        isGuarding_ = value.isPressed;
+        PlayerStatCalculator.PlayerGuardingSwitch(isGuarding_);
+        //isAiming_ = isGuarding_;
+        GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ });
+        Debug.Log(isGuarding_ +"Guarding");
     }
 }
 

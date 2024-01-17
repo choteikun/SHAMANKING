@@ -1194,7 +1194,7 @@ BoxCollider:
   m_GameObject: {fileID: 252524677}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -4733,7 +4733,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1058106556}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 473f02d50a2d3f44a972a7e2abf31ef9, type: 3}
   m_Name: 
@@ -43028,8 +43028,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!4 &172083196776043916
 Transform:
   m_ObjectHideFlags: 0
@@ -47747,6 +47747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soulGageText_: {fileID: 1267263331}
   invincibleText_: {fileID: 817508886}
+  heavyChargeFinish_: {fileID: 0}
 --- !u!114 &1241964953741871009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57484,10 +57485,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4ef98f86245034d8429f8e279f06ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heavyAttackCharger_: 0
   input_: {fileID: 1241964954822050125}
   mouse_X_Horrzontal_sensitivity_: 1.05
   isAiming_: 0
-  isCharging_: 0
+  isGuarding_: 0
   isLaunching_: 0
   isPosscessing_: 0
   isBiting_: 0
@@ -58277,7 +58279,7 @@ BoxCollider:
   m_GameObject: {fileID: 1241964955114430849}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -60145,6 +60147,7 @@ MonoBehaviour:
       PlayerNowHealthPoint: 100
       PlayerBasicAttackPercentage: 1
       PlayerInvincible: 0
+      PlayerGuarding: 0
       PlayerGameObject: {fileID: 0}
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
@@ -103549,7 +103552,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4905203264908605227}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c593457cd8105e148906690e1707c592, type: 3}
   m_Name: 
@@ -116968,8 +116971,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!1 &8253053060656192299
 GameObject:
   m_ObjectHideFlags: 0

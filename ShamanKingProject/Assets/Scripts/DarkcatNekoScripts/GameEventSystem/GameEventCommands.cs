@@ -31,11 +31,11 @@ namespace Gamemanager
     {
         public bool AimingButtonIsPressed = false;
     }
-    public class PlayerChargingButtonCommand : GameEventMessageBase
+    public class PlayerGuardingButtonCommand : GameEventMessageBase
     {
-        public bool ChargingButtonIsPressed = false;
+        public bool GuardingButtonIsPressed = false;
     }
-    public class SystemStopChargingCommand: GameEventMessageBase
+    public class SystemStopGuardingCommand: GameEventMessageBase
     {
 
     }
