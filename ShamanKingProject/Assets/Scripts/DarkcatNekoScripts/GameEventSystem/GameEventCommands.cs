@@ -346,6 +346,10 @@ namespace Gamemanager
     {
 
     }
+    public class SystemCallShadowballSpawnCommand : GameEventMessageBase
+    {
+
+    }
     public class SystemCallFireTrackBallSpawnCommand : GameEventMessageBase
     {
 

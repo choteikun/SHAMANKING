@@ -6,7 +6,7 @@ using Datamanager;
 
 public class FireballProjectileBehavior : MonoBehaviour
 {
-    public float speed = 15f;
+    public float Speed = 15f;
     //private Rigidbody rb;
     void Start()
     {
@@ -17,10 +17,10 @@ public class FireballProjectileBehavior : MonoBehaviour
     private void FixedUpdate()
     {
         //delayTimer_.c
-        if (speed != 0)
+        if (Speed != 0)
         {
             //rb.velocity = transform.forward * speed;
-            transform.position += transform.forward * (speed * Time.deltaTime);         
+            transform.position += transform.forward * (Speed * Time.deltaTime);         
         }
     }
 
