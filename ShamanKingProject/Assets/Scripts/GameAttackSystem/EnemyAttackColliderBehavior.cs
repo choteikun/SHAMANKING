@@ -29,7 +29,7 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
         // 检查collider是否在LayerMask中
         if ((layerMask_.value & (1 << other.gameObject.layer)) > 0)
         {
-            if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuarding)
+            if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuarding && unDodgeable_ == false)
             {
                 if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPerfectTimerFrame< GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPerfectTimerMaxFrame)
                 {
