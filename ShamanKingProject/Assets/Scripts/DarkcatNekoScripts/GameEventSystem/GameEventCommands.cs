@@ -35,7 +35,7 @@ namespace Gamemanager
     {
         public bool GuardingButtonIsPressed = false;
     }
-    public class SystemStopGuardingCommand: GameEventMessageBase
+    public class SystemStopGuardingCommand : GameEventMessageBase
     {
 
     }
@@ -61,11 +61,11 @@ namespace Gamemanager
     {
         public bool Charged;
     }
-    public class PlayerExecutionAttackCommand:GameEventMessageBase
+    public class PlayerExecutionAttackCommand : GameEventMessageBase
     {
 
     }
-    public class PlayerShootAttackCommand:GameEventMessageBase
+    public class PlayerShootAttackCommand : GameEventMessageBase
     {
 
     }
@@ -196,7 +196,7 @@ namespace Gamemanager
         public int AttackAddSoul;
         public float EnemyHealthPercentage;
         public float EnemyBreakPercentage;
-        public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd, float enemyHealthPercentage,float enemyBreakPercentage)
+        public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd, float enemyHealthPercentage, float enemyBreakPercentage)
         {
             CollidePoint = cmd.CollidePoint;
             AttackTarget = cmd.AttackTarget;
@@ -226,10 +226,19 @@ namespace Gamemanager
             AttackDamage = cmd.AttackDamage;
         }
     }
-    public class PlayerRootSuccessCommand : GameEventMessageBase 
+    public class PlayerRootSuccessCommand : GameEventMessageBase
     {
 
     }
+
+    public class PlayerSuccessParryCommand : GameEventMessageBase
+    {
+        public Vector3 CollidePoint;
+        public float AttackDamage;
+        public EnemyHitPower ThisAttackHitPower;
+        public Vector3 AttackerPos;
+    }
+
     public class PlayerControllerPossessableInteractButtonCommand : GameEventMessageBase
     {
 

@@ -14,7 +14,7 @@ public class RealTimePlayerData
     public float PlayerGuardPoint = 50;
     public float PlayerMaxGuardPoint = 50;
     public float PlayerGuardPerfectTimerFrame = 0;
-    public float PlayerGuardPerfectTimerMaxFrame = 50;
+    public float PlayerGuardPerfectTimerMaxFrame = 25;
     public float PlayerBasicAttackPercentage = 1;
     public bool PlayerInvincible = false;
     public bool PlayerGuarding = false;

@@ -34,8 +34,12 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
                 if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPerfectTimerFrame< GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPerfectTimerMaxFrame)
                 {
                     //完美格檔
+                    var commandP = new PlayerSuccessParryCommand();
+                    var collidePointP = other.ClosestPoint(this.gameObject.transform.position);
+                    commandP = new PlayerSuccessParryCommand() { CollidePoint = collidePointP, AttackDamage = getDamege(), ThisAttackHitPower = thisAttackHitPower_, AttackerPos = this.gameObject.transform.position };
+                    GameManager.Instance.MainGameEvent.Send(commandP);
                     //回滿盾
-                    Debug.LogWarning("Perry!");
+                    Debug.LogWarning("Parry!");
                     return;
                 }
                 else

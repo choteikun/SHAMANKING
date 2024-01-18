@@ -75,6 +75,7 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerBeAttackByEnemySuccess, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { playerModelTurn(cmd); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerSuccessParry, cmd => { playerModelTurn(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll,  cmd => { cancelMoving();});
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStartRollMovementAnimation, cmd => { testRoll(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
@@ -156,7 +157,19 @@ public class PlayerControllerView : MonoBehaviour
         // 將物件A的Rotation設定為計算出的旋轉
         playerModel_.transform.rotation = rotation;
     }
+    void playerModelTurn(PlayerSuccessParryCommand cmd)
+    {
+        Debug.Log(cmd.CollidePoint);
+        dashPointTest.transform.position = cmd.AttackerPos;
+        // 計算物件A到座標B的方向向量
+        Vector3 direction = cmd.AttackerPos - playerModel_.transform.position;
+        direction.y = 0;
+        // 將方向向量轉換為旋轉
+        Quaternion rotation = Quaternion.LookRotation(direction);
 
+        // 將物件A的Rotation設定為計算出的旋轉
+        playerModel_.transform.rotation = rotation;
+    }
     void stickInputIndicator()
     {
         Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
