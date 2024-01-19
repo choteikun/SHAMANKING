@@ -24,7 +24,7 @@ public class TestAnimatorFather : MonoBehaviour
             cc.Move(anim.transform.forward * anim.deltaPosition.magnitude * 0.5f * -1);
         }
         if (!attackMoverEnabled) return;
-        cc.Move(anim.transform.forward * anim.deltaPosition.magnitude * 0.2f);
+        cc.Move(anim.transform.forward * anim.deltaPosition.magnitude * 1.0f);
        
     }
 }
