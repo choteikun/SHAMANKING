@@ -12,6 +12,7 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
     [SerializeField] float maxDamage_;
     [SerializeField] bool unbreakble_ = false;
     [SerializeField] bool unDodgeable_ = false;
+    [SerializeField] bool unGuardable_ = false;
     [SerializeField] BossSpecialColliderType colliderType_ = BossSpecialColliderType.Normal;
     [SerializeField] GameObject specialAttackerPos_;
     async void Start()
@@ -45,18 +46,15 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
                 else
                 {
                     GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint = Mathf.Clamp(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint - getDamege(), 0, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint);
-                    if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint != 0)
+                    if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint != 0&&!unGuardable_)
                     {
                         return;
-                    }
-                    else 
-                    {
-                        GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
-                    }
+                    }                
                 }
             }
             if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerInvincible && unDodgeable_ == false) return;
             Debug.LogError("Hit!!!");
+            GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
             var collidePoint = other.ClosestPoint(this.gameObject.transform.position);
             var command = new EnemyAttackSuccessCommand();
