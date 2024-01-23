@@ -65,6 +65,11 @@ namespace Gamemanager
     {
 
     }
+
+    public class PlayerUltimateAttackCommand:GameEventMessageBase
+    {
+
+    }
     public class PlayerShootAttackCommand : GameEventMessageBase
     {
 

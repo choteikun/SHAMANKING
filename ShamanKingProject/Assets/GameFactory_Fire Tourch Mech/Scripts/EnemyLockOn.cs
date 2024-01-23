@@ -124,7 +124,7 @@ public class EnemyLockOn : MonoBehaviour
         { Debug.Log("Cant find"); return null; }
         if (closestTarget.GetComponent<CapsuleCollider>() == null)
         { Debug.Log("Cant find"); return null; }
-        float h1 = closestTarget.GetComponent<CapsuleCollider>().height;//¦pªG¨S¦³±¾¾ò¶êcollider
+        float h1 = closestTarget.GetComponent<CapsuleCollider>().height;//ï¿½pï¿½Gï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½collider
         float h2 = closestTarget.localScale.y;
         float h = h1 * h2;
         float half_h = (h / 2) / 2;

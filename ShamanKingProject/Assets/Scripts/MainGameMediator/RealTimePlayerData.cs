@@ -8,7 +8,7 @@ public class RealTimePlayerData
 {
     public int GhostNowGageBlockAmount => (int)GhostSoulGageCurrentAmount / 100;
     public float GhostSoulGageCurrentAmount = 0;
-    public float GhostSoulGageMaxAmount = 100;
+    public float GhostSoulGageMaxAmount = 400;
     public float PlayerMaxHealthPoint = 100;
     public float PlayerNowHealthPoint = 100;
     public float PlayerGuardPoint = 30;

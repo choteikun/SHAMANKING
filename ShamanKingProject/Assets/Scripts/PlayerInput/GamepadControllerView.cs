@@ -212,6 +212,22 @@ public class GamepadControllerView : MonoBehaviour
         Debug.Log("HeavyAttack!"+heavyAttackCharger_);
         heavyAttackCharger_ = false;
     }
+    async void OnPlayerUltimate()
+    {
+        if (isGuarding_)
+        {
+            GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
+        }
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount<2)
+        {
+            return;
+        }
+        if (isAiming_ || isJumping_) return;
+        await UniTask.DelayFrame(1);
+        isAttacking_ = true;
+        GameManager.Instance.MainGameEvent.Send(new PlayerUltimateAttackCommand() { });
+        Debug.Log("Attack!");
+    }
     async void OnPlayerExecutionAttack()
     {
         if (isGuarding_)
@@ -293,6 +309,7 @@ public class GamepadControllerView : MonoBehaviour
     //    GameManager.Instance.MainGameEvent.Send(new PlayerShootAttackCommand() { });
     //    Debug.Log("Attack!");
     //}
+    
 
     void OnPlayerGuard(InputValue value)
     {

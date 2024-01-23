@@ -24,6 +24,7 @@ public class PlayerAttackModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { whenGetAttackTrigger(AttackInputType.ExecutionAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerShootAttack, cmd => { whenGetAttackTrigger(AttackInputType.ShootAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { whenGetAttackTrigger(AttackInputType.Dodge); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimateAttack, cmd => { whenGetAttackTrigger(AttackInputType.Ultimate); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd =>
         {
             isThrowing_ = true;
@@ -126,6 +127,9 @@ public class PlayerAttackModel
                     return;
                 case AttackInputType.ShootAttack:
                     addFirstShootAttack();
+                    return;
+                case AttackInputType.Ultimate:
+                    addFirstUltimateAttack();
                     return;
             }
         }
@@ -269,6 +273,39 @@ public class PlayerAttackModel
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
+    }
+
+    void addFirstUltimateAttack()
+    {
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount<2)
+        {
+            return;
+        }
+        else if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 4 && GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount>=2)
+        {
+            PlayerStatCalculator.PlayerAddOrMinusSpirit(-200);
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[24], GameManager.Instance.AttackBlockDatabase.Database[24].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                animator_.CrossFadeInFixedTime("PlayerUltimateState1", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
+        }
+        else if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount == 4)
+        {
+            PlayerStatCalculator.PlayerAddOrMinusSpirit(-400);
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[25], GameManager.Instance.AttackBlockDatabase.Database[25].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                animator_.CrossFadeInFixedTime("PlayerUltimateState2", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
+        }
+        
     }
     void addFirstShootAttack()
     {
@@ -450,6 +487,7 @@ public enum AttackInputType
     GetHurt,
     ExecutionAttack,
     ShootAttack,
+    Ultimate,
 }
 
 
