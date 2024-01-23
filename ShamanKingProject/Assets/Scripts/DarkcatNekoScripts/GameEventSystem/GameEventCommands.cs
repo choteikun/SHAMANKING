@@ -400,6 +400,11 @@ namespace Gamemanager
     {
         public bool TurnedOn;
     }
+
+    public class BossCallCameraFeedBackCommand:GameEventMessageBase
+    {
+        
+    }
     public class UICallPlayerHealthBarUIUpdateCommand:GameEventMessageBase
     {
 

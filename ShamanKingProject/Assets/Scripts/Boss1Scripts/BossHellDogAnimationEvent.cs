@@ -57,4 +57,9 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     {
         GameManager.Instance.HellDogGameEvent.Send(new BossCallFlameThrowerSwitchCommand() { TurnedOn = false });
     }
+
+    public void HellDogCallCameraShake()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallCameraFeedBackCommand() );
+    }
 }
