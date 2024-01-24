@@ -53,9 +53,15 @@ public class GhostEnemyVariables : MonoBehaviour
     public int IntTypeStateOfGhostEnemy { get { return intTypeStateOfGhostEnemy_; } set { intTypeStateOfGhostEnemy_ = value; } }
     [SerializeField]
     private int intTypeStateOfGhostEnemy_;
-    public float Aggression { get { return aggression_; } set { aggression_ = value; } }
-    [SerializeField, Tooltip("攻擊慾望")]
-    private float aggression_;
+    public int EliteAtkCounter { get { return eliteAtkCounter_; } set { eliteAtkCounter_ = value; } }
+    [SerializeField, Tooltip("Elite GhostEnemy 特動計數器")]
+    private int eliteAtkCounter_;
+    public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
+    [SerializeField, Tooltip("與玩家之間的距離")]
+    private float distanceFromPlayer_;
+    //public float Aggression { get { return aggression_; } set { aggression_ = value; } }
+    //[SerializeField, Tooltip("攻擊慾望")]
+    //private float aggression_;
 
     public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
     [SerializeField]
@@ -67,6 +73,7 @@ public class GhostEnemyVariables : MonoBehaviour
     void Start()
     {
         PlayerObj = GameObject.FindWithTag("Player").gameObject;
+        EliteAtkCounter = 3;
         //ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
 
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
@@ -119,6 +126,7 @@ public class GhostEnemyVariables : MonoBehaviour
     }
     void Update()
     {
+        DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
         //Debug.LogWarning(IntTypeStateOfGhostEnemy);
         switch (IntTypeStateOfGhostEnemy)
         {
