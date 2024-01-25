@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Datamanager;
+using Cysharp.Threading.Tasks;
 
 public class FollowAttackBehavior : MonoBehaviour
 {
     float smoothSpeed_ = 0f;
-    void Start()
+    async void Start()
     {
         DOTween.To(() => smoothSpeed_, x => smoothSpeed_ = x, 15, 15f);
+        await UniTask.Delay(6000);
+        spawnAttackColliderPrefab();
+        Destroy(gameObject);
     }
 
     private void LateUpdate()
@@ -24,6 +29,12 @@ public class FollowAttackBehavior : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, target.transform.position, smoothSpeed_ * Time.deltaTime);
         }
+    }
+
+    void spawnAttackColliderPrefab()
+    {
+        var prefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(10).PrefabPath;
+        Instantiate(prefab);
     }
          
 }
