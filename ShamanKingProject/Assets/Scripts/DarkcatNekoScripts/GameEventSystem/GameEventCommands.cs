@@ -430,6 +430,10 @@ namespace Gamemanager
         
     }
 
+    public class GhostCallFollowAttackCommand:GameEventMessageBase
+    {
+
+    }
 
 
     #region 行為樹給FSM的通知

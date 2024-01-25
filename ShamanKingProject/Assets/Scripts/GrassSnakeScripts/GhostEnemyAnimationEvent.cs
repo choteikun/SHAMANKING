@@ -19,4 +19,8 @@ public class GhostEnemyAnimationEvent : MonoBehaviour
     {
         Instantiate(shadowBallPrefab, shadowBallSpawnPoint_.transform.position, shadowBallSpawnPoint_.transform.rotation);
     }
+    public void FollowAttackSpawn()
+    {
+        GameManager.Instance.GhostEnemyGameEvent.Send(new GhostCallFollowAttackCommand());
+    }
 }

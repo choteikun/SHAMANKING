@@ -2440,6 +2440,7 @@ GameObject:
   - component: {fileID: 396048102}
   - component: {fileID: 396048101}
   - component: {fileID: 396048100}
+  - component: {fileID: 396048105}
   m_Layer: 0
   m_Name: GhostEnemyAnimator
   m_TagString: Untagged
@@ -2535,6 +2536,20 @@ Transform:
   m_Father: {fileID: 1248257070}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &396048105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396048099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 676ef744d09c498468f8d099c9928b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followAttackPrefab_: {fileID: 448865872512720494, guid: 49df31686e312724d9b59b3863ad60bf,
+    type: 3}
 --- !u!1 &401844153
 GameObject:
   m_ObjectHideFlags: 0
@@ -23726,6 +23741,75 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3276677371124945492}
   m_Mesh: {fileID: -964895270735209126, guid: 5bdba8ece221f854a976701e26225a33, type: 3}
+--- !u!1001 &448865874492644035
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -23.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6872016
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.72646683
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448865872512720494, guid: 49df31686e312724d9b59b3863ad60bf,
+        type: 3}
+      propertyPath: m_Name
+      value: FollowExplotion
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 49df31686e312724d9b59b3863ad60bf, type: 3}
 --- !u!23 &455167575841393637
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35839,30 +35923,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: -0.11526489
-        y: 2.793099
-        z: -0.25741577
-      - x: -0.15428162
-        y: 2.6970549
-        z: -0.3183365
-      - x: -0.19329071
-        y: 2.6010108
-        z: -0.3792572
-      - x: -0.2322998
-        y: 2.5049663
-        z: -0.4401703
-      - x: -0.2713127
-        y: 2.4089222
-        z: -0.501091
-      - x: -0.31032562
-        y: 2.3128781
-        z: -0.5620041
-      - x: -0.34934235
-        y: 2.216834
-        z: -0.6229248
-      - x: -0.38835144
-        y: 2.1207895
-        z: -0.6838379
+      - x: 0
+        y: 2.8138585
+        z: -0.2699356
+      - x: 0
+        y: 2.7135668
+        z: -0.33625793
+      - x: 0
+        y: 2.613276
+        z: -0.40258026
+      - x: 0
+        y: 2.5129838
+        z: -0.4689026
+      - x: -0.0000076293945
+        y: 2.4126916
+        z: -0.53523254
+      - x: 0
+        y: 2.3124003
+        z: -0.6015549
+      - x: 0
+        y: 2.2121081
+        z: -0.6678772
+      - x: 0
+        y: 2.1118164
+        z: -0.7341995
       attributes:
       - Value: 1
       - Value: 2
@@ -35872,7 +35956,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.12024184
+      maxConnectionDistance: 0.120242216
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -37299,30 +37383,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: 0.013397217
-        y: 4.082432
-        z: -0.32225037
-      - x: 0.0033111572
-        y: 3.8998785
-        z: -0.45279694
-      - x: -0.0034637451
-        y: 3.7076454
-        z: -0.48285675
-      - x: -0.009887695
-        y: 3.5143661
-        z: -0.5020523
-      - x: -0.015956879
-        y: 3.3200388
-        z: -0.5103836
-      - x: -0.022285461
-        y: 3.1264977
-        z: -0.52685547
-      - x: -0.028751373
-        y: 2.9333477
-        z: -0.54740906
-      - x: -0.034992218
-        y: 2.7395453
-        z: -0.5611725
+      - x: 0
+        y: 4.094433
+        z: -0.42803192
+      - x: -0.0000038146973
+        y: 3.900097
+        z: -0.54074097
+      - x: -0.0000038146973
+        y: 3.705762
+        z: -0.5524368
+      - x: -0.0000038146973
+        y: 3.511426
+        z: -0.553215
+      - x: -0.0000076293945
+        y: 3.317091
+        z: -0.5430832
+      - x: 0
+        y: 3.122755
+        z: -0.54112244
+      - x: -0.0000038146973
+        y: 2.9284196
+        z: -0.5432739
+      - x: 0
+        y: 2.7340846
+        z: -0.5385895
       attributes:
       - Value: 1
       - Value: 2
@@ -37332,7 +37416,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.22465493
+      maxConnectionDistance: 0.22465481
       userEdit: 0
   gizmoSerializeData:
     always: 0
