@@ -389,7 +389,17 @@ namespace Gamemanager
     {
         public bool OnOrOff;
     }
-  
+    public class BossCallUISkillNameCommand:GameEventMessageBase
+    {
+         public BossSkillType SkillType;
+         public string Name;
+    }
+    public enum BossSkillType
+    {
+        Normal,
+        UnGuardable,
+        UnDodgeable,
+    }
 
     public class BossCallJumpAttackLocateCommand:GameEventMessageBase
     {

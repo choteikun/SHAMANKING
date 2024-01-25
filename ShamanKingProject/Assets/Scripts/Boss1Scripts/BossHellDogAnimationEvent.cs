@@ -62,4 +62,13 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     {
         GameManager.Instance.HellDogGameEvent.Send(new BossCallCameraFeedBackCommand() );
     }
+
+    public void CallUISkillName(string command)
+    {
+        var parts = command.Split(",");
+
+        var skillType = (BossSkillType)int.Parse(parts[0]);
+        var skillName = parts[1];
+        GameManager.Instance.UIGameEvent.Send(new BossCallUISkillNameCommand() { SkillType = skillType, Name = skillName });
+    }
 }
