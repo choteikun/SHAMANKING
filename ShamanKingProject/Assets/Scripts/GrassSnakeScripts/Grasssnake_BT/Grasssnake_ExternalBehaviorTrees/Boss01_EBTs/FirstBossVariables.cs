@@ -113,7 +113,6 @@ public class FirstBossVariables : MonoBehaviour
     // Root Motion的位移量 用於腳本運用Root Motion
     private Vector3 deltaPos_;
 
-    [SerializeField]
     private bool isJumpAttacking_ = false;
     public bool isPillarTriggering;
 
