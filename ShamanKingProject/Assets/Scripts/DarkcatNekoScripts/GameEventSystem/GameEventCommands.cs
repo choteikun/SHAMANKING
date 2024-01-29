@@ -435,7 +435,10 @@ namespace Gamemanager
 
     }
 
-
+    public class GameCallSoundEffectGenerate:GameEventMessageBase
+    {
+        public int SoundEffectID;
+    }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

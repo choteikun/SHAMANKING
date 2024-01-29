@@ -170,4 +170,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<BossCurAnimationEndCommand> OnBossCurAnimationEnd => getSubject<BossCurAnimationEndCommand>();
     public IObservable<SystemStopGuardingCommand> OnSystemStopGuarding => getSubject<SystemStopGuardingCommand>();
     public IObservable<BossCallSprintColliderSwitchCommand> OnBossCallSprintColliderSwitch => getSubject<BossCallSprintColliderSwitchCommand>();
+    public IObservable<GameCallSoundEffectGenerate> OnGameCallSoundEffect => getSubject<GameCallSoundEffectGenerate>();
 }

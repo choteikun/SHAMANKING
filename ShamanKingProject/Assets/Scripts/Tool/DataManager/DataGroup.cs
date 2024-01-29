@@ -12,7 +12,7 @@ namespace Datamanager
         //public DataBase<MapDataStringTemplete> MapDataBase => TryGetDataBase<MapDataStringTemplete>(); //遊戲
         //public DataBase<CubeDataTemplete> CubeDataBase => TryGetDataBase<CubeDataTemplete>(); //遊戲
         //public DataBase<ItemDataBaseTemplete> ItemDataBase => TryGetDataBase<ItemDataBaseTemplete>(); //遊戲
-        //public DataBase<SoundEffectDatabaseTemplete> SoundEffectDatabase => TryGetDataBase<SoundEffectDatabaseTemplete>(); //最重要
+        public DataBase<SoundEffectDatabaseTemplete> SoundEffectDatabase => TryGetDataBase<SoundEffectDatabaseTemplete>(); //最重要
         //public DataBase<AnimationDetailDatabaseTemplete> AnimationDetailDatabase => TryGetDataBase<AnimationDetailDatabaseTemplete>(); //遊戲
         //public DataBase<GameEndConditionTemplete> GameEndConditionDatabase => TryGetDataBase<GameEndConditionTemplete>(); //遊戲
         //public DataBase<HitEventConditionTemplete> HitEventConditionTemplete => TryGetDataBase<HitEventConditionTemplete>(); //遊戲
@@ -136,8 +136,6 @@ public class SoundEffectDatabaseTemplete : IWithNameData, IWithIdData
     public string Name { get; set; }
     public int Id { get; set; }
     public AudioClip SoundEffect { get; set; }
-    public bool HasProblem { get; set; }
-    public string ProblemDescription { get; set; }
 
     public SoundEffectDatabaseTemplete Clone()
     {
@@ -146,8 +144,6 @@ public class SoundEffectDatabaseTemplete : IWithNameData, IWithIdData
             Name = Name,
             Id = Id,
             SoundEffect = SoundEffect,
-            HasProblem = HasProblem,
-            ProblemDescription = ProblemDescription
         };
     }
 }
