@@ -6,9 +6,16 @@ using Datamanager;
 
 public class BossHellDogAnimationEvent : MonoBehaviour
 {
+    [SerializeField]
+    FirstBossVariables firstBossVariables;
+    void Start()
+    {
+        firstBossVariables = GetComponentInParent<FirstBossVariables>();
+    }
     public void BossCurAnimationEnd()
     {
         GameManager.Instance.MainGameEvent.Send(new BossCurAnimationEndCommand());
+        firstBossVariables.isPillarTriggering = false;
     }
     public void SystemCallFireballLocate()
     {

@@ -1,4 +1,6 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
+using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -111,7 +113,9 @@ public class FirstBossVariables : MonoBehaviour
     // Root Motion的位移量 用於腳本運用Root Motion
     private Vector3 deltaPos_;
 
+    [SerializeField]
     private bool isJumpAttacking_ = false;
+    public bool isPillarTriggering;
 
     void Start()
     {
@@ -127,12 +131,12 @@ public class FirstBossVariables : MonoBehaviour
     {
         if (isJumpAttacking_)
         {
-            rb_.position += deltaPos_ * jumpAtkDistance_ / 40f;
+            rb_.position += deltaPos_ * jumpAtkDistance_ / 19.8f * Convert.ToInt32(!isPillarTriggering);
         }
         else
         {
             // 運用Root Motion 要放到修改rb.velocity以前進行
-            rb_.position += deltaPos_;
+            rb_.position += deltaPos_ * Convert.ToInt32(!isPillarTriggering);
 
             getRunForwardVector();
         }
@@ -151,6 +155,7 @@ public class FirstBossVariables : MonoBehaviour
         DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
 
         ExplosionJudgmentTimer += !ExplosionJudgmentTrigger ? 1 : 0;
+
         switch (IntTypeStateOfFirstBoss)
         {
             case 1:
@@ -299,21 +304,32 @@ public class FirstBossVariables : MonoBehaviour
     }
     public void OnUpdateRootMotion(Animator anim)
     {
-        //過濾掉不需要套用動畫位移的動畫
-        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_Run") || !anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_NormalAtk_JumpAttack"))
-        {
-            // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
-            deltaPos_ += anim.deltaPosition;
-            transform.rotation = anim.rootRotation;
-        }
+        ////過濾掉不需要套用動畫位移的動畫
+        //if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_Run"))
+        //{
+        //    // 更新deltaPos_為動畫機的Root Motion 之所以用累加是因為物理幀和動畫幀不一樣 在物理幀的最後會將deltaPos_清零
+        //    deltaPos_ += anim.deltaPosition;
+        //    transform.rotation = anim.rootRotation;
+        //}
+        deltaPos_ += anim.deltaPosition;
+        transform.rotation = anim.rootRotation;
+
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_NormalAtk_JumpAttack"))
         {
             isJumpAttacking_ = true;
-            //deltaPos_ += anim.deltaPosition * jumpAtkDistance_ / 19.8f;
-            deltaPos_ += anim.deltaPosition;
-            transform.rotation = anim.rootRotation;
         }
-        else { isJumpAttacking_ = false; }
+        else 
+        {
+            isJumpAttacking_ = false;
+        }
         //deltaRot_ = anim.deltaRotation;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Pillar"))
+        {
+            Debug.Log("BLOCK!!!!!!!!!");
+            isPillarTriggering = true;
+        }
     }
 }
