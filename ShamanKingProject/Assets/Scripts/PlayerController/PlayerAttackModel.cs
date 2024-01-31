@@ -487,6 +487,7 @@ public enum AttackInputType
     GetHurt,
     ExecutionAttack,
     ShootAttack,
+    SoulAttack,
     Ultimate,
 }
 

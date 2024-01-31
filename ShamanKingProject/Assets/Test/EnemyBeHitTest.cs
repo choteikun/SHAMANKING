@@ -75,7 +75,7 @@ public class EnemyBeHitTest : MonoBehaviour
                 canGetHit_ = false;
                 checkDeath(cmd.AttackDamage);
                 var percentage = healthPoint_ / maxHealthPoint_;
-                checkBreakPoint(cmd.AttackDamage);
+                checkBreakPoint(cmd.AttackDamage,cmd.AttackInputType);
                 var breakPercentage = BreakPoint / MaxBreakPoint;
                 checkBlueShieldDamage(cmd.AttackDamage);
                 onHitParticle_.transform.position = cmd.CollidePoint;
@@ -115,11 +115,23 @@ public class EnemyBeHitTest : MonoBehaviour
             CurBlueShieldPoint = 0;
         }
     }
-    void checkBreakPoint(float damage)//增加bk值
+    void checkBreakPoint(float damage,AttackInputType attackInputType)//增加bk值
     {
         if (Break) return;
         beenHurt_ = true;
         avoidDamageTicks_ = 0;
+        if (attackInputType == AttackInputType.HeavyAttack)
+        {
+            damage = damage * 0.8f;
+        }
+        else if (attackInputType == AttackInputType.LightAttack)
+        {
+            damage = damage * 0.5f;
+        }
+        else if (attackInputType == AttackInputType.SoulAttack)
+        {
+            damage = damage * 0.1f;
+        }
         BreakPoint += damage;
         if (BreakPoint >= MaxBreakPoint)
         {
