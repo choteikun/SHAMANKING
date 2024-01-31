@@ -34,7 +34,7 @@ public class FollowAttackBehavior : MonoBehaviour
     void spawnAttackColliderPrefab()
     {
         var prefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(10).PrefabPath;
-        Instantiate(prefab);
+        Instantiate(prefab,this.gameObject.transform.position,Quaternion.identity);
     }
          
 }

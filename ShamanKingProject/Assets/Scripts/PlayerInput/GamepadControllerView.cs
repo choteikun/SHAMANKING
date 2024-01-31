@@ -88,7 +88,7 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerRoll()
     {
         //if (isAiming_) return;
-        GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());
+        GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());       
         Debug.Log("Roll!");
     }
 

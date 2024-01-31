@@ -67,6 +67,7 @@ public class EnemyBeHitTest : MonoBehaviour
                 var percentage = healthPoint_ / maxHealthPoint_;
                 var breakPercentage = BreakPoint / MaxBreakPoint;
                 GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage, breakPercentage));
+                GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 7 });
                 RevertBreakPoint();
                 canBeExecute_ = true;
             }
@@ -82,6 +83,7 @@ public class EnemyBeHitTest : MonoBehaviour
                 //onHitParticle_.GetComponent<ParticleSystem>().Play();
                 onHitParticle_.GetComponent<VisualEffect>().Play();
                 GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage,breakPercentage));
+                GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 7 });
                 StartCoroutine("beAttackTimer");
             }
         }

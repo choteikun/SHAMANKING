@@ -385,6 +385,7 @@ public class PlayerAttackModel
         {
             //animator_.Rebind();
             animator_.CrossFadeInFixedTime("Girl_Dash", 0.25f);
+            GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 8 });
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
@@ -423,6 +424,10 @@ public class PlayerAttackModel
         if (GameManager.Instance.AttackBlockDatabase.Database[actionID].M_SkillType == AttackInputType.Throw)
         {
             isThrowing_ = true;
+        }
+        if (GameManager.Instance.AttackBlockDatabase.Database[actionID].M_SkillType == AttackInputType.Dodge)
+        {
+            GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 8 });
         }
     }
 

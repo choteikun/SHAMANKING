@@ -104,4 +104,9 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         PlayerStatCalculator.PlayerInvincibleSwitch(false);
     }
+
+    public void AnimationCallSoundEffect(int id)
+    {
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() {SoundEffectID = id });
+    }
 }
