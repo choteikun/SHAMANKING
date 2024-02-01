@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
+using Gamemanager;
 using UnityEngine;
 
 public class PunishmentMachine : MonoBehaviour
@@ -23,12 +22,14 @@ public class PunishmentMachine : MonoBehaviour
         await UniTask.DelayFrame(centerHintFrame_);
         centerHint_.SetActive(false);
         centerHitBox_.SetActive(true);
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 29 });
         await UniTask.DelayFrame(3);
         Destroy(centerHitBox_);
         outerHint_.SetActive(true);
         await UniTask.DelayFrame(outerHintFrame_);
         outerHint_.SetActive(false);
         outerHitBox_.SetActive(true);
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 29 });
         await UniTask.DelayFrame(3);
         Destroy(outerHitBox_);
         await UniTask.DelayFrame(3);

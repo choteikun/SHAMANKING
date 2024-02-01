@@ -1,8 +1,6 @@
-using DG.Tweening.Core.Easing;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Datamanager;
+using Gamemanager;
+using UnityEngine;
 
 public class FireballProjectileBehavior : MonoBehaviour
 {
@@ -12,7 +10,7 @@ public class FireballProjectileBehavior : MonoBehaviour
     {
         //rb = GetComponent<Rigidbody>();
         Destroy(gameObject, 5);
-        
+
     }
     private void FixedUpdate()
     {
@@ -20,13 +18,13 @@ public class FireballProjectileBehavior : MonoBehaviour
         if (Speed != 0)
         {
             //rb.velocity = transform.forward * speed;
-            transform.position += transform.forward * (Speed * Time.deltaTime);         
+            transform.position += transform.forward * (Speed * Time.deltaTime);
         }
     }
 
     private void OnTriggerEnter(Collider other)
-    {      
-        if (other.CompareTag("Player")|| other.CompareTag("Object"))
+    {
+        if (other.CompareTag("Player") || other.CompareTag("Object"))
         {
             //Ray ray = new Ray(transform.position, transform.forward);
 
@@ -43,6 +41,7 @@ public class FireballProjectileBehavior : MonoBehaviour
             //}
             var explodeEffect = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(10).PrefabPath;
             var explodeObject = Instantiate(explodeEffect, other.ClosestPoint(this.gameObject.transform.position), Quaternion.identity);
+            GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() {SoundEffectID = 26 });
         }
     }
 }

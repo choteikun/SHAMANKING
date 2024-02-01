@@ -78,4 +78,8 @@ public class BossHellDogAnimationEvent : MonoBehaviour
         var skillName = parts[1];
         GameManager.Instance.UIGameEvent.Send(new BossCallUISkillNameCommand() { SkillType = skillType, Name = skillName });
     }
+    public void BossCallSoundEffect(int soundEffectId)
+    {
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = soundEffectId });
+    }
 }
