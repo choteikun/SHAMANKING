@@ -2420,7 +2420,7 @@ namespace AmplifyShaderEditor
 			{
 				if( m_mouseDownOnValidArea && m_insideEditorWindow )
 				{
-					if( m_currentEvent.control )
+					if( m_currentEvent.control || Preferences.GlobalAlwaysSnapToGrid )
 					{
 						m_mainGraphInstance.MoveSelectedNodes( m_cameraZoom * m_currentEvent.delta, true );
 					}
