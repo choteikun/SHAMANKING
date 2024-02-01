@@ -47,4 +47,9 @@ public class GhostEnemyAnimator : MonoBehaviour
 
         GameManager.Instance.MainGameEvent.Send(new AnimationCallAttackEffectCommand() { ColliderId = attackCollider, SpawnEffectId = effectId, CommandSender = this.gameObject, AttackColliderType = AttackColliderType.Monster });
     }
+
+    public void GhostCallSpawnSoundEffect(int soundEffectID)
+    {
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() {SoundEffectID =  soundEffectID});
+    }
 }
