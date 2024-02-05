@@ -106,7 +106,8 @@ public class PlayerAttacker : MonoBehaviour
             if (colliders_[i].CompareTag("Enemy"))
             {
                 var collidePoint = ghostCollider_.ClosestPointOnBounds(colliders_[i].transform.position);
-                GameManager.Instance.MainGameEvent.Send(new PlayerGrabSuccessCommand() { CollidePoint = collidePoint, AttackTarget = colliders_[i].gameObject, AttackDamage = 20f });
+                var command = new PlayerGrabSuccessCommand() { CollidePoint = collidePoint, AttackTarget = colliders_[i].gameObject, AttackDamage = 20f };
+                GameManager.Instance.MainGameEvent.Send(command);
                 throwAttacking_ = false;
                 return;
             }
