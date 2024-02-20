@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using Datamanager;
 
 
 public class PlayerControllerView : MonoBehaviour
@@ -252,7 +253,7 @@ public class PlayerControllerView : MonoBehaviour
         dashPointTest.transform.position = final;
         //this.gameObject.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
         StartCoroutine(MoveToPosition(final, player_Stats_.Player_DodgeSpeed));
-        PlayerStatCalculator.PlayerInvincibleSwitch(true);
+        PlayerStatCalculator.PlayerInvincibleSwitch(true);       
         DOVirtual.Float(-0.5f, 1.5f, 0.1f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
            // Debug.Log(currentParams);
@@ -263,8 +264,9 @@ public class PlayerControllerView : MonoBehaviour
                 item.SetVector("_DissolveParams", currentParams);
             }
         }).OnComplete(() => {  });
-        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));
+        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));       
         PlayerStatCalculator.PlayerInvincibleSwitch(false);
+        spawnDashEffect();
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
            // Debug.Log(currentParams);
@@ -276,6 +278,12 @@ public class PlayerControllerView : MonoBehaviour
             }
         }).SetEase(Ease.InSine).OnComplete(() => {  });
         
+    }
+
+    void spawnDashEffect()
+    {
+        var effect = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(11).PrefabPath;
+        Instantiate(effect, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position, Quaternion.identity);
     }
     public IEnumerator MoveToPosition(Vector3 target, float duration)
     {
