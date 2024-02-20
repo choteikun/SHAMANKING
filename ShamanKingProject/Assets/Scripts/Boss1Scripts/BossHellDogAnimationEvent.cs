@@ -17,6 +17,10 @@ public class BossHellDogAnimationEvent : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new BossCurAnimationEndCommand());
         firstBossVariables.isPillarTriggering = false;
     }
+    public void PillarAviod()
+    {
+        firstBossVariables.isPillarTriggering = false;
+    }
     public void SystemCallFireballLocate()
     {
         GameManager.Instance.HellDogGameEvent.Send(new SystemCallFireballLocateCommand());
