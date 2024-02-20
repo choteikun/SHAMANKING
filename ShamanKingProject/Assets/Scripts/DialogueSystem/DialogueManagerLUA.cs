@@ -37,7 +37,7 @@ public class DialogueManagerLUA : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new SystemCallTutorialCommand() { TutorialID = tutorialNum });
         DialogueManager.StopConversation();
     }
-    public void CallFirstSceneCameraTransfer(float firstSceneCameraTransfer)//­n°O±o¨ú®ø»W¤O
+    public void CallFirstSceneCameraTransfer(float firstSceneCameraTransfer)//ï¿½nï¿½Oï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½O
     {
         GameManager.Instance.MainGameEvent.Send(new SystemCallFirstSceneCameraTransferCommand() {CameraId = firstSceneCameraTransfer });
         GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand()); 

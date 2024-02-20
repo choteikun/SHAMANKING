@@ -376,6 +376,11 @@ namespace Gamemanager
     {
 
     }
+    public class SystemCallWaveClearCommand:GameEventMessageBase 
+    {
+        public string SceneName;
+        public int WaveID;
+    }
     public class SystemCallWaveStartCommand:GameEventMessageBase
     {
         public string SceneName;
