@@ -303,7 +303,7 @@ public class PlayerControllerView : MonoBehaviour
     async void DashToGrabTarget(PlayerGrabSuccessResponse cmd)
     {
         var player = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject;
-
+        Debug.LogError(cmd.AttackTarget.name);
         var vector = cmd.AttackTarget.transform.position - player.transform.position;
         vector.y = 0;//水平化操作
         var direction = vector.normalized;

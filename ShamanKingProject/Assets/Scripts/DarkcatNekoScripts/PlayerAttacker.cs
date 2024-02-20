@@ -19,6 +19,7 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] bool attacking_ = false;
     [SerializeField] bool throwAttacking_ = false;
     [SerializeField] int attackHash_;
+    [SerializeField] LayerMask grabLayer;
 
     public void Start()
     {
@@ -89,7 +90,7 @@ public class PlayerAttacker : MonoBehaviour
         // 你可以根據需要處理這些敵人
         for (int i = 0; i < uniqueItems.Count; i++)
         {
-            if (uniqueItems[i].CompareTag("Enemy"))
+            if (uniqueItems[i].CompareTag("Enemy")&&IsObjectInLayerMask(uniqueItems[i],enemyLayer_))
             {
                 var collidePoint = ghostCollider_.ClosestPointOnBounds(uniqueItems[i].transform.position);
                 GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = uniqueItems[i].gameObject, AttackDamage = 20f });
@@ -108,6 +109,7 @@ public class PlayerAttacker : MonoBehaviour
                 var collidePoint = ghostCollider_.ClosestPointOnBounds(colliders_[i].transform.position);
                 var command = new PlayerGrabSuccessCommand() { CollidePoint = collidePoint, AttackTarget = colliders_[i].gameObject, AttackDamage = 20f };
                 GameManager.Instance.MainGameEvent.Send(command);
+                Debug.LogError("Hit With Grabbing!!  "+command.AttackTarget.name);
                 throwAttacking_ = false;
                 return;
             }
@@ -136,5 +138,12 @@ public class PlayerAttacker : MonoBehaviour
         Gizmos.color = Color.green;
         // 如果需要，也可以在這裡添加更多的 Gizmos 繪製代碼
         Gizmos.DrawLine(playerAttackRayStartPoint_.transform.position, gizmosAnimationFollowObject_.transform.position);
+    }
+    bool IsObjectInLayerMask(GameObject obj, LayerMask layerMask)
+    {
+        // 获取对象的层级
+        int objLayerMask = 1 << obj.layer;
+        // 检查对象的层级是否包含在给定的LayerMask中
+        return (layerMask.value & objLayerMask) > 0;
     }
 }
