@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UniRx;
 using Gamemanager;
-using PixelCrushers.DialogueSystem;
-using UnityEngine.UI;
+using System.Collections.Generic;
 using System.Linq;
-using static Unity.Burst.Intrinsics.X86.Avx;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialSystemController : MonoBehaviour
 {
@@ -42,14 +38,14 @@ public class TutorialSystemController : MonoBehaviour
 
     void tempNextPage(PlayerTutorialNextPageCommand cmd)
     {
-        tutorialLastPicCount_ --;
+        tutorialLastPicCount_--;
         if (tutorialLastPicCount_ == 0)
         {
             closeTutorial((int)cmd.TutorialID);
         }
         else
         {
-            tutorialPic_.sprite = tempTutorials[(int)cmd.TutorialID][tempTutorials[(int)cmd.TutorialID].Count()- tutorialLastPicCount_];
+            tutorialPic_.sprite = tempTutorials[(int)cmd.TutorialID][tempTutorials[(int)cmd.TutorialID].Count() - tutorialLastPicCount_];
         }
     }
 
@@ -63,8 +59,11 @@ public class TutorialSystemController : MonoBehaviour
 
     void tutorialEndEvent(int tutorialID)
     {
-        switch(tutorialID)
+        switch (tutorialID)
         {
+            case 0:
+                GameManager.Instance.MainGameEvent.Send(new SystemCallWaveStartCommand() { SceneName = "Scene1", WaveID = 0 });
+                return;
             case 1:
                 ticketGate_.SetActive(true);
                 return;

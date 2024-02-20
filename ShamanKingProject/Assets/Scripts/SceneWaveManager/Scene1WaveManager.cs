@@ -87,6 +87,6 @@ public class Scene1WaveManager : MonoBehaviour
     {
         var wayPointStartPosition = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position;
         wayPointObject_ = Instantiate(wayPointPrefab_, wayPointStartPosition, Quaternion.identity);
-        wayPointObject_.transform.DOMove(wayPointEndPos_.transform.position, 0.25f);
+        wayPointObject_.transform.DOMove(wayPointEndPos_.transform.position, 2.65f);
     }
 }
