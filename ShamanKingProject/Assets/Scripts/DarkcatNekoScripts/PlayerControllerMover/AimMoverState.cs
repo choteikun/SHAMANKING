@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class AimMoverState : StateBase
 {
     private float player_speed_;
@@ -18,7 +14,7 @@ public class AimMoverState : StateBase
             player_speed_ = controllerMSM.PlayerControllerMover.MoveSpeed;
             controllerMSM.PlayerControllerMover.MoveSpeed = aimSpeed_;
         }
-    }    
+    }
 
     public override void OnUpdate()
     {

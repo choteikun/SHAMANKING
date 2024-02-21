@@ -46,6 +46,15 @@ public class Scene1WaveManager : MonoBehaviour
                 checkWave2GhostKilled();
             }
         });
+
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallWaveClear, cmd => 
+        {
+            if (cmd.SceneName == "Scene1"&&cmd.WaveID == 0)
+            {
+                waveWalls_[0].SetActive(false);
+                Destroy(wayPointObject_);
+            }
+        });
     }
 
     void Update()
@@ -64,7 +73,7 @@ public class Scene1WaveManager : MonoBehaviour
         wave1GhostKilled_++;
         if (wave1GhostKilled_ >= 1)
         {
-            waveWalls_[0].SetActive(false);
+            waveWalls_[1].SetActive(false);
             DialogueManager.StartConversation("chapter 1_1_2");
         }
     }
@@ -74,7 +83,7 @@ public class Scene1WaveManager : MonoBehaviour
         wave2GhostKilled_++;
         if (wave2GhostKilled_ >= wave2Count_)
         {
-            waveWalls_[1].SetActive(false);
+            waveWalls_[2].SetActive(false);
             BossSceneTransfer_.SetActive(true);
             //DialogueManager.StartConversation("chapter1_2_2");
         }

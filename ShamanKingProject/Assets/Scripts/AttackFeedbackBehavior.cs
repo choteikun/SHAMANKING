@@ -1,16 +1,13 @@
-using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using Gamemanager;
-using DG.Tweening;
+using UnityEngine;
 
 public class AttackFeedbackBehavior : MonoBehaviour
 {
     [SerializeField] GameObject mainCM_;
     [SerializeField] GameObject parryCM_;
-    [SerializeField]  CinemachineVirtualCamera vCamera_;
+    [SerializeField] CinemachineVirtualCamera vCamera_;
     [SerializeField] private CinemachineImpulseSource impulseSource_;
     [SerializeField] float force_;
     [SerializeField] int delayFrame_ = 10;
@@ -33,11 +30,11 @@ public class AttackFeedbackBehavior : MonoBehaviour
         {
             attackHeavyHitTimeScale();
         }
-        else if(cmd.AttackFeedBackType == AttackFeedBackType.Light)
+        else if (cmd.AttackFeedBackType == AttackFeedBackType.Light)
         {
             attackHitTimeScale();
         }
-        
+
     }
 
     async void attackHitTimeScale()
@@ -59,13 +56,13 @@ public class AttackFeedbackBehavior : MonoBehaviour
         mainCM_.SetActive(false);
         parryCM_.SetActive(true);
         impulseSource_.GenerateImpulse(parryForce_);
-        Time.timeScale = 0.01f;        
+        Time.timeScale = 0.01f;
         await UniTask.DelayFrame(parryDelayFrame_);
         mainCM_.SetActive(true);
         parryCM_.SetActive(false);
         Time.timeScale = 1;
     }
-    
+
     void bossCallCameraShake()
     {
         impulseSource_.GenerateImpulse(5);

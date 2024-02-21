@@ -1,10 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Gamemanager;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class AttackColliderBehavior : MonoBehaviour
 {
@@ -36,7 +32,7 @@ public class AttackColliderBehavior : MonoBehaviour
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
             var collidePoint = other.ClosestPoint(this.gameObject.transform.position);
             int soulAdded = attackAddSoul_;
-            if (hitEnemyCount_>0)
+            if (hitEnemyCount_ > 0)
             {
                 soulAdded = soulAdded / 4;
             }
