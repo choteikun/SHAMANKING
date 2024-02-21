@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
 using Gamemanager;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
-using Cysharp.Threading.Tasks;
+using UnityEngine;
 
-public static class PlayerStatCalculator 
+public static class PlayerStatCalculator
 {
     public static void PlayerAddOrMinusSpirit(float amount)
     {
@@ -23,7 +20,7 @@ public static class PlayerStatCalculator
         realTimePlayerData.PlayerInvincible = trigger;
         GameManager.Instance.UIGameEvent.Send(new UIPlayerInvincibleUpdateCommand());
     }
-   
+
     public static void PlayerAddOrMinusHealth(float amount)
     {
         var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;

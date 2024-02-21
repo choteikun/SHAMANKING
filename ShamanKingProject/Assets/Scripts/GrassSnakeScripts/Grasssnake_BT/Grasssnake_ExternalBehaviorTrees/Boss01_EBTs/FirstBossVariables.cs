@@ -1,5 +1,3 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
-using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
@@ -100,7 +98,7 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("BossCollider")]
     private Collider firstBossCollider_;
 
-    
+
     public Vector3 RunForwardVec { get { return runForwardVec_; } set { runForwardVec_ = value; } }
     [SerializeField, Tooltip("RunForwardVec")]
     private Vector3 runForwardVec_;
@@ -108,7 +106,7 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("JumpForwardVec")]
     private Vector3 jumpForwardVec_;
 
-    [SerializeField]private float jumpAtkDistance_;
+    [SerializeField] private float jumpAtkDistance_;
 
     // Root Motion的位移量 用於腳本運用Root Motion
     private Vector3 deltaPos_;
@@ -287,7 +285,7 @@ public class FirstBossVariables : MonoBehaviour
         //計算夾角弧度
         float angle = Mathf.Acos(dotProduct / (forward.magnitude * toPlayer.magnitude)) * Mathf.Rad2Deg;
         //判斷夾角正負
-        if(Vector3.Cross(forward, toPlayer).y < 0)
+        if (Vector3.Cross(forward, toPlayer).y < 0)
         {
             AngleFacingPlayer = -angle;
         }
@@ -317,7 +315,7 @@ public class FirstBossVariables : MonoBehaviour
         {
             isJumpAttacking_ = true;
         }
-        else 
+        else
         {
             isJumpAttacking_ = false;
         }
