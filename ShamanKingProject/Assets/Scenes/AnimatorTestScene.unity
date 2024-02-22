@@ -4749,6 +4749,9 @@ MonoBehaviour:
   - {fileID: 134268949}
   BossSceneTransfer_: {fileID: 802734177}
   wave2Count_: 2
+  wayPointPrefab_: {fileID: 0}
+  wayPointObject_: {fileID: 0}
+  wayPointEndPos_: {fileID: 0}
 --- !u!1 &1060948545
 GameObject:
   m_ObjectHideFlags: 0
@@ -43028,8 +43031,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!4 &172083196776043916
 Transform:
   m_ObjectHideFlags: 0
@@ -45039,6 +45042,9 @@ MonoBehaviour:
   attacking_: 0
   throwAttacking_: 0
   attackHash_: 0
+  grabLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &648863396282613823
 GameObject:
   m_ObjectHideFlags: 0
@@ -56449,30 +56455,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: 0
-        y: 2.8138585
-        z: -0.2699356
-      - x: 0
-        y: 2.7135668
-        z: -0.33625793
-      - x: 0
-        y: 2.613276
-        z: -0.40258026
-      - x: 0
-        y: 2.5129838
-        z: -0.4689026
-      - x: -0.0000076293945
-        y: 2.4126916
-        z: -0.53523254
-      - x: 0
-        y: 2.3124003
-        z: -0.6015549
-      - x: 0
-        y: 2.2121081
-        z: -0.6678772
-      - x: 0
-        y: 2.1118164
-        z: -0.7341995
+      - x: 0.18687439
+        y: 2.78519
+        z: -0.2479248
+      - x: 0.2438469
+        y: 2.7050881
+        z: -0.3171692
+      - x: 0.30081558
+        y: 2.6249866
+        z: -0.38642883
+      - x: 0.3577881
+        y: 2.5448847
+        z: -0.45567322
+      - x: 0.41475677
+        y: 2.4647832
+        z: -0.52492523
+      - x: 0.4717331
+        y: 2.3846812
+        z: -0.5941696
+      - x: 0.5287018
+        y: 2.3045793
+        z: -0.663414
+      - x: 0.5856743
+        y: 2.2244778
+        z: -0.732666
       attributes:
       - Value: 1
       - Value: 2
@@ -56482,7 +56488,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.120242216
+      maxConnectionDistance: 0.120243825
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -57908,30 +57914,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: 0
-        y: 4.094433
-        z: -0.42803192
-      - x: -0.0000038146973
-        y: 3.900097
-        z: -0.54074097
-      - x: -0.0000038146973
-        y: 3.705762
-        z: -0.5524368
-      - x: -0.0000038146973
-        y: 3.511426
-        z: -0.553215
-      - x: -0.0000076293945
-        y: 3.317091
-        z: -0.5430832
-      - x: 0
-        y: 3.122755
-        z: -0.54112244
-      - x: -0.0000038146973
-        y: 2.9284196
-        z: -0.5432739
-      - x: 0
-        y: 2.7340846
-        z: -0.5385895
+      - x: -0.0913887
+        y: 4.03697
+        z: -0.21691132
+      - x: -0.05172348
+        y: 3.8652248
+        z: -0.3561859
+      - x: -0.02154541
+        y: 3.6771088
+        z: -0.3962555
+      - x: 0.0076026917
+        y: 3.4872236
+        z: -0.4255829
+      - x: 0.035728455
+        y: 3.2955675
+        z: -0.44420624
+      - x: 0.06461334
+        y: 3.1052403
+        z: -0.4708557
+      - x: 0.09389496
+        y: 2.9155755
+        z: -0.5015335
+      - x: 0.12253189
+        y: 2.7248049
+        z: -0.5255127
       attributes:
       - Value: 1
       - Value: 2
@@ -57941,7 +57947,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.22465481
+      maxConnectionDistance: 0.22464904
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -61084,7 +61090,8 @@ MonoBehaviour:
   stunTrigger_: 0
   rootTrigger_: 0
   intTypeStateOfGhostEnemy_: 0
-  aggression_: 0
+  eliteAtkCounter_: 0
+  distanceFromPlayer_: 0
   playerObj_: {fileID: 0}
   ghostEnemyCollider_: {fileID: 0}
 --- !u!136 &1483304863780865787
@@ -85197,7 +85204,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3690414366363370219}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.6818733, y: 1.2772474, z: -0.83925176}
+  m_LocalPosition: {x: -0.6818733, y: 1.277247, z: -0.83925176}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -103708,12 +103715,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795f87324c94736468596efbe509bb68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCM_: {fileID: 0}
+  parryCM_: {fileID: 0}
   vCamera_: {fileID: 1241964954530839938}
   impulseSource_: {fileID: 1241964954530839942}
   force_: 0.6
   delayFrame_: 8
   heavyForce_: 1.5
   heavyDelayFrame_: 15
+  parryForce_: 0
+  parryDelayFrame_: 20
 --- !u!114 &5717628474718875030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107003,7 +107014,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -116975,8 +116991,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!1 &8253053060656192299
 GameObject:
   m_ObjectHideFlags: 0
