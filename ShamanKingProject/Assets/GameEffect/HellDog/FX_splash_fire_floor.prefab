@@ -120,6 +120,7 @@ MonoBehaviour:
   maxDamage_: 20
   unbreakble_: 0
   unDodgeable_: 0
+  unGuardable_: 0
   colliderType_: 0
   specialAttackerPos_: {fileID: 0}
 --- !u!54 &2666375826839374635
@@ -24908,6 +24909,7 @@ GameObject:
   - component: {fileID: 6690547690136172946}
   - component: {fileID: 6690547690136172945}
   - component: {fileID: 6690547690136172944}
+  - component: {fileID: 8565565003080826826}
   m_Layer: 0
   m_Name: FX_splash_fire_floor
   m_TagString: Untagged
@@ -29795,6 +29797,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8565565003080826826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6690547690136172951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d31d7eefd258346b6a5d861e11d923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyDelayTimer_: 2
 --- !u!1 &6690547691792119482
 GameObject:
   m_ObjectHideFlags: 0

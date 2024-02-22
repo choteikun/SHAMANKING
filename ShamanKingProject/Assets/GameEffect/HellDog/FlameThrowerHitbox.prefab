@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 8642170258692407643}
   - component: {fileID: 8642170258692407642}
   - component: {fileID: 8642170258692407641}
+  - component: {fileID: 9189932255301022719}
   m_Layer: 14
   m_Name: FlameThrowerHitbox
   m_TagString: EnemyHitbox
@@ -223,6 +224,7 @@ MonoBehaviour:
   maxDamage_: 20
   unbreakble_: 0
   unDodgeable_: 0
+  unGuardable_: 0
   colliderType_: 1
   specialAttackerPos_: {fileID: 1377394093795453116}
 --- !u!65 &8642170258692407642
@@ -254,3 +256,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &9189932255301022719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8642170258692407647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d31d7eefd258346b6a5d861e11d923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyDelayTimer_: 2

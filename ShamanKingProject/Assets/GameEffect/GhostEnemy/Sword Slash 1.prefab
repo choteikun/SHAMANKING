@@ -118,6 +118,11 @@ MonoBehaviour:
   lastFrame_: 3
   minDamage_: 3
   maxDamage_: 5
+  unbreakble_: 0
+  unDodgeable_: 0
+  unGuardable_: 0
+  colliderType_: 0
+  specialAttackerPos_: {fileID: 0}
 --- !u!54 &5034619709253079623
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9909,6 +9914,7 @@ GameObject:
   - component: {fileID: 6835360110625550337}
   - component: {fileID: 6633334298279637035}
   - component: {fileID: 6632052634911284937}
+  - component: {fileID: 65815046658102196}
   m_Layer: 0
   m_Name: Sword Slash 1
   m_TagString: Untagged
@@ -14793,6 +14799,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &65815046658102196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6830521040250669865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d31d7eefd258346b6a5d861e11d923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyDelayTimer_: 1
 --- !u!1 &6830634692958542733
 GameObject:
   m_ObjectHideFlags: 0
