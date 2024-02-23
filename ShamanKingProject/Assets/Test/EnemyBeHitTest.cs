@@ -14,6 +14,8 @@ public class EnemyBeHitTest : MonoBehaviour
     [SerializeField] bool gainBlueShieldTrigger_;
     public bool RevertBreakPointTrigger { get { return revertBreakPointTrigger_; } set { revertBreakPointTrigger_ = value; } }
     [SerializeField] bool revertBreakPointTrigger_;
+    public bool EliteGhostEnemyHpLocker { get { return eliteGhostEnemyHpLocker_; } set { eliteGhostEnemyHpLocker_ = value; } }
+    [SerializeField, Tooltip("菁英怪血量鎖")] bool eliteGhostEnemyHpLocker_;
 
     [SerializeField] public bool Break { get { return break_; } set { break_ = value; } } //是否已經在break狀態
     [SerializeField] bool break_ = false;
@@ -46,6 +48,7 @@ public class EnemyBeHitTest : MonoBehaviour
     GameObject onHitParticle_;
     private void Start()
     {
+        EliteGhostEnemyHpLocker = true;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { checkDamage(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccess, cmd => { checkGrab(cmd); });
     }
@@ -166,6 +169,11 @@ public class EnemyBeHitTest : MonoBehaviour
         {
             RevertBreakPoint();
             RevertBreakPointTrigger = false;
+        }
+        //解除菁英怪鎖血條件
+        if (BeExecuted && EliteGhostEnemyHpLocker)
+        {
+            EliteGhostEnemyHpLocker = false;
         }
     }
     private void FixedUpdate() //脫離戰鬥後減少bk值

@@ -1,12 +1,6 @@
-using Gamemanager;
-using UnityEngine;
-using UniRx;
-using System;
-using UnityEngine.UI;
-using PixelCrushers.DialogueSystem.UnityGUI;
-using UnityEngine.AI;
 using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// 供狀態機與行為樹同步的GhostEnemyState
@@ -79,7 +73,7 @@ public class GhostEnemyVariables : MonoBehaviour
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
 
         navMeshAgent_ = GetComponent<NavMeshAgent>();
-        ghostEnemyCollider_ =GetComponent<Collider>();
+        ghostEnemyCollider_ = GetComponent<Collider>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd =>
         {
             if (cmd.AttackTarget == this.gameObject)
