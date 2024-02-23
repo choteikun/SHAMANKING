@@ -104,7 +104,7 @@ public class PlayerAttacker : MonoBehaviour
         int colliderCount = Physics.OverlapSphereNonAlloc(playerHitBoxCenter_.transform.position, radius_, colliders_);
         for (int i = 0; i < colliderCount; i++)
         {
-            if (colliders_[i].CompareTag("Enemy"))
+            if (colliders_[i].CompareTag("Enemy") && IsObjectInLayerMask(colliders_[i].gameObject, enemyLayer_))
             {
                 var collidePoint = ghostCollider_.ClosestPointOnBounds(colliders_[i].transform.position);
                 var command = new PlayerGrabSuccessCommand() { CollidePoint = collidePoint, AttackTarget = colliders_[i].gameObject, AttackDamage = 20f };
