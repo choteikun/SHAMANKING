@@ -116,6 +116,7 @@ public class FirstBossVariables : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCallBossSceneCutScene, cmd => { preludeTrigger_ = true; });
         GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallJumpAttackLocate, cmd => { locatePlayerPosition(); });
 
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
