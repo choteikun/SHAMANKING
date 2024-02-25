@@ -121,7 +121,7 @@ public class FirstBossVariables : MonoBehaviour
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         Rigidbody = GetComponent<Rigidbody>();
         if (!FirstBossCollider) { FirstBossCollider = GameObject.Find("FirstBossCollider").GetComponent<Collider>(); }
-        PreludeTrigger = true;
+        PreludeTrigger = false;
         IntTypeStateOfFirstBoss = 2;
     }
     void FixedUpdate()
