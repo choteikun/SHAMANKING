@@ -172,4 +172,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<SystemStopGuardingCommand> OnSystemStopGuarding => getSubject<SystemStopGuardingCommand>();
     public IObservable<BossCallSprintColliderSwitchCommand> OnBossCallSprintColliderSwitch => getSubject<BossCallSprintColliderSwitchCommand>();
     public IObservable<GameCallSoundEffectGenerate> OnGameCallSoundEffect => getSubject<GameCallSoundEffectGenerate>();
+    public IObservable<CallBossSceneCutSceneStart> OnCallBossSceneCutScene => getSubject<CallBossSceneCutSceneStart>();
 }
