@@ -154,6 +154,8 @@ public class FirstBossVariables : MonoBehaviour
 
         ExplosionJudgmentTimer += !ExplosionJudgmentTrigger ? 1 : 0;
 
+        
+
         switch (IntTypeStateOfFirstBoss)
         {
             case 1:
