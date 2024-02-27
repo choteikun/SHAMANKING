@@ -13,8 +13,8 @@ using UnityEditor;
 public class PlayerAnimator 
 {
     #region 提前Hash進行優化
-    readonly int animID_Charging = Animator.StringToHash("Charging");
-    readonly int animID_TargetingChargeMove = Animator.StringToHash("TargetingChargeMove");
+    readonly int animID_Guarding = Animator.StringToHash("Guarding");
+    readonly int animID_TargetingGuardMove = Animator.StringToHash("TargetingGuardMove");
     readonly int animID_TargetMove = Animator.StringToHash("TargetMove");
     readonly int animID_AimMove = Animator.StringToHash("AimMove");
     readonly int animID_PossessMove = Animator.StringToHash("PossessMove");
@@ -131,9 +131,9 @@ public class PlayerAnimator
     }
     void playerGetHurt()
     {
-        if (player_Stats_.Charging)
+        if (player_Stats_.Guarding)
         {
-            animator_.CrossFadeInFixedTime("PlayerChargingHurt", 0);
+            animator_.CrossFadeInFixedTime("PlayerGuardingHurt", 0);
         }
         else { animator_.CrossFadeInFixedTime("PlayerHurt", 0); }
     }
@@ -229,7 +229,7 @@ public class PlayerAnimator
     #region - 待機動畫處理 -
     void timeoutToIdle()
     {
-        bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming || playerAnimState_== PlayerAnimState.Attack || !player_Stats_.Grounded;
+        bool inputDetected = player_Stats_.Player_Dir != Vector2.zero || player_Stats_.Aiming || player_Stats_.Guarding || playerAnimState_== PlayerAnimState.Attack || !player_Stats_.Grounded;
         //如果沒有偵測到任何輸入產生的行為
         if (!inputDetected)
         {
@@ -390,21 +390,21 @@ public class PlayerAnimator
     }
     void setPlayer_animID_Charging()
     {
-        if (player_Stats_.Charging && player_Stats_.Targeting)
+        if (player_Stats_.Guarding && player_Stats_.Targeting)
         {
-            animator_.SetBool(animID_TargetingChargeMove, true);
+            animator_.SetBool(animID_TargetingGuardMove, true);
         }
         else
         {
-            animator_.SetBool(animID_TargetingChargeMove, false);
+            animator_.SetBool(animID_TargetingGuardMove, false);
         }
-        if (player_Stats_.Charging)
+        if (player_Stats_.Guarding)
         {
-            animator_.SetBool(animID_Charging, true);
+            animator_.SetBool(animID_Guarding, true);
         }
         else
         {
-            animator_.SetBool(animID_Charging, false);
+            animator_.SetBool(animID_Guarding, false);
         }
     }
     //重置所有瞄準的bool動畫

@@ -155,7 +155,7 @@ public class PlayerControllerMover
         ////根據移動速度、衝刺速度以及是否按下衝刺設置目標速度
         //float targetSpeed = player_SprintStatus_ ? SprintSpeed : MoveSpeed;
         //根據是否為蓄力狀態下去設置目標速度為蓄力下的移動速度
-        float targetSpeed = player_Stats_.Charging ? player_Stats_.Player_ChargingSpeed : MoveSpeed;
+        float targetSpeed = player_Stats_.Guarding ? player_Stats_.Player_GuardingSpeed : MoveSpeed;
 
         //如果沒有輸入，則將目標速度設置為0
         if (player_Stats_.Player_Dir == Vector2.zero)

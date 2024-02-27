@@ -142,7 +142,7 @@ public class PlayerControllerView : MonoBehaviour
     #region - Player取得蓄力指令 -
     void onPlayerGuardingButtonTrigger(PlayerGuardingButtonCommand playerGuardingButtonCommand)
     {
-        player_Stats_.Charging = playerGuardingButtonCommand.GuardingButtonIsPressed;
+        player_Stats_.Guarding = playerGuardingButtonCommand.GuardingButtonIsPressed;
     }
     #endregion
 
@@ -224,7 +224,7 @@ public class PlayerControllerView : MonoBehaviour
     }
     void chargingInterrupt()
     {
-        player_Stats_.Charging = false;
+        player_Stats_.Guarding = false;
         playerControllerMover_.TransitionState("MainGame");
     }
     void cancelMoving()
@@ -360,7 +360,7 @@ public class Player_Stats
     public float Player_Speed;
 
     [Tooltip("玩家蓄力時的移動速度")]
-    public float Player_ChargingSpeed = 2.5f;
+    public float Player_GuardingSpeed = 2.5f;
 
     [Tooltip("玩家衝刺速度")]
     public float Player_DashSpeed = 20;
@@ -389,8 +389,8 @@ public class Player_Stats
 
     [Tooltip("玩家瞄準狀態")]
     public bool Aiming = false;
-    [Tooltip("玩家蓄力狀態")]
-    public bool Charging = false;
+    [Tooltip("玩家格擋狀態")]
+    public bool Guarding = false;
 
     [Tooltip("玩家落下狀態")]
     public bool Falling;
