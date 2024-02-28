@@ -8,7 +8,7 @@ public class EnemyBeHitTest : MonoBehaviour
 {
     [SerializeField] float executionDamage_;
     public float HealthPoint { get { return healthPoint_; } set { healthPoint_ = value; } }
-   [SerializeField] float healthPoint_ = 100;
+    [SerializeField] float healthPoint_ = 100;
     [SerializeField] float maxHealthPoint_;
     public bool GainBlueShieldTrigger { get { return gainBlueShieldTrigger_; } set { gainBlueShieldTrigger_ = value; } }
     [SerializeField] bool gainBlueShieldTrigger_;
@@ -215,5 +215,9 @@ public class EnemyBeHitTest : MonoBehaviour
         {
             GameManager.Instance.MainGameEvent.Send(new EnemyDeathCommand() { DeathTarget = this.gameObject });
         }
+    }
+    public float GetMaxHealthPoint()
+    {
+        return maxHealthPoint_;
     }
 }
