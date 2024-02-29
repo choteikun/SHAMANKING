@@ -21,8 +21,10 @@ public class GhostEnemyUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        greenHp_Slider_.value = enemyData_.HealthPoint / 100;
+        transform.forward = new Vector3(transform.position.x, 0, transform.position.z) - new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z);
 
-        redHp_Slider_.value = Mathf.Lerp(redHp_Slider_.value, enemyData_.HealthPoint / 100, Time.deltaTime * 10);
+        greenHp_Slider_.value = enemyData_.HealthPoint / enemyData_.GetMaxHealthPoint();
+
+        redHp_Slider_.value = Mathf.Lerp(redHp_Slider_.value, enemyData_.HealthPoint / enemyData_.GetMaxHealthPoint(), Time.deltaTime * 10);
     }
 }
