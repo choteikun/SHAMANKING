@@ -9,4 +9,9 @@ public class PlayerCutSceneWalker : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new CallBossSceneCutSceneStart());
     }
+
+    public void PlayerControlSwitch()
+    {
+        GameManager.Instance.MainGameEvent.Send(new CutSceneOverStartControlCommand());
+    }
 }

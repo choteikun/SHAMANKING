@@ -37,7 +37,7 @@ public class GamepadControllerView : MonoBehaviour
         if (isDebuging_) input_.SwitchCurrentActionMap("MainGameplay");
         Debug.Log("start");
         await UniTask.Delay(500);
-
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCutSceneOverStartControl, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemStopGuarding, cmd => { if (isGuarding_) isAiming_ = false; isGuarding_ = false; GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ }); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { isAttacking_ = true; });

@@ -3833,6 +3833,8 @@ PlayableDirector:
     value: {fileID: 854481675}
   - key: {fileID: 6262702354896296268, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
     value: {fileID: 854481674}
+  - key: {fileID: -6757962569488244889, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
+    value: {fileID: 61202283}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1071683086
@@ -3865,12 +3867,27 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: ef4871a04e9f52644a4d73e6ae5f974d, type: 2}
+    - {fileID: 11400000, guid: 7634f16bf56e1a94895c12566f504a7d, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1720537175}
           m_TargetAssemblyTypeName: PlayerCutSceneWalker, Assembly-CSharp
           m_MethodName: CallBossCutScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1720537175}
+          m_TargetAssemblyTypeName: PlayerCutSceneWalker, Assembly-CSharp
+          m_MethodName: PlayerControlSwitch
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -6326,8 +6343,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Events:
-    m_Signals: []
-    m_Events: []
+    m_Signals:
+    - {fileID: 11400000, guid: ef4871a04e9f52644a4d73e6ae5f974d, type: 2}
+    - {fileID: 11400000, guid: 7634f16bf56e1a94895c12566f504a7d, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1720537175}
+          m_TargetAssemblyTypeName: PlayerCutSceneWalker, Assembly-CSharp
+          m_MethodName: CallBossCutScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1720537175}
+          m_TargetAssemblyTypeName: PlayerCutSceneWalker, Assembly-CSharp
+          m_MethodName: PlayerControlSwitch
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1767888583
 GameObject:
   m_ObjectHideFlags: 0
@@ -53385,7 +53432,7 @@ MonoBehaviour:
   isJumping_: 0
   aimingDelay_: 1
   buttonEastPressed_: 0
-  isDebuging_: 0
+  isDebuging_: 1
 --- !u!81 &6035100177912329168
 AudioListener:
   m_ObjectHideFlags: 0

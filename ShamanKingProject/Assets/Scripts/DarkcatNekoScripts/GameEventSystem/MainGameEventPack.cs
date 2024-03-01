@@ -173,4 +173,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<BossCallSprintColliderSwitchCommand> OnBossCallSprintColliderSwitch => getSubject<BossCallSprintColliderSwitchCommand>();
     public IObservable<GameCallSoundEffectGenerate> OnGameCallSoundEffect => getSubject<GameCallSoundEffectGenerate>();
     public IObservable<CallBossSceneCutSceneStart> OnCallBossSceneCutScene => getSubject<CallBossSceneCutSceneStart>();
+    public IObservable<CutSceneOverStartControlCommand> OnCutSceneOverStartControl => getSubject<CutSceneOverStartControlCommand>();
 }
