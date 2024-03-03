@@ -5,10 +5,23 @@ using UnityEngine;
 public class FirstBossAnimator : MonoBehaviour
 {
     Animator anim;
+    FirstBossVariables firstBossVariables;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        firstBossVariables = GetComponentInParent<FirstBossVariables>();
+    }
+    private void Update()
+    {
+        if (firstBossVariables.PreludeTrigger)
+        {
+            anim.SetBool("Prelude", true);
+        }
+        else
+        {
+            anim.SetBool("Prelude", false);
+        }
     }
     private void OnAnimatorMove()
     {

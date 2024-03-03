@@ -1,14 +1,13 @@
 using Gamemanager;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Datamanager;
+using BehaviorDesigner.Runtime;
+using AI.FSM;
 
 public class BossHellDogAnimationEvent : MonoBehaviour
 {
-    [SerializeField]
     FirstBossVariables firstBossVariables;
-    void Start()
+    void Awake()
     {
         firstBossVariables = GetComponentInParent<FirstBossVariables>();
     }
@@ -85,5 +84,15 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     public void BossCallSoundEffect(int soundEffectId)
     {
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = soundEffectId });
+    }
+    public void FirstBossEnable()
+    {
+        firstBossVariables.GetComponent<BaseStateMachine>().enabled = true;
+        firstBossVariables.GetComponent<BehaviorTree>().enabled = true;
+    }
+    public void FirstBossDisable()
+    {
+        firstBossVariables.GetComponent<BaseStateMachine>().enabled = false;
+        firstBossVariables.GetComponent<BehaviorTree>().enabled = false;
     }
 }
