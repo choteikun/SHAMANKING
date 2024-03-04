@@ -13,6 +13,8 @@ using Datamanager;
 
 public class PlayerControllerView : MonoBehaviour
 {
+    [SerializeField]
+    public Animator UncleGhostAnimator;
 
     [SerializeField]
     Player_Stats player_Stats_ = new Player_Stats();
