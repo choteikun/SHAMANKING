@@ -12,7 +12,8 @@ public class PlayerAttackModel
     bool isAttacking_;
     int currentInputCount_ = -1;
     bool comboDeclaim = false;
-    private Animator animator_;
+    private Animator playerAnimator_;
+    private Animator uncleGhostAnimator_;
     bool isJumpAttacking_ = false;
     bool isThrowing_ = false;
     public void PlayerAttackModelInit()
@@ -60,7 +61,8 @@ public class PlayerAttackModel
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { Debug.LogWarning("PlayerGetHit"); playerGetHit(cmd); });
         var haveAnimatorObject = characterControllerObj_.gameObject.transform.GetChild(0);
-        animator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
+        playerAnimator_ = haveAnimatorObject.gameObject.GetComponent<Animator>();
+        uncleGhostAnimator_ = characterControllerObj_.GetComponent<PlayerControllerView>().UncleGhostAnimator;
     }
     public PlayerAttackModel(GameObject view)
     {
@@ -200,7 +202,8 @@ public class PlayerAttackModel
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("AttackCombo1", 0.05f);
+            playerAnimator_.CrossFadeInFixedTime("AttackCombo1", 0.05f);
+            uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo1", 0.25f);
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
@@ -213,7 +216,7 @@ public class PlayerAttackModel
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("JumpAttack1", 0.25f);
+            playerAnimator_.CrossFadeInFixedTime("JumpAttack1", 0.25f);
             PassedFrameAfterAttack = 0;
             isJumpAttacking_ = true;
             isAttacking_ = true;
@@ -227,7 +230,7 @@ public class PlayerAttackModel
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("ThrowAttack", 0.25f);
+            playerAnimator_.CrossFadeInFixedTime("ThrowAttack", 0.25f);
             PassedFrameAfterAttack = 0;
             isThrowing_ = true;
             isAttacking_ = true;
@@ -242,7 +245,7 @@ public class PlayerAttackModel
             if (!isAttacking_)
             {
                 //animator_.Rebind();
-                animator_.CrossFadeInFixedTime("HeavyAttack3", 0.25f);
+                playerAnimator_.CrossFadeInFixedTime("HeavyAttack3", 0.25f);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
@@ -254,7 +257,7 @@ public class PlayerAttackModel
             if (!isAttacking_)
             {
                 //animator_.Rebind();
-                animator_.CrossFadeInFixedTime("BasicHeavyAttack", 0.25f);
+                playerAnimator_.CrossFadeInFixedTime("BasicHeavyAttack", 0.25f);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
@@ -269,7 +272,7 @@ public class PlayerAttackModel
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("HeavyAttack2", 0.25f);
+            playerAnimator_.CrossFadeInFixedTime("HeavyAttack2", 0.25f);
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
@@ -277,18 +280,18 @@ public class PlayerAttackModel
 
     void addFirstUltimateAttack()
     {
-        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount<2)
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 2)
         {
             return;
         }
-        else if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 4 && GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount>=2)
+        else if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 4 && GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount >= 2)
         {
             PlayerStatCalculator.PlayerAddOrMinusSpirit(-200);
             CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[24], GameManager.Instance.AttackBlockDatabase.Database[24].SkillFrame));
             currentInputCount_++;
             if (!isAttacking_)
             {
-                animator_.CrossFadeInFixedTime("PlayerUltimateState1", 0.25f);
+                playerAnimator_.CrossFadeInFixedTime("PlayerUltimateState1", 0.25f);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
@@ -300,12 +303,12 @@ public class PlayerAttackModel
             currentInputCount_++;
             if (!isAttacking_)
             {
-                animator_.CrossFadeInFixedTime("PlayerUltimateState2", 0.25f);
+                playerAnimator_.CrossFadeInFixedTime("PlayerUltimateState2", 0.25f);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
         }
-        
+
     }
     void addFirstShootAttack()
     {
@@ -317,7 +320,7 @@ public class PlayerAttackModel
             if (!isAttacking_)
             {
                 //animator_.Rebind();
-                animator_.CrossFadeInFixedTime("PowerShootAttack", 0.25f);
+                playerAnimator_.CrossFadeInFixedTime("PowerShootAttack", 0.25f);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
@@ -329,7 +332,7 @@ public class PlayerAttackModel
             if (!isAttacking_)
             {
                 //animator_.Rebind();
-                animator_.CrossFadeInFixedTime("ShootAttack", 0.25f);
+                playerAnimator_.CrossFadeInFixedTime("ShootAttack", 0.25f);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
@@ -352,7 +355,7 @@ public class PlayerAttackModel
             currentInputCount_++;
             if (!isAttacking_)
             {
-                animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[18].SkillName, 0);
+                playerAnimator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[18].SkillName, 0);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
@@ -370,7 +373,7 @@ public class PlayerAttackModel
             currentInputCount_++;
             if (!isAttacking_)
             {
-                animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[23].SkillName, 0);
+                playerAnimator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[23].SkillName, 0);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
@@ -384,7 +387,7 @@ public class PlayerAttackModel
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            animator_.CrossFadeInFixedTime("Girl_Dash", 0.25f);
+            playerAnimator_.CrossFadeInFixedTime("Girl_Dash", 0.25f);
             GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 8 });
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
@@ -416,7 +419,7 @@ public class PlayerAttackModel
     void ChangeAction(int actionID)
     {
         //呼叫動畫片段
-        animator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[actionID].SkillName, 0.25f);
+        playerAnimator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[actionID].SkillName, 0.25f);
         Debug.Log("技能施放成功!");
         PassedFrameAfterAttack = 0;
         currentInputCount_++;
@@ -436,7 +439,8 @@ public class PlayerAttackModel
         //呼叫動畫
         // animator_.Rebind();
         GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
-        animator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
+        playerAnimator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
+        uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_Idle", 0.25f);
         Debug.Log("回歸");
         isAttacking_ = false;
         CurrentAttackInputs = new List<AttackBlockBase> { };
@@ -449,7 +453,7 @@ public class PlayerAttackModel
         // animator_.Rebind();
         await UniTask.Delay(200);
         GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
-        animator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
+        playerAnimator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
         Debug.Log("回歸");
         isAttacking_ = false;
         CurrentAttackInputs = new List<AttackBlockBase> { };
@@ -460,7 +464,7 @@ public class PlayerAttackModel
     {
         //呼叫動畫
         // animator_.Rebind();
-        animator_.CrossFadeInFixedTime("Girl_LandHarder", 0.25f);
+        playerAnimator_.CrossFadeInFixedTime("Girl_LandHarder", 0.25f);
         Debug.Log("回歸");
         isAttacking_ = false;
         CurrentAttackInputs = new List<AttackBlockBase> { };
@@ -471,7 +475,7 @@ public class PlayerAttackModel
     {
         //呼叫動畫
         // animator_.Rebind();
-        animator_.CrossFadeInFixedTime("PullAnimation", 0.25f);
+        playerAnimator_.CrossFadeInFixedTime("PullAnimation", 0.25f);
         Debug.Log("回歸");
         isAttacking_ = false;
         CurrentAttackInputs = new List<AttackBlockBase> { };
