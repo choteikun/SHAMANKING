@@ -1,6 +1,5 @@
 using Gamemanager;
 using System;
-using System.Diagnostics.Contracts;
 
 public class MainGameEventPack : GameEventPack
 {
