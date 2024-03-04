@@ -17,4 +17,6 @@ public class UIGameEventPack : GameEventPack
     public IObservable<DebugUIHeavyAttackCharge> OnDebugUIHeavyAttackCharge => getSubject<DebugUIHeavyAttackCharge>();
 
     public IObservable<BossCallUISkillNameCommand> OnBossCallUISkillName => getSubject<BossCallUISkillNameCommand>();
+
+    public IObservable<SystemCallMissionUIUpdateCommand> OnSystemCallMissionUIUpdate => getSubject<SystemCallMissionUIUpdateCommand>();
 }

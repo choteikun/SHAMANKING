@@ -13,6 +13,7 @@ public class GameManager : ToSingletonMonoBehavior<GameManager>
     public GhostEnemyGameEventPack GhostEnemyGameEvent { get; private set; } = new GhostEnemyGameEventPack();
     [field:SerializeField] public MainGameMediator MainGameMediator { get; private set; }
     [SerializeField] public SO_AttackBlockDatabase AttackBlockDatabase;
+    [SerializeField] public MissionBlockData MissionBlockDatabase;
  
     protected override void init()
     {

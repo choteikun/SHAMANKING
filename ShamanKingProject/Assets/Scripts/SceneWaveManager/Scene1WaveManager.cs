@@ -1,6 +1,7 @@
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
 using DG.Tweening;
+using Gamemanager;
 
 public class Scene1WaveManager : MonoBehaviour
 {
@@ -74,6 +75,7 @@ public class Scene1WaveManager : MonoBehaviour
         if (wave1GhostKilled_ >= 1)
         {
             waveWalls_[1].SetActive(false);
+            GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene1", WaveID = 1 });
             DialogueManager.StartConversation("chapter 1_1_2");
         }
     }
@@ -84,6 +86,7 @@ public class Scene1WaveManager : MonoBehaviour
         if (wave2GhostKilled_ >= wave2Count_)
         {
             waveWalls_[2].SetActive(false);
+            GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene1", WaveID = 2 });
             BossSceneTransfer_.SetActive(true);
             //DialogueManager.StartConversation("chapter1_2_2");
         }

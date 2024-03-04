@@ -63,9 +63,13 @@ public class TutorialSystemController : MonoBehaviour
         {
             case 0:
                 GameManager.Instance.MainGameEvent.Send(new SystemCallWaveStartCommand() { SceneName = "Scene1", WaveID = 0 });
+                GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[0] });
                 return;
             case 1:
-                ticketGate_.SetActive(true);
+                GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[2] });
+                return;
+            case 2:
+                GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[1] });
                 return;
         }
     }

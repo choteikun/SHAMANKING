@@ -454,6 +454,11 @@ namespace Gamemanager
     {
 
     }
+
+    public class SystemCallMissionUIUpdateCommand:GameEventMessageBase
+    {
+        public MissionBlockObject MissionData;
+    }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

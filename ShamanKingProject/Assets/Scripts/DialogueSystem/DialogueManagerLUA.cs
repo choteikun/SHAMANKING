@@ -1,7 +1,6 @@
+using Gamemanager;
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
-using Gamemanager;
-using System.Xml.Serialization;
 
 public class DialogueManagerLUA : MonoBehaviour
 {
@@ -11,10 +10,11 @@ public class DialogueManagerLUA : MonoBehaviour
         Lua.RegisterFunction("ChangeContinueButtonToAlways", this, SymbolExtensions.GetMethodInfo(() => ChangeContinueButtonToAlways()));
         Lua.RegisterFunction("ChangeContinueButtonToNever", this, SymbolExtensions.GetMethodInfo(() => ChangeContinueButtonToNever()));
         Lua.RegisterFunction("ChangeContinueButtonToOptional", this, SymbolExtensions.GetMethodInfo(() => ChangeContinueButtonToOptional()));
-        Lua.RegisterFunction("CallTutorialSystem", this, SymbolExtensions.GetMethodInfo(() =>CallTutorialSystem(0) ));
+        Lua.RegisterFunction("CallTutorialSystem", this, SymbolExtensions.GetMethodInfo(() => CallTutorialSystem(0)));
         Lua.RegisterFunction("CallFirstSceneCameraTransfer", this, SymbolExtensions.GetMethodInfo(() => CallFirstSceneCameraTransfer(0)));
         Lua.RegisterFunction("CallFirstSceneCameraTransferBack", this, SymbolExtensions.GetMethodInfo(() => CallCameraTransferBack()));
         Lua.RegisterFunction("CallScene1Wave", this, SymbolExtensions.GetMethodInfo(() => CallScene1Wave(0)));
+        Lua.RegisterFunction("CallMissionUIUpdate", this, SymbolExtensions.GetMethodInfo(() => CallMissionUIUpdate(0)));
     }
 
     public void ChangeContinueButtonToAlways()
@@ -39,8 +39,8 @@ public class DialogueManagerLUA : MonoBehaviour
     }
     public void CallFirstSceneCameraTransfer(float firstSceneCameraTransfer)//�n�O�o�����W�O
     {
-        GameManager.Instance.MainGameEvent.Send(new SystemCallFirstSceneCameraTransferCommand() {CameraId = firstSceneCameraTransfer });
-        GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand()); 
+        GameManager.Instance.MainGameEvent.Send(new SystemCallFirstSceneCameraTransferCommand() { CameraId = firstSceneCameraTransfer });
+        GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
     }
     public void CallCameraTransferBack()
     {
@@ -51,5 +51,9 @@ public class DialogueManagerLUA : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new SystemCallWaveStartCommand() { SceneName = "Scene1", WaveID = (int)waveID });
     }
 
-   
+    public void CallMissionUIUpdate(float missionID)
+    {
+        GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[(int)missionID] });
+    }
+
 }
