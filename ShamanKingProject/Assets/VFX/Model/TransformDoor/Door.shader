@@ -6,7 +6,8 @@ Shader "Door"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		_Spin("Spin", Range( 0 , 1)) = 0
+		_Spin("Spin", Range( 0 , 2)) = -0.3961022
+		_Rot("Rot", Vector) = (0,0,0,0)
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -184,8 +185,8 @@ Shader "Door"
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
-			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define ASE_SRP_VERSION 120111
 
 
@@ -278,6 +279,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -338,7 +340,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -754,8 +756,8 @@ Shader "Door"
 			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
-			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define ASE_SRP_VERSION 120111
 
 
@@ -811,6 +813,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -874,7 +877,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1077,8 +1080,8 @@ Shader "Door"
             #pragma multi_compile_instancing
             #pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
             #define ASE_FOG 1
-            #define ASE_ABSOLUTE_VERTEX_POS 1
             #define _NORMAL_DROPOFF_TS 1
+            #define ASE_ABSOLUTE_VERTEX_POS 1
             #define ASE_SRP_VERSION 120111
 
 
@@ -1133,6 +1136,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1193,7 +1197,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1369,8 +1373,8 @@ Shader "Door"
 			HLSLPROGRAM
 
 			#define ASE_FOG 1
-			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define ASE_SRP_VERSION 120111
 
 
@@ -1424,6 +1428,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1484,7 +1489,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1676,8 +1681,8 @@ Shader "Door"
 			HLSLPROGRAM
 
 			#define ASE_FOG 1
-			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define ASE_SRP_VERSION 120111
 
 
@@ -1721,6 +1726,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1781,7 +1787,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1947,8 +1953,8 @@ Shader "Door"
 			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
-			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define ASE_SRP_VERSION 120111
 
 
@@ -2004,6 +2010,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2064,7 +2071,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -2282,8 +2289,8 @@ Shader "Door"
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
-			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define ASE_SRP_VERSION 120111
 
 
@@ -2370,6 +2377,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2432,7 +2440,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -2747,8 +2755,8 @@ Shader "Door"
 			HLSLPROGRAM
 
 			#define ASE_FOG 1
-			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define ASE_SRP_VERSION 120111
 
 
@@ -2790,6 +2798,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2858,7 +2867,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3006,8 +3015,8 @@ Shader "Door"
 			HLSLPROGRAM
 
 			#define ASE_FOG 1
-			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define ASE_SRP_VERSION 120111
 
 
@@ -3049,6 +3058,7 @@ Shader "Door"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Rot;
 			float _Spin;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3117,7 +3127,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, float3(0,0,0), ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3265,12 +3275,12 @@ Node;AmplifyShaderEditor.CommentaryNode;30;-1483,307.5;Inherit;False;561;335;1åº
 Node;AmplifyShaderEditor.RangedFloatNode;32;-1166.159,694.9576;Inherit;False;Constant;_Float0;Float 0;0;0;Create;True;0;0;0;False;0;False;360;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PiNode;24;-1332,420.5;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;29;-1314,505.5;Inherit;False;Constant;_180angle;180angle;0;0;Create;True;0;0;0;False;0;False;360;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;34;-1293.186,816.2889;Inherit;False;Property;_Spin;Spin;0;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;34;-1293.186,816.2889;Inherit;False;Property;_Spin;Spin;0;0;Create;True;0;0;0;False;0;False;-0.3961022;0;0;2;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;-988.2928,724.5596;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleDivideOpNode;27;-1092,429.5;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;31;-810.0278,595.4609;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector3Node;25;-828,-59.5;Inherit;False;Constant;_Dot;Dot;0;0;Create;True;0;0;0;False;0;False;0,0,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.PosVertexDataNode;26;-810.455,140.9868;Inherit;False;1;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.Vector4Node;46;-858.4167,-51.16538;Inherit;False;Property;_Rot;Rot;2;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RotateAboutAxisNode;10;-505.9916,147.2386;Inherit;False;False;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;36;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;38;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
@@ -3281,16 +3291,16 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;42;-104.0976,120.0309;Float
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;43;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;44;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;45;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;37;-12.74658,46.73764;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Door;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;39;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;638447988431892747;Forward Only;0;638447986423492947;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;0;638447972612317833;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;37;-12.74658,46.73764;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Door;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;39;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;638447988431892747;Forward Only;0;638447986423492947;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;0;638451493872553810;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
 WireConnection;33;0;32;0
 WireConnection;33;1;34;0
 WireConnection;27;0;24;0
 WireConnection;27;1;29;0
 WireConnection;31;0;27;0
 WireConnection;31;1;33;0
-WireConnection;10;0;25;0
+WireConnection;10;0;46;0
 WireConnection;10;1;31;0
 WireConnection;10;3;26;0
 WireConnection;37;8;10;0
 ASEEND*/
-//CHKSM=2D32078B5AB5251690B53F0E9662253F717757FB
+//CHKSM=E1052B4A5F86C672700BD3FBADA793B1C292AC22
