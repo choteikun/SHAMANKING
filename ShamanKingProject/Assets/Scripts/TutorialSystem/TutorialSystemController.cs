@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using PixelCrushers.DialogueSystem;
 
 public class TutorialSystemController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class TutorialSystemController : MonoBehaviour
     [SerializeField] Sprite[] firstTutorial_;
     [SerializeField] Sprite[] secondTutorial_;
     [SerializeField] Sprite[] thirdTutorial_;
+    [SerializeField] Sprite[] fourthTutorial_;
     [SerializeField] int tutorialLastPicCount_;
     [SerializeField] List<Sprite[]> tempTutorials = new List<Sprite[]>();
     [SerializeField] GameObject ticketGate_;
@@ -21,6 +23,7 @@ public class TutorialSystemController : MonoBehaviour
         tempTutorials.Add(firstTutorial_);
         tempTutorials.Add(secondTutorial_);
         tempTutorials.Add(thirdTutorial_);
+        tempTutorials.Add(fourthTutorial_);
     }
 
     void callTutorial(SystemCallTutorialCommand cmd)
@@ -38,6 +41,7 @@ public class TutorialSystemController : MonoBehaviour
 
     void tempNextPage(PlayerTutorialNextPageCommand cmd)
     {
+        Debug.LogError("NextPage");
         tutorialLastPicCount_--;
         if (tutorialLastPicCount_ == 0)
         {
@@ -70,6 +74,10 @@ public class TutorialSystemController : MonoBehaviour
                 return;
             case 2:
                 GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[1] });
+                return;
+                case 3:
+                DialogueManager.StartConversation("chapter 1_4_2");
+                GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[3] });
                 return;
         }
     }
