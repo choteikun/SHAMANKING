@@ -7204,6 +7204,60 @@ MonoBehaviour:
       animatedPosition: 0
       animatedAxis: 0
       animatedShape: 0
+--- !u!1 &2053242161
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2053242162}
+  - component: {fileID: 2053242164}
+  - component: {fileID: 2053242163}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2053242162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053242161}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6785450495021436658}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2053242163
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053242161}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &2053242164
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053242161}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2074454406
 GameObject:
   m_ObjectHideFlags: 0
@@ -34583,8 +34637,8 @@ MonoBehaviour:
     m_Bits: 1024
   playerAttackRayStartPoint_: {fileID: 4826912297912030654}
   gizmosAnimationFollowObject_: {fileID: 8199471047017066650}
-  playerHitBoxCenter_: {fileID: 0}
-  ghostCollider_: {fileID: 0}
+  playerHitBoxCenter_: {fileID: 5689046533546696955}
+  ghostCollider_: {fileID: 2053242163}
   radius_: 0
   attacking_: 0
   throwAttacking_: 0
@@ -45266,6 +45320,7 @@ MonoBehaviour:
       PlayerGameObject: {fileID: 0}
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
+  MissionBlockDatabase: {fileID: 0}
 --- !u!1 &6035100177223287610
 GameObject:
   m_ObjectHideFlags: 0
@@ -51041,6 +51096,7 @@ Transform:
   - {fileID: 200808785528805378}
   - {fileID: 6903971111678621748}
   - {fileID: 6903971112310136777}
+  - {fileID: 2053242162}
   m_Father: {fileID: 5689046533546696958}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

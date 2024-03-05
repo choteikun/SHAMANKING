@@ -3582,6 +3582,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &975140458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 975140459}
+  - component: {fileID: 975140461}
+  - component: {fileID: 975140460}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &975140459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975140458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3305933568146628062}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &975140460
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975140458}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &975140461
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975140458}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &981522858
 GameObject:
   m_ObjectHideFlags: 0
@@ -16389,7 +16443,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3305933568146628062}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2754320561556781334
 Transform:
@@ -17228,7 +17282,7 @@ Transform:
   - {fileID: 3171694617599201952}
   - {fileID: 3171694618155582398}
   m_Father: {fileID: 3305933568146628062}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3171694616416267035
 GameObject:
@@ -17822,7 +17876,7 @@ Transform:
   - {fileID: 3171694616709164145}
   - {fileID: 3171694616928773256}
   m_Father: {fileID: 3305933568146628062}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!199 &3171694618155582368
 ParticleSystemRenderer:
@@ -24097,6 +24151,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 975140459}
   - {fileID: 7844910674173341124}
   - {fileID: 2742036234481904057}
   - {fileID: 8143247893492648750}
@@ -32148,8 +32203,8 @@ MonoBehaviour:
     m_Bits: 1024
   playerAttackRayStartPoint_: {fileID: 4826912297912030654}
   gizmosAnimationFollowObject_: {fileID: 8199471047017066650}
-  playerHitBoxCenter_: {fileID: 0}
-  ghostCollider_: {fileID: 0}
+  playerHitBoxCenter_: {fileID: 2786278721342605156}
+  ghostCollider_: {fileID: 975140460}
   radius_: 0
   attacking_: 0
   throwAttacking_: 0
@@ -42207,6 +42262,7 @@ MonoBehaviour:
       PlayerGameObject: {fileID: 0}
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
+  MissionBlockDatabase: {fileID: 0}
 --- !u!1 &6035100177223287610
 GameObject:
   m_ObjectHideFlags: 0
@@ -59961,7 +60017,7 @@ Transform:
   m_Children:
   - {fileID: 7353778617865834710}
   m_Father: {fileID: 3305933568146628062}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7853359900372464542
 GameObject:
@@ -60724,7 +60780,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3305933568146628062}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8150688376768681733
 GameObject:
