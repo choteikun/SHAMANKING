@@ -41,7 +41,7 @@ public class Shadowball : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         // 當發生碰撞，爆炸
-        if (collider.CompareTag("Player") || collider.CompareTag("Object"))
+        if (collider.CompareTag("Player") || collider.CompareTag("Wall"))
         {
             Debug.LogError("FireBall Hit!!");
             Explode();
