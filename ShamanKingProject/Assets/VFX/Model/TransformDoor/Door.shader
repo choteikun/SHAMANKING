@@ -6,8 +6,14 @@ Shader "Door"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		_Spin("Spin", Range( 0 , 2)) = -0.3961022
+		_Spin("Spin", Range( 0 , 2)) = 0
 		_Rot("Rot", Vector) = (0,0,0,0)
+		_Count("Count", Float) = 1
+		_Range("Range", Vector) = (0,1,0,0)
+		[HDR]_Color0("Color 0", Color) = (1,1,1,1)
+		_TextureSample0("Texture Sample 0", 2D) = "white" {}
+		_Noise("Noise", Float) = 0.05
+		_Dir("Dir", Float) = 0
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -187,6 +193,7 @@ Shader "Door"
 			#define ASE_FOG 1
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 120111
 
 
@@ -236,6 +243,7 @@ Shader "Door"
 			#endif
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -273,14 +281,19 @@ Shader "Door"
 				#if defined(DYNAMICLIGHTMAP_ON)
 					float2 dynamicLightmapUV : TEXCOORD7;
 				#endif
-				
+				float4 ase_texcoord8 : TEXCOORD8;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -311,7 +324,8 @@ Shader "Door"
 				int _PassValue;
 			#endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			float3 RotateAroundAxis( float3 center, float3 original, float3 u, float angle )
 			{
@@ -332,6 +346,39 @@ Shader "Door"
 				return mul( finalMatrix, original ) + center;
 			}
 			
+					float2 voronoihash74( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
+			
+					float voronoi74( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0;
+						for ( int j = -1; j <= 1; j++ )
+						{
+							for ( int i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash74( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.5 * dot( r, r );
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
 
 			VertexOutput VertexFunction( VertexInput v  )
 			{
@@ -340,8 +387,17 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.texcoord.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
+				o.ase_texcoord8.xy = v.texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord8.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -349,7 +405,7 @@ Shader "Door"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -534,11 +590,18 @@ Shader "Door"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
+				float2 texCoord71 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float time74 = _TimeParameters.x;
+				float2 voronoiSmoothId74 = 0;
+				float2 coords74 = texCoord71 * 2.84;
+				float2 id74 = 0;
+				float2 uv74 = 0;
+				float voroi74 = voronoi74( coords74, time74, id74, uv74, 0, voronoiSmoothId74 );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = 0;
+				float3 Emission = ( _Color0 * tex2D( _TextureSample0, ( float3( texCoord71 ,  0.0 ) + ( WorldViewDirection * _Dir * ( voroi74 * _Noise ) ) ).xy ) ).rgb;
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
@@ -758,6 +821,7 @@ Shader "Door"
 			#define ASE_FOG 1
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 120111
 
 
@@ -793,7 +857,7 @@ Shader "Door"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -814,7 +878,12 @@ Shader "Door"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -877,7 +946,12 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.ase_texcoord.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -886,7 +960,7 @@ Shader "Door"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
 				#else
@@ -934,7 +1008,8 @@ Shader "Door"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -951,7 +1026,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -990,7 +1065,7 @@ Shader "Door"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1082,6 +1157,7 @@ Shader "Door"
             #define ASE_FOG 1
             #define _NORMAL_DROPOFF_TS 1
             #define ASE_ABSOLUTE_VERTEX_POS 1
+            #define _EMISSION
             #define ASE_SRP_VERSION 120111
 
 
@@ -1116,7 +1192,7 @@ Shader "Door"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1137,7 +1213,12 @@ Shader "Door"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1197,7 +1278,12 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.ase_texcoord.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1206,7 +1292,7 @@ Shader "Door"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1236,7 +1322,8 @@ Shader "Door"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1253,7 +1340,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1292,7 +1379,7 @@ Shader "Door"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1375,6 +1462,7 @@ Shader "Door"
 			#define ASE_FOG 1
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 120111
 
 
@@ -1396,6 +1484,7 @@ Shader "Door"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
 
 			struct VertexInput
@@ -1422,14 +1511,19 @@ Shader "Door"
 					float4 VizUV : TEXCOORD2;
 					float4 LightCoord : TEXCOORD3;
 				#endif
-				
+				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1460,7 +1554,8 @@ Shader "Door"
 				int _PassValue;
 			#endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			float3 RotateAroundAxis( float3 center, float3 original, float3 u, float angle )
 			{
@@ -1481,6 +1576,39 @@ Shader "Door"
 				return mul( finalMatrix, original ) + center;
 			}
 			
+					float2 voronoihash74( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
+			
+					float voronoi74( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0;
+						for ( int j = -1; j <= 1; j++ )
+						{
+							for ( int i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash74( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.5 * dot( r, r );
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
 
 			VertexOutput VertexFunction( VertexInput v  )
 			{
@@ -1489,8 +1617,17 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.texcoord0.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
+				o.ase_texcoord4.xy = v.texcoord0.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord4.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -1498,7 +1635,7 @@ Shader "Door"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1641,10 +1778,19 @@ Shader "Door"
 					#endif
 				#endif
 
+				float2 texCoord71 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float time74 = _TimeParameters.x;
+				float2 voronoiSmoothId74 = 0;
+				float2 coords74 = texCoord71 * 2.84;
+				float2 id74 = 0;
+				float2 uv74 = 0;
+				float voroi74 = voronoi74( coords74, time74, id74, uv74, 0, voronoiSmoothId74 );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
-				float3 Emission = 0;
+				float3 Emission = ( _Color0 * tex2D( _TextureSample0, ( float3( texCoord71 ,  0.0 ) + ( ase_worldViewDir * _Dir * ( voroi74 * _Noise ) ) ).xy ) ).rgb;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 
@@ -1683,6 +1829,7 @@ Shader "Door"
 			#define ASE_FOG 1
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 120111
 
 
@@ -1707,7 +1854,7 @@ Shader "Door"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1727,7 +1874,12 @@ Shader "Door"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1787,7 +1939,12 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.ase_texcoord.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1796,7 +1953,7 @@ Shader "Door"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1826,7 +1983,8 @@ Shader "Door"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1843,7 +2001,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1882,7 +2040,7 @@ Shader "Door"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1955,6 +2113,7 @@ Shader "Door"
 			#define ASE_FOG 1
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 120111
 
 
@@ -1988,7 +2147,7 @@ Shader "Door"
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2011,7 +2170,12 @@ Shader "Door"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2071,7 +2235,12 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.ase_texcoord.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -2079,7 +2248,7 @@ Shader "Door"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -2117,7 +2286,8 @@ Shader "Door"
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2135,7 +2305,7 @@ Shader "Door"
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -2175,7 +2345,7 @@ Shader "Door"
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2291,6 +2461,7 @@ Shader "Door"
 			#define ASE_FOG 1
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 120111
 
 
@@ -2334,6 +2505,7 @@ Shader "Door"
 			#endif
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -2371,14 +2543,19 @@ Shader "Door"
 				#if defined(DYNAMICLIGHTMAP_ON)
 				float2 dynamicLightmapUV : TEXCOORD7;
 				#endif
-				
+				float4 ase_texcoord8 : TEXCOORD8;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2409,7 +2586,8 @@ Shader "Door"
 				int _PassValue;
 			#endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 
@@ -2432,6 +2610,39 @@ Shader "Door"
 				return mul( finalMatrix, original ) + center;
 			}
 			
+					float2 voronoihash74( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
+			
+					float voronoi74( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0;
+						for ( int j = -1; j <= 1; j++ )
+						{
+							for ( int i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash74( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.5 * dot( r, r );
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
 
 			VertexOutput VertexFunction( VertexInput v  )
 			{
@@ -2440,15 +2651,24 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.texcoord.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
+				o.ase_texcoord8.xy = v.texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord8.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -2630,11 +2850,18 @@ Shader "Door"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
+				float2 texCoord71 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float time74 = _TimeParameters.x;
+				float2 voronoiSmoothId74 = 0;
+				float2 coords74 = texCoord71 * 2.84;
+				float2 id74 = 0;
+				float2 uv74 = 0;
+				float voroi74 = voronoi74( coords74, time74, id74, uv74, 0, voronoiSmoothId74 );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = 0;
+				float3 Emission = ( _Color0 * tex2D( _TextureSample0, ( float3( texCoord71 ,  0.0 ) + ( WorldViewDirection * _Dir * ( voroi74 * _Noise ) ) ).xy ) ).rgb;
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
@@ -2757,6 +2984,7 @@ Shader "Door"
 			#define ASE_FOG 1
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 120111
 
 
@@ -2785,7 +3013,7 @@ Shader "Door"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2799,7 +3027,12 @@ Shader "Door"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2867,7 +3100,12 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.ase_texcoord.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2876,7 +3114,7 @@ Shader "Door"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -2898,7 +3136,8 @@ Shader "Door"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2915,7 +3154,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -2954,7 +3193,7 @@ Shader "Door"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3017,6 +3256,7 @@ Shader "Door"
 			#define ASE_FOG 1
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
 			#define ASE_SRP_VERSION 120111
 
 
@@ -3045,7 +3285,7 @@ Shader "Door"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3059,7 +3299,12 @@ Shader "Door"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Rot;
+			float4 _Color0;
+			float2 _Range;
+			float _Count;
 			float _Spin;
+			float _Dir;
+			float _Noise;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3127,7 +3372,12 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, ( ( PI / 360.0 ) * ( 360.0 * _Spin ) ) );
+				float Turn58 = ( ( PI / 360.0 ) * ( 360.0 * _Count ) );
+				float smoothstepResult64 = smoothstep( _Range.x , _Range.y , abs( ( v.ase_texcoord.x - 0.5 ) ));
+				float temp_output_55_0 = ( _Spin - smoothstepResult64 );
+				float3 rotatedValue10 = RotateAroundAxis( float3( 0,0,0 ), v.positionOS.xyz, _Rot.xyz, min( Turn58 , ( Turn58 * _Spin * temp_output_55_0 ) ) );
+				float clampResult69 = clamp( temp_output_55_0 , 0.0 , 1.0 );
+				float Alpha66 = clampResult69;
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3136,7 +3386,7 @@ Shader "Door"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = rotatedValue10;
+				float3 vertexValue = ( rotatedValue10 * Alpha66 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -3157,7 +3407,8 @@ Shader "Door"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3174,7 +3425,7 @@ Shader "Door"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -3213,7 +3464,7 @@ Shader "Door"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3271,18 +3522,48 @@ Shader "Door"
 }
 /*ASEBEGIN
 Version=19300
-Node;AmplifyShaderEditor.CommentaryNode;30;-1483,307.5;Inherit;False;561;335;1度;3;29;24;27;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;32;-1166.159,694.9576;Inherit;False;Constant;_Float0;Float 0;0;0;Create;True;0;0;0;False;0;False;360;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.PiNode;24;-1332,420.5;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;29;-1314,505.5;Inherit;False;Constant;_180angle;180angle;0;0;Create;True;0;0;0;False;0;False;360;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;34;-1293.186,816.2889;Inherit;False;Property;_Spin;Spin;0;0;Create;True;0;0;0;False;0;False;-0.3961022;0;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;-988.2928,724.5596;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleDivideOpNode;27;-1092,429.5;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;31;-810.0278,595.4609;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PosVertexDataNode;26;-810.455,140.9868;Inherit;False;1;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.Vector4Node;46;-858.4167,-51.16538;Inherit;False;Property;_Rot;Rot;2;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RotateAboutAxisNode;10;-505.9916,147.2386;Inherit;False;False;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;36;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.CommentaryNode;30;-2025.233,16.3309;Inherit;False;561;335;1度;3;29;24;27;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;57;-1411.047,1382.267;Inherit;False;1073;476;中間擴散圖;7;55;53;54;51;50;64;65;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.PiNode;24;-1874.233,129.3307;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;29;-1856.233,214.3307;Inherit;False;Constant;_180angle;180angle;0;0;Create;True;0;0;0;False;0;False;360;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;32;-1651.643,371.692;Inherit;False;Constant;_Float0;Float 0;0;0;Create;True;0;0;0;False;0;False;360;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;47;-1652.26,447.9363;Inherit;False;Property;_Count;Count;2;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TexCoordVertexDataNode;50;-1332.154,1429.487;Inherit;False;0;2;0;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;54;-1196.154,1680.487;Inherit;False;Constant;_Float1;Float 1;3;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;27;-1634.233,138.3307;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;-1492.79,398.1246;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;51;-972.1545,1500.487;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;31;-1328.787,375.1967;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.AbsOpNode;53;-791.1545,1488.487;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;65;-866.1843,1629.826;Inherit;False;Property;_Range;Range;3;0;Create;True;0;0;0;False;0;False;0,1;0,1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.RegisterLocalVarNode;58;-1154.138,396.884;Inherit;False;Turn;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;34;-996.7175,1282.881;Inherit;False;Property;_Spin;Spin;0;0;Create;True;0;0;0;False;0;False;0;0;0;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;64;-667.3644,1521.778;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;61;-895.2023,1114.881;Inherit;False;58;Turn;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;55;-487.1545,1460.487;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;62;-584.4089,1170.4;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;69;-265.355,1512.373;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;59;-537.955,1004.723;Inherit;False;58;Turn;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;66;-80.75459,1513.672;Inherit;False;Alpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PosVertexDataNode;26;-323.3076,1089.405;Inherit;False;1;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMinOpNode;60;-326.1548,989.9223;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector4Node;46;-358.1541,833.1005;Inherit;False;Property;_Rot;Rot;1;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;67;105.1451,1171.774;Inherit;False;66;Alpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RotateAboutAxisNode;10;-102.6763,1014.071;Inherit;False;False;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;73;591.9732,351.8526;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SamplerNode;72;228.64,158.9147;Inherit;True;Property;_TextureSample0;Texture Sample 0;5;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleAddOpNode;80;67.0874,177.9563;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ColorNode;70;364.498,-58.10457;Inherit;False;Property;_Color0;Color 0;4;1;[HDR];Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.VoronoiNode;74;-657.479,-82.14259;Inherit;True;0;0;1;0;1;False;1;False;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;2.84;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
+Node;AmplifyShaderEditor.SimpleTimeNode;77;-887.0263,-20.65474;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;78;-414.9766,47.33357;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;79;-568.7209,145.0352;Inherit;False;Property;_Noise;Noise;6;0;Create;True;0;0;0;False;0;False;0.05;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;71;-952.1022,128.3109;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ViewDirInputsCoordNode;81;-336.2124,255.4564;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;83;-266.3125,421.856;Inherit;False;Property;_Dir;Dir;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;82;-100.5126,296.3566;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;68;298.8453,1100.274;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;36;347.5025,528.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;38;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;39;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;40;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -3291,16 +3572,47 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;42;-104.0976,120.0309;Float
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;43;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;44;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;45;-104.0976,120.0309;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;37;-12.74658,46.73764;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Door;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;39;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;638447988431892747;Forward Only;0;638447986423492947;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;0;638451493872553810;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
-WireConnection;33;0;32;0
-WireConnection;33;1;34;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;37;859.3577,366.6032;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Door;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;39;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;638447988431892747;Forward Only;0;638447986423492947;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;0;638451493872553810;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
 WireConnection;27;0;24;0
 WireConnection;27;1;29;0
+WireConnection;33;0;32;0
+WireConnection;33;1;47;0
+WireConnection;51;0;50;1
+WireConnection;51;1;54;0
 WireConnection;31;0;27;0
 WireConnection;31;1;33;0
+WireConnection;53;0;51;0
+WireConnection;58;0;31;0
+WireConnection;64;0;53;0
+WireConnection;64;1;65;1
+WireConnection;64;2;65;2
+WireConnection;55;0;34;0
+WireConnection;55;1;64;0
+WireConnection;62;0;61;0
+WireConnection;62;1;34;0
+WireConnection;62;2;55;0
+WireConnection;69;0;55;0
+WireConnection;66;0;69;0
+WireConnection;60;0;59;0
+WireConnection;60;1;62;0
 WireConnection;10;0;46;0
-WireConnection;10;1;31;0
+WireConnection;10;1;60;0
 WireConnection;10;3;26;0
-WireConnection;37;8;10;0
+WireConnection;73;0;70;0
+WireConnection;73;1;72;0
+WireConnection;72;1;80;0
+WireConnection;80;0;71;0
+WireConnection;80;1;82;0
+WireConnection;74;0;71;0
+WireConnection;74;1;77;0
+WireConnection;78;0;74;0
+WireConnection;78;1;79;0
+WireConnection;82;0;81;0
+WireConnection;82;1;83;0
+WireConnection;82;2;78;0
+WireConnection;68;0;10;0
+WireConnection;68;1;67;0
+WireConnection;37;2;73;0
+WireConnection;37;8;68;0
 ASEEND*/
-//CHKSM=E1052B4A5F86C672700BD3FBADA793B1C292AC22
+//CHKSM=52944C02721B3D137AFE3ED79BC40A776ED061CE
