@@ -1307,7 +1307,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298343327}
-  m_LocalRotation: {x: 0.10270145, y: -0.2224151, z: 0.023567257, w: 0.96924126}
+  m_LocalRotation: {x: 0.10270146, y: -0.2224151, z: 0.023567261, w: 0.96924126}
   m_LocalPosition: {x: 70.27071, y: 19.590101, z: -47.35187}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1690,8 +1690,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469536276}
-  m_LocalRotation: {x: -0.01683203, y: -0.89968187, z: 0.4056987, w: 0.16030572}
-  m_LocalPosition: {x: 1.0839005, y: 2.7373848, z: 88.848}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3057,7 +3057,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854481674}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -3861,7 +3861,7 @@ PlayableDirector:
   m_InitialState: 1
   m_WrapMode: 0
   m_DirectorUpdateMode: 1
-  m_InitialTime: -2
+  m_InitialTime: -0.20000000298023224
   m_SceneBindings:
   - key: {fileID: 1892998338575327653, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
     value: {fileID: 908713863}
@@ -14335,7 +14335,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -44712,7 +44717,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 71.37
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -44737,8 +44742,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6035100177912329183}
-  m_LocalRotation: {x: 0.042080075, y: 0.95269895, z: -0.25765008, w: 0.15559727}
-  m_LocalPosition: {x: 26.900002, y: 55.199993, z: 38.500027}
+  m_LocalRotation: {x: 0.15883225, y: -0, z: -0, w: 0.9873056}
+  m_LocalPosition: {x: 50.725994, y: 12.783002, z: -38.287994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -44976,8 +44981,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6035100178054139889}
-  m_LocalRotation: {x: -0.017797383, y: -0.90210944, z: 0.4002717, w: 0.16020142}
-  m_LocalPosition: {x: 1.3066139, y: 3.417347, z: 89.21956}
+  m_LocalRotation: {x: -0.006023869, y: -0, z: -0, w: 0.9999819}
+  m_LocalPosition: {x: 0, y: 0.16027488, z: -0.79013467}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47378,8 +47383,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &6733186204386336149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47858,8 +47863,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &6798573407505997740
 MonoBehaviour:
   m_ObjectHideFlags: 0
