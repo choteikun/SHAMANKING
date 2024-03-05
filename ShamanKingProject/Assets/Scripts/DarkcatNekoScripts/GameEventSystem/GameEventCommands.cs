@@ -114,6 +114,11 @@ namespace Gamemanager
     {
         public string GhostIdentityName;
     }
+    public class GhostKilledCommand:GameEventMessageBase
+    {
+        public string KilledName;
+        public int KilledAmount;
+    }
     public class PlayerAnimationEventsCommand : GameEventMessageBase
     {
         public string AnimationEventName;

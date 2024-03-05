@@ -165,6 +165,7 @@ public class MainGameEventPack : GameEventPack
 
     public IObservable<SystemCallCameraTransferBackCommand> OnSystemCallCameraTransferBack => getSubject<SystemCallCameraTransferBackCommand>();
     public IObservable<GhostIdentityCheckCommand> OnGhostIdentityCheck => getSubject<GhostIdentityCheckCommand>();
+    public IObservable<GhostKilledCommand> OnGhostKilled => getSubject<GhostKilledCommand>();
     public IObservable<SystemCallWaveClearCommand> OnSystemCallWaveClear => getSubject<SystemCallWaveClearCommand>();
     public IObservable<SystemCallWaveStartCommand> OnSystemCallWaveStart => getSubject<SystemCallWaveStartCommand>();
     public IObservable<BossCurAnimationEndCommand> OnBossCurAnimationEnd => getSubject<BossCurAnimationEndCommand>();

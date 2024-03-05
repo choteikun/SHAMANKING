@@ -45,6 +45,7 @@ public class Scene1WaveManager : MonoBehaviour
             if (cmd.GhostIdentityName == "Wave2_GhostEnemy")
             {
                 checkWave2GhostKilled();
+                GameManager.Instance.MainGameEvent.Send(new GhostKilledCommand() { KilledName = "Wave2_GhostEnemy", KilledAmount = wave2GhostKilled_ });
             }
         });
 
@@ -88,7 +89,7 @@ public class Scene1WaveManager : MonoBehaviour
             waveWalls_[2].SetActive(false);
             GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene1", WaveID = 2 });
             BossSceneTransfer_.SetActive(true);
-            //DialogueManager.StartConversation("chapter1_2_2");
+            DialogueManager.StartConversation("chapter1_2_2");
         }
     }
     void checkWave3GhostKilled()

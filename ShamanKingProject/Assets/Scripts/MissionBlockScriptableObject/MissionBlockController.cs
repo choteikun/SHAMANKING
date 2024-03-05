@@ -14,6 +14,13 @@ public class MissionBlockController : MonoBehaviour
         missionStartPos_ = missionObject_.transform.position;
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallMissionUIUpdate, cmd => { missionStart(cmd.MissionData); });
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallWaveClear, cmd => { missionEnd(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostKilled, cmd => 
+        {
+            if (cmd.KilledName == "Wave2_GhostEnemy")
+            {
+                changeWave2MissionUIText(cmd.KilledAmount);
+            }
+        });
     }
 
     // Update is called once per frame
@@ -31,5 +38,10 @@ public class MissionBlockController : MonoBehaviour
     void missionEnd()
     {
         missionObject_.transform.DOMove(missionStartPos_, 0.6f);
+    }
+   
+    void changeWave2MissionUIText(int amount)
+    {
+        missionDescription_.text = "À»±Ñ¦¨¸sªº±r«Þ¹C»î " + amount.ToString() + " / 3";
     }
 }
