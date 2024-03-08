@@ -40,6 +40,9 @@ public class GhostEnemyVariables : MonoBehaviour
     public bool RootTrigger { get { return rootTrigger_; } set { rootTrigger_ = value; } }
     [SerializeField]
     private bool rootTrigger_;
+    public bool EliteRangedAtkTrigger { get { return eliteRangedAtkTrigger_; } set { eliteRangedAtkTrigger_ = value; } }
+    [SerializeField]
+    private bool eliteRangedAtkTrigger_;
 
     //public bool StateMessageChecker { get { return stateMessageChecker; } set { stateMessageChecker = value; } }
     //[SerializeField]
@@ -136,6 +139,14 @@ public class GhostEnemyVariables : MonoBehaviour
             default:
                 break;
         }
+        if (EliteRangedAtkTrigger)
+        {
+            Invoke("SetEliteRangedAtkTriggerFalse", 6);
+        }
+    }
+    public void SetEliteRangedAtkTriggerFalse()
+    {
+        EliteRangedAtkTrigger = false;
     }
     public void OnUpdateRootMotion(Animator anim)
     {
