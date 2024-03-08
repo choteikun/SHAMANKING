@@ -42,6 +42,6 @@ public class MissionBlockController : MonoBehaviour
    
     void changeWave2MissionUIText(int amount)
     {
-        missionDescription_.text = "À»±Ñ¦¨¸sªº±r«Þ¹C»î " + amount.ToString() + " / 3";
+        missionDescription_.text = "À»±Ñ¦¨¸sªº±r«Þ¹C»î " + amount.ToString() + " / 2";
     }
 }
