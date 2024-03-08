@@ -45,7 +45,8 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
                 }
                 else
                 {
-                    GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint = Mathf.Clamp(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint - getDamege(), 0, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint);
+                    //GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint = Mathf.Clamp(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint - getDamege(), 0, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint);
+                    PlayerStatCalculator.PlayerAddOrMinusHealthGuardPoint(getDamege()*-1f);
                     if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint != 0&&!unGuardable_)
                     {
                         return;

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealthUIController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerHealthUIController : MonoBehaviour
     [SerializeField] Vector3 startPos_;
     [SerializeField] float barMaxRange_ = 116.2f;
     [SerializeField] TextMeshProUGUI healthNumber_;
+    [SerializeField] Image defenceBarImage_;
 
     Tweener redHealthBarTweener_;
     Tweener grayHealthBarTweener_;
@@ -19,6 +21,7 @@ public class PlayerHealthUIController : MonoBehaviour
         startPos_ = grayHealthBar_.transform.position;
         barMaxRange_ = (barEndPoint_.transform.position - startPos_).magnitude;
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnCallPlayerHealthBarUIUpdate, cmd => { playerHealthChangeAnimation(); });
+        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallDefenceUIUpdate, cmd => { playerDefenceBarUpdate(cmd.Percentage); });
         playerHealthChangeAnimation();
     }
 
@@ -38,5 +41,10 @@ public class PlayerHealthUIController : MonoBehaviour
         healthNumber_.text = Mathf.RoundToInt(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerNowHealthPoint).ToString() + "/" + GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxHealthPoint.ToString();
         grayHealthBarTweener_ = grayHealthBar_.transform.DOMove(finalPos, 0.4f);
         redHealthBarTweener_ = redHealthBar_.transform.DOMove(finalPos, 0.1f);
+    }
+
+    void playerDefenceBarUpdate(float percentage)
+    {
+        defenceBarImage_.DOFillAmount(percentage,0.35f);
     }
 }

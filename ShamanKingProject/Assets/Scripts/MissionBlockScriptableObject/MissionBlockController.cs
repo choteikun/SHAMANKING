@@ -1,6 +1,7 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MissionBlockController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MissionBlockController : MonoBehaviour
     [SerializeField] GameObject missionObject_;
     [SerializeField] Vector3 missionStartPos_;
     [SerializeField] GameObject missionEndPos_;
+    [SerializeField] Image missionInputPic_;
     void Start()
     {
         missionStartPos_ = missionObject_.transform.position;
@@ -33,6 +35,10 @@ public class MissionBlockController : MonoBehaviour
         missionObject_.transform.DOMove(missionEndPos_.transform.position, 0.6f);
         missionNameText_.text = missionOBJ.MissionName;
         missionDescription_.text = missionOBJ.MissionDescription;
+        if (missionOBJ.InputTutorialPicture!=null)
+        {
+            missionInputPic_.sprite = missionOBJ.InputTutorialPicture;
+        }
     }
 
     void missionEnd()

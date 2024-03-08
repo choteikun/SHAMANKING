@@ -10,4 +10,7 @@ public class MissionBlockObject : ScriptableObject
 
     [TextAreaAttribute]
     public string MissionDescription;
+
+    [SerializeField]
+    public Sprite InputTutorialPicture;
 }

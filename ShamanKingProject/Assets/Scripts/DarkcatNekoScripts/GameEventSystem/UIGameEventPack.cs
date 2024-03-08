@@ -19,4 +19,6 @@ public class UIGameEventPack : GameEventPack
     public IObservable<BossCallUISkillNameCommand> OnBossCallUISkillName => getSubject<BossCallUISkillNameCommand>();
 
     public IObservable<SystemCallMissionUIUpdateCommand> OnSystemCallMissionUIUpdate => getSubject<SystemCallMissionUIUpdateCommand>();
+
+    public IObservable<SystemCallDefenceUIUpdateCommand> OnSystemCallDefenceUIUpdate => getSubject<SystemCallDefenceUIUpdateCommand>();
 }

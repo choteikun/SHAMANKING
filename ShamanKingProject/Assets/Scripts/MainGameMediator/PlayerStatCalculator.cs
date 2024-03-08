@@ -35,8 +35,15 @@ public static class PlayerStatCalculator
         if (trigger)
         {
             realTimePlayerData.PlayerGuardPoint = realTimePlayerData.PlayerMaxGuardPoint;
+            GameManager.Instance.UIGameEvent.Send(new SystemCallDefenceUIUpdateCommand() { Percentage = 1 });
             StartCountingAsync();
         }
+    }
+    public static void PlayerAddOrMinusHealthGuardPoint(float amount)
+    {
+        GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint = Mathf.Clamp(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint + amount, 0, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint);
+        var percentage = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint / GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint;
+        GameManager.Instance.UIGameEvent.Send(new SystemCallDefenceUIUpdateCommand() { Percentage = percentage });
     }
     async static void StartCountingAsync()
     {
