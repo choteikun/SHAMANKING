@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,5 +28,10 @@ public class GhostEnemyEliteUI : MonoBehaviour
         redHp_Slider_.value = Mathf.Lerp(redHp_Slider_.value, enemyData_.HealthPoint / enemyData_.GetMaxHealthPoint(), Time.deltaTime * 10);
 
         blueBK_Slider_.value = enemyData_.BreakPoint / enemyData_.MaxBreakPoint;
+
+        if (enemyData_.HealthPoint <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
