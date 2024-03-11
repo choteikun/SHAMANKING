@@ -767,6 +767,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PlayerGameOverUIInput",
+            "id": "be83a182-5ff3-4adb-b8b9-4597303c12a5",
+            "actions": [
+                {
+                    "name": "PlayerRestartLevel",
+                    "type": "Button",
+                    "id": "2a0eaaac-aa1a-475a-bbed-f685acaca6f3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerToMainMenu",
+                    "type": "Button",
+                    "id": "f834636d-b7fc-4255-9090-293a1bd21e93",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2975c9d7-24b0-44db-a482-3cd1f627c141",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerRestartLevel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d386063f-2378-4a6f-82f2-cda7cf6f70df",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerToMainMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

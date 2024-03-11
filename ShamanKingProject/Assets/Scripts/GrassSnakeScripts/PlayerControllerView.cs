@@ -29,6 +29,9 @@ public class PlayerControllerView : MonoBehaviour
     PlayerAttackModel playerAttackModel_;
 
     [SerializeField]
+    PlayerGuardingManager playerGuardingManager_;
+
+    [SerializeField]
     GameObject stickInputIndicator_;
 
     [SerializeField]
@@ -55,6 +58,7 @@ public class PlayerControllerView : MonoBehaviour
         playerAnimatorView_ = new PlayerAnimator(this.gameObject);
         playerControllerMover_ = new PlayerControllerMover(this.gameObject);
         playerAttackModel_ = new PlayerAttackModel(this.gameObject);
+        playerGuardingManager_ = new PlayerGuardingManager();
         playerControllerMover_.Awake();       
     }
     void Start()
@@ -324,6 +328,7 @@ public class PlayerControllerView : MonoBehaviour
     {
         playerAnimatorView_.Update();
         playerControllerMover_.Update();
+        playerGuardingManager_.Update();
         stickInputIndicator();
         getInputAngle();
     }

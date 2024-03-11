@@ -13,6 +13,7 @@ public class RealTimePlayerData
     public float PlayerNowHealthPoint = 100;
     public float PlayerGuardPoint = 30;
     public float PlayerMaxGuardPoint = 30;
+    public int PlayerGuardingResetTimer = 0;
     public float PlayerGuardPerfectTimerFrame = 0;
     public float PlayerGuardPerfectTimerMaxFrame = 25;
     public float PlayerBasicAttackPercentage = 1;

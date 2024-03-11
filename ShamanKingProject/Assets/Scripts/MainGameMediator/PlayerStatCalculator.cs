@@ -26,6 +26,13 @@ public static class PlayerStatCalculator
         var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
         realTimePlayerData.PlayerNowHealthPoint = Mathf.Clamp(realTimePlayerData.PlayerNowHealthPoint + amount, 0, realTimePlayerData.PlayerMaxHealthPoint);
         GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
+        if (realTimePlayerData.PlayerNowHealthPoint<=0)
+        {
+
+        }
+        else
+        {
+        }
     }
 
     public static void PlayerGuardingSwitch(bool trigger)
@@ -34,8 +41,8 @@ public static class PlayerStatCalculator
         realTimePlayerData.PlayerGuarding = trigger;
         if (trigger)
         {
-            realTimePlayerData.PlayerGuardPoint = realTimePlayerData.PlayerMaxGuardPoint;
-            GameManager.Instance.UIGameEvent.Send(new SystemCallDefenceUIUpdateCommand() { Percentage = 1 });
+            //realTimePlayerData.PlayerGuardPoint = realTimePlayerData.PlayerMaxGuardPoint;
+            //GameManager.Instance.UIGameEvent.Send(new SystemCallDefenceUIUpdateCommand() { Percentage = 1 });
             StartCountingAsync();
         }
     }
