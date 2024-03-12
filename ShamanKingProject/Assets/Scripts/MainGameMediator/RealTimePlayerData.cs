@@ -20,4 +20,15 @@ public class RealTimePlayerData
     public bool PlayerInvincible = false;
     public bool PlayerGuarding = false;
     public GameObject PlayerGameObject;
+
+    public void Refresh()
+    {
+        GhostSoulGageCurrentAmount = 0;
+        PlayerNowHealthPoint = PlayerMaxHealthPoint;
+        PlayerGuardPoint = PlayerMaxGuardPoint;
+        PlayerGuardingResetTimer = 0;
+        PlayerGuardPerfectTimerFrame = 0;
+        PlayerInvincible = false;
+        PlayerGuarding = false;
+    }
 }

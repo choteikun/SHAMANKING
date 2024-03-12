@@ -28,7 +28,7 @@ public static class PlayerStatCalculator
         GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
         if (realTimePlayerData.PlayerNowHealthPoint<=0)
         {
-
+            GameManager.Instance.MainGameEvent.Send(new SystemCallPlayerGameoverCommand());
         }
         else
         {

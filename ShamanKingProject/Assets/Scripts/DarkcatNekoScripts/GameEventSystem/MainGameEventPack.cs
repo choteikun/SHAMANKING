@@ -174,4 +174,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<GameCallSoundEffectGenerate> OnGameCallSoundEffect => getSubject<GameCallSoundEffectGenerate>();
     public IObservable<CallBossSceneCutSceneStart> OnCallBossSceneCutScene => getSubject<CallBossSceneCutSceneStart>();
     public IObservable<CutSceneOverStartControlCommand> OnCutSceneOverStartControl => getSubject<CutSceneOverStartControlCommand>();
+    public IObservable<SystemCallPlayerGameoverCommand> OnSystemCallPlayerGameover => getSubject<SystemCallPlayerGameoverCommand>();
 }

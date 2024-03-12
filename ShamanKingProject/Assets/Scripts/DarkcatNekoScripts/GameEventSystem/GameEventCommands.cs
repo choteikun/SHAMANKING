@@ -470,6 +470,10 @@ namespace Gamemanager
         public float Percentage;
     }
 
+    public class SystemCallPlayerGameoverCommand:GameEventMessageBase
+    {
+
+    }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {
