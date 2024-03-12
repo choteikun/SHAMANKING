@@ -5,5 +5,7 @@ public class GhostEnemyGameEventPack : GameEventPack
 {
     public IObservable<SystemCallShadowballSpawnCommand> OnSystemCallShadowballSpawn => getSubject<SystemCallShadowballSpawnCommand>();
 
-     public IObservable<GhostCallFollowAttackCommand> OnGhostCallFollowAttack => getSubject<GhostCallFollowAttackCommand>();
+    public IObservable<GhostEnemyCallFollowAttackCommand> OnGhostEnemyCallFollowAttack => getSubject<GhostEnemyCallFollowAttackCommand>();
+
+    public IObservable<EliteGhostEnemyRangedAttackCommand> OnEliteGhostEnemyRangedAttack => getSubject<EliteGhostEnemyRangedAttackCommand>();
 }

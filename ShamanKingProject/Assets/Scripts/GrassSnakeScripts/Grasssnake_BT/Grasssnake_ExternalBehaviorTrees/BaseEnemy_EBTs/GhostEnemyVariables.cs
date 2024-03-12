@@ -74,6 +74,15 @@ public class GhostEnemyVariables : MonoBehaviour
         //ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
 
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
+        GameManager.Instance.GhostEnemyGameEvent.SetSubscribe(GameManager.Instance.GhostEnemyGameEvent.OnEliteGhostEnemyRangedAttack, cmd => 
+        {
+            //如果龍捲風結束且菁英怪遠程攻擊觸發器已啟用
+            if (EliteRangedAtkTrigger)
+            {
+                //關閉菁英怪遠程攻擊觸發器(才可釋放下一次的遠程攻擊)
+                EliteRangedAtkTrigger = false;
+            }
+        });
 
         navMeshAgent_ = GetComponent<NavMeshAgent>();
         ghostEnemyCollider_ = GetComponent<Collider>();
@@ -139,14 +148,6 @@ public class GhostEnemyVariables : MonoBehaviour
             default:
                 break;
         }
-        if (EliteRangedAtkTrigger)
-        {
-            Invoke("SetEliteRangedAtkTriggerFalse", 6);
-        }
-    }
-    public void SetEliteRangedAtkTriggerFalse()
-    {
-        EliteRangedAtkTrigger = false;
     }
     public void OnUpdateRootMotion(Animator anim)
     {

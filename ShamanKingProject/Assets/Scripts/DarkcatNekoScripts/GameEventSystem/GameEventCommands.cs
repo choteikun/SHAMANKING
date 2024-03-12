@@ -440,7 +440,12 @@ namespace Gamemanager
         
     }
 
-    public class GhostCallFollowAttackCommand:GameEventMessageBase
+    public class GhostEnemyCallFollowAttackCommand : GameEventMessageBase
+    {
+
+    }
+
+    public class EliteGhostEnemyRangedAttackCommand : GameEventMessageBase
     {
 
     }

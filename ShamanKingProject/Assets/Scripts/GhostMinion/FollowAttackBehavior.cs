@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using Datamanager;
 using Cysharp.Threading.Tasks;
+using Gamemanager;
 
 public class FollowAttackBehavior : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class FollowAttackBehavior : MonoBehaviour
     {
         DOTween.To(() => smoothSpeed_, x => smoothSpeed_ = x, 15, 15f);
         await UniTask.Delay(6000);
+        GameManager.Instance.GhostEnemyGameEvent.Send(new EliteGhostEnemyRangedAttackCommand());
         spawnAttackColliderPrefab();
         Destroy(gameObject);
     }

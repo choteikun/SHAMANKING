@@ -7,7 +7,7 @@ public class GhostFollowAttackShooter : MonoBehaviour
     [SerializeField] GameObject followAttackPrefab_;
     void Start()
     {
-        GameManager.Instance.GhostEnemyGameEvent.SetSubscribe(GameManager.Instance.GhostEnemyGameEvent.OnGhostCallFollowAttack, cmd => { genPrefab(); });
+        GameManager.Instance.GhostEnemyGameEvent.SetSubscribe(GameManager.Instance.GhostEnemyGameEvent.OnGhostEnemyCallFollowAttack, cmd => { genPrefab(); });
     }
 
    void genPrefab()

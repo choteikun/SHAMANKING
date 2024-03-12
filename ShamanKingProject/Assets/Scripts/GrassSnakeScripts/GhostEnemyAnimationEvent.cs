@@ -21,6 +21,6 @@ public class GhostEnemyAnimationEvent : MonoBehaviour
     }
     public void FollowAttackSpawn()
     {
-        GameManager.Instance.GhostEnemyGameEvent.Send(new GhostCallFollowAttackCommand());
+        GameManager.Instance.GhostEnemyGameEvent.Send(new GhostEnemyCallFollowAttackCommand());
     }
 }
