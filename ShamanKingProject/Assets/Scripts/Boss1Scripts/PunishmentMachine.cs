@@ -39,6 +39,7 @@ public class PunishmentMachine : MonoBehaviour
         await UniTask.DelayFrame(3);
         Destroy(outerHitBox_);
         Destroy(OuterJudgement_);
+        GameManager.Instance.MainGameEvent.Send(new BossPunishmentAttackEndCommand());
         await UniTask.DelayFrame(3);
         Destroy(gameObject);
     }
