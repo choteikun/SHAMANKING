@@ -10,7 +10,7 @@ public class LumenCrash : MonoBehaviour
 
     void Start()
     {
-        UniTask.Delay(1000);
+        UniTask.Delay(2000);
         LumenCube.SetActive(true);
     }
 }
