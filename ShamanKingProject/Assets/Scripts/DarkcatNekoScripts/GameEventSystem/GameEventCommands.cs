@@ -425,6 +425,10 @@ namespace Gamemanager
     {
         
     }
+    public class BossPunishmentAttackEndCommand : GameEventMessageBase
+    {
+
+    }
     public class UICallPlayerHealthBarUIUpdateCommand:GameEventMessageBase
     {
 

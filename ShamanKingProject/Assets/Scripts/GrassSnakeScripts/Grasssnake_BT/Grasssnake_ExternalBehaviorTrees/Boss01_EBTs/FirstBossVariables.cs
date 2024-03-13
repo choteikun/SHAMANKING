@@ -81,6 +81,9 @@ public class FirstBossVariables : MonoBehaviour
     public bool ExplosionJudgmentTrigger { get { return explosionJudgmentTrigger_; } set { explosionJudgmentTrigger_ = value; } }
     [SerializeField, Tooltip("審判之炎爆觸發器")]
     private bool explosionJudgmentTrigger_;
+    public bool TirednessTrigger { get { return tirednessTrigger_; } set { tirednessTrigger_ = value; } }
+    [SerializeField, Tooltip("疲倦觸發器")]
+    private bool tirednessTrigger_;
     public bool PreludeTrigger { get { return preludeTrigger_; } set { preludeTrigger_ = value; } }
     [SerializeField, Tooltip("開場白行為觸發器")]
     private bool preludeTrigger_;
@@ -118,6 +121,7 @@ public class FirstBossVariables : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCallBossSceneCutScene, cmd => { preludeTrigger_ = true; });
         GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallJumpAttackLocate, cmd => { locatePlayerPosition(); });
+        GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossPunishmentAttackEnd, cmd => { explosionJudgmentEnd(); });
 
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         Rigidbody = GetComponent<Rigidbody>();
@@ -301,6 +305,10 @@ public class FirstBossVariables : MonoBehaviour
     {
         var vector = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position - this.transform.position;
         jumpAtkDistance_ = vector.magnitude;
+    }
+    void explosionJudgmentEnd()
+    {
+        TirednessTrigger = false;
     }
     public void OnUpdateRootMotion(Animator anim)
     {
