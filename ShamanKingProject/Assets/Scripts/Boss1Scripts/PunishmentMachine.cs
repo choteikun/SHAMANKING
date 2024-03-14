@@ -28,8 +28,10 @@ public class PunishmentMachine : MonoBehaviour
         centerHitBox_.SetActive(true);
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 29 });
         await UniTask.DelayFrame(3);
-        Destroy(centerHitBox_);
-        Destroy(innerJudgement_);
+        //Destroy(centerHitBox_);
+        centerHitBox_.SetActive(false);
+        //Destroy(innerJudgement_);
+        innerJudgement_.SetActive(false);
         outerHint_.SetActive(true);
         outerJudgement_.SetActive(true);
         await UniTask.DelayFrame(outerHintFrame_);
@@ -37,9 +39,11 @@ public class PunishmentMachine : MonoBehaviour
         outerHitBox_.SetActive(true);
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 29 });
         await UniTask.DelayFrame(3);
-        Destroy(outerHitBox_);
-        Destroy(outerJudgement_);
-        GameManager.Instance.MainGameEvent.Send(new BossPunishmentAttackEndCommand());
+        //Destroy(outerHitBox_);
+        outerHitBox_.SetActive(false);
+        //Destroy(outerJudgement_);
+        outerJudgement_.SetActive(false);
+        GameManager.Instance.HellDogGameEvent.Send(new BossPunishmentAttackEndCommand());
         await UniTask.DelayFrame(3);
         Destroy(gameObject);
     }
