@@ -133,6 +133,7 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerEndTutorialCommand> OnPlayerEndTutorial => getSubject<PlayerEndTutorialCommand>();
 
     public IObservable<PlayerTutorialNextPageCommand> OnPlayerTutorialNextPage => getSubject<PlayerTutorialNextPageCommand>();
+    public IObservable<PlayerSkipConversationCommand> OnPlayerSkipConversation => getSubject<PlayerSkipConversationCommand>();
 
     public IObservable<PlayerThrowAttackCommand> OnPlayerThrowAttack => getSubject<PlayerThrowAttackCommand>();
 

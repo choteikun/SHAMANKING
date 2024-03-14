@@ -281,6 +281,12 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerTutorialNextPageCommand() { TutorialID = nowTutorial_ });
     }
 
+    void OnPlayerSkip()
+    {
+        Debug.Log("Hold!!");
+        GameManager.Instance.MainGameEvent.Send(new PlayerSkipConversationCommand());
+    }
+
     void OnThrowAttack()
     {
         if (isGuarding_)

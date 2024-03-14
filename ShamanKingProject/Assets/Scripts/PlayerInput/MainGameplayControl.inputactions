@@ -166,6 +166,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerSkip",
+                    "type": "Button",
+                    "id": "c6377cce-33af-40e0-8352-b0862f917c1d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -652,6 +661,17 @@
                     "action": "PlayerUltimate",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "24262c09-0af3-40b5-8c4b-70cca0e9e2fd",
+                    "path": "<Gamepad>/start",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -726,8 +746,30 @@
         {
             "name": "Freeze",
             "id": "c622bc37-6145-42fc-a35e-94b5932c3142",
-            "actions": [],
-            "bindings": []
+            "actions": [
+                {
+                    "name": "PlayerSkip",
+                    "type": "Button",
+                    "id": "a7ca9316-1616-40d7-9ae4-ff1473a18e01",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3750b13f-4901-4d23-bc93-48900b140c08",
+                    "path": "<Gamepad>/start",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         },
         {
             "name": "PlayerTutorialInput",
@@ -740,6 +782,15 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerSkip",
+                    "type": "Button",
+                    "id": "292fa8ec-369a-4be0-834c-45acb9822192",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -763,6 +814,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "NextPage",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "26d634c5-c5b8-4bba-bf8a-fbe07b12a443",
+                    "path": "<Gamepad>/start",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerSkip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -796,7 +858,7 @@
                     "name": "",
                     "id": "2975c9d7-24b0-44db-a482-3cd1f627c141",
                     "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "",
                     "action": "PlayerRestartLevel",

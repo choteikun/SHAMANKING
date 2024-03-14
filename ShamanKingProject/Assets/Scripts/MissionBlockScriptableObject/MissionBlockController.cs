@@ -8,12 +8,11 @@ public class MissionBlockController : MonoBehaviour
     [SerializeField] TextMeshProUGUI missionNameText_;
     [SerializeField] TextMeshProUGUI missionDescription_;
     [SerializeField] GameObject missionObject_;
-    [SerializeField] Vector3 missionStartPos_;
+    [SerializeField] GameObject missionStartPos_;
     [SerializeField] GameObject missionEndPos_;
     [SerializeField] Image missionInputPic_;
     void Start()
-    {
-        missionStartPos_ = missionObject_.transform.position;
+    {       
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallMissionUIUpdate, cmd => { missionStart(cmd.MissionData); });
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallWaveClear, cmd => { missionEnd(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostKilled, cmd => 
@@ -43,7 +42,7 @@ public class MissionBlockController : MonoBehaviour
 
     void missionEnd()
     {
-        missionObject_.transform.DOMove(missionStartPos_, 0.6f);
+        missionObject_.transform.DOMove(missionStartPos_.transform.position, 0.6f);
     }
    
     void changeWave2MissionUIText(int amount)

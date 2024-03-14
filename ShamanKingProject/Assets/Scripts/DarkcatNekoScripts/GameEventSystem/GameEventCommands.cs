@@ -286,6 +286,11 @@ namespace Gamemanager
         public float TutorialID;
     }
 
+    public class PlayerSkipConversationCommand:GameEventMessageBase
+    {
+
+    }
+
     public class PlayerEndTutorialCommand : GameEventMessageBase
     {
         public int TutorialID;
@@ -295,6 +300,7 @@ namespace Gamemanager
     {
 
     }
+
 
     public class PlayerTargetButtonTriggerCommand : GameEventMessageBase
     {
