@@ -308,6 +308,7 @@ public class FirstBossVariables : MonoBehaviour
     }
     void explosionJudgmentEnd()
     {
+        Debug.Log("關閉疲倦觸發器");
         TirednessTrigger = false;
     }
     public void OnUpdateRootMotion(Animator anim)
