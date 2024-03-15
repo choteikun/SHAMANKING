@@ -45,6 +45,7 @@ public class PlayerAnimator
     readonly int animID_AttackCombo2 = Animator.StringToHash("AttackCombo2");
     readonly int animID_AttackCombo3 = Animator.StringToHash("AttackCombo3");
     //readonly int h_Jump = Animator.StringToHash("Jump");
+    readonly int animID_Dead = Animator.StringToHash("Dead");
     #endregion
 
     //當前狀態
@@ -102,6 +103,7 @@ public class PlayerAnimator
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, playertAnimationEventsToDo);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, playerLaunchGhostButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { onPlayerDead(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { Debug.LogWarning("PlayerGetHurt"); playerGetHurt(); });
 
 
@@ -120,6 +122,10 @@ public class PlayerAnimator
         //IObservable<ObservableStateMachineTrigger.OnStateInfo> idleEnd = animOSM_Trigger_.OnStateExitAsObservable().Where(x => x.StateInfo.IsName("Idle"));
 
         //characterControllerObj_.UpdateAsObservable().SkipUntil(idleStart).TakeUntil(idleEnd).RepeatUntilDestroy(characterControllerObj_).Subscribe(x => { Debug.Log("Idle中"); }).AddTo(characterControllerObj_);
+    }
+    void onPlayerDead()
+    {
+        animator_.SetBool(animID_Dead, true);
     }
     void onTargetGetObject()
     {
