@@ -63,6 +63,18 @@ public class PlayerControllerView : MonoBehaviour
     }
     void Start()
     {
+        DOVirtual.Float(1.5f, -0.5f, 0.01f, value =>
+        {
+            Vector4 currentParams = test_[0].GetVector("_DissolveParams");
+            // Debug.Log(currentParams);
+            currentParams.z = value;
+            currentParams.w = 0.5f;
+            foreach (var item in test_)
+            {
+                item.SetVector("_DissolveParams", currentParams);
+            }
+        }).OnComplete(() => { });
+
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemAttackAllow, cmd =>
         {
             
@@ -102,6 +114,7 @@ public class PlayerControllerView : MonoBehaviour
         playerAttackModel_.PlayerAttackModelInit();
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject = this.gameObject;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { DashToGrabTarget(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { onPlayerDead(); });
     }
 
     #region - Player取得方向指令 -
@@ -149,6 +162,24 @@ public class PlayerControllerView : MonoBehaviour
     void onPlayerGuardingButtonTrigger(PlayerGuardingButtonCommand playerGuardingButtonCommand)
     {
         player_Stats_.Guarding = playerGuardingButtonCommand.GuardingButtonIsPressed;
+    }
+    #endregion
+
+    #region - Player收到GameOver指令 -
+    async void onPlayerDead()
+    {
+        await UniTask.Delay(2400);
+        DOVirtual.Float(-0.5f, 1.5f, 5f, value =>
+        {
+            Vector4 currentParams = test_[0].GetVector("_DissolveParams");
+            // Debug.Log(currentParams);
+            currentParams.z = value;
+            currentParams.w = 0.5f;
+            foreach (var item in test_)
+            {
+                item.SetVector("_DissolveParams", currentParams);
+            }
+        }).OnComplete(() => { });
     }
     #endregion
 
@@ -259,31 +290,33 @@ public class PlayerControllerView : MonoBehaviour
         dashPointTest.transform.position = final;
         //this.gameObject.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
         StartCoroutine(MoveToPosition(final, player_Stats_.Player_DodgeSpeed));
-        PlayerStatCalculator.PlayerInvincibleSwitch(true);       
-        DOVirtual.Float(-0.5f, 1.5f, 0.1f, value => {
+        PlayerStatCalculator.PlayerInvincibleSwitch(true);
+        DOVirtual.Float(-0.5f, 1.5f, 0.1f, value =>
+        {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
-           // Debug.Log(currentParams);
+            // Debug.Log(currentParams);
             currentParams.z = value;
             currentParams.w = 0.5f;
             foreach (var item in test_)
             {
                 item.SetVector("_DissolveParams", currentParams);
             }
-        }).OnComplete(() => {  });
+        }).OnComplete(() => { });
         await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));       
         PlayerStatCalculator.PlayerInvincibleSwitch(false);
         spawnDashEffect();
-        DOVirtual.Float(1.5f, -0.5f, 0.6f, value => {
+        DOVirtual.Float(1.5f, -0.5f, 0.6f, value =>
+        {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
-           // Debug.Log(currentParams);
+            // Debug.Log(currentParams);
             currentParams.z = value;
             currentParams.w = 0.5f;
             foreach (var item in test_)
             {
                 item.SetVector("_DissolveParams", currentParams);
             }
-        }).SetEase(Ease.InSine).OnComplete(() => {  });
-        
+        }).SetEase(Ease.InSine).OnComplete(() => { });
+
     }
 
     void spawnDashEffect()

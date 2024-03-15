@@ -14,6 +14,7 @@ public class PlayerAnimator
 {
     #region 提前Hash進行優化
     readonly int animID_Guarding = Animator.StringToHash("Guarding");
+    readonly int animID_PlayerGuardingHurt = Animator.StringToHash("PlayerGuardingHurt");
     readonly int animID_TargetingGuardMove = Animator.StringToHash("TargetingGuardMove");
     readonly int animID_TargetMove = Animator.StringToHash("TargetMove");
     readonly int animID_AimMove = Animator.StringToHash("AimMove");
@@ -45,6 +46,8 @@ public class PlayerAnimator
     readonly int animID_AttackCombo2 = Animator.StringToHash("AttackCombo2");
     readonly int animID_AttackCombo3 = Animator.StringToHash("AttackCombo3");
     //readonly int h_Jump = Animator.StringToHash("Jump");
+    readonly int animID_PlayerHurt = Animator.StringToHash("PlayerHurt");
+
     readonly int animID_Dead = Animator.StringToHash("Dead");
     #endregion
 
@@ -125,7 +128,7 @@ public class PlayerAnimator
     }
     void onPlayerDead()
     {
-        animator_.SetBool(animID_Dead, true);
+        playerAnimState_ = PlayerAnimState.Dead;
     }
     void onTargetGetObject()
     {
@@ -137,11 +140,15 @@ public class PlayerAnimator
     }
     void playerGetHurt()
     {
-        if (player_Stats_.Guarding)
+        if(playerAnimState_ != PlayerAnimState.Dead)
         {
-            animator_.CrossFadeInFixedTime("PlayerGuardingHurt", 0);
+            if (player_Stats_.Guarding)
+            {
+                animator_.CrossFadeInFixedTime(animID_PlayerGuardingHurt, 0);
+            }
+            else { animator_.CrossFadeInFixedTime(animID_PlayerHurt, 0); }
         }
-        else { animator_.CrossFadeInFixedTime("PlayerHurt", 0); }
+        
     }
     public void Update()
     {
@@ -186,6 +193,9 @@ public class PlayerAnimator
                     //Debug.Log(animator_.GetCurrentAnimatorStateInfo(0).length * animator_.GetCurrentAnimatorStateInfo(0).normalizedTime);
                     //Animator Parameters 裡的攻擊動畫為可以被打斷的狀態
                 } 
+                break;
+            case PlayerAnimState.Dead:
+                animator_.SetBool(animID_Dead, true);
                 break;
             default:
                 break;
