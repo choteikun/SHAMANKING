@@ -20,6 +20,7 @@ public class RealTimePlayerData
     public bool PlayerInvincible = false;
     public bool PlayerGuarding = false;
     public GameObject PlayerGameObject;
+    public PlayerCheckPointData PlayerCheckPointData = new PlayerCheckPointData();
 
     public void Refresh()
     {
@@ -30,5 +31,6 @@ public class RealTimePlayerData
         PlayerGuardPerfectTimerFrame = 0;
         PlayerInvincible = false;
         PlayerGuarding = false;
+        PlayerCheckPointData = new PlayerCheckPointData();
     }
 }

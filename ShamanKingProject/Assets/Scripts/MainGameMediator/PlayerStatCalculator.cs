@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Gamemanager;
+using UnityEditor;
 using UnityEngine;
 
 public static class PlayerStatCalculator
@@ -51,6 +52,11 @@ public static class PlayerStatCalculator
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint = Mathf.Clamp(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint + amount, 0, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint);
         var percentage = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint / GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint;
         GameManager.Instance.UIGameEvent.Send(new SystemCallDefenceUIUpdateCommand() { Percentage = percentage });
+    }
+
+    public static void PlayerClearWaveWriteData(int waveID)
+    {
+        GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerCheckPointData.PlayerClearedWave[waveID] = true;
     }
     async static void StartCountingAsync()
     {

@@ -7,5 +7,9 @@ using UnityEngine;
 public class CheckPointDataBlock : ScriptableObject
 {
     [SerializeField] public string SceneName;
-    [SerializeField] public Vector3 TransFormPosition;
+    [SerializeField] public int WaveID;
+    [SerializeField] public Vector3 PlayerTransformPosition;
+    [SerializeField] public Vector3 PlayerTransformRotation;
+    [SerializeField] public Vector3 GhostTransformPosition;
+    [SerializeField] public Vector3 GhostTransformRotation;
 }

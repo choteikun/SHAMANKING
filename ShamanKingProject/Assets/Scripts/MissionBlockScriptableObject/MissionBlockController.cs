@@ -14,7 +14,7 @@ public class MissionBlockController : MonoBehaviour
     void Start()
     {       
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallMissionUIUpdate, cmd => { missionStart(cmd.MissionData); });
-        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallWaveClear, cmd => { missionEnd(); });
+        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallWaveClear, cmd => { missionEnd(cmd.WaveID); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostKilled, cmd => 
         {
             if (cmd.KilledName == "Wave2_GhostEnemy")
@@ -40,9 +40,10 @@ public class MissionBlockController : MonoBehaviour
         }
     }
 
-    void missionEnd()
+    void missionEnd(int waveData)
     {
         missionObject_.transform.DOMove(missionStartPos_.transform.position, 0.6f);
+        PlayerStatCalculator.PlayerClearWaveWriteData(waveData);
     }
    
     void changeWave2MissionUIText(int amount)

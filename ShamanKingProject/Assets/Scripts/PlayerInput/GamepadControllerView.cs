@@ -332,7 +332,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerRestartLevel()
     {
-
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void OnPlayerToMainMenu()
