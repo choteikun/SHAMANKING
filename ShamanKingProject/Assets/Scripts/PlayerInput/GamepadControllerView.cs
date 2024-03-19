@@ -21,6 +21,7 @@ public class GamepadControllerView : MonoBehaviour
     [SerializeField] bool isBiting_ = false;
     [SerializeField] bool isAttacking_ = false;
     [SerializeField] bool isJumping_ = false;
+    [SerializeField] bool canRevive_ = false;
 
     [SerializeField] bool aimingDelay_ = true;
     Tweener aimingDelayer_;
@@ -35,10 +36,10 @@ public class GamepadControllerView : MonoBehaviour
     {
         //var data = GameContainer.Get<DataManager>();//建置的時候記得刪掉
         //await data.InitDataMananger();
-        if (isDebuging_) input_.SwitchCurrentActionMap("MainGameplay");
-        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerNowCheckPoint!=-1) input_.SwitchCurrentActionMap("MainGameplay");
+        //if (isDebuging_) input_.SwitchCurrentActionMap("MainGameplay");
+        //if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerNowCheckPoint!=-1) input_.SwitchCurrentActionMap("MainGameplay");
         Debug.Log("start");
-        await UniTask.Delay(500);
+        //await UniTask.Delay(500);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCutSceneOverStartControl, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemStopGuarding, cmd => { if (isGuarding_) isAiming_ = false; isGuarding_ = false; GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ }); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
@@ -53,6 +54,7 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerEndTutorial, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { playerHitObject(cmd); });
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { reviveDelayer(); });
     }
     //private void Update()
     //{
@@ -333,14 +335,23 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerRestartLevel()
     {
+        if (!canRevive_) return;
         var waveCount = GameManager.Instance.MainGameMediator.RealTimePlayerData.GetNowHighestWaveCount();
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerNowCheckPoint = waveCount;
+        GameManager.Instance.MainGameMediator.RealTimePlayerData.Revive();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void OnPlayerToMainMenu()
     {
+        if (!canRevive_) return;
         SceneManager.LoadScene("GameMainMenu");
+    }
+
+    async void reviveDelayer()
+    {
+        await UniTask.Delay(5000);
+        canRevive_ = true;
     }
 }
 

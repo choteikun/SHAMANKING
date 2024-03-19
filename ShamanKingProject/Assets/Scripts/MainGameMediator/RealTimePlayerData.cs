@@ -48,4 +48,13 @@ public class RealTimePlayerData
         }
         return count;
     }
+
+    public void Revive()
+    {
+        GhostSoulGageCurrentAmount = 0;
+        PlayerNowHealthPoint = PlayerMaxHealthPoint;
+        PlayerInvincible = false;
+        PlayerGuarding = false;
+
+    }
 }
