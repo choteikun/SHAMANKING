@@ -168,7 +168,7 @@ public class PlayerControllerView : MonoBehaviour
     #region - Player收到GameOver指令 -
     async void onPlayerDead()
     {
-        await UniTask.Delay(2400);
+        await UniTask.DelayFrame(200);
         DOVirtual.Float(-0.5f, 1.5f, 5f, value =>
         {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
