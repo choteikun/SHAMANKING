@@ -16,6 +16,7 @@ public class PlayerAttackModel
     private Animator uncleGhostAnimator_;
     bool isJumpAttacking_ = false;
     bool isThrowing_ = false;
+    bool isDead_ = false;
     public void PlayerAttackModelInit()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
@@ -26,6 +27,7 @@ public class PlayerAttackModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerShootAttack, cmd => { whenGetAttackTrigger(AttackInputType.ShootAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { whenGetAttackTrigger(AttackInputType.Dodge); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimateAttack, cmd => { whenGetAttackTrigger(AttackInputType.Ultimate); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { isDead_ = true; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd =>
         {
             isThrowing_ = true;
@@ -438,14 +440,17 @@ public class PlayerAttackModel
     {
         //呼叫動畫
         // animator_.Rebind();
-        GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
-        playerAnimator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
-        uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_Idle", 0.25f);
-        Debug.Log("回歸");
-        isAttacking_ = false;
-        CurrentAttackInputs = new List<AttackBlockBase> { };
-        currentInputCount_ = -1;
-        PassedFrameAfterAttack = 0;
+        if (!isDead_)
+        {
+            GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+            playerAnimator_.CrossFadeInFixedTime("Player_Locomotion", 0.25f);
+            uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_Idle", 0.25f);
+            Debug.Log("回歸");
+            isAttacking_ = false;
+            CurrentAttackInputs = new List<AttackBlockBase> { };
+            currentInputCount_ = -1;
+            PassedFrameAfterAttack = 0;
+        }
     }
     async void backToIdleFromThrowing()
     {
