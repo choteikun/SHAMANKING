@@ -45814,6 +45814,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1241964954437276389}
   - component: {fileID: 1241964954437276390}
+  - component: {fileID: 1241964954437276391}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -45855,6 +45856,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nowActiveString_: 
   activating_: 0
+--- !u!114 &1241964954437276391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241964954437276386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53c0c7c1c88cb73499f62233a14610c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wave0Use_: []
+  wave1Use_: []
+  mainPlayerObject_: {fileID: 8274533883953241560}
+  ghostGameObject_: {fileID: 1241964953838132633}
+  checkPointDatabase_: {fileID: 11400000, guid: 71946c842cb2264438ea73f5a0741292,
+    type: 2}
 --- !u!4 &1241964954503695354
 Transform:
   m_ObjectHideFlags: 0
@@ -49961,6 +49980,9 @@ MonoBehaviour:
       PlayerInvincible: 0
       PlayerGuarding: 0
       PlayerGameObject: {fileID: 0}
+      PlayerCheckPointData:
+        PlayerClearedWave: 000000000000
+      PlayerNowCheckPoint: 0
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
   MissionBlockDatabase: {fileID: 11400000, guid: 581db4dcb7c55354992d7323a23aef63,
@@ -85524,7 +85546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c593457cd8105e148906690e1707c592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: 16
+  trigger: 1024
   condition:
     luaConditions: []
     questConditions: []

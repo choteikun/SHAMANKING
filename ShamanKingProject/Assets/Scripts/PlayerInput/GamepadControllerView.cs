@@ -31,11 +31,12 @@ public class GamepadControllerView : MonoBehaviour
 
     int nowTutorial_ = 0;
 
-    private async void Start()
+    private async void Awake()
     {
         //var data = GameContainer.Get<DataManager>();//建置的時候記得刪掉
         //await data.InitDataMananger();
         if (isDebuging_) input_.SwitchCurrentActionMap("MainGameplay");
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerNowCheckPoint!=-1) input_.SwitchCurrentActionMap("MainGameplay");
         Debug.Log("start");
         await UniTask.Delay(500);
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCutSceneOverStartControl, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
@@ -332,6 +333,8 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerRestartLevel()
     {
+        var waveCount = GameManager.Instance.MainGameMediator.RealTimePlayerData.GetNowHighestWaveCount();
+        GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerNowCheckPoint = waveCount;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

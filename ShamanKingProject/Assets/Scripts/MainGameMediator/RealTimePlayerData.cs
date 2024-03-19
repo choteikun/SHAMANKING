@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 [System.Serializable]
 public class RealTimePlayerData
@@ -21,6 +21,7 @@ public class RealTimePlayerData
     public bool PlayerGuarding = false;
     public GameObject PlayerGameObject;
     public PlayerCheckPointData PlayerCheckPointData = new PlayerCheckPointData();
+    public int PlayerNowCheckPoint = -1;
 
     public void Refresh()
     {
@@ -32,5 +33,19 @@ public class RealTimePlayerData
         PlayerInvincible = false;
         PlayerGuarding = false;
         PlayerCheckPointData = new PlayerCheckPointData();
+        PlayerNowCheckPoint = -1;
+    }
+
+    public int GetNowHighestWaveCount()
+    {
+        int count = 0;
+        for (int i = 0; i < PlayerCheckPointData.PlayerClearedWave.Length; i++)
+        {
+            if (PlayerCheckPointData.PlayerClearedWave[i])
+            {
+                count = i;
+            }
+        }
+        return count;
     }
 }
