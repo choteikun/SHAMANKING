@@ -205,7 +205,7 @@ public class PlayerAttackModel
         {
             //animator_.Rebind();
             playerAnimator_.CrossFadeInFixedTime("AttackCombo1", 0.05f);
-            uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo1", 0.25f);
+            uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo_A", 0.25f);
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
@@ -426,6 +426,18 @@ public class PlayerAttackModel
         PassedFrameAfterAttack = 0;
         currentInputCount_++;
         comboDeclaim = false;
+        switch (actionID)
+        {
+            case 1:
+                uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo_B", 0.25f);
+                break;
+            case 2:
+                uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo_C", 0.25f);
+                break;
+
+            default:
+                break;
+        }
         if (GameManager.Instance.AttackBlockDatabase.Database[actionID].M_SkillType == AttackInputType.Throw)
         {
             isThrowing_ = true;
