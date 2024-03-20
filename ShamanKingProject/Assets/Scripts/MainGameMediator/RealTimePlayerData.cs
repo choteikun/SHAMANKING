@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
+using Gamemanager;
 [System.Serializable]
 public class RealTimePlayerData
 {
@@ -19,12 +16,14 @@ public class RealTimePlayerData
     public float PlayerBasicAttackPercentage = 1;
     public bool PlayerInvincible = false;
     public bool PlayerGuarding = false;
+    public int PlayerPotionCount = 3;
     public GameObject PlayerGameObject;
     public PlayerCheckPointData PlayerCheckPointData = new PlayerCheckPointData();
     public int PlayerNowCheckPoint = -1;
 
     public void Refresh()
     {
+        PlayerPotionCount = 3;
         GhostSoulGageCurrentAmount = 0;
         PlayerNowHealthPoint = PlayerMaxHealthPoint;
         PlayerGuardPoint = PlayerMaxGuardPoint;
@@ -51,10 +50,20 @@ public class RealTimePlayerData
 
     public void Revive()
     {
+        PlayerPotionCount = 3;
         GhostSoulGageCurrentAmount = 0;
         PlayerNowHealthPoint = PlayerMaxHealthPoint;
         PlayerInvincible = false;
         PlayerGuarding = false;
+    }
 
+    public void PotionUsed()
+    {
+        if (PlayerPotionCount > 0)
+        {
+            PlayerPotionCount--;
+            PlayerNowHealthPoint = PlayerMaxHealthPoint;
+            GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
+        }
     }
 }

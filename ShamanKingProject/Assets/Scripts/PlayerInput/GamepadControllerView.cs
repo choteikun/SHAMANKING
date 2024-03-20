@@ -348,6 +348,11 @@ public class GamepadControllerView : MonoBehaviour
         SceneManager.LoadScene("GameMainMenu");
     }
 
+    void OnPlayerPotion()
+    {
+        GameManager.Instance.MainGameMediator.RealTimePlayerData.PotionUsed();
+    }
+
     async void reviveDelayer()
     {
         await UniTask.Delay(5000);
