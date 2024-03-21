@@ -434,7 +434,9 @@ public class PlayerAttackModel
             case 2:
                 uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo_C", 0.25f);
                 break;
-
+            case 13:
+                uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo_D", 0.25f);
+                break;
             default:
                 break;
         }
