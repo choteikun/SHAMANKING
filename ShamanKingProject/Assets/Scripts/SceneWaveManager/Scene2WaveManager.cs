@@ -24,7 +24,7 @@ public class Scene2WaveManager : MonoBehaviour
         {
             //waveWalls_[1].SetActive(false);
             BossSceneTransfer_.SetActive(true);
-            GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene2", WaveID = 4 });
+            GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene2", WaveID = 5 });
             DialogueManager.StartConversation("chapter 1_4_3");
         }
     }
