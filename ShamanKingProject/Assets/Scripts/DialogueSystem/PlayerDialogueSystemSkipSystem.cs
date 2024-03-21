@@ -52,6 +52,10 @@ public class PlayerDialogueSystemSkipSystem : MonoBehaviour
                 GameManager.Instance.MainGameEvent.Send(new SystemCallTutorialCommand() { TutorialID = 1 });
                 DialogueManager.StopConversation();
                 return;
+            case "chapter1_2_2":
+                GameManager.Instance.MainGameEvent.Send(new GameConversationEndCommand());
+                DialogueManager.StopConversation();
+                return;
 
         }
     }
