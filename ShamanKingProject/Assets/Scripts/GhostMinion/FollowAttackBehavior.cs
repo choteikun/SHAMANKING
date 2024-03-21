@@ -16,10 +16,7 @@ public class FollowAttackBehavior : MonoBehaviour
         DOTween.To(() => smoothSpeed_, x => smoothSpeed_ = x, 15, 15f);
         await UniTask.Delay(6000);
         spawnTimerBOOMBOOMPrefab();
-        GameManager.Instance.GhostEnemyGameEvent.SetSubscribe(GameManager.Instance.GhostEnemyGameEvent.OnEliteGhostEnemyRangedAttackHit, cmd =>
-        {
-            Destroy(gameObject, 1);
-        });
+        Destroy(gameObject);
     }
 
     private void LateUpdate()
