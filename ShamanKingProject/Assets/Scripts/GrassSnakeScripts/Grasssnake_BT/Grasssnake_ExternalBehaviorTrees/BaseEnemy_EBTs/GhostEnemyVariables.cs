@@ -74,7 +74,7 @@ public class GhostEnemyVariables : MonoBehaviour
         //ghostEnemyState = GhostEnemyState.GhostEnemy_IDLE;
 
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.BT_Event.BT_SwitchStateMessage, getBT_Massage);
-        GameManager.Instance.GhostEnemyGameEvent.SetSubscribe(GameManager.Instance.GhostEnemyGameEvent.OnEliteGhostEnemyRangedAttack, cmd => 
+        GameManager.Instance.GhostEnemyGameEvent.SetSubscribe(GameManager.Instance.GhostEnemyGameEvent.OnEliteGhostEnemyRangedAttackHit, cmd => 
         {
             //如果龍捲風結束且菁英怪遠程攻擊觸發器已啟用
             if (EliteRangedAtkTrigger)

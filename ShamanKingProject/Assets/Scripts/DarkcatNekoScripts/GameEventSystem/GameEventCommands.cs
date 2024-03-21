@@ -455,7 +455,7 @@ namespace Gamemanager
 
     }
 
-    public class EliteGhostEnemyRangedAttackCommand : GameEventMessageBase
+    public class EliteGhostEnemyRangedAttackHitCommand : GameEventMessageBase
     {
 
     }
