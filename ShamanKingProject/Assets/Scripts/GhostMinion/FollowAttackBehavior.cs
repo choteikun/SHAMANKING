@@ -14,8 +14,8 @@ public class FollowAttackBehavior : MonoBehaviour
         DOTween.To(() => smoothSpeed_, x => smoothSpeed_ = x, 15, 15f);
         await UniTask.Delay(6000);
         GameManager.Instance.GhostEnemyGameEvent.Send(new EliteGhostEnemyRangedAttackCommand());
-        spawnAttackColliderPrefab();
-        Destroy(gameObject);
+        spawnTimerBOOMBOOMPrefab();
+        Destroy(gameObject, 5.5f);
     }
 
     private void LateUpdate()
@@ -33,7 +33,7 @@ public class FollowAttackBehavior : MonoBehaviour
         }
     }
 
-    void spawnAttackColliderPrefab()
+    void spawnTimerBOOMBOOMPrefab()
     {
         var prefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(10).PrefabPath;
         Instantiate(prefab,this.gameObject.transform.position,Quaternion.identity);
