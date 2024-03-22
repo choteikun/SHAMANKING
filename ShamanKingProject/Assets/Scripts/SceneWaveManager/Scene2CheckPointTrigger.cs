@@ -10,7 +10,7 @@ public class Scene2CheckPointTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameManager.Instance.MainGameMediator.RealTimePlayerData.PotionUsed();
-            GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene2", WaveID = 4 });
+            GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene2", WaveID = 3 });
         }
     }
 }
