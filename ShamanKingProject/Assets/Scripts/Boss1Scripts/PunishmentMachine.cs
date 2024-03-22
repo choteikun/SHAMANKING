@@ -29,7 +29,6 @@ public class PunishmentMachine : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 29 });
         await UniTask.DelayFrame(3);
         Destroy(centerHitBox_);
-        //Destroy(innerJudgement_);
         outerHint_.SetActive(true);
         outerJudgement_.SetActive(true);
         await UniTask.DelayFrame(outerHintFrame_);
@@ -38,8 +37,7 @@ public class PunishmentMachine : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 29 });
         await UniTask.DelayFrame(3);
         Destroy(outerHitBox_);
-        //Destroy(outerJudgement_);
-        GameManager.Instance.MainGameEvent.Send(new BossPunishmentAttackEndCommand());
+        GameManager.Instance.HellDogGameEvent.Send(new BossPunishmentAttackEndCommand());
         await UniTask.DelayFrame(3);
         Destroy(gameObject);
     }
