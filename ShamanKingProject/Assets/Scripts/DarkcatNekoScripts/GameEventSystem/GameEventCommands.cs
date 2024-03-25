@@ -435,6 +435,10 @@ namespace Gamemanager
     {
 
     }
+    public class BossCallDeadCommand: GameEventMessageBase
+    {
+
+    }
     public class UICallPlayerHealthBarUIUpdateCommand:GameEventMessageBase
     {
 

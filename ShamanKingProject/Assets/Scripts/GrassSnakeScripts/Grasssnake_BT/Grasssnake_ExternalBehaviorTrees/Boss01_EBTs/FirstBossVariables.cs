@@ -102,6 +102,7 @@ public class FirstBossVariables : MonoBehaviour
     private Collider firstBossCollider_;
 
 
+
     public Vector3 RunForwardVec { get { return runForwardVec_; } set { runForwardVec_ = value; } }
     [SerializeField, Tooltip("RunForwardVec")]
     private Vector3 runForwardVec_;
@@ -157,8 +158,6 @@ public class FirstBossVariables : MonoBehaviour
         DistanceFromPlayer = Vector3.Distance(transform.position, playerObj_.transform.position);
 
         ExplosionJudgmentTimer += !ExplosionJudgmentTrigger ? 1 : 0;
-
-        
 
         switch (IntTypeStateOfFirstBoss)
         {
