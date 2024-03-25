@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e394f3e609550de44a242e6e6faff5b0, type: 3}
-  m_Name: 12_HeavyAttack3
+  m_Name: 6_ExecutionAttack
   m_EditorClassIdentifier: 
-  SkillName: HeavyAttack2
-  SkillId: 12
-  SkillFrame: 150
-  LeastNeedAttackFrame: 10
+  SkillName: ExecutionAttack
+  SkillId: 6
+  SkillFrame: 280
+  LeastNeedAttackFrame: 0
   M_SkillType: 1
-  nextCombos: []
+  nextCombos:
+  - RequiredInputType: 2
+    SkippedFrame: 10
+    NextAttackId: 8
   Distance: 0
   Frame: 0

@@ -247,7 +247,7 @@ public class PlayerAttackModel
             if (!isAttacking_)
             {
                 //animator_.Rebind();
-                playerAnimator_.CrossFadeInFixedTime("HeavyAttack3", 0.25f);
+                playerAnimator_.CrossFadeInFixedTime("HeavyAttack2", 0.25f);
                 PassedFrameAfterAttack = 0;
                 isAttacking_ = true;
             }
@@ -274,7 +274,7 @@ public class PlayerAttackModel
         if (!isAttacking_)
         {
             //animator_.Rebind();
-            playerAnimator_.CrossFadeInFixedTime("HeavyAttack2", 0.25f);
+            playerAnimator_.CrossFadeInFixedTime("ExecutionAttack", 0.25f);
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
