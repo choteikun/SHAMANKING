@@ -120,7 +120,7 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerSuccessParryCommand> OnPlayerSuccessParry => getSubject<PlayerSuccessParryCommand>();
     public IObservable<EnemyDeathCommand> OnEnemyDeath => getSubject<EnemyDeathCommand>();
 
-    public IObservable<PlayerControllerPossessableInteractButtonCommand> OnPlayerControllerPossessableInteract => getSubject<PlayerControllerPossessableInteractButtonCommand>();
+    public IObservable<PlayerControllerInteractButtonCommand> OnPlayerControllerPossessableInteract => getSubject<PlayerControllerInteractButtonCommand>();
 
     public IObservable<PlayerMoveStatusChangeCommand> OnPlayerMoveStatusChange => getSubject<PlayerMoveStatusChangeCommand>();
 
@@ -176,4 +176,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<CallBossSceneCutSceneStart> OnCallBossSceneCutScene => getSubject<CallBossSceneCutSceneStart>();
     public IObservable<CutSceneOverStartControlCommand> OnCutSceneOverStartControl => getSubject<CutSceneOverStartControlCommand>();
     public IObservable<SystemCallPlayerGameoverCommand> OnSystemCallPlayerGameover => getSubject<SystemCallPlayerGameoverCommand>();
+
+    public IObservable<PlayerEnterOrLeaveEnviormentObjectCommand> OnPlayerPlayerEnterOrLeaveEnviormentObject => getSubject<PlayerEnterOrLeaveEnviormentObjectCommand>();
 }

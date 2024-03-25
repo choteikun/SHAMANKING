@@ -249,7 +249,7 @@ namespace Gamemanager
         public Vector3 AttackerPos;
     }
 
-    public class PlayerControllerPossessableInteractButtonCommand : GameEventMessageBase
+    public class PlayerControllerInteractButtonCommand : GameEventMessageBase
     {
 
     }
@@ -492,6 +492,12 @@ namespace Gamemanager
     public class SystemCallPlayerGameoverCommand:GameEventMessageBase
     {
 
+    }
+
+    public class PlayerEnterOrLeaveEnviormentObjectCommand:GameEventMessageBase
+    {
+        public bool EnterOrLeave;
+        public GameObject NowEnterEnviormentObject;
     }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase

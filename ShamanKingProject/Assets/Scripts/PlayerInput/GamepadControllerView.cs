@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using Datamanager;
 using DG.Tweening;
 using Gamemanager;
 using UniRx;
@@ -93,7 +92,7 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerRoll()
     {
         //if (isAiming_) return;
-        GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());       
+        GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());
         Debug.Log("Roll!");
     }
 
@@ -213,8 +212,8 @@ public class GamepadControllerView : MonoBehaviour
         if (isAiming_ || isJumping_) return;
         await UniTask.DelayFrame(1);
         isAttacking_ = true;
-        GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() {Charged=heavyAttackCharger_ });
-        Debug.Log("HeavyAttack!"+heavyAttackCharger_);
+        GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() { Charged = heavyAttackCharger_ });
+        Debug.Log("HeavyAttack!" + heavyAttackCharger_);
         heavyAttackCharger_ = false;
     }
     async void OnPlayerUltimate()
@@ -223,7 +222,7 @@ public class GamepadControllerView : MonoBehaviour
         {
             GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
         }
-        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount<2)
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 2)
         {
             return;
         }
@@ -272,11 +271,14 @@ public class GamepadControllerView : MonoBehaviour
         }
     }
 
-    void OnPlayerPossessInteract(InputValue value)
+    void OnPlayerInteract(InputValue value)
     {
         buttonEastPressed_ = value.isPressed;
-        if (!isPosscessing_) return;
-        GameManager.Instance.MainGameEvent.Send(new PlayerControllerPossessableInteractButtonCommand());
+        //if (!isPosscessing_) return;
+        if (value.isPressed)
+        {
+            GameManager.Instance.MainGameEvent.Send(new PlayerControllerInteractButtonCommand());
+        }
     }
 
     void OnNextPage()
@@ -320,17 +322,17 @@ public class GamepadControllerView : MonoBehaviour
     //    GameManager.Instance.MainGameEvent.Send(new PlayerShootAttackCommand() { });
     //    Debug.Log("Attack!");
     //}
-    
+
 
     void OnPlayerGuard(InputValue value)
     {
-        if (isJumping_||isAttacking_ ) return;
+        if (isJumping_ || isAttacking_) return;
 
         isGuarding_ = value.isPressed;
         PlayerStatCalculator.PlayerGuardingSwitch(isGuarding_);
         //isAiming_ = isGuarding_;
         GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ });
-        Debug.Log(isGuarding_ +"Guarding");
+        Debug.Log(isGuarding_ + "Guarding");
     }
 
     void OnPlayerRestartLevel()
@@ -358,5 +360,7 @@ public class GamepadControllerView : MonoBehaviour
         await UniTask.Delay(5000);
         canRevive_ = true;
     }
+
+
 }
 

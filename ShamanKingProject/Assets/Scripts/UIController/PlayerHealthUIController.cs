@@ -13,6 +13,7 @@ public class PlayerHealthUIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI healthNumber_;
     [SerializeField] Image defenceBarImage_;
     [SerializeField] TextMeshProUGUI potionRemainUI_;
+    [SerializeField] GameObject useUI_;
 
     Tweener redHealthBarTweener_;
     Tweener grayHealthBarTweener_;
@@ -24,6 +25,7 @@ public class PlayerHealthUIController : MonoBehaviour
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnCallPlayerHealthBarUIUpdate, cmd => { 
             playerHealthChangeAnimation(); playerPotionRemainUIUpdate(); });
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallDefenceUIUpdate, cmd => { playerDefenceBarUpdate(cmd.Percentage); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerPlayerEnterOrLeaveEnviormentObject, cmd => { playerEnterOrLeaveEnviormentMachine(cmd.EnterOrLeave); });
         playerHealthChangeAnimation();
     }
 
@@ -54,5 +56,10 @@ public class PlayerHealthUIController : MonoBehaviour
     {
         var remain = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerPotionCount;
         potionRemainUI_.text = "X" + remain.ToString();
+    }
+
+    void playerEnterOrLeaveEnviormentMachine(bool enterOrLeave)
+    {
+        useUI_.SetActive(enterOrLeave);
     }
 }
