@@ -3452,7 +3452,7 @@ GameObject:
   - component: {fileID: 279201937}
   - component: {fileID: 279201936}
   - component: {fileID: 279201935}
-  - component: {fileID: 279201934}
+  - component: {fileID: 279201938}
   m_Layer: 13
   m_Name: CheckPoint1
   m_TagString: Untagged
@@ -3475,18 +3475,6 @@ Transform:
   m_Father: {fileID: 1241964954976212656}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &279201934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 279201932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2db4179c4e99f824b872661144d15729, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &279201935
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3550,6 +3538,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279201932}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &279201938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279201932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2db4179c4e99f824b872661144d15729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &282283697
 GameObject:
   m_ObjectHideFlags: 0
@@ -4568,6 +4568,12 @@ Transform:
   m_Father: {fileID: 356016616}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &539272597 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3797061003815904598, guid: 64f196f86528fd841aa7713a98bf929c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8765389269065022607}
+  m_PrefabAsset: {fileID: 0}
 --- !u!65 &545425593
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9113,10 +9119,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 802734177}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56cf77300e42d2841ae38706fe839e96, type: 3}
+  m_Script: {fileID: 11500000, guid: 35d578f2d648a69498e4fa6cd236298d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName_: 0229MainSceneF1
 --- !u!1 &817508884
 GameObject:
   m_ObjectHideFlags: 0
@@ -34331,6 +34336,7 @@ MonoBehaviour:
   healthNumber_: {fileID: 8765389269065022609}
   defenceBarImage_: {fileID: 8765389269065022608}
   potionRemainUI_: {fileID: 8765389269065022610}
+  useUI_: {fileID: 539272597}
 --- !u!114 &1241964953741871010
 MonoBehaviour:
   m_ObjectHideFlags: 0

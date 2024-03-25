@@ -55,6 +55,7 @@ public class RealTimePlayerData
         PlayerNowHealthPoint = PlayerMaxHealthPoint;
         PlayerInvincible = false;
         PlayerGuarding = false;
+        GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
     }
 
     public void PotionUsed()
@@ -66,4 +67,6 @@ public class RealTimePlayerData
             GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
         }
     }
+
+
 }
