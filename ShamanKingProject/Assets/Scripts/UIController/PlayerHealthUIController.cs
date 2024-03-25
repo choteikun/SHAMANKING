@@ -12,6 +12,7 @@ public class PlayerHealthUIController : MonoBehaviour
     [SerializeField] float barMaxRange_ = 116.2f;
     [SerializeField] TextMeshProUGUI healthNumber_;
     [SerializeField] Image defenceBarImage_;
+    [SerializeField] TextMeshProUGUI potionRemainUI_;
 
     Tweener redHealthBarTweener_;
     Tweener grayHealthBarTweener_;
@@ -20,7 +21,8 @@ public class PlayerHealthUIController : MonoBehaviour
     {
         startPos_ = grayHealthBar_.transform.position;
         barMaxRange_ = (barEndPoint_.transform.position - startPos_).magnitude;
-        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnCallPlayerHealthBarUIUpdate, cmd => { playerHealthChangeAnimation(); });
+        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnCallPlayerHealthBarUIUpdate, cmd => { 
+            playerHealthChangeAnimation(); playerPotionRemainUIUpdate(); });
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallDefenceUIUpdate, cmd => { playerDefenceBarUpdate(cmd.Percentage); });
         playerHealthChangeAnimation();
     }
@@ -46,5 +48,11 @@ public class PlayerHealthUIController : MonoBehaviour
     void playerDefenceBarUpdate(float percentage)
     {
         defenceBarImage_.DOFillAmount(percentage,0.35f);
+    }
+
+    void playerPotionRemainUIUpdate()
+    {
+        var remain = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerPotionCount;
+        potionRemainUI_.text = "X" + remain.ToString();
     }
 }

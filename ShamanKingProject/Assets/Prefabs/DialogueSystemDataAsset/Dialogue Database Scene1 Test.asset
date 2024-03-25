@@ -5389,7 +5389,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 160
-        y: 80
+        y: 79
         width: 160
         height: 30
     - id: 2
@@ -5590,7 +5590,9 @@ MonoBehaviour:
         isConnector: 0
         priority: 2
       conditionsString: 
-      userScript: StandConversationStart();
+      userScript: 'StandConversationStart();
+
+        ChangeContinueButtonToAlways();'
       onExecute:
         m_PersistentCalls:
           m_Calls: []
