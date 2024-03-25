@@ -302,7 +302,7 @@ public class PlayerControllerView : MonoBehaviour
                 item.SetVector("_DissolveParams", currentParams);
             }
         }).OnComplete(() => { });
-        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 100));       
+        await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 20));       
         PlayerStatCalculator.PlayerInvincibleSwitch(false);
         spawnDashEffect();
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value =>
@@ -322,7 +322,8 @@ public class PlayerControllerView : MonoBehaviour
     void spawnDashEffect()
     {
         var effect = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(11).PrefabPath;
-        Instantiate(effect, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position, Quaternion.identity);
+        var effectPos = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position + new Vector3(0, 0.25f, 0);
+        Instantiate(effect, effectPos, Quaternion.identity);
     }
     public IEnumerator MoveToPosition(Vector3 target, float duration)
     {
