@@ -12029,7 +12029,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906797665}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -32246,7 +32246,8 @@ MonoBehaviour:
   healthNumber_: {fileID: 1505934080}
   defenceBarImage_: {fileID: 8765389269065022608}
   potionRemainUI_: {fileID: 8765389269065022609}
-  useUI_: {fileID: 0}
+  useUI_: {fileID: 8765389269065022611}
+  breakUI_: {fileID: 8765389269065022610}
 --- !u!114 &1241964953741871010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90051,7 +90052,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -111921,6 +111927,7 @@ GameObject:
   - component: {fileID: 5531384699875521592}
   - component: {fileID: 5531384699875521593}
   - component: {fileID: 5531384699875521594}
+  - component: {fileID: 8792339051964112591}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -114641,6 +114648,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8765389269065022610 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2546781861361655218, guid: 64f196f86528fd841aa7713a98bf929c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8765389269065022607}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8765389269065022611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3797061003815904598, guid: 64f196f86528fd841aa7713a98bf929c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8765389269065022607}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8767333442738967472
 Transform:
   m_ObjectHideFlags: 0
@@ -114813,6 +114832,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 93.182, z: 0}
+--- !u!114 &8792339051964112591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8164878120582497396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ea0bea72c2aacd4abad21db37fa8ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noticeZone: 10
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!23 &8801753904917867604
 MeshRenderer:
   m_ObjectHideFlags: 0

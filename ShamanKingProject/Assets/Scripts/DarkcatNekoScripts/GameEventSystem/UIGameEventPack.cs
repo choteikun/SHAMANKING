@@ -21,4 +21,6 @@ public class UIGameEventPack : GameEventPack
     public IObservable<SystemCallMissionUIUpdateCommand> OnSystemCallMissionUIUpdate => getSubject<SystemCallMissionUIUpdateCommand>();
 
     public IObservable<SystemCallDefenceUIUpdateCommand> OnSystemCallDefenceUIUpdate => getSubject<SystemCallDefenceUIUpdateCommand>();
+
+    public IObservable<SystemCallCanBreakUIUpdate> OnSystemCallCanBreakUIUpdate => getSubject<SystemCallCanBreakUIUpdate>();
 }

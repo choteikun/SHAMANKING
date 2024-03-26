@@ -65,6 +65,15 @@ namespace Gamemanager
     {
 
     }
+    public class PlayerPressExecutionButtonCommand:GameEventMessageBase
+    {
+
+    }
+
+    public class PlayerPressExecutionButtonResponse:GameEventMessageBase
+    {
+
+    }
 
     public class PlayerUltimateAttackCommand:GameEventMessageBase
     {
@@ -498,6 +507,11 @@ namespace Gamemanager
     {
         public bool EnterOrLeave;
         public GameObject NowEnterEnviormentObject;
+    }
+
+    public class SystemCallCanBreakUIUpdate:GameEventMessageBase
+    {
+        public bool CanBreak;
     }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase

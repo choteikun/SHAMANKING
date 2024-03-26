@@ -14,6 +14,7 @@ public class PlayerHealthUIController : MonoBehaviour
     [SerializeField] Image defenceBarImage_;
     [SerializeField] TextMeshProUGUI potionRemainUI_;
     [SerializeField] GameObject useUI_;
+    [SerializeField] GameObject breakUI_;
 
     Tweener redHealthBarTweener_;
     Tweener grayHealthBarTweener_;
@@ -26,6 +27,7 @@ public class PlayerHealthUIController : MonoBehaviour
             playerHealthChangeAnimation(); playerPotionRemainUIUpdate(); });
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallDefenceUIUpdate, cmd => { playerDefenceBarUpdate(cmd.Percentage); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerPlayerEnterOrLeaveEnviormentObject, cmd => { playerEnterOrLeaveEnviormentMachine(cmd.EnterOrLeave); });
+        GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallCanBreakUIUpdate, cmd => { breakUI_.SetActive(cmd.CanBreak); });
         playerHealthChangeAnimation();
     }
 

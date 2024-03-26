@@ -220,4 +220,9 @@ public class EnemyBeHitTest : MonoBehaviour
     {
         return maxHealthPoint_;
     }
+
+    public bool getCanBreak()
+    {
+        return Break;
+    }    
 }

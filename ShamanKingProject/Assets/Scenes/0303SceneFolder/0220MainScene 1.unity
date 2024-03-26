@@ -40955,6 +40955,7 @@ MonoBehaviour:
   defenceBarImage_: {fileID: 8765389269065022608}
   potionRemainUI_: {fileID: 8765389269065022610}
   useUI_: {fileID: 539272597}
+  breakUI_: {fileID: 8765389269065022611}
 --- !u!114 &1241964953741871010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70086,6 +70087,7 @@ GameObject:
   - component: {fileID: 5717628474718875028}
   - component: {fileID: 5717628474718875029}
   - component: {fileID: 5717628474718875030}
+  - component: {fileID: 5717628474718875031}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -72571,6 +72573,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCharging_: 0
   chargingSpeed_: 20
+--- !u!114 &5717628474718875031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905203264908605227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ea0bea72c2aacd4abad21db37fa8ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noticeZone: 10
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!4 &5718268828107641476
 Transform:
   m_ObjectHideFlags: 0
@@ -99420,6 +99438,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8765389269065022611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2546781861361655218, guid: 64f196f86528fd841aa7713a98bf929c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8765389269065022607}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8778470805467764787
 GameObject:
   m_ObjectHideFlags: 0

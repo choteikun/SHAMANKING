@@ -39,6 +39,7 @@ public class GamepadControllerView : MonoBehaviour
         //if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerNowCheckPoint!=-1) input_.SwitchCurrentActionMap("MainGameplay");
         Debug.Log("start");
         //await UniTask.Delay(500);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerPressExecutionButtonResponse, cmd => { ExecutionAttackChecked(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCutSceneOverStartControl, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemStopGuarding, cmd => { if (isGuarding_) isAiming_ = false; isGuarding_ = false; GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ }); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGhostLaunchProcessFinish, cmd => { finishLaunch(); });
@@ -233,7 +234,12 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerUltimateAttackCommand() { });
         Debug.Log("Attack!");
     }
-    async void OnPlayerExecutionAttack()
+    void OnPlayerExecutionAttack()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerPressExecutionButtonCommand());
+    }
+
+    async void ExecutionAttackChecked()
     {
         if (isGuarding_)
         {
@@ -244,7 +250,7 @@ public class GamepadControllerView : MonoBehaviour
         isAttacking_ = true;
         GameManager.Instance.MainGameEvent.Send(new PlayerExecutionAttackCommand() { });
         Debug.Log("Attack!");
-    }
+    }    
 
     void OnPlayerPossessCancel()
     {
