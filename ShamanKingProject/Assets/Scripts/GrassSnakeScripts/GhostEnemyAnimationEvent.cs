@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GhostEnemyAnimationEvent : MonoBehaviour
 {
-    [SerializeField] GameObject shadowBallPrefab;
+    [SerializeField] GameObject bk_EffectPrefab_;
+    [SerializeField] GameObject shadowBallPrefab_;
     [SerializeField] GameObject shadowBallSpawnPoint_;
 
     void Start()
@@ -17,10 +18,14 @@ public class GhostEnemyAnimationEvent : MonoBehaviour
     }
     void shadowballSpawn()
     {
-        Instantiate(shadowBallPrefab, shadowBallSpawnPoint_.transform.position, shadowBallSpawnPoint_.transform.rotation);
+        Instantiate(shadowBallPrefab_, shadowBallSpawnPoint_.transform.position, shadowBallSpawnPoint_.transform.rotation);
     }
     public void FollowAttackSpawn()
     {
         GameManager.Instance.GhostEnemyGameEvent.Send(new GhostEnemyCallFollowAttackCommand());
+    }
+    public void BK_EffectSpawn()
+    {
+        Instantiate(bk_EffectPrefab_, transform.position, transform.rotation);
     }
 }
