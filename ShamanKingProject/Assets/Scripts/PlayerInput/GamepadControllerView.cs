@@ -50,6 +50,7 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameStandingConversationEnd, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallTutorial, cmd => { input_.SwitchCurrentActionMap("PlayerTutorialInput"); nowTutorial_ = (int)cmd.TutorialID; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { input_.SwitchCurrentActionMap("PlayerGameOverUIInput"); });
+        GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallDeadCommand, cm => { reviveDelayer(); input_.SwitchCurrentActionMap("PlayerGameOverUIInput"); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerEndTutorial, cmd => { input_.SwitchCurrentActionMap("MainGameplay"); });
         var onLaunchHitPosscessableItem = GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Possessable || cmd.HitObjecctTag == HitObjecctTag.Biteable)).Subscribe(cmd => { playerHitObject(cmd); });
         GameManager.Instance.MainGameMediator.AddToDisposables(onLaunchHitPosscessableItem);
@@ -347,6 +348,7 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerToMainMenu()
     {
         if (!canRevive_) return;
+        Cursor.visible = true;
         SceneManager.LoadScene("GameMainMenu");
     }
 

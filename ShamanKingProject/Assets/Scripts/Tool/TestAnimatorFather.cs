@@ -4,27 +4,41 @@ using UnityEngine;
 
 public class TestAnimatorFather : MonoBehaviour
 {
-    CharacterController cc;
-    bool attackMoverEnabled = false;
-    bool knockBackEnabled = false;
+    CharacterController cc_;
+    [SerializeField]
+    bool attackMoverEnabled_ = false;
+    [SerializeField]
+    bool executionAttackMoverEnabled_ = false;
+    [SerializeField]
+    bool heavyAttackMoverEnabled_ = false;
+    [SerializeField]
+    bool knockBackEnabled_ = false;
     private void Start()
     {
-        cc = GetComponent<CharacterController>();
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAnimationMovementEnable, cmd => { attackMoverEnabled = true; });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerBeAttackByEnemySuccess, cmd => { knockBackEnabled = true; });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAnimationMovementDisable, cmd => { attackMoverEnabled = false; });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { attackMoverEnabled = false; });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { attackMoverEnabled = false; knockBackEnabled = false; });
-        
+        cc_ = GetComponent<CharacterController>();
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAnimationMovementEnable, cmd => { attackMoverEnabled_ = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerBeAttackByEnemySuccess, cmd => { knockBackEnabled_ = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAnimationMovementDisable, cmd => { attackMoverEnabled_ = false; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { attackMoverEnabled_ = false; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { attackMoverEnabled_ = false; knockBackEnabled_ = false; executionAttackMoverEnabled_ = false; heavyAttackMoverEnabled_ = false; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { executionAttackMoverEnabled_ = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { heavyAttackMoverEnabled_ = true; });
     }
     public void OnUpdateRootMotion(Animator anim)
     {
-        if (knockBackEnabled)
+        if (knockBackEnabled_)
         {
-            cc.Move(anim.transform.forward * anim.deltaPosition.magnitude * 0.5f * -1);
+            cc_.Move(anim.transform.forward * anim.deltaPosition.magnitude * 0.5f * -1);
         }
-        if (!attackMoverEnabled) return;
-        cc.Move(anim.transform.forward * anim.deltaPosition.magnitude * 1.0f);
-       
+        if (heavyAttackMoverEnabled_)
+        {
+            cc_.Move(anim.transform.forward * anim.deltaPosition.magnitude * 0.35f);
+        }
+        if (executionAttackMoverEnabled_)
+        {
+            cc_.Move(-anim.transform.forward * anim.deltaPosition.magnitude * 1.0f);
+        }
+        if (!attackMoverEnabled_) return;
+        cc_.Move(anim.transform.forward * anim.deltaPosition.magnitude * 1.0f);
     }
 }

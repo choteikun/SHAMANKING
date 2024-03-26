@@ -7,6 +7,7 @@ using AI.FSM;
 public class BossHellDogAnimationEvent : MonoBehaviour
 {
     FirstBossVariables firstBossVariables;
+    [SerializeField] GameObject bk_EffectPrefab_;
     void Awake()
     {
         firstBossVariables = GetComponentInParent<FirstBossVariables>();
@@ -94,5 +95,9 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     {
         firstBossVariables.GetComponent<BaseStateMachine>().enabled = false;
         firstBossVariables.GetComponent<BehaviorTree>().enabled = false;
+    }
+    public void BK_EffectSpawn()
+    {
+        Instantiate(bk_EffectPrefab_, transform.position, transform.rotation);
     }
 }

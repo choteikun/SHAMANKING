@@ -31,7 +31,7 @@ public class EnemyLockOn : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyDeath, cmd => { targetDeathReset(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { checkIfInAttackRangeAttackRange(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { checkIfInAttackRangeAttackRange(); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { checkIfInAttackRangeAttackRange(); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { checkIfInAttackRangeAttackRange(); });
     }
 
     void Update()
