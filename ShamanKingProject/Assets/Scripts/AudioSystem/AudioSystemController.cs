@@ -8,6 +8,7 @@ public class AudioSystemController : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnGameCallSoundEffect, cmd => { spawnSound(cmd); });
+        AudioListener.volume = 0.5f;
     }
 
     void spawnSound(GameCallSoundEffectGenerate cmd)

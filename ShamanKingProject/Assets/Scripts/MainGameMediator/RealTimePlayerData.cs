@@ -20,6 +20,7 @@ public class RealTimePlayerData
     public GameObject PlayerGameObject;
     public PlayerCheckPointData PlayerCheckPointData = new PlayerCheckPointData();
     public int PlayerNowCheckPoint = -1;
+    public int GameVolume = 10;
 
     public void Refresh()
     {

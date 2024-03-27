@@ -7,6 +7,7 @@ public class GhostSizeController : MonoBehaviour
     void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSoulGageUpdate, cmd => { updateGhostSize(); });
+        updateGhostSize();
     }
 
     void updateGhostSize()

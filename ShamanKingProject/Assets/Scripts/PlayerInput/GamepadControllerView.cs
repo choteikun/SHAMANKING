@@ -369,6 +369,27 @@ public class GamepadControllerView : MonoBehaviour
         canRevive_ = true;
     }
 
+    void OnPlayerOpenControlUI()
+    {
+        Time.timeScale = 0;
+        GameManager.Instance.UIGameEvent.Send(new PlayerSwitchControlUICommand() { Switch = true });
+        input_.SwitchCurrentActionMap("PlayerPauseUIControl");
+    }
 
+    void OnPlayerCloseUI()
+    {
+        Time.timeScale = 1;
+        GameManager.Instance.UIGameEvent.Send(new PlayerSwitchControlUICommand() { Switch = false });
+        input_.SwitchCurrentActionMap("MainGameplay");
+    }
+
+    void OnPlayerLowerVolume()
+    {
+        PlayerStatCalculator.ChangeGameVolume(-1);
+    }
+    void OnPlayerUpperVolume()
+    {
+        PlayerStatCalculator.ChangeGameVolume(1);
+    }
 }
 

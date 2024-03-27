@@ -23,4 +23,6 @@ public class UIGameEventPack : GameEventPack
     public IObservable<SystemCallDefenceUIUpdateCommand> OnSystemCallDefenceUIUpdate => getSubject<SystemCallDefenceUIUpdateCommand>();
 
     public IObservable<SystemCallCanBreakUIUpdate> OnSystemCallCanBreakUIUpdate => getSubject<SystemCallCanBreakUIUpdate>();
+    public IObservable<PlayerSwitchControlUICommand> OnPlayerSwitchControlUI => getSubject<PlayerSwitchControlUICommand>();
+    public IObservable<VolumeUIUpdateCommand> OnVolumeUIUpdate => getSubject<VolumeUIUpdateCommand>();
 }

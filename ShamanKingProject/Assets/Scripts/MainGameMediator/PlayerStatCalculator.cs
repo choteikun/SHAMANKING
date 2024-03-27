@@ -79,4 +79,13 @@ public static class PlayerStatCalculator
             realTimePlayerData.PlayerGuardPerfectTimerFrame++;
         }
     }
+
+    public static void ChangeGameVolume(int amount)
+    {
+        var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
+        realTimePlayerData.GameVolume = Mathf.Clamp(realTimePlayerData.GameVolume + amount, 0, 10);
+        AudioListener.volume = realTimePlayerData.GameVolume * 0.1f;
+        GameManager.Instance.UIGameEvent.Send(new VolumeUIUpdateCommand());
+
+    }
 }

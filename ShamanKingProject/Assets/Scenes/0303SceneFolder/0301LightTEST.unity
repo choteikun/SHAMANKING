@@ -3441,6 +3441,18 @@ Transform:
   m_Father: {fileID: 1241964954321772967}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &447240197 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6319820230480161603, guid: 8c4c6d747a590b84dbd973ed3f081593,
+    type: 3}
+  m_PrefabInstance: {fileID: 6319820230590772038}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &447240198 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+    type: 3}
+  m_PrefabInstance: {fileID: 6319820230590772038}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &447809470 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8765389269491858225, guid: 64f196f86528fd841aa7713a98bf929c,
@@ -32173,6 +32185,7 @@ GameObject:
   - component: {fileID: 1241964953741871009}
   - component: {fileID: 1241964953741871010}
   - component: {fileID: 1241964953741871011}
+  - component: {fileID: 1241964953741871012}
   m_Layer: 0
   m_Name: CanvasController
   m_TagString: Untagged
@@ -32279,6 +32292,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameoverCanvas_: {fileID: 167874192}
+--- !u!114 &1241964953741871012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241964953741871004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 159870000715c7a45a376a518ed91322, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeUIObject_: {fileID: 447240197}
+  volumeBar_: {fileID: 6319820230590772039}
 --- !u!1 &1241964953836007868
 GameObject:
   m_ObjectHideFlags: 0
@@ -32692,6 +32719,7 @@ RectTransform:
   - {fileID: 401844154}
   - {fileID: 1225512220}
   - {fileID: 167874191}
+  - {fileID: 447240198}
   m_Father: {fileID: 1241964955149627794}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -36189,6 +36217,7 @@ MonoBehaviour:
       PlayerCheckPointData:
         PlayerClearedWave: 000000000000
       PlayerNowCheckPoint: -1
+      GameVolume: 10
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
   MissionBlockDatabase: {fileID: 11400000, guid: 581db4dcb7c55354992d7323a23aef63,
@@ -88536,6 +88565,137 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &6319820230590772038
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1241964954116721740}
+    m_Modifications:
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161600, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319820230480161603, guid: 8c4c6d747a590b84dbd973ed3f081593,
+        type: 3}
+      propertyPath: m_Name
+      value: ControlUI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8c4c6d747a590b84dbd973ed3f081593, type: 3}
+--- !u!114 &6319820230590772039 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6319820232364632103, guid: 8c4c6d747a590b84dbd973ed3f081593,
+    type: 3}
+  m_PrefabInstance: {fileID: 6319820230590772038}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &6327192412633686176
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -90052,12 +90212,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
-    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
-    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
-    more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

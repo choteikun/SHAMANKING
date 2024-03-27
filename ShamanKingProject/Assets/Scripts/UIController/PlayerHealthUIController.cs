@@ -29,6 +29,7 @@ public class PlayerHealthUIController : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerPlayerEnterOrLeaveEnviormentObject, cmd => { playerEnterOrLeaveEnviormentMachine(cmd.EnterOrLeave); });
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallCanBreakUIUpdate, cmd => { breakUI_.SetActive(cmd.CanBreak); });
         playerHealthChangeAnimation();
+        playerPotionRemainUIUpdate();
     }
 
     void playerHealthChangeAnimation()
