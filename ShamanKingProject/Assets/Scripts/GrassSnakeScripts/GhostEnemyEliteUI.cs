@@ -29,9 +29,9 @@ public class GhostEnemyEliteUI : MonoBehaviour
 
         blueBK_Slider_.value = enemyData_.BreakPoint / enemyData_.MaxBreakPoint;
 
-        if (enemyData_.HealthPoint <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+        //if (enemyData_.HealthPoint <= 0)
+        //{
+        //    gameObject.SetActive(false);
+        //}
     }
 }
