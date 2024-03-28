@@ -203,6 +203,7 @@ public class GamepadControllerView : MonoBehaviour
     {
         heavyAttackCharger_ = true;
         GameManager.Instance.UIGameEvent.Send(new DebugUIHeavyAttackCharge());
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 4 });
         Debug.Log("PlayerHeavyAttackCharge!");
     }
     async void OnPlayerHeavyAttack()
@@ -390,6 +391,12 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerUpperVolume()
     {
         PlayerStatCalculator.ChangeGameVolume(1);
+    }
+
+    void OnPlayerChargeButton(InputValue value)
+    {
+        var switcher = value.isPressed;
+        GameManager.Instance.MainGameEvent.Send(new PlayerChargeSwitchCommand { Switch = switcher });
     }
 }
 

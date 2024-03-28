@@ -61,6 +61,10 @@ namespace Gamemanager
     {
         public bool Charged;
     }
+    public class PlayerChargeSwitchCommand:GameEventMessageBase
+    {
+        public bool Switch;
+    }
     public class PlayerExecutionAttackCommand : GameEventMessageBase
     {
 
