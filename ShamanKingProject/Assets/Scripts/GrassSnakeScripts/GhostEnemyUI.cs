@@ -25,9 +25,9 @@ public class GhostEnemyUI : MonoBehaviour
 
         redHp_Slider_.value = Mathf.Lerp(redHp_Slider_.value, enemyData_.HealthPoint / enemyData_.GetMaxHealthPoint(), Time.deltaTime * 10);
 
-        if (enemyData_.HealthPoint <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+        //if (enemyData_.HealthPoint <= 0)
+        //{
+        //    gameObject.SetActive(false);
+        //}
     }
 }
