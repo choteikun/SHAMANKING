@@ -466,7 +466,6 @@ namespace Gamemanager
     {
         
     }
-
     public class GhostEnemyCallFollowAttackCommand : GameEventMessageBase
     {
 
@@ -524,6 +523,10 @@ namespace Gamemanager
     }
 
     public class VolumeUIUpdateCommand:GameEventMessageBase
+    {
+
+    }
+    public class PlayerHeavyAttackChargeFinishCommand : GameEventMessageBase
     {
 
     }

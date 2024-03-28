@@ -183,4 +183,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<SystemCallPlayerGameoverCommand> OnSystemCallPlayerGameover => getSubject<SystemCallPlayerGameoverCommand>();
 
     public IObservable<PlayerEnterOrLeaveEnviormentObjectCommand> OnPlayerPlayerEnterOrLeaveEnviormentObject => getSubject<PlayerEnterOrLeaveEnviormentObjectCommand>();
+
+    public IObservable<PlayerHeavyAttackChargeFinishCommand> OnPlayerHeavyAttackChargeFinish => getSubject<PlayerHeavyAttackChargeFinishCommand>();
 }

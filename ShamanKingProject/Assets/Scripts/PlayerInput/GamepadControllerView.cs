@@ -204,6 +204,7 @@ public class GamepadControllerView : MonoBehaviour
         heavyAttackCharger_ = true;
         GameManager.Instance.UIGameEvent.Send(new DebugUIHeavyAttackCharge());
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 4 });
+        GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackChargeFinishCommand());
         Debug.Log("PlayerHeavyAttackCharge!");
     }
     async void OnPlayerHeavyAttack()
