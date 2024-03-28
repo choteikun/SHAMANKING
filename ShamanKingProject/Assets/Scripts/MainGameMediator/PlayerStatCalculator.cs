@@ -52,6 +52,7 @@ public static class PlayerStatCalculator
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint = Mathf.Clamp(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint + amount, 0, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint);
         var percentage = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint / GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint;
         GameManager.Instance.UIGameEvent.Send(new SystemCallDefenceUIUpdateCommand() { Percentage = percentage });
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 24 });
     }
 
     public static void PlayerClearWaveWriteData(int waveID)

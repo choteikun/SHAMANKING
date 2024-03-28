@@ -53,6 +53,7 @@ public class AttackFeedbackBehavior : MonoBehaviour
     }
     async void parrySuccessTimeScale()
     {
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 23 });
         mainCM_.SetActive(false);
         parryCM_.SetActive(true);
         impulseSource_.GenerateImpulse(parryForce_);

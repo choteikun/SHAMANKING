@@ -109,4 +109,10 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() {SoundEffectID = id });
     }
+
+    public void AnimationCallRandomWalkSoundEffect()
+    {
+        var random = Random.Range(28, 32);
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = random });
+    }
 }

@@ -390,10 +390,15 @@ public class PlayerAttackModel
         {
             //animator_.Rebind();
             playerAnimator_.CrossFadeInFixedTime("Girl_Dash", 0.25f);
-            GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 8 });
+            GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = randomDashSoundEffect() });
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
+    }
+    int randomDashSoundEffect()
+    {
+        var random = Random.Range(25, 27);
+        return random;
     }
     void checkNextInput()
     {
