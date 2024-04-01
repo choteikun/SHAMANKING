@@ -1,6 +1,4 @@
 using Datamanager;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -8,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField] string nextSceneName_;
-     private void Start()
+    private void Start()
     {
         Cursor.visible = true;
     }
@@ -16,14 +14,22 @@ public class MainMenuController : MonoBehaviour
     {
         foreach (var gamepad in Gamepad.all)
         {
-            foreach (var control in gamepad.allControls)
+            if (gamepad.buttonSouth.isPressed)
             {
-                if (control.IsPressed())
+                QuitGame();
+            }
+            else
+            {
+                foreach (var control in gamepad.allControls)
                 {
-                    Debug.Log("pressed");
-                    IntoNextScene();
+                    if (control.IsPressed())
+                    {
+                        Debug.Log("pressed");
+                        IntoNextScene();
+                    }
                 }
             }
+
         }
     }
 
@@ -34,5 +40,10 @@ public class MainMenuController : MonoBehaviour
         realTimePlayerData.Refresh();
         SceneManager.LoadScene(nextSceneName_);
     }
-    
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 }
