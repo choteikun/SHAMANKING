@@ -28,4 +28,10 @@ public class GhostEnemyAnimationEvent : MonoBehaviour
     {
         Instantiate(bk_EffectPrefab_, transform.position, transform.rotation);
     }
+
+    public void SpawnRandomPrepareAudio()
+    {
+        var random = Random.Range(106,109);
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = random });
+    }
 }

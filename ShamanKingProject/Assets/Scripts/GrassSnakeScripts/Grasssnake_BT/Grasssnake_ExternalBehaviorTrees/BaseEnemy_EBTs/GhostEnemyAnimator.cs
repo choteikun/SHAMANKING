@@ -52,4 +52,9 @@ public class GhostEnemyAnimator : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() {SoundEffectID =  soundEffectID});
     }
+    public void SpawnRandomPrepareAudio()
+    {
+        var random = Random.Range(106, 109);
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = random });
+    }
 }
