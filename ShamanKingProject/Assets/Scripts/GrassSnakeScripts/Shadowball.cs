@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Gamemanager;
 public class Shadowball : MonoBehaviour
 {
     public float Speed;
@@ -33,6 +33,7 @@ public class Shadowball : MonoBehaviour
         // 停止渲染，停止本腳本，隨機實例化爆炸特效，刪除本物體
         shadowBallRenderer_.enabled = false;
         enabled = false;
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 104 });
         Instantiate(explosionPrefabs_[Random.Range(0, explosionPrefabs_.Length)], transform.position + new Vector3(0, 0.75f, 0), Random.rotation);
 
         // 三秒後刪除影子球物體，這時候煙霧已經散去，可以刪掉物體了

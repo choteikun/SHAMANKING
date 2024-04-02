@@ -41,7 +41,7 @@ public class FireballProjectileBehavior : MonoBehaviour
             //}
             var explodeEffect = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(10).PrefabPath;
             var explodeObject = Instantiate(explodeEffect, other.ClosestPoint(this.gameObject.transform.position), Quaternion.identity);
-            //GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() {SoundEffectID = 26 });
+            GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() {SoundEffectID = 202 });
         }
     }
 }
