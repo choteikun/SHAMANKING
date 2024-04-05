@@ -15,5 +15,9 @@ public class ToBossSceneButton : MonoBehaviour
         {
             ToBossScene();
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneManager.LoadScene("0220MainScene 1");
+        }
     }
 }

@@ -44,6 +44,9 @@ public class EnemyBeHitTest : MonoBehaviour
     [SerializeField] float beHitTimer_ = 0.2f;
     [SerializeField] float beGrabTimer_ = 1f;
 
+    [SerializeField] GameObject executionEffectPrefab_;
+
+
     [SerializeField]
     GameObject onHitParticle_;
     private void Start()
@@ -60,6 +63,7 @@ public class EnemyBeHitTest : MonoBehaviour
             {
                 canBeExecute_ = false;
                 //呼叫處決特效
+                var prefab = Instantiate(executionEffectPrefab_, this.transform.position, Quaternion.identity);
                 if (!BeExecuted)
                 {
                     BeExecuted = true;
