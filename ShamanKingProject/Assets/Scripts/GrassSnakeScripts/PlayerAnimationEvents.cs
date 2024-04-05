@@ -115,4 +115,9 @@ public class PlayerAnimationEvents : MonoBehaviour
         var random = Random.Range(28, 32);
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = random });
     }
+
+    public void ExecuteCamFeedback()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerExecuteCamFeedBackCommand());
+    }
 }

@@ -22,6 +22,7 @@ public class AttackFeedbackBehavior : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { onGetPlayerAttackSuccessCommand(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerSuccessParry, cmd => parrySuccessTimeScale());
         GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallCameraFeedBack, cmd => { bossCallCameraShake(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecuteCamFeedBack, cmd => executeCallCameraShake());
     }
 
     void onGetPlayerAttackSuccessCommand(PlayerAttackSuccessCommand cmd)
@@ -67,5 +68,13 @@ public class AttackFeedbackBehavior : MonoBehaviour
     void bossCallCameraShake()
     {
         impulseSource_.GenerateImpulse(5);
+    }
+
+    async void executeCallCameraShake()
+    {
+        impulseSource_.GenerateImpulse(heavyForce_);
+        Time.timeScale = 0.15f;
+        await UniTask.DelayFrame(heavyDelayFrame_);
+        Time.timeScale = 1;
     }
 }

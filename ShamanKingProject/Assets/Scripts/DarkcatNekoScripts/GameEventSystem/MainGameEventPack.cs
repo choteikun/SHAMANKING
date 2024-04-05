@@ -187,4 +187,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerHeavyAttackChargeFinishCommand> OnPlayerHeavyAttackChargeFinish => getSubject<PlayerHeavyAttackChargeFinishCommand>();
 
     public IObservable<PlayerUltimatePrepareSuccess> OnPlayerUltimatePrepareSuccess => getSubject<PlayerUltimatePrepareSuccess>();
+
+    public IObservable<PlayerExecuteCamFeedBackCommand> OnPlayerExecuteCamFeedBack => getSubject<PlayerExecuteCamFeedBackCommand>();
 }
