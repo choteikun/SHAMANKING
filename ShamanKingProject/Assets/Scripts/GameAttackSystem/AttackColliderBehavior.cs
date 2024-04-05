@@ -19,6 +19,8 @@ public class AttackColliderBehavior : MonoBehaviour
     [SerializeField] int hitEnemyCount_;
 
     [SerializeField] bool canTrigger_ = false;
+
+    bool sendUltimateHitMessage = false;
     private async void Start()
     {
         await UniTask.DelayFrame(lastFrame_);
@@ -39,6 +41,11 @@ public class AttackColliderBehavior : MonoBehaviour
             hitEnemyCount_++;
             var command = new PlayerAttackSuccessCommand() { CollidePoint = collidePoint, AttackTarget = other.gameObject, AttackDamage = getDamege(), AttackFeedBackType = feedBackType_, AttackInputType = attackInputType_, AddSoulGage = soulAdded };
             awaitSendAttackMessage(command);
+            if (attackInputType_ == AttackInputType.UltimatePrepare&& sendUltimateHitMessage == false)
+            {
+                sendUltimateHitMessage = true;
+                GameManager.Instance.MainGameEvent.Send(new PlayerUltimatePrepareSuccess());
+            }
         }
     }
     async void awaitSendAttackMessage(PlayerAttackSuccessCommand cmd)

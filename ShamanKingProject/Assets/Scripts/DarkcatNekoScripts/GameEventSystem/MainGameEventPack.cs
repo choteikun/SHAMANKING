@@ -185,4 +185,6 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerEnterOrLeaveEnviormentObjectCommand> OnPlayerPlayerEnterOrLeaveEnviormentObject => getSubject<PlayerEnterOrLeaveEnviormentObjectCommand>();
 
     public IObservable<PlayerHeavyAttackChargeFinishCommand> OnPlayerHeavyAttackChargeFinish => getSubject<PlayerHeavyAttackChargeFinishCommand>();
+
+    public IObservable<PlayerUltimatePrepareSuccess> OnPlayerUltimatePrepareSuccess => getSubject<PlayerUltimatePrepareSuccess>();
 }

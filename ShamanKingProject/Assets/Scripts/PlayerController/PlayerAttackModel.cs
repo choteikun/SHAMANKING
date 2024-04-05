@@ -26,7 +26,8 @@ public class PlayerAttackModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { whenGetAttackTrigger(AttackInputType.ExecutionAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerShootAttack, cmd => { whenGetAttackTrigger(AttackInputType.ShootAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { whenGetAttackTrigger(AttackInputType.Dodge); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimateAttack, cmd => { whenGetAttackTrigger(AttackInputType.Ultimate); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimateAttack, cmd => { whenGetAttackTrigger(AttackInputType.UltimatePrepare); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimatePrepareSuccess, cmd => { addFirstUltimateAttack(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { isDead_ = true; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd =>
         {
@@ -131,6 +132,9 @@ public class PlayerAttackModel
                     return;
                 case AttackInputType.ShootAttack:
                     addFirstShootAttack();
+                    return;
+                case AttackInputType.UltimatePrepare:
+                    addFirstUltimateAttackPrepare();
                     return;
                 case AttackInputType.Ultimate:
                     addFirstUltimateAttack();
@@ -282,6 +286,11 @@ public class PlayerAttackModel
 
     void addFirstUltimateAttack()
     {
+        isAttacking_ = false;
+        CurrentAttackInputs = new List<AttackBlockBase> { };
+        currentInputCount_ = -1;
+        PassedFrameAfterAttack = 0;
+        comboDeclaim = false;
         if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 2)
         {
             return;
@@ -311,6 +320,36 @@ public class PlayerAttackModel
             }
         }
 
+    }
+
+    void addFirstUltimateAttackPrepare()
+    {
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 2)
+        {
+            return;
+        }
+        else if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 4 && GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount >= 2)
+        {           
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[26], GameManager.Instance.AttackBlockDatabase.Database[26].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                playerAnimator_.CrossFadeInFixedTime("PlayerUltimatePrepare_1", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
+        }
+        else if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount == 4)
+        {
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[27], GameManager.Instance.AttackBlockDatabase.Database[27].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                playerAnimator_.CrossFadeInFixedTime("PlayerUltimatePrepare_2", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
+        }
     }
     void addFirstShootAttack()
     {
@@ -522,6 +561,7 @@ public enum AttackInputType
     ShootAttack,
     SoulAttack,
     Ultimate,
+    UltimatePrepare,
 }
 
 
