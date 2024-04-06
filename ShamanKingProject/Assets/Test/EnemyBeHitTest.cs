@@ -76,7 +76,7 @@ public class EnemyBeHitTest : MonoBehaviour
                 GameManager.Instance.MainGameEvent.Send(new PlayerAttackSuccessResponse(cmd, percentage, breakPercentage));
                 GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 7 });
                 RevertBreakPoint();
-                canBeExecute_ = true;
+                canBeExecute_ = true;               
             }
             else
             {
