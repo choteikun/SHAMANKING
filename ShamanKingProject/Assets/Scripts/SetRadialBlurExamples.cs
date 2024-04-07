@@ -13,11 +13,13 @@ public class SetRadialBlurExamples : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Awake");
         ValidateRadialBlurManager();
     }
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecuteCamFeedBack, cmd => { blurAnimation(); });
+        Debug.Log("Start");
     }
 
     private bool ValidateRadialBlurManager()
@@ -70,6 +72,7 @@ public class SetRadialBlurExamples : MonoBehaviour
 
     void blurAnimation()
     {
+        Debug.Log("StartblurAnimation");
         DOTween.Sequence()
             .Append(DOTween.To(() => 0f, x => SetIntensity(x), 1.5f, 0.2f))
             .Append(DOTween.To(() => 1.5f, x => SetIntensity(x), 0f, 0.2f));
