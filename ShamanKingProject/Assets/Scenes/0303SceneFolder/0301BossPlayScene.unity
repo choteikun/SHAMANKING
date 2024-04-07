@@ -5393,7 +5393,8 @@ MonoBehaviour:
   canGetGrab_: 1
   beHitTimer_: 0.2
   beGrabTimer_: 1
-  executionEffectPrefab_: {fileID: 0}
+  executionEffectPrefab_: {fileID: 4149464851492239043, guid: 18b13bda80abec54d860c95d90b1b106,
+    type: 3}
   onHitParticle_: {fileID: 313742359}
 --- !u!114 &1174915704
 MonoBehaviour:
@@ -10724,6 +10725,7 @@ GameObject:
   - component: {fileID: 5334564150739130973}
   - component: {fileID: 5334564150739130974}
   - component: {fileID: 5334564150739130975}
+  - component: {fileID: 5334564150739130976}
   m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -24317,6 +24319,75 @@ Transform:
   m_Father: {fileID: 4005365770491468782}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 6.140706, y: 17.957653, z: 10.264028}
+--- !u!1001 &3547968471640737032
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4149464851492239043, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_Name
+      value: ExecutionPrefabForBoss
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 49.955
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.283495
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.245061
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902064635438445220, guid: 18b13bda80abec54d860c95d90b1b106,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 18b13bda80abec54d860c95d90b1b106, type: 3}
 --- !u!4 &3548922099040547975
 Transform:
   m_ObjectHideFlags: 0
@@ -32145,6 +32216,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerChargeEffectObjsRoot_: {fileID: 0}
   playerChargeEffects_: []
+--- !u!114 &5334564150739130976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499454567032653146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fa5063fed73a54fad3928795909cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 393794923}
 --- !u!4 &5340888719199722574
 Transform:
   m_ObjectHideFlags: 0
