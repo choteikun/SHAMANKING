@@ -28,7 +28,6 @@ public class AttackColliderBehavior : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        // 检查collider是否在LayerMask中
         if ((layerMask_.value & (1 << other.gameObject.layer)) > 0)
         {
             //var collidePoint = collidePoint_.ClosestPoint(other.transform.position);
