@@ -9,7 +9,7 @@ Shader "Unlit/AirWall"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent", "Queue"="Transparent" }
+        Tags { "RenderType"="Transparent", "Queue"="Transparent"}
         LOD 100
 
         Pass
@@ -53,6 +53,8 @@ Shader "Unlit/AirWall"
                 float dis = abs(distance(i.vertexWorldPos,_PlayerPos))
                 // sample the texture
                 fixed4 tex = tex2D(_MainTex, i.uv);//±Ä¼Ë¥D¶K¹Ï
+
+                tex.a *=1 -smoothstep(_EdgeRange.x,_EdgeRange.y,dis);
                 return tex;
             }
             ENDCG
