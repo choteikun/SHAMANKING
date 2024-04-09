@@ -26,7 +26,7 @@ public class PunishmentMachine : MonoBehaviour
         await UniTask.DelayFrame(centerHintFrame_);
         centerHint_.SetActive(false);
         centerHitBox_.SetActive(true);
-        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 212 });
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 213 });
         await UniTask.DelayFrame(3);
         Destroy(centerHitBox_);
         outerHint_.SetActive(true);
