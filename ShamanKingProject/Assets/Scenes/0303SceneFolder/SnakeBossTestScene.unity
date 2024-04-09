@@ -5268,7 +5268,6 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: ef4871a04e9f52644a4d73e6ae5f974d, type: 2}
     - {fileID: 11400000, guid: 7634f16bf56e1a94895c12566f504a7d, type: 2}
-    - {fileID: 11400000, guid: e44b190641a4c7f40a7f54273d211c5f, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -5289,20 +5288,6 @@ MonoBehaviour:
         - m_Target: {fileID: 1720537175}
           m_TargetAssemblyTypeName: PlayerCutSceneWalker, Assembly-CSharp
           m_MethodName: PlayerControlSwitch
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2482469452869683971}
-          m_TargetAssemblyTypeName: BossHellDogAnimationEvent, Assembly-CSharp
-          m_MethodName: ExecuteCamFeedback
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -59553,7 +59538,6 @@ GameObject:
   - component: {fileID: 2482469452869683970}
   - component: {fileID: 2482469452869683971}
   - component: {fileID: 2482469452869683968}
-  - component: {fileID: 9212250101194673090}
   m_Layer: 0
   m_Name: Helldog_Animator
   m_TagString: Untagged
@@ -59561,36 +59545,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &9212250101194673090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9212250101194673089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: e44b190641a4c7f40a7f54273d211c5f, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2482469452869683971}
-          m_TargetAssemblyTypeName: BossHellDogAnimationEvent, Assembly-CSharp
-          m_MethodName: ExecuteCamFeedback
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!4 &9213417493979981612
 Transform:
   m_ObjectHideFlags: 0
