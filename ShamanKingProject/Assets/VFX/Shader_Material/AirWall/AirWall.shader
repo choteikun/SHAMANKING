@@ -9,7 +9,7 @@ Shader "Unlit/AirWall"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent", "Queue"="Transparent"}
+        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
         LOD 100
 
         Pass
@@ -30,7 +30,7 @@ Shader "Unlit/AirWall"
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float3 vertexWorldPos : SV_POSITION;//定義世界空見下的頂點座標
+                float3 vertexWorldPos : TEXCOORD1;//定義世界空見下的頂點座標
 
             };
 
@@ -44,7 +44,7 @@ Shader "Unlit/AirWall"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                o.vertexWorldPos = mul(unity_ObjectToWorldPos , v.vertex)//暫時寫到這裡02:19
+                o.vertexWorldPos = mul(unity_ObjectToWorld , v.vertex)//暫時寫到這裡02:19
                 return o;
             }
 
