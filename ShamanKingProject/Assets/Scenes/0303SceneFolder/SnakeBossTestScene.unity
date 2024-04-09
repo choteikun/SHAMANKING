@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 136067603}
   - component: {fileID: 136067602}
   m_Layer: 0
-  m_Name: FIRE_Tail
+  m_Name: BossFireVfx_RFFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 167943780}
   - component: {fileID: 167943779}
   m_Layer: 0
-  m_Name: FIRE_Tail
+  m_Name: BossFireVfx_LFFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1504,8 +1504,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469536276}
-  m_LocalRotation: {x: -0.016832031, y: -0.89968187, z: 0.40569863, w: 0.16030578}
-  m_LocalPosition: {x: 1.08391, y: 2.7373734, z: 88.847984}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2027,7 +2027,7 @@ GameObject:
   - component: {fileID: 616643757}
   - component: {fileID: 616643756}
   m_Layer: 0
-  m_Name: FIRE_TEST
+  m_Name: BossFireVfx_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4447,7 +4447,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854481674}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -5201,10 +5201,6 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: 1892998338575327653, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
     value: {fileID: 908713863}
-  - key: {fileID: -6328460458444585008, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
-    value: {fileID: 1935875546897749047}
-  - key: {fileID: 8956154836130305938, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
-    value: {fileID: 5334564150739130974}
   - key: {fileID: -4540951633914296663, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
     value: {fileID: 1979657277}
   - key: {fileID: 2612352413688650721, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
@@ -5233,8 +5229,14 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -6877623046265048792, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
     value: {fileID: 9212250101194673089}
+  - key: {fileID: -4036703987370181131, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
+    value: {fileID: 5334564150739130974}
+  - key: {fileID: -5734851178314132884, guid: 11dcab6eba290a9499bc146fae9e57f5, type: 2}
+    value: {fileID: 1935875546897749047}
   m_ExposedReferences:
-    m_References: []
+    m_References:
+    - 7c9d09d14b01d7b4dabbc39d40dfdd28: {fileID: 6035100178054139891}
+    - 57a67f4f78e9b5a46a3d257816517033: {fileID: 6035100178054139891}
 --- !u!4 &1071683086
 Transform:
   m_ObjectHideFlags: 0
@@ -5266,6 +5268,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: ef4871a04e9f52644a4d73e6ae5f974d, type: 2}
     - {fileID: 11400000, guid: 7634f16bf56e1a94895c12566f504a7d, type: 2}
+    - {fileID: 11400000, guid: e44b190641a4c7f40a7f54273d211c5f, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -5286,6 +5289,20 @@ MonoBehaviour:
         - m_Target: {fileID: 1720537175}
           m_TargetAssemblyTypeName: PlayerCutSceneWalker, Assembly-CSharp
           m_MethodName: PlayerControlSwitch
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2482469452869683971}
+          m_TargetAssemblyTypeName: BossHellDogAnimationEvent, Assembly-CSharp
+          m_MethodName: ExecuteCamFeedback
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5376,7 +5393,7 @@ GameObject:
   - component: {fileID: 1154457450}
   - component: {fileID: 1154457449}
   m_Layer: 0
-  m_Name: FIRE_Tail
+  m_Name: BossFireVfx_LBFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8736,7 +8753,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979657276}
-  m_LocalRotation: {x: 0.042080086, y: 0.95269895, z: -0.25765002, w: 0.15559733}
+  m_LocalRotation: {x: 0.042080075, y: 0.95269895, z: -0.25765008, w: 0.15559727}
   m_LocalPosition: {x: 26.900002, y: 55.199993, z: 38.500027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9319,7 +9336,7 @@ GameObject:
   - component: {fileID: 2087009850}
   - component: {fileID: 2087009849}
   m_Layer: 0
-  m_Name: FIRE_Tail
+  m_Name: BossFireVfx_RBFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12879,7 +12896,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499454567032653146}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 50.725994, y: 10.1830015, z: -32.102615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21405,7 +21422,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -22665,7 +22687,7 @@ Animator:
   m_GameObject: {fileID: 9212250101194673089}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8207864b13978d3428b929940759bb61, type: 3}
-  m_Controller: {fileID: 9100000, guid: b05ab908d9a978a4cb8ed9db9cc20d05, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3f59da5fbebfacc4b969d43d25ff598c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -22701,6 +22723,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bk_EffectPrefab_: {fileID: 0}
+  bossVfxs:
+  - {fileID: 167943780}
+  - {fileID: 136067603}
+  - {fileID: 1154457450}
+  - {fileID: 2087009850}
+  - {fileID: 616643757}
 --- !u!4 &2485624632347709771
 Transform:
   m_ObjectHideFlags: 0
@@ -45417,30 +45445,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: -0.16442871
-        y: 3.9424267
-        z: -0.5536194
-      - x: -0.14956665
-        y: 3.7464428
-        z: -0.66241455
-      - x: -0.13330078
-        y: 3.5525932
-        z: -0.67024994
-      - x: -0.116867065
-        y: 3.3589764
-        z: -0.66716766
-      - x: -0.10029602
-        y: 3.1655903
-        z: -0.6531677
-      - x: -0.08383179
-        y: 2.9720306
-        z: -0.6473541
-      - x: -0.06742859
-        y: 2.7783833
-        z: -0.6456375
-      - x: -0.050933838
-        y: 2.5848827
-        z: -0.6370926
+      - x: -0.17869568
+        y: 3.8902435
+        z: -0.54319
+      - x: -0.19558716
+        y: 3.684349
+        z: -0.63145447
+      - x: -0.2021637
+        y: 3.4901161
+        z: -0.61992645
+      - x: -0.2076416
+        y: 3.2971401
+        z: -0.59760284
+      - x: -0.21199036
+        y: 3.1054287
+        z: -0.5644989
+      - x: -0.21717834
+        y: 2.9127693
+        z: -0.53948975
+      - x: -0.22277832
+        y: 2.7196388
+        z: -0.5185089
+      - x: -0.22769165
+        y: 2.527296
+        z: -0.49080658
       attributes:
       - Value: 1
       - Value: 2
@@ -45450,7 +45478,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.2246485
+      maxConnectionDistance: 0.2246519
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -45675,7 +45703,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 71.37
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -45700,8 +45728,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6035100177912329183}
-  m_LocalRotation: {x: 0.042080086, y: 0.95269895, z: -0.25765002, w: 0.15559733}
-  m_LocalPosition: {x: 26.900002, y: 55.199993, z: 38.500027}
+  m_LocalRotation: {x: 0.15883225, y: -0, z: -0, w: 0.9873056}
+  m_LocalPosition: {x: 50.725994, y: 12.783002, z: -29.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -45939,15 +45967,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6035100178054139889}
-  m_LocalRotation: {x: -0.017797384, y: -0.9021093, z: 0.40027165, w: 0.16020148}
-  m_LocalPosition: {x: 1.3066235, y: 3.4173355, z: 89.21956}
+  m_LocalRotation: {x: -0.006023869, y: -0, z: -0, w: 0.9999819}
+  m_LocalPosition: {x: 0, y: 0.16027488, z: -0.79013467}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6035100176461980973}
   m_Father: {fileID: 6035100177912329170}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 17.359, y: 0, z: 0}
 --- !u!114 &6035100178054139891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46407,30 +46435,30 @@ MonoBehaviour:
   serializeData2:
     selectionData:
       positions:
-      - x: -0.05393982
-        y: 2.6700325
-        z: -0.37010193
-      - x: -0.04638672
-        y: 2.5687199
-        z: -0.43441772
-      - x: -0.03881836
-        y: 2.4674053
-        z: -0.4987259
-      - x: -0.03126526
-        y: 2.3660889
-        z: -0.56303406
-      - x: -0.0236969
-        y: 2.2647762
-        z: -0.6273422
-      - x: -0.016159058
-        y: 2.1634617
-        z: -0.6916504
-      - x: -0.008590698
-        y: 2.062149
-        z: -0.75595856
-      - x: -0.0010375977
-        y: 1.9608326
-        z: -0.8202667
+      - x: -0.17082214
+        y: 2.66465
+        z: -0.3612671
+      - x: -0.17538452
+        y: 2.5679054
+        z: -0.43252563
+      - x: -0.17993164
+        y: 2.471159
+        z: -0.50377655
+      - x: -0.18449402
+        y: 2.3744144
+        z: -0.57502747
+      - x: -0.1890564
+        y: 2.27767
+        z: -0.646286
+      - x: -0.19360352
+        y: 2.1809273
+        z: -0.7175369
+      - x: -0.1981659
+        y: 2.0841808
+        z: -0.78878784
+      - x: -0.20272827
+        y: 1.9874363
+        z: -0.8600464
       attributes:
       - Value: 1
       - Value: 2
@@ -46440,7 +46468,7 @@ MonoBehaviour:
       - Value: 2
       - Value: 2
       - Value: 2
-      maxConnectionDistance: 0.12024068
+      maxConnectionDistance: 0.12024184
       userEdit: 0
   gizmoSerializeData:
     always: 0
@@ -59530,6 +59558,7 @@ GameObject:
   - component: {fileID: 2482469452869683970}
   - component: {fileID: 2482469452869683971}
   - component: {fileID: 2482469452869683968}
+  - component: {fileID: 9212250101194673090}
   m_Layer: 0
   m_Name: Helldog_Animator
   m_TagString: Untagged
@@ -59537,6 +59566,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &9212250101194673090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9212250101194673089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: e44b190641a4c7f40a7f54273d211c5f, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2482469452869683971}
+          m_TargetAssemblyTypeName: BossHellDogAnimationEvent, Assembly-CSharp
+          m_MethodName: ExecuteCamFeedback
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!4 &9213417493979981612
 Transform:
   m_ObjectHideFlags: 0
