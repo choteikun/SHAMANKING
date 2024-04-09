@@ -3,14 +3,27 @@ using UnityEngine;
 using Datamanager;
 using BehaviorDesigner.Runtime;
 using AI.FSM;
+using UnityEngine.VFX;
 
 public class BossHellDogAnimationEvent : MonoBehaviour
 {
     FirstBossVariables firstBossVariables;
     [SerializeField] GameObject bk_EffectPrefab_;
+    [SerializeField] VisualEffect[] bossVfxs;
     void Awake()
     {
         firstBossVariables = GetComponentInParent<FirstBossVariables>();
+        for (int i = 0; i <= 4; i++)
+        {
+            if (bossVfxs[i] == null)
+            {
+                bossVfxs[0] ??= GameObject.Find("BossFireVfx_Back").GetComponent<VisualEffect>();
+                bossVfxs[1] ??= GameObject.Find("BossFireVfx_LFFoot").GetComponent<VisualEffect>();
+                bossVfxs[2] ??= GameObject.Find("BossFireVfx_RFFoot").GetComponent<VisualEffect>();
+                bossVfxs[3] ??= GameObject.Find("BossFireVfx_LBFoot").GetComponent<VisualEffect>();
+                bossVfxs[4] ??= GameObject.Find("BossFireVfx_RBFoot").GetComponent<VisualEffect>();
+            }
+        }
     }
     public void BossCurAnimationEnd()
     {
@@ -103,5 +116,12 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     public void BK_EffectSpawn()
     {
         Instantiate(bk_EffectPrefab_, transform.position, transform.rotation);
+    }
+    public void FirstBossFireVfxStop()
+    {
+        for (int i = 0; i <= 4; i++)
+        {
+            bossVfxs[i].Stop();
+        }
     }
 }

@@ -78,5 +78,6 @@ public class SetRadialBlurExamples : MonoBehaviour
             .Append(DOTween.To(() => 1.5f, x => SetIntensity(x), 0f, 0.2f));
 
     }
+
 }
 //}
