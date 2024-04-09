@@ -1,11 +1,7 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using UnityEngine.Video;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class StartCinematicController : MonoBehaviour
 {
@@ -23,7 +19,7 @@ public class StartCinematicController : MonoBehaviour
         {
             case 0:
                 animator.CrossFadeInFixedTime("Cinematic1", 0);
-                break; 
+                break;
             case 1:
                 animator.CrossFadeInFixedTime("Cinematic2", 0);
                 break;
