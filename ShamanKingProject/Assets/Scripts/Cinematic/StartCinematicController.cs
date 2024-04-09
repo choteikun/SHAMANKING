@@ -13,6 +13,13 @@ public class StartCinematicController : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallCinematicPlay, cmd => { playCinematic(cmd.CinematicID); });
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SceneManager.LoadScene("0301LightTEST");
+        }
+    }
     async void playCinematic(float id)
     {
         switch (id)
