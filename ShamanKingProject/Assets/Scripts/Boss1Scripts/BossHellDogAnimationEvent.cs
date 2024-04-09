@@ -71,7 +71,11 @@ public class BossHellDogAnimationEvent : MonoBehaviour
 
     public void HellDogCallCameraShake()
     {
-        GameManager.Instance.HellDogGameEvent.Send(new BossCallCameraFeedBackCommand() );
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallCameraFeedBackCommand());
+    }
+    public void ExecuteCamFeedback()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerExecuteCamFeedBackCommand());
     }
 
     public void CallUISkillName(string command)
