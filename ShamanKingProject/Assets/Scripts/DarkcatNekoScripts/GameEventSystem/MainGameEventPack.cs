@@ -189,4 +189,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<PlayerUltimatePrepareSuccess> OnPlayerUltimatePrepareSuccess => getSubject<PlayerUltimatePrepareSuccess>();
 
     public IObservable<PlayerExecuteCamFeedBackCommand> OnPlayerExecuteCamFeedBack => getSubject<PlayerExecuteCamFeedBackCommand>();
+    public IObservable<SystemCallCinematicPlayCommand> OnSystemCallCinematicPlay => getSubject<SystemCallCinematicPlayCommand>();
 }
