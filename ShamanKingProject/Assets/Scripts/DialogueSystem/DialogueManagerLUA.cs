@@ -15,6 +15,7 @@ public class DialogueManagerLUA : MonoBehaviour
         Lua.RegisterFunction("CallFirstSceneCameraTransferBack", this, SymbolExtensions.GetMethodInfo(() => CallCameraTransferBack()));
         Lua.RegisterFunction("CallScene1Wave", this, SymbolExtensions.GetMethodInfo(() => CallScene1Wave(0)));
         Lua.RegisterFunction("CallMissionUIUpdate", this, SymbolExtensions.GetMethodInfo(() => CallMissionUIUpdate(0)));
+        Lua.RegisterFunction("CallCinematicPlay", this, SymbolExtensions.GetMethodInfo(() => CallCinematicPlay(0)));
     }
 
     public void ChangeContinueButtonToAlways()
@@ -56,4 +57,8 @@ public class DialogueManagerLUA : MonoBehaviour
         GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[(int)missionID] });
     }
 
+    public void CallCinematicPlay(float cinematicID)
+    {
+        GameManager.Instance.MainGameEvent.Send(new SystemCallCinematicPlayCommand() {CinematicID = (int)cinematicID });
+    }
 }
