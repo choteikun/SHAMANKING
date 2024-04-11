@@ -11,8 +11,8 @@ public class PunishmentMachine : MonoBehaviour
     [SerializeField] GameObject innerJudgement_;
     [SerializeField] GameObject outerJudgement_;
 
-    [SerializeField] int centerHintFrame_;
-    [SerializeField] int outerHintFrame_;
+    [SerializeField] int centerHintSec_;
+    [SerializeField] int outerHintSec_;
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class PunishmentMachine : MonoBehaviour
     {
         centerHint_.SetActive(true);
         innerJudgement_.SetActive(true);
-        await UniTask.DelayFrame(centerHintFrame_);
+        await UniTask.Delay(centerHintSec_);
         centerHint_.SetActive(false);
         centerHitBox_.SetActive(true);
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 213 });
@@ -31,7 +31,7 @@ public class PunishmentMachine : MonoBehaviour
         Destroy(centerHitBox_);
         outerHint_.SetActive(true);
         outerJudgement_.SetActive(true);
-        await UniTask.DelayFrame(outerHintFrame_);
+        await UniTask.Delay(outerHintSec_);
         outerHint_.SetActive(false);
         outerHitBox_.SetActive(true);
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 213 });
