@@ -337,8 +337,7 @@ public class GamepadControllerView : MonoBehaviour
     {
         if (isJumping_ ) return;
 
-        isGuarding_ = value.isPressed;
-        PlayerStatCalculator.PlayerGuardingSwitch(isGuarding_);
+        isGuarding_ = value.isPressed;       
         //isAiming_ = isGuarding_;
         GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ });
         Debug.Log(isGuarding_ + "Guarding");

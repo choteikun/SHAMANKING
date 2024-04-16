@@ -137,6 +137,7 @@ public class PlayerAttackModel
             PassedFrameAfterAttack = 0;
             comboDeclaim = false;
             isGuarding_ = false;
+            PlayerStatCalculator.PlayerGuardingSwitch(false);
             GameManager.Instance.MainGameEvent.Send(new PlayerGuardSkillOutCommand() { GuardingIsOut = false });
             backToIdle();
         }
@@ -451,6 +452,7 @@ public class PlayerAttackModel
         comboDeclaim = false;
         isGuarding_ = true;
         GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+        PlayerStatCalculator.PlayerGuardingSwitch(true);
         GameManager.Instance.MainGameEvent.Send(new PlayerGuardSkillOutCommand() { GuardingIsOut = true });
         CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[28], GameManager.Instance.AttackBlockDatabase.Database[28].SkillFrame));
         currentInputCount_++;
@@ -549,6 +551,7 @@ public class PlayerAttackModel
         {
             isGuarding_ = true;
             GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+            PlayerStatCalculator.PlayerGuardingSwitch(true);
             GameManager.Instance.MainGameEvent.Send(new PlayerGuardSkillOutCommand() { GuardingIsOut = true });
         }
         playerAnimator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[actionID].SkillName, 0.25f);
