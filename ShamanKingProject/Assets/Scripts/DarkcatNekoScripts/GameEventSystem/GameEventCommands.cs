@@ -35,6 +35,10 @@ namespace Gamemanager
     {
         public bool GuardingButtonIsPressed = false;
     }
+    public class PlayerGuardSkillOutCommand : GameEventMessageBase
+    {
+        public bool GuardingIsOut = false;
+    }
     public class SystemStopGuardingCommand : GameEventMessageBase
     {
 

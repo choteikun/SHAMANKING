@@ -335,7 +335,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerGuard(InputValue value)
     {
-        if (isJumping_ || isAttacking_) return;
+        if (isJumping_ ) return;
 
         isGuarding_ = value.isPressed;
         PlayerStatCalculator.PlayerGuardingSwitch(isGuarding_);

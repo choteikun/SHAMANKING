@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Gamemanager;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public class PlayerAttackModel
@@ -17,6 +18,7 @@ public class PlayerAttackModel
     bool isJumpAttacking_ = false;
     bool isThrowing_ = false;
     bool isDead_ = false;
+    bool isGuarding_ = false;
     public void PlayerAttackModelInit()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
@@ -28,6 +30,7 @@ public class PlayerAttackModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { whenGetAttackTrigger(AttackInputType.Dodge); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimateAttack, cmd => { whenGetAttackTrigger(AttackInputType.UltimatePrepare); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimatePrepareSuccess, cmd => { addFirstUltimateAttack(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGuardingButtonTrigger, cmd => { whenGetGuardTrigger(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { isDead_ = true; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd =>
         {
@@ -79,6 +82,65 @@ public class PlayerAttackModel
             PassedFrameAfterAttack++;
             checkNextInput();
         }
+    }
+
+    void whenGetGuardTrigger(PlayerGuardingButtonCommand cmd)
+    {
+        if (cmd.GuardingButtonIsPressed)
+        {
+            if (CurrentAttackInputs.Count > 0)
+            {
+                //檢查現在是否是輸入窗口       
+                if (PassedFrameAfterAttack < CurrentAttackInputs[currentInputCount_].LeastNeedAttackFrame) return;
+                //檢查現在的物件裡 他是否有下一段接技
+                if (comboDeclaim) return;
+                var nextAttack = GameManager.Instance.AttackBlockDatabase.Database[CurrentAttackInputs[currentInputCount_].SkillId].CheckNextAttack(AttackInputType.Guard);
+                if (nextAttack != null)
+                {
+                    //如果有 則根據id加進操作欄
+                    CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[nextAttack.NextAttackId], GameManager.Instance.AttackBlockDatabase.Database[nextAttack.NextAttackId].SkillFrame));
+                    if (PassedFrameAfterAttack <= nextAttack.SkippedFrame)
+                    {
+                        CurrentAttackInputs[CurrentAttackInputs.Count - 2].FrameShouldBeSkipped = nextAttack.SkippedFrame;
+                        comboDeclaim = true;
+                    }
+                    else
+                    {
+                        ChangeAction(nextAttack.NextAttackId);
+                    }
+                }
+
+                //如果沒有 忽略這次的操作
+            }
+            else
+            {
+                playerGuard();
+            }
+        }
+        else
+        {
+            if (!isGuarding_)
+            {
+                foreach (var item in CurrentAttackInputs)
+                {
+                    if (item.M_SkillType == AttackInputType.Guard)
+                    {
+                        CurrentAttackInputs.Remove(item);
+                        comboDeclaim = false;
+                    }
+                }
+                return;
+            }
+            isAttacking_ = false;
+            CurrentAttackInputs = new List<AttackBlockBase> { };
+            currentInputCount_ = -1;
+            PassedFrameAfterAttack = 0;
+            comboDeclaim = false;
+            isGuarding_ = false;
+            GameManager.Instance.MainGameEvent.Send(new PlayerGuardSkillOutCommand() { GuardingIsOut = false });
+            backToIdle();
+        }
+        
     }
     void whenGetAttackTrigger(AttackInputType inputType)
     {
@@ -380,6 +442,24 @@ public class PlayerAttackModel
         }
 
     }
+    void playerGuard()
+    {
+        isAttacking_ = false;
+        CurrentAttackInputs = new List<AttackBlockBase> { };
+        currentInputCount_ = -1;
+        PassedFrameAfterAttack = 0;
+        comboDeclaim = false;
+        isGuarding_ = true;
+        GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+        GameManager.Instance.MainGameEvent.Send(new PlayerGuardSkillOutCommand() { GuardingIsOut = true });
+        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[28], GameManager.Instance.AttackBlockDatabase.Database[28].SkillFrame));
+        currentInputCount_++;
+        if (!isAttacking_)
+        {           
+            PassedFrameAfterAttack = 0;
+            isAttacking_ = true;
+        }
+    }
     void playerGetHit(EnemyAttackSuccessCommand cmd)
     {
         PlayerStatCalculator.PlayerAddOrMinusHealth(cmd.AttackDamage * -1);
@@ -465,6 +545,12 @@ public class PlayerAttackModel
     void ChangeAction(int actionID)
     {
         //呼叫動畫片段
+        if (actionID == 28)
+        {
+            isGuarding_ = true;
+            GameManager.Instance.MainGameEvent.Send(new PlayerMovementInterruptionFinishCommand());
+            GameManager.Instance.MainGameEvent.Send(new PlayerGuardSkillOutCommand() { GuardingIsOut = true });
+        }
         playerAnimator_.CrossFadeInFixedTime(GameManager.Instance.AttackBlockDatabase.Database[actionID].SkillName, 0.25f);
         Debug.Log("技能施放成功!");
         PassedFrameAfterAttack = 0;
@@ -562,6 +648,7 @@ public enum AttackInputType
     SoulAttack,
     Ultimate,
     UltimatePrepare,
+    Guard,
 }
 
 

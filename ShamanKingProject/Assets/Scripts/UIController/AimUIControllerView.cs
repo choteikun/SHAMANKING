@@ -19,10 +19,13 @@ public class AimUIControllerView : MonoBehaviour
     private void Start()
     {
         canvasRectTransform_ = aimCanvas_.GetComponent<RectTransform>();
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { supportAimSystemGetHitableItem(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemLeaveHitableItem, cmd => { supportAimSystemLeaveHitableItem(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { aimingButtonTrigger(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, cmd => { aimUISwitch(false); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemGetHitableItem, cmd => { supportAimSystemGetHitableItem(cmd); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSupportAimSystemLeaveHitableItem, cmd => { supportAimSystemLeaveHitableItem(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { supportAimSystemGetHitableItem(cmd.Target);  });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { supportAimSystemLeaveHitableItem();  });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, cmd => { aimingButtonTrigger(cmd); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerTargetButtonTrigger, cmd => { aimingButtonTrigger(true); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish, cmd => { aimUISwitch(false); });
         //GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.HitObjecctTag == HitObjecctTag.Biteable).Subscribe(cmd => {  });
         
     }
@@ -34,7 +37,8 @@ public class AimUIControllerView : MonoBehaviour
     void supportAimSystemHintImageUpdate()
     {
         if (nowSupportAimingObject_ == null) return;
-        var supportAimObjectToRectTransform = Camera.main.WorldToScreenPoint(nowSupportAimingObject_.transform.position);
+        var offset = nowSupportAimingObject_.transform.position + new Vector3(0, 1.5f, 0);
+        var supportAimObjectToRectTransform = Camera.main.WorldToScreenPoint(offset);
         Vector2 localPosition;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform_, supportAimObjectToRectTransform, null, out localPosition))
         {
@@ -46,17 +50,23 @@ public class AimUIControllerView : MonoBehaviour
         //supportAimPointImage_.rectTransform.anchoredPosition = rect;
     }
 
-    void supportAimSystemGetHitableItem(SupportAimSystemGetHitableItemCommand cmd)
+    //void supportAimSystemGetHitableItem(SupportAimSystemGetHitableItemCommand cmd)
+    //{
+    //    supportAimPointImage_.gameObject.SetActive(true);
+    //    aimPointImage_.gameObject.SetActive(false);
+    //    nowSupportAimingObject_ = cmd.HitableItemInfo.onHitPoint_;
+    //}
+    void supportAimSystemGetHitableItem(GameObject cmd)
     {
         supportAimPointImage_.gameObject.SetActive(true);
-        aimPointImage_.gameObject.SetActive(false);
-        nowSupportAimingObject_ = cmd.HitableItemInfo.onHitPoint_;
+        //aimPointImage_.gameObject.SetActive(false);
+        nowSupportAimingObject_ = cmd;
     }
 
-    void supportAimSystemLeaveHitableItem(SupportAimSystemLeaveHitableItemCommand cmd)
+    void supportAimSystemLeaveHitableItem()
     {
         supportAimPointImage_.gameObject.SetActive(false);
-        aimPointImage_.gameObject.SetActive(true);
+        //aimPointImage_.gameObject.SetActive(true);
         nowSupportAimingObject_ = null;
     }
     void aimUISwitch(bool trigger)
@@ -72,9 +82,9 @@ public class AimUIControllerView : MonoBehaviour
             aimPointImage_.gameObject.SetActive(true);
         }
     }
-    void aimingButtonTrigger(PlayerAimingButtonCommand cmd)
+    void aimingButtonTrigger(bool cmd)
     {
-        if (!cmd.AimingButtonIsPressed)
+        if (!cmd)
         {
             aimPointImage_.gameObject.SetActive(false);
             supportAimPointImage_.gameObject.SetActive(false);

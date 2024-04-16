@@ -84,7 +84,7 @@ public class PlayerControllerView : MonoBehaviour
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, onAimButtonTrigger);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGuardingButtonTrigger, onPlayerGuardingButtonTrigger);
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGuardSkillOut,cmd=> { onPlayerGuardingButtonTrigger(cmd.GuardingIsOut); } );
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { onTargetGetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
@@ -159,9 +159,9 @@ public class PlayerControllerView : MonoBehaviour
     #endregion
 
     #region - Player取得蓄力指令 -
-    void onPlayerGuardingButtonTrigger(PlayerGuardingButtonCommand playerGuardingButtonCommand)
+    void onPlayerGuardingButtonTrigger(bool playerGuardingButtonCommand)
     {
-        player_Stats_.Guarding = playerGuardingButtonCommand.GuardingButtonIsPressed;
+        player_Stats_.Guarding = playerGuardingButtonCommand;
     }
     #endregion
 

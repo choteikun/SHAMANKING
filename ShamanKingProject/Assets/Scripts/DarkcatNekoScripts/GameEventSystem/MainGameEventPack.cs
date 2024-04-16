@@ -20,6 +20,7 @@ public class MainGameEventPack : GameEventPack
     /// </summary>
     public IObservable<PlayerAimingButtonCommand> OnAimingButtonTrigger => getSubject<PlayerAimingButtonCommand>();
     public IObservable<PlayerGuardingButtonCommand> OnPlayerGuardingButtonTrigger => getSubject<PlayerGuardingButtonCommand>();
+    public IObservable<PlayerGuardSkillOutCommand> OnPlayerGuardSkillOut => getSubject<PlayerGuardSkillOutCommand>();
 
     /// <summary>
     /// 手把輸入角色翻滾
