@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Scene2CheckPointTrigger : EnviormentMachineBehaviorBase
 {
+    [SerializeField] Animator checkPointAnimator_;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -28,9 +29,15 @@ public class Scene2CheckPointTrigger : EnviormentMachineBehaviorBase
     }
     public override void EnviormaneMachinePossessInteract()
     {
+        playCheckPointAnimator();
         GameManager.Instance.MainGameMediator.RealTimePlayerData.Revive();
         GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene2", WaveID = 3 });
         onExit();
         //this.gameObject.SetActive(false);
+    }
+
+    void playCheckPointAnimator()
+    {
+        checkPointAnimator_.CrossFadeInFixedTime("Armature_009_touch_bake", 0.15f);
     }
 }
