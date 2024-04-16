@@ -72,6 +72,13 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     {
         GameManager.Instance.HellDogGameEvent.Send(new BossCallJumpAttackLocateCommand());
     }
+    public void JumpAtkColliderSpawn()
+    {
+        var attackManagerPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(20).PrefabPath;
+        var pos = transform.position;
+        pos.y = 12f;
+        var attackManagerObject = Instantiate(attackManagerPrefab, pos, Quaternion.identity);
+    }
 
     public void BossFlameThrowerTriggerOn()
     {

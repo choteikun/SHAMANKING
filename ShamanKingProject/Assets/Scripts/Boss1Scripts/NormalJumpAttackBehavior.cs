@@ -15,7 +15,8 @@ public class NormalJumpAttackBehavior : MonoBehaviour
    void spawnAttackManager()
     {
         var attackManagerPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(20).PrefabPath;
-        var pos = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position;
+        //var pos = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position;
+        var pos = transform.position;
         pos.y = 12f;
         var attackManagerObject = Instantiate(attackManagerPrefab,pos,Quaternion.identity);
     }
