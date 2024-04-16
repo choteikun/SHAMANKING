@@ -119,13 +119,13 @@ public class PlayerAttackModel
         }
         else
         {
-            if (!isGuarding_)
+            if (!isGuarding_&& CurrentAttackInputs.Count > 0)
             {
-                foreach (var item in CurrentAttackInputs)
+                for (int i = 0; i < CurrentAttackInputs.Count; i++)
                 {
-                    if (item.M_SkillType == AttackInputType.Guard)
+                    if (CurrentAttackInputs[i].M_SkillType == AttackInputType.Guard)
                     {
-                        CurrentAttackInputs.Remove(item);
+                        CurrentAttackInputs.Remove(CurrentAttackInputs[i]);
                         comboDeclaim = false;
                     }
                 }
