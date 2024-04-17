@@ -38,6 +38,7 @@ public class PunishmentMachine : MonoBehaviour
         await UniTask.DelayFrame(3);
         Destroy(outerHitBox_);
         GameManager.Instance.HellDogGameEvent.Send(new BossPunishmentAttackEndCommand());
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallUltCamTransfer() { trigger = false });
         await UniTask.DelayFrame(50);
         Destroy(gameObject);
     }

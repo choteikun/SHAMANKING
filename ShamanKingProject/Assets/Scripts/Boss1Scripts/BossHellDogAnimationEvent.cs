@@ -131,4 +131,13 @@ public class BossHellDogAnimationEvent : MonoBehaviour
             bossVfxs[i].Stop();
         }
     }
+
+    public void BossCallUltCamTransfer()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallUltCamTransfer() { trigger = true });
+    }
+    public void BossCallUltCamTransferBack()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallUltCamTransfer() { trigger = false });
+    }
 }

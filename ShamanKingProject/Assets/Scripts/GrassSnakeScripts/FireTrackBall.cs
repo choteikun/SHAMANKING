@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Gamemanager;
 
 [RequireComponent(typeof(Collider), typeof(AudioSource), typeof(Rigidbody))]
 public class FireTrackBall : MonoBehaviour
@@ -89,7 +90,7 @@ public class FireTrackBall : MonoBehaviour
         fireBallRenderer_.enabled = false;
         enabled = false;
         Instantiate(explosionPrefabs_[Random.Range(0, explosionPrefabs_.Length)], transform.position, Random.rotation);
-
+        GameManager.Instance.HellDogGameEvent.Send(new BossFireTrackBallTrigger());
         // 三秒後刪除飛彈物體，這時候煙霧已經散去，可以刪掉物體了
         Destroy(gameObject, 3.0f);
     }
