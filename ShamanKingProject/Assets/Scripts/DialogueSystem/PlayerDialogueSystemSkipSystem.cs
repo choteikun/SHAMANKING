@@ -61,6 +61,7 @@ public class PlayerDialogueSystemSkipSystem : MonoBehaviour
                 DialogueManager.StopConversation();
                 return;
             case "Chapter 1_4_1":
+                GameManager.Instance.MainGameEvent.Send(new SystemCallCameraTransferBackCommand());
                 GameManager.Instance.MainGameEvent.Send(new GameConversationEndCommand());
                 GameManager.Instance.MainGameEvent.Send(new SystemCallTutorialCommand() { TutorialID = 3 });
                 DialogueManager.StopConversation();
