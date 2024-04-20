@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 public class GamepadControllerView : MonoBehaviour
 {
     [SerializeField] bool heavyAttackCharger_ = false;
+    [SerializeField] bool lightAttackCharger_ = false;
+    [SerializeField] bool heavyButtonCharging_;
     [SerializeField] PlayerInput input_;
     [SerializeField] float mouse_X_Horrzontal_sensitivity_ = 1.2f;
 
@@ -94,6 +96,10 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerRoll()
     {
         //if (isAiming_) return;
+        if (heavyButtonCharging_)
+        {
+            playerCancelHeavyCharge();
+        }
         GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());
         Debug.Log("Roll!");
     }
@@ -187,6 +193,10 @@ public class GamepadControllerView : MonoBehaviour
         }
         await UniTask.DelayFrame(1);
         if (buttonEastPressed_) return;
+        if (heavyButtonCharging_)
+        {
+            playerCancelHeavyCharge();
+        }
         if (isJumping_)
         {
             //isAttacking_ = true;
@@ -201,11 +211,16 @@ public class GamepadControllerView : MonoBehaviour
     }
     void OnPlayerHeavyAttackCharge()
     {
+        if (heavyButtonCharging_==false) return;
         heavyAttackCharger_ = true;
         GameManager.Instance.UIGameEvent.Send(new DebugUIHeavyAttackCharge());
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 4 });
         GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackChargeFinishCommand());
         Debug.Log("PlayerHeavyAttackCharge!");
+    }
+    void OnPlayerLightAttackCharge()
+    {
+        lightAttackCharger_ = true;
     }
     async void OnPlayerHeavyAttack()
     {
@@ -336,6 +351,10 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerGuard(InputValue value)
     {
         if (isJumping_ ) return;
+        if (heavyButtonCharging_)
+        {
+            playerCancelHeavyCharge();
+        }
 
         isGuarding_ = value.isPressed;       
         //isAiming_ = isGuarding_;
@@ -396,7 +415,18 @@ public class GamepadControllerView : MonoBehaviour
     void OnPlayerChargeButton(InputValue value)
     {
         var switcher = value.isPressed;
+        if (switcher)
+        {
+            heavyButtonCharging_ = true;
+        }        
         GameManager.Instance.MainGameEvent.Send(new PlayerChargeSwitchCommand { Switch = switcher });
+    }
+
+    void playerCancelHeavyCharge()
+    {
+        heavyAttackCharger_ = false;
+        heavyButtonCharging_ =false;
+        GameManager.Instance.MainGameEvent.Send(new PlayerChargeSwitchCommand { Switch = false });
     }
 }
 

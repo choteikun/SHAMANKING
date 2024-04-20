@@ -59,7 +59,7 @@ namespace Gamemanager
     }
     public class PlayerLightAttackButtonCommand : GameEventMessageBase
     {
-
+        public bool Charged;
     }
     public class PlayerHeavyAttackButtonCommand : GameEventMessageBase
     {

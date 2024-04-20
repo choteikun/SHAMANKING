@@ -3,6 +3,7 @@ using Gamemanager;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 [System.Serializable]
 public class PlayerAttackModel
@@ -21,7 +22,7 @@ public class PlayerAttackModel
     bool isGuarding_ = false;
     public void PlayerAttackModelInit()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack,cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpAttack, cmd => { whenGetAttackTrigger(AttackInputType.JumpAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { whenGetAttackTrigger(AttackInputType.Throw); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { whenGetAttackTrigger(AttackInputType.HeavyAttack, cmd); });
@@ -175,7 +176,8 @@ public class PlayerAttackModel
             switch (inputType)
             {
                 case AttackInputType.LightAttack:
-                    addFirstLightAttack();
+                    var cmd = new PlayerLightAttackButtonCommand() { Charged = false };
+                    addFirstLightAttack(cmd);
                     return;
                 case AttackInputType.JumpAttack:
                     addFirstJumpAttack();
@@ -184,8 +186,8 @@ public class PlayerAttackModel
                     addFirstThrowAttack();
                     return;
                 case AttackInputType.HeavyAttack:
-                    var cmd = new PlayerHeavyAttackButtonCommand() { Charged = false };
-                    addFirstHeavyAttack(cmd);
+                    var cmd1 = new PlayerHeavyAttackButtonCommand() { Charged = false };
+                    addFirstHeavyAttack(cmd1);
                     return;
                 case AttackInputType.Dodge:
                     addFirstDash();
@@ -237,7 +239,10 @@ public class PlayerAttackModel
             switch (inputType)
             {
                 case AttackInputType.LightAttack:
-                    addFirstLightAttack();
+                    if (cmd is PlayerLightAttackButtonCommand command1)
+                    {
+                        addFirstLightAttack(command1);
+                    }
                     return;
                 case AttackInputType.JumpAttack:
                     addFirstJumpAttack();
@@ -264,17 +269,32 @@ public class PlayerAttackModel
         }
     }
 
-    void addFirstLightAttack()
+    void addFirstLightAttack(PlayerLightAttackButtonCommand cmd)
     {
-        CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[0], GameManager.Instance.AttackBlockDatabase.Database[0].SkillFrame));
-        currentInputCount_++;
-        if (!isAttacking_)
+        if (cmd.Charged)
         {
-            //animator_.Rebind();
-            playerAnimator_.CrossFadeInFixedTime("AttackCombo1", 0.05f);
-            uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo_A", 0.25f);
-            PassedFrameAfterAttack = 0;
-            isAttacking_ = true;
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[29], GameManager.Instance.AttackBlockDatabase.Database[29].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                //animator_.Rebind();
+                playerAnimator_.CrossFadeInFixedTime("ChargedLightAttack", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
+        }
+        else
+        {
+            CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[0], GameManager.Instance.AttackBlockDatabase.Database[0].SkillFrame));
+            currentInputCount_++;
+            if (!isAttacking_)
+            {
+                //animator_.Rebind();
+                playerAnimator_.CrossFadeInFixedTime("AttackCombo1", 0.05f);
+                uncleGhostAnimator_.CrossFadeInFixedTime("UncleGhost_AttackCombo_A", 0.25f);
+                PassedFrameAfterAttack = 0;
+                isAttacking_ = true;
+            }
         }
     }
 

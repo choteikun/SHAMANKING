@@ -2201,6 +2201,8 @@ AnimatorStateMachine:
   - {fileID: -7696999747506098094}
   m_EntryTransitions: []
   m_StateMachineTransitions:
+  - first: {fileID: -1487834313206244893}
+    second: []
   - first: {fileID: -508111573602529641}
     second:
     - {fileID: -922391206401741294}
@@ -2209,8 +2211,6 @@ AnimatorStateMachine:
     second:
     - {fileID: 3242045185941493407}
     - {fileID: 2083756027479825831}
-  - first: {fileID: -1487834313206244893}
-    second: []
   - first: {fileID: 8033060388811791116}
     second:
     - {fileID: -3858859084907979358}
@@ -2789,6 +2789,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1518153981571278454}
     m_Position: {x: 1470, y: 250, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -771006461998149775}
+    m_Position: {x: 360, y: 350, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -3013,6 +3016,32 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
+--- !u!1102 &-771006461998149775
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ChargedLightAttack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 40546a4398f85a9408023937f668c55e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &-715678505660666661
 BlendTree:
   m_ObjectHideFlags: 1
