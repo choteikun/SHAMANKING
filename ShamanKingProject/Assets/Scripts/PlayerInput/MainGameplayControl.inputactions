@@ -132,6 +132,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "PlayerLightAttackCharge",
+                    "type": "Button",
+                    "id": "c5d7bd86-e2a5-48e2-86c9-40fb2e77d20b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "PlayerExecutionAttack",
                     "type": "Button",
                     "id": "60a41781-dd58-49e0-9e53-d1a773f01f75",
@@ -198,6 +207,15 @@
                     "name": "PlayerChargeButton",
                     "type": "Button",
                     "id": "08731810-3eb9-43e7-82df-e8a1c3365cc9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerLightAttackChargeButton",
+                    "type": "Button",
+                    "id": "e1c6cd29-9ce2-416a-b8b9-8004232605a2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -385,7 +403,7 @@
                     "name": "",
                     "id": "b8b4670e-6c10-4daf-8f87-fe1d7c9ece91",
                     "path": "<Gamepad>/rightShoulder",
-                    "interactions": "Press",
+                    "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
                     "action": "PlayerLightAttack",
@@ -396,7 +414,7 @@
                     "name": "",
                     "id": "c86de8be-4a55-46fa-b589-bfae0650a4ba",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
                     "action": "PlayerLightAttack",
@@ -774,6 +792,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "PlayerChargeButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68d1dd82-c2fb-4e56-94a1-84870fd84f1e",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "Hold(duration=1.2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerLightAttackCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "448a4828-5629-468d-91bd-94c6f0e95344",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold(duration=1.2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerLightAttackCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6b0e782-cfd6-48c6-a922-f1d256e6633a",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerLightAttackChargeButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98c4f0b9-1aec-4833-965f-dfc217d800b1",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerLightAttackChargeButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

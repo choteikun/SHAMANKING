@@ -12,6 +12,7 @@ public class GamepadControllerView : MonoBehaviour
     [SerializeField] bool heavyAttackCharger_ = false;
     [SerializeField] bool lightAttackCharger_ = false;
     [SerializeField] bool heavyButtonCharging_;
+    [SerializeField] bool lightButtonCharging_;
     [SerializeField] PlayerInput input_;
     [SerializeField] float mouse_X_Horrzontal_sensitivity_ = 1.2f;
 
@@ -99,6 +100,10 @@ public class GamepadControllerView : MonoBehaviour
         if (heavyButtonCharging_)
         {
             playerCancelHeavyCharge();
+        }
+        if (lightButtonCharging_)
+        {
+            playerCancelLightCharge();
         }
         GameManager.Instance.MainGameEvent.Send(new PlayerRollingButtonCommand());
         Debug.Log("Roll!");
@@ -205,7 +210,8 @@ public class GamepadControllerView : MonoBehaviour
         else
         {
             isAttacking_ = true;
-            GameManager.Instance.MainGameEvent.Send(new PlayerLightAttackButtonCommand() { });
+            GameManager.Instance.MainGameEvent.Send(new PlayerLightAttackButtonCommand() { Charged = lightAttackCharger_});
+            lightAttackCharger_ = false;
         }
         Debug.Log("Attack!");
     }
@@ -220,6 +226,7 @@ public class GamepadControllerView : MonoBehaviour
     }
     void OnPlayerLightAttackCharge()
     {
+        if (lightButtonCharging_ == false) return;
         lightAttackCharger_ = true;
     }
     async void OnPlayerHeavyAttack()
@@ -230,6 +237,10 @@ public class GamepadControllerView : MonoBehaviour
         }
         if (isAiming_ || isJumping_) return;
         await UniTask.DelayFrame(1);
+        if (lightButtonCharging_)
+        {
+            playerCancelLightCharge();
+        }
         isAttacking_ = true;
         GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() { Charged = heavyAttackCharger_ });
         Debug.Log("HeavyAttack!" + heavyAttackCharger_);
@@ -355,7 +366,10 @@ public class GamepadControllerView : MonoBehaviour
         {
             playerCancelHeavyCharge();
         }
-
+        if (lightButtonCharging_)
+        {
+            playerCancelLightCharge();
+        }
         isGuarding_ = value.isPressed;       
         //isAiming_ = isGuarding_;
         GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ });
@@ -421,12 +435,24 @@ public class GamepadControllerView : MonoBehaviour
         }        
         GameManager.Instance.MainGameEvent.Send(new PlayerChargeSwitchCommand { Switch = switcher });
     }
-
+    void OnPlayerLightAttackChargeButton(InputValue value)
+    {
+        var switcher = value.isPressed;
+        if (switcher)
+        {
+            lightButtonCharging_ = true;
+        }
+    }
     void playerCancelHeavyCharge()
     {
         heavyAttackCharger_ = false;
         heavyButtonCharging_ =false;
         GameManager.Instance.MainGameEvent.Send(new PlayerChargeSwitchCommand { Switch = false });
+    }
+    void playerCancelLightCharge()
+    {
+        lightAttackCharger_=false;
+        lightButtonCharging_ =false;
     }
 }
 

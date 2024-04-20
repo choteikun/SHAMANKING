@@ -34318,6 +34318,7 @@ MonoBehaviour:
   heavyAttackCharger_: 0
   lightAttackCharger_: 0
   heavyButtonCharging_: 0
+  lightButtonCharging_: 0
   input_: {fileID: 1241964954822050125}
   mouse_X_Horrzontal_sensitivity_: 1.05
   isAiming_: 0
@@ -91552,7 +91553,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tTransform
+    'spine.004'\n\tTransform 'spine.001'\n\tTransform 'spine.002'\n\tTransform 'spine.005'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -110876,6 +110882,7 @@ MonoBehaviour:
   ShadowScale: 0.027
   ShadowDuration: 1
   ShadowInterval: 0.1
+  shadowTrigger_: 0
 --- !u!23 &8801753904917867604
 MeshRenderer:
   m_ObjectHideFlags: 0
