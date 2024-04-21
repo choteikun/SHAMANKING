@@ -66,7 +66,19 @@ public class PlayerControllerView : MonoBehaviour
     }
     void Start()
     {
-        xRayShadow_ = GetComponent<XRayShadow>();
+        if(xRayShadow_ == null)
+        {
+            try
+            {
+                xRayShadow_ = GetComponent<XRayShadow>();
+            }
+            catch (NullReferenceException)
+            {
+                Debug.LogError("如果需要殘影特效，請將XRayShadow Script裝在PlayerCharacter上");
+                throw;
+            }
+        }
+        
         DOVirtual.Float(1.5f, -0.5f, 0.01f, value =>
         {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
@@ -295,7 +307,7 @@ public class PlayerControllerView : MonoBehaviour
         //this.gameObject.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
         StartCoroutine(MoveToPosition(final, player_Stats_.Player_DodgeSpeed));
         PlayerStatCalculator.PlayerInvincibleSwitch(true);
-        xRayShadow_.ShadowTrigger = true;
+        if (xRayShadow_ != null) { xRayShadow_.ShadowTrigger = true; }
         DOVirtual.Float(-0.5f, 1.5f, 0.1f, value =>
         {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
@@ -309,7 +321,7 @@ public class PlayerControllerView : MonoBehaviour
         }).OnComplete(() => { });
         await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 20));       
         PlayerStatCalculator.PlayerInvincibleSwitch(false);
-        xRayShadow_.ShadowTrigger = false;
+        if (xRayShadow_ != null) { xRayShadow_.ShadowTrigger = false; }
         spawnDashEffect();
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value =>
         {

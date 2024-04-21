@@ -1,6 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class XRayShadow : MonoBehaviour
@@ -20,8 +20,9 @@ public class XRayShadow : MonoBehaviour
     //決定生成殘影的開關
     public bool ShadowTrigger;
 
+    [SerializeField,Tooltip("Player模型的mesh一共有五個(Body,Cloth(inside),Cloth(other),Cloth(outside),Hair)")]
     //模型所擁有的網格數據
-    SkinnedMeshRenderer[] meshRender;
+    SkinnedMeshRenderer[] meshRender_;
 
     // 使用 X-ray shader
     Shader xRayShader;
@@ -29,8 +30,20 @@ public class XRayShadow : MonoBehaviour
     void Start()
     {
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStartRollMovementAnimation, cmd => { ShadowTrigger(); });
-        // 獲取模型身上所有的 SkinnedMeshRenderer
-        meshRender = this.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+        // 獲取模型身上的 SkinnedMeshRenderer
+        if (meshRender_ == null)
+        {
+            try
+            {
+                //meshRender = this.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+            }
+            catch (NullReferenceException)
+            {
+                Debug.LogError("請將Player模型的mesh一共有五個(Body,Cloth(inside),Cloth(other),Cloth(outside),Hair)新增至meshRender_裡");
+                throw;
+            }
+        }
+        
         // 並獲取 X-ray shader
         xRayShader = Shader.Find("Shader Graphs/crastal_disslove");
     }
@@ -57,7 +70,7 @@ public class XRayShadow : MonoBehaviour
         lastTime = Time.time;
 
         // 如果沒有 SkinnedMeshRenderer 返回，不必創建殘影
-        if (meshRender == null) 
+        if (meshRender_ == null) 
         {
             return;
         }
@@ -67,11 +80,11 @@ public class XRayShadow : MonoBehaviour
         }
         
         // 創建所有 SkinnedMeshRenderer 的殘影
-        for (int i = 0; i < meshRender.Length; i++)
+        for (int i = 0; i < meshRender_.Length; i++)
         {
             //創建 Mesh ,並烘焙 SkinnedMeshRenderer 的mesh(網格數據)
             Mesh mesh = new Mesh();
-            meshRender[i].BakeMesh(mesh);
+            meshRender_[i].BakeMesh(mesh);
 
             //創建物體，並設置不在場景中顯示
             GameObject go = new GameObject();
@@ -88,7 +101,7 @@ public class XRayShadow : MonoBehaviour
 
             //在物體上添加 MeshRenderer，物體賦值上對應的材質，並把 X_ray shader掛載，並設置shader參數
             MeshRenderer meshRen = go.AddComponent<MeshRenderer>();
-            meshRen.materials = meshRender[i].materials;
+            meshRen.materials = meshRender_[i].materials;
 
             for (int s = 0; s < meshRen.materials.Length; s++)
             {
@@ -110,19 +123,13 @@ public class XRayShadow : MonoBehaviour
             meshRen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
             //設置物體的位置旋轉和比例，為對應 SkinnedMeshRenderer 物體的位置旋轉和比例
-            go.transform.localScale = meshRender[i].transform.localScale * ShadowScale;
-            go.transform.position = meshRender[i].transform.position;
-            go.transform.rotation = meshRender[i].transform.rotation;
+            go.transform.localScale = meshRender_[i].transform.localScale * ShadowScale;
+            go.transform.position = meshRender_[i].transform.position;
+            go.transform.rotation = meshRender_[i].transform.rotation;
 
             //給 XRayItem  meshRenderer 參數賦值
             item.meshRenderer = meshRen;
 
         }
     }
-    //void ShadowTrigger()
-    //{
-    //    shadowTrigger_ = true;
-    //    //UniTask.Delay(2500);
-    //    //shadowTrigger_ = false;
-    //}
 }
