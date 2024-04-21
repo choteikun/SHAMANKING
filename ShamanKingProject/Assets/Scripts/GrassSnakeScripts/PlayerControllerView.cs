@@ -32,6 +32,9 @@ public class PlayerControllerView : MonoBehaviour
     PlayerGuardingManager playerGuardingManager_;
 
     [SerializeField]
+    XRayShadow xRayShadow_;
+
+    [SerializeField]
     GameObject stickInputIndicator_;
 
     [SerializeField]
@@ -63,6 +66,7 @@ public class PlayerControllerView : MonoBehaviour
     }
     void Start()
     {
+        xRayShadow_ = GetComponent<XRayShadow>();
         DOVirtual.Float(1.5f, -0.5f, 0.01f, value =>
         {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
@@ -291,6 +295,7 @@ public class PlayerControllerView : MonoBehaviour
         //this.gameObject.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
         StartCoroutine(MoveToPosition(final, player_Stats_.Player_DodgeSpeed));
         PlayerStatCalculator.PlayerInvincibleSwitch(true);
+        xRayShadow_.ShadowTrigger = true;
         DOVirtual.Float(-0.5f, 1.5f, 0.1f, value =>
         {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
@@ -304,6 +309,7 @@ public class PlayerControllerView : MonoBehaviour
         }).OnComplete(() => { });
         await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 20));       
         PlayerStatCalculator.PlayerInvincibleSwitch(false);
+        xRayShadow_.ShadowTrigger = false;
         spawnDashEffect();
         DOVirtual.Float(1.5f, -0.5f, 0.6f, value =>
         {
@@ -317,13 +323,6 @@ public class PlayerControllerView : MonoBehaviour
             }
         }).SetEase(Ease.InSine).OnComplete(() => { });
 
-    }
-
-    void spawnDashEffect()
-    {
-        var effect = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(11).PrefabPath;
-        var effectPos = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position + new Vector3(0, 0.25f, 0);
-        Instantiate(effect, effectPos, Quaternion.identity);
     }
     public IEnumerator MoveToPosition(Vector3 target, float duration)
     {
@@ -358,7 +357,7 @@ public class PlayerControllerView : MonoBehaviour
         //    if (player_Stats_.Aiming) { GameManager.Instance.MainGameEvent.Send(new GhostLaunchProcessFinishResponse()); }
         //});
     }
-    void Update()
+    private void Update()
     {
         playerAnimatorView_.Update();
         playerControllerMover_.Update();
@@ -366,7 +365,12 @@ public class PlayerControllerView : MonoBehaviour
         stickInputIndicator();
         getInputAngle();
     }
-
+    private void spawnDashEffect()
+    {
+        var effect = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(11).PrefabPath;
+        var effectPos = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.transform.position + new Vector3(0, 0.25f, 0);
+        Instantiate(effect, effectPos, Quaternion.identity);
+    }
     private void FixedUpdate()
     {
         playerAttackModel_.PlayerAttackModelUpdate();

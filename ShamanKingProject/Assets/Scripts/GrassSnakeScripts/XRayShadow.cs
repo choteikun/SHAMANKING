@@ -17,19 +17,18 @@ public class XRayShadow : MonoBehaviour
     //符合要求後，多少時間間隔創建線的殘影
     public float ShadowInterval = 0.1f;
 
+    //決定生成殘影的開關
+    public bool ShadowTrigger;
+
     //模型所擁有的網格數據
     SkinnedMeshRenderer[] meshRender;
 
     // 使用 X-ray shader
     Shader xRayShader;
 
-    //決定生成殘影的開關
-    [SerializeField]
-    bool shadowTrigger_;
-
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStartRollMovementAnimation, cmd => { ShadowTrigger(); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStartRollMovementAnimation, cmd => { ShadowTrigger(); });
         // 獲取模型身上所有的 SkinnedMeshRenderer
         meshRender = this.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
         // 並獲取 X-ray shader
@@ -62,7 +61,7 @@ public class XRayShadow : MonoBehaviour
         {
             return;
         }
-        if (!shadowTrigger_)//按Space鍵才會創建殘影
+        if (!ShadowTrigger)//按Space鍵才會創建殘影
         {
             return;
         }
@@ -120,10 +119,10 @@ public class XRayShadow : MonoBehaviour
 
         }
     }
-    void ShadowTrigger()
-    {
-        shadowTrigger_ = true;
-        //UniTask.Delay(2500);
-        //shadowTrigger_ = false;
-    }
+    //void ShadowTrigger()
+    //{
+    //    shadowTrigger_ = true;
+    //    //UniTask.Delay(2500);
+    //    //shadowTrigger_ = false;
+    //}
 }
