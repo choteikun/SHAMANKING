@@ -230,11 +230,11 @@ public class PlayerControllerView : MonoBehaviour
         Vector3 inputDirection = new Vector3();
         if (player_Stats_.Targeting)
         {
-             inputDirection = Vector3.zero.normalized;
+            inputDirection = Vector3.zero.normalized;
         }
         else
         {
-             inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
+            inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
         }
         var player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 
