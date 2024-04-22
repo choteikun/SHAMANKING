@@ -23,6 +23,22 @@ public class TestAnimatorFather : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { attackMoverEnabled_ = false; knockBackEnabled_ = false; executionAttackMoverEnabled_ = false; heavyAttackMoverEnabled_ = false; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerExecutionAttack, cmd => { executionAttackMoverEnabled_ = true; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { heavyAttackMoverEnabled_ = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackRecheckAnimationMovement, cmd =>
+        {
+            if (cmd.InputType == AttackInputType.HeavyAttack)
+            {
+                attackMoverEnabled_ = false;
+                heavyAttackMoverEnabled_ = true;
+            }
+        });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackRecheckAnimationMovement, cmd =>
+        {
+            if (cmd.InputType == AttackInputType.ExecutionAttack)
+            {
+                attackMoverEnabled_ = false;
+                executionAttackMoverEnabled_ = true;
+            }
+        });
     }
     public void OnUpdateRootMotion(Animator anim)
     {

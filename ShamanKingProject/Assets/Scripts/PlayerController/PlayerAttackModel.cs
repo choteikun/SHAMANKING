@@ -2,8 +2,6 @@ using Cysharp.Threading.Tasks;
 using Gamemanager;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 [System.Serializable]
 public class PlayerAttackModel
@@ -20,9 +18,10 @@ public class PlayerAttackModel
     bool isThrowing_ = false;
     bool isDead_ = false;
     bool isGuarding_ = false;
+    bool isEndingAnimation = false;
     public void PlayerAttackModelInit()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack,cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { whenGetAttackTrigger(AttackInputType.LightAttack, cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerJumpAttack, cmd => { whenGetAttackTrigger(AttackInputType.JumpAttack); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerThrowAttack, cmd => { whenGetAttackTrigger(AttackInputType.Throw); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerHeavyAttack, cmd => { whenGetAttackTrigger(AttackInputType.HeavyAttack, cmd); });
@@ -33,6 +32,7 @@ public class PlayerAttackModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimatePrepareSuccess, cmd => { addFirstUltimateAttack(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGuardingButtonTrigger, cmd => { whenGetGuardTrigger(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { isDead_ = true; });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, cmd => { cancelEndingAniation(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLaunchGhost, cmd =>
         {
             isThrowing_ = true;
@@ -83,6 +83,10 @@ public class PlayerAttackModel
             PassedFrameAfterAttack++;
             checkNextInput();
         }
+        if (characterControllerObj_.GetComponent<PlayerControllerView>().getPlayerDir() != Vector2.zero)
+        {
+            cancelEndingAnimation();
+        }
     }
 
     void whenGetGuardTrigger(PlayerGuardingButtonCommand cmd)
@@ -120,7 +124,7 @@ public class PlayerAttackModel
         }
         else
         {
-            if (!isGuarding_&& CurrentAttackInputs.Count > 0)
+            if (!isGuarding_ && CurrentAttackInputs.Count > 0)
             {
                 for (int i = 0; i < CurrentAttackInputs.Count; i++)
                 {
@@ -142,9 +146,9 @@ public class PlayerAttackModel
             GameManager.Instance.MainGameEvent.Send(new PlayerGuardSkillOutCommand() { GuardingIsOut = false });
             backToIdle();
         }
-        
+
     }
-    void whenGetAttackTrigger(AttackInputType inputType)
+    async void whenGetAttackTrigger(AttackInputType inputType)
     {
         if (CurrentAttackInputs.Count > 0)
         {
@@ -153,6 +157,84 @@ public class PlayerAttackModel
             //檢查現在的物件裡 他是否有下一段接技
             if (comboDeclaim) return;
             var nextAttack = GameManager.Instance.AttackBlockDatabase.Database[CurrentAttackInputs[currentInputCount_].SkillId].CheckNextAttack(inputType);
+            if (isEndingAnimation && nextAttack == null)
+            {
+                interuptEndingAnimation();
+                await UniTask.DelayFrame(2);
+                switch (inputType)
+                {
+                    case AttackInputType.LightAttack:
+                        var cmd = new PlayerLightAttackButtonCommand() { Charged = false };
+                        addFirstLightAttack(cmd);
+                        return;
+                    case AttackInputType.JumpAttack:
+                        addFirstJumpAttack();
+                        return;
+                    case AttackInputType.Throw:
+                        addFirstThrowAttack();
+                        return;
+                    case AttackInputType.HeavyAttack:
+                        var cmd1 = new PlayerHeavyAttackButtonCommand() { Charged = false };
+                        GameManager.Instance.MainGameEvent.Send(new PlayerAttackRecheckAnimationMovementCommand() { InputType = inputType });
+                        addFirstHeavyAttack(cmd1);
+                        return;
+                    case AttackInputType.Dodge:
+                        addFirstDash();
+                        return;
+                    case AttackInputType.ExecutionAttack:
+                        GameManager.Instance.MainGameEvent.Send(new PlayerAttackRecheckAnimationMovementCommand() { InputType = inputType});
+                        addFirstExecutionAttack();
+                        return;
+                    case AttackInputType.ShootAttack:
+                        addFirstShootAttack();
+                        return;
+                    case AttackInputType.UltimatePrepare:
+                        addFirstUltimateAttackPrepare();
+                        return;
+                    case AttackInputType.Ultimate:
+                        addFirstUltimateAttack();
+                        return;
+                }
+            }
+            else if (isEndingAnimation && !nextAttack.CanCancelEndingAnimation)
+            {
+                interuptEndingAnimation();
+                await UniTask.DelayFrame(2);
+                switch (inputType)
+                {
+                    case AttackInputType.LightAttack:
+                        var cmd = new PlayerLightAttackButtonCommand() { Charged = false };
+                        addFirstLightAttack(cmd);
+                        return;
+                    case AttackInputType.JumpAttack:
+                        addFirstJumpAttack();
+                        return;
+                    case AttackInputType.Throw:
+                        addFirstThrowAttack();
+                        return;
+                    case AttackInputType.HeavyAttack:
+                        var cmd1 = new PlayerHeavyAttackButtonCommand() { Charged = false };
+                        GameManager.Instance.MainGameEvent.Send(new PlayerAttackRecheckAnimationMovementCommand() { InputType = inputType });
+                        addFirstHeavyAttack(cmd1);
+                        return;
+                    case AttackInputType.Dodge:
+                        addFirstDash();
+                        return;
+                    case AttackInputType.ExecutionAttack:
+                        GameManager.Instance.MainGameEvent.Send(new PlayerAttackRecheckAnimationMovementCommand() { InputType = inputType });
+                        addFirstExecutionAttack();
+                        return;
+                    case AttackInputType.ShootAttack:
+                        addFirstShootAttack();
+                        return;
+                    case AttackInputType.UltimatePrepare:
+                        addFirstUltimateAttackPrepare();
+                        return;
+                    case AttackInputType.Ultimate:
+                        addFirstUltimateAttack();
+                        return;
+                }
+            }
             if (nextAttack != null)
             {
                 //如果有 則根據id加進操作欄
@@ -207,7 +289,7 @@ public class PlayerAttackModel
             }
         }
     }
-    void whenGetAttackTrigger(AttackInputType inputType, GameEventMessageBase cmd)
+    async void whenGetAttackTrigger(AttackInputType inputType, GameEventMessageBase cmd)
     {
         if (CurrentAttackInputs.Count > 0)
         {
@@ -216,6 +298,80 @@ public class PlayerAttackModel
             //檢查現在的物件裡 他是否有下一段接技
             if (comboDeclaim) return;
             var nextAttack = GameManager.Instance.AttackBlockDatabase.Database[CurrentAttackInputs[currentInputCount_].SkillId].CheckNextAttack(inputType);
+            if (isEndingAnimation && nextAttack == null)
+            {
+                interuptEndingAnimation();
+                await UniTask.DelayFrame(2);
+                switch (inputType)
+                {
+                    case AttackInputType.LightAttack:
+                        if (cmd is PlayerLightAttackButtonCommand command1)
+                        {
+                            addFirstLightAttack(command1);
+                        }
+                        return;
+                    case AttackInputType.JumpAttack:
+                        addFirstJumpAttack();
+                        return;
+                    case AttackInputType.Throw:
+                        addFirstThrowAttack();
+                        return;
+                    case AttackInputType.HeavyAttack:
+                        if (cmd is PlayerHeavyAttackButtonCommand command)
+                        {
+                            GameManager.Instance.MainGameEvent.Send(new PlayerAttackRecheckAnimationMovementCommand() { InputType = inputType });
+                            addFirstHeavyAttack(command);
+                        }
+                        return;
+                    case AttackInputType.Dodge:
+                        addFirstDash();
+                        return;
+                    case AttackInputType.ExecutionAttack:
+                        GameManager.Instance.MainGameEvent.Send(new PlayerAttackRecheckAnimationMovementCommand() { InputType = inputType });
+                        addFirstExecutionAttack();
+                        return;
+                    case AttackInputType.ShootAttack:
+                        addFirstShootAttack();
+                        return;
+                }
+            }
+            else if (isEndingAnimation && !nextAttack.CanCancelEndingAnimation)
+            {
+                interuptEndingAnimation();
+                await UniTask.DelayFrame(2);
+                switch (inputType)
+                {
+                    case AttackInputType.LightAttack:
+                        if (cmd is PlayerLightAttackButtonCommand command1)
+                        {
+                            addFirstLightAttack(command1);
+                        }
+                        return;
+                    case AttackInputType.JumpAttack:
+                        addFirstJumpAttack();
+                        return;
+                    case AttackInputType.Throw:
+                        addFirstThrowAttack();
+                        return;
+                    case AttackInputType.HeavyAttack:
+                        if (cmd is PlayerHeavyAttackButtonCommand command)
+                        {
+                            GameManager.Instance.MainGameEvent.Send(new PlayerAttackRecheckAnimationMovementCommand() { InputType = inputType });
+                            addFirstHeavyAttack(command);
+                        }
+                        return;
+                    case AttackInputType.Dodge:
+                        addFirstDash();
+                        return;
+                    case AttackInputType.ExecutionAttack:
+                        GameManager.Instance.MainGameEvent.Send(new PlayerAttackRecheckAnimationMovementCommand() { InputType = inputType });
+                        addFirstExecutionAttack();
+                        return;
+                    case AttackInputType.ShootAttack:
+                        addFirstShootAttack();
+                        return;
+                }
+            }
             if (nextAttack != null)
             {
                 //如果有 則根據id加進操作欄
@@ -412,7 +568,7 @@ public class PlayerAttackModel
             return;
         }
         else if (GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount < 4 && GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount >= 2)
-        {           
+        {
             CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[26], GameManager.Instance.AttackBlockDatabase.Database[26].SkillFrame));
             currentInputCount_++;
             if (!isAttacking_)
@@ -477,7 +633,7 @@ public class PlayerAttackModel
         CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[28], GameManager.Instance.AttackBlockDatabase.Database[28].SkillFrame));
         currentInputCount_++;
         if (!isAttacking_)
-        {           
+        {
             PassedFrameAfterAttack = 0;
             isAttacking_ = true;
         }
@@ -559,7 +715,23 @@ public class PlayerAttackModel
         {
             if (PassedFrameAfterAttack >= CurrentAttackInputs[currentInputCount_].FrameShouldBeSkipped)
             {
-                backToIdle();
+                if (CurrentAttackInputs[currentInputCount_].HasEndingAnimation)
+                {
+                    if (!isEndingAnimation)
+                    {
+                        isEndingAnimation = true;
+                        playerAnimator_.CrossFadeInFixedTime(CurrentAttackInputs[currentInputCount_].EndingAnimationName, 0.25f);
+                    }
+                    if (PassedFrameAfterAttack >= CurrentAttackInputs[currentInputCount_].FrameShouldBeSkipped + CurrentAttackInputs[currentInputCount_].EndingFrame && isEndingAnimation)
+                    {
+                        isEndingAnimation = false;
+                        backToIdle();
+                    }
+                }
+                else
+                {
+                    backToIdle();
+                }
             }
         }
     }
@@ -653,6 +825,27 @@ public class PlayerAttackModel
         CurrentAttackInputs = new List<AttackBlockBase> { };
         currentInputCount_ = -1;
         PassedFrameAfterAttack = 0;
+    }
+
+    void cancelEndingAnimation()
+    {
+        if (isEndingAnimation)
+        {
+            isEndingAnimation = false;
+            backToIdle();
+        }
+    }
+    void interuptEndingAnimation()
+    {
+        if (isEndingAnimation)
+        {
+            isEndingAnimation = false;
+            isAttacking_ = false;
+            CurrentAttackInputs = new List<AttackBlockBase> { };
+            currentInputCount_ = -1;
+            PassedFrameAfterAttack = 0;
+        }
+       
     }
 }
 

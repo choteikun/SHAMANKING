@@ -57,6 +57,10 @@ namespace Gamemanager
     {
 
     }
+    public class PlayerAttackRecheckAnimationMovementCommand:GameEventMessageBase
+    {
+        public AttackInputType InputType;
+    }
     public class PlayerLightAttackButtonCommand : GameEventMessageBase
     {
         public bool Charged;

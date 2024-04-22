@@ -165,12 +165,12 @@ public class PlayerControllerView : MonoBehaviour
     void onTargetGetObject()
     {
         player_Stats_.Targeting = true;
-        playerControllerMover_.TransitionState("Target");
+        //playerControllerMover_.TransitionState("Target");
     }
     void onTargetResetObject()
     {
         player_Stats_.Targeting = false;
-        playerControllerMover_.TransitionState("MainGame");
+        //playerControllerMover_.TransitionState("MainGame");
     }
     #endregion
 
@@ -227,7 +227,15 @@ public class PlayerControllerView : MonoBehaviour
     }
     void stickInputIndicator()
     {
-        Vector3 inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
+        Vector3 inputDirection = new Vector3();
+        if (player_Stats_.Targeting)
+        {
+             inputDirection = Vector3.zero.normalized;
+        }
+        else
+        {
+             inputDirection = new Vector3(player_Stats_.Player_Dir.x, 0.0f, player_Stats_.Player_Dir.y).normalized;
+        }
         var player_TargetRotation_ = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 
         ////將模型旋轉至相對於相機位置的輸入方向
@@ -350,6 +358,11 @@ public class PlayerControllerView : MonoBehaviour
         }
 
         transform.position = target; // 確保最終位置正確
+    }
+
+    public Vector2 getPlayerDir()
+    {
+        return player_Stats_.Player_Dir;
     }
     async void DashToGrabTarget(PlayerGrabSuccessResponse cmd)
     {

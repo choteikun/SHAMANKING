@@ -1,3 +1,4 @@
+using Language.Lua;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class SO_AttackBlockBase : ScriptableObject
     public List<NextComboSkillInfo> nextCombos = new List<NextComboSkillInfo>();
     public float Distance;
     public int Frame;
+    public string EndingAnimationName;
+    public bool HasEndingAnimation = false;
+    public int EndingFrame;
 
     public NextComboSkillInfo CheckNextAttack(AttackInputType input)
     {
@@ -36,6 +40,9 @@ public class AttackBlockBase
     public AttackInputType M_SkillType;
     public int LeastNeedAttackFrame;
     public int FrameShouldBeSkipped;
+    public string EndingAnimationName;
+    public bool HasEndingAnimation;
+    public int EndingFrame;
     public AttackBlockBase(SO_AttackBlockBase sO_AttackBlock,int frameShouldBeSkipped)
     {
         LeastNeedAttackFrame = sO_AttackBlock.LeastNeedAttackFrame;
@@ -44,6 +51,9 @@ public class AttackBlockBase
         SkillFrame = sO_AttackBlock.SkillFrame;
         M_SkillType = sO_AttackBlock.M_SkillType;
         FrameShouldBeSkipped = frameShouldBeSkipped;
+        EndingAnimationName = sO_AttackBlock.EndingAnimationName;
+        HasEndingAnimation = sO_AttackBlock.HasEndingAnimation;
+        EndingFrame = sO_AttackBlock.EndingFrame;
     }
 }
 
@@ -53,6 +63,7 @@ public class NextComboSkillInfo
     public AttackInputType RequiredInputType;
     public int SkippedFrame;
     public int NextAttackId;
+    public bool CanCancelEndingAnimation = false;
 }
 
 
