@@ -29,8 +29,10 @@ public class XRayItem : MonoBehaviour
         {
             //這裡根據所剩時間的比例，來產生殘影漸隱的效果
             float rate = tempTime / duration;//計算生命週期的比例
-            Color cal = meshRenderer.material.GetColor("_BaseColor");
-            cal.a *= rate;//設置透明通道
+            //Color cal = meshRenderer.material.GetColor("_BaseColor");
+            //cal.a *= rate;//設置透明通道
+            float dissolveAmount = meshRenderer.material.GetFloat("_Dissolve");
+            dissolveAmount *= rate;
         }
 
     }
