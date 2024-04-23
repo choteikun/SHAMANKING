@@ -62464,6 +62464,7 @@ Transform:
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7249468799276855840}
   - {fileID: 5405073842758064308}
   - {fileID: 9047416238154671811}
   - {fileID: 6791578173400964303}
@@ -72750,6 +72751,7 @@ MonoBehaviour:
   beHitTimer_: 0
   beGrabTimer_: 1
   executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 4632372957466444302}
   onHitParticle_: {fileID: 9047416238154671814}
 --- !u!224 &4472082092011399876
 RectTransform:
@@ -78008,10 +78010,9 @@ Transform:
   - {fileID: 8264524711082326286}
   - {fileID: 6690387597299340425}
   - {fileID: 1578055951}
-  - {fileID: 7249468799276855840}
   - {fileID: 7664164357118215627}
   m_Father: {fileID: 3100196146829701238}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5405073842758064310
 MonoBehaviour:
@@ -78326,6 +78327,7 @@ MonoBehaviour:
   beHitTimer_: 0
   beGrabTimer_: 1
   executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 0}
   onHitParticle_: {fileID: 896938923942166119}
 --- !u!1 &5484659756324701802
 GameObject:
@@ -85522,6 +85524,7 @@ MonoBehaviour:
   beHitTimer_: 0
   beGrabTimer_: 1
   executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 0}
   onHitParticle_: {fileID: 6113438625675495168}
 --- !u!195 &6113438625120285175
 NavMeshAgent:
@@ -94906,7 +94909,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3100196146829701238}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6806462729438751592
 MeshFilter:
@@ -96443,19 +96446,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7318186486952728625}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0142857125, y: 0.014285711, z: 0.0142857125}
+  m_LocalScale: {x: 0.014285713, y: 0.014285711, z: 0.014285713}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6286453060402134004}
   - {fileID: 1172715971}
-  m_Father: {fileID: 5405073842758064308}
-  m_RootOrder: 8
+  m_Father: {fileID: 3100196146829701238}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 4.8700004}
+  m_AnchoredPosition: {x: 0, y: 4}
   m_SizeDelta: {x: 1006, y: 566}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &7250738857373657404
@@ -103171,7 +103174,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5405073842758064308}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &7664164357118215629
 ParticleSystem:
@@ -119529,7 +119532,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3100196146829701238}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &9047416238154671812
 VisualEffect:

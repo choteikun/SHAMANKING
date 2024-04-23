@@ -433,9 +433,8 @@ Transform:
   - {fileID: 6114090598048625497}
   - {fileID: 4535469840226475803}
   - {fileID: 7579172564127684837}
-  - {fileID: 1650430469537226646}
   m_Father: {fileID: 5292582765876959700}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5238306114254935655
 Animator:
@@ -787,7 +786,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5292582765876959700}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &2304713954853490534
 VisualEffect:
@@ -1550,7 +1549,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5292582765876959700}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4338536948034352492
 MeshFilter:
@@ -1809,6 +1808,7 @@ Transform:
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1650430469537226646}
   - {fileID: 2184843389777857565}
   - {fileID: 2304713954853490529}
   - {fileID: 4338536948034352493}
@@ -1960,6 +1960,7 @@ MonoBehaviour:
   beHitTimer_: 0
   beGrabTimer_: 1
   executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 1520474842063804071}
   onHitParticle_: {fileID: 2304713954853490532}
 --- !u!114 &6883077826410547872
 MonoBehaviour:
@@ -2371,18 +2372,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5840977520017940004}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0142857125, y: 0.014285711, z: 0.0142857125}
+  m_LocalScale: {x: 0.014285713, y: 0.014285711, z: 0.014285713}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5724426607660955150}
-  m_Father: {fileID: 2184843389777857565}
-  m_RootOrder: 10
+  m_Father: {fileID: 5292582765876959700}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 4.87}
+  m_AnchoredPosition: {x: 0, y: 4}
   m_SizeDelta: {x: 1006, y: 566}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3209759079999288939

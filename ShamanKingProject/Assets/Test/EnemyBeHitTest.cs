@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Gamemanager;
 using System.Collections;
 using UnityEngine;
@@ -45,6 +46,8 @@ public class EnemyBeHitTest : MonoBehaviour
     [SerializeField] float beGrabTimer_ = 1f;
 
     [SerializeField] GameObject executionEffectPrefab_;
+
+    [SerializeField] GameObject shakeObj_;
 
 
     [SerializeField]
@@ -215,6 +218,7 @@ public class EnemyBeHitTest : MonoBehaviour
     void checkDeath(float damage)
     {
         healthPoint_ -= damage;
+        doShakeObject();
         if (healthPoint_<=0)
         {
             GameManager.Instance.MainGameEvent.Send(new EnemyDeathCommand() { DeathTarget = this.gameObject });
@@ -229,4 +233,8 @@ public class EnemyBeHitTest : MonoBehaviour
     {
         return Break;
     }    
+    void doShakeObject()
+    {
+        shakeObj_.transform.DOShakePosition(0.5f,0.15f,40,90);
+    }
 }
