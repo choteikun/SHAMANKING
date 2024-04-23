@@ -27,6 +27,8 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        var guardedDamage_ = 0f;
+        var attackDamage = getDamege();
         // 检查collider是否在LayerMask中
         if ((layerMask_.value & (1 << other.gameObject.layer)) > 0)
         {
@@ -46,7 +48,8 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
                 else
                 {
                     //GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint = Mathf.Clamp(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint - getDamege(), 0, GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerMaxGuardPoint);
-                    PlayerStatCalculator.PlayerAddOrMinusHealthGuardPoint(getDamege()*-1f);
+                    guardedDamage_ = GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint;
+                    PlayerStatCalculator.PlayerAddOrMinusHealthGuardPoint(attackDamage * -1f);
                     if (GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGuardPoint != 0&&!unGuardable_)
                     {
                         return;
@@ -61,11 +64,11 @@ public class EnemyAttackColliderBehavior : MonoBehaviour
             var command = new EnemyAttackSuccessCommand();
             if (colliderType_ == BossSpecialColliderType.Normal)
             {
-                command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(), ThisAttackHitPower = thisAttackHitPower_, AttackerPos = this.gameObject.transform.position };
+                command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = attackDamage - guardedDamage_ , ThisAttackHitPower = thisAttackHitPower_, AttackerPos = this.gameObject.transform.position };
             }
             else if (colliderType_ == BossSpecialColliderType.FlameThrower)
             {
-                command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = getDamege(), ThisAttackHitPower = thisAttackHitPower_, AttackerPos = specialAttackerPos_.transform.position };
+                command = new EnemyAttackSuccessCommand() { CollidePoint = collidePoint, AttackDamage = attackDamage -guardedDamage_, ThisAttackHitPower = thisAttackHitPower_, AttackerPos = specialAttackerPos_.transform.position };
             }
             awaitSendAttackMessage(command);
             Debug.Log("HitTarget" + other.name);
