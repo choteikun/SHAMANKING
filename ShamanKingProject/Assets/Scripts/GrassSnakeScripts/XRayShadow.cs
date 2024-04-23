@@ -109,6 +109,7 @@ public class XRayShadow : MonoBehaviour
                 //meshRen.materials[s].SetFloat("_Pow", 2f);
                 ShadowColor.a = 1;
                 meshRen.materials[s].SetColor("_BaseColor", ShadowColor);
+
             }
 
 

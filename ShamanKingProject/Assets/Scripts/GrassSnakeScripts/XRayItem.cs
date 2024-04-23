@@ -15,7 +15,6 @@ public class XRayItem : MonoBehaviour
     public float deleteTime;
     //物體上的 MeshRenderer ，主要是為了 動態修改材質顏色 alpha 值，產生漸隱效果
     public MeshRenderer meshRenderer;
-
     void Update()
     {
 
@@ -31,8 +30,8 @@ public class XRayItem : MonoBehaviour
             float rate = tempTime / duration;//計算生命週期的比例
             //Color cal = meshRenderer.material.GetColor("_BaseColor");
             //cal.a *= rate;//設置透明通道
-            float dissolveAmount = meshRenderer.material.GetFloat("_Dissolve");
-            dissolveAmount *= rate;
+            Debug.LogError(rate);
+            meshRenderer.material.SetFloat("_Dissolve", rate);
         }
 
     }
