@@ -45,7 +45,7 @@ public class XRayShadow : MonoBehaviour
         }
         
         // 並獲取 X-ray shader
-        xRayShader = Shader.Find("Shader Graphs/crastal_disslove");
+        xRayShader = Shader.Find("Shader Graphs/crastal_dissolve");
     }
 
     // 計時，和位置參數

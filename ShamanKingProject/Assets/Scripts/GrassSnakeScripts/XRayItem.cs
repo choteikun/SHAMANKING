@@ -31,7 +31,8 @@ public class XRayItem : MonoBehaviour
             //Color cal = meshRenderer.material.GetColor("_BaseColor");
             //cal.a *= rate;//設置透明通道
             Debug.LogError(rate);
-            meshRenderer.material.SetFloat("_Dissolve", rate);
+            //meshRenderer.material.SetFloat("_Dissolve", rate);
+            meshRenderer.material.SetFloat("_Alpha", rate);
         }
 
     }
