@@ -30,7 +30,7 @@ public class XRayItem : MonoBehaviour
             float rate = tempTime / duration;//計算生命週期的比例
             //Color cal = meshRenderer.material.GetColor("_BaseColor");
             //cal.a *= rate;//設置透明通道
-            Debug.LogError(rate);
+            //Debug.LogError(rate);
             //meshRenderer.material.SetFloat("_Dissolve", rate);
             meshRenderer.material.SetFloat("_Alpha", rate);
         }
