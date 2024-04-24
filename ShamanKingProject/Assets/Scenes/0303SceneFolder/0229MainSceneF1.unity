@@ -2138,6 +2138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 119300918}
   - component: {fileID: 119300919}
+  - component: {fileID: 119300920}
   m_Layer: 0
   m_Name: WalkCAM
   m_TagString: Untagged
@@ -2152,7 +2153,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 119300917}
-  m_LocalRotation: {x: 0.052230723, y: 0.8765898, z: -0.09776862, w: 0.46829867}
+  m_LocalRotation: {x: -0.022031827, y: -0.62862396, z: -0.017820198, w: 0.77719307}
   m_LocalPosition: {x: 28.05, y: 2.22, z: 1.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2177,9 +2178,9 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 3
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 4965714528957317439}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 30.24
@@ -2199,6 +2200,27 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 596482262}
+--- !u!95 &119300920
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119300917}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!65 &122776472
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2389,7 +2411,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 148613929}
-  m_LocalRotation: {x: 0.05700323, y: 0.78881097, z: -0.07401677, w: 0.60749435}
+  m_LocalRotation: {x: 0.06726047, y: 0.8127698, z: -0.09578878, w: 0.57070655}
   m_LocalPosition: {x: 25.625, y: 2.86, z: 0.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2595,7 +2617,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 42.01
+  field of view: 51.054665
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -2620,8 +2642,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221506691}
-  m_LocalRotation: {x: 0.057003234, y: 0.78881097, z: -0.07401678, w: 0.60749435}
-  m_LocalPosition: {x: 30.29, y: 1.89, z: 0.31000072}
+  m_LocalRotation: {x: -0.034878287, y: 0.68407375, z: 0.032780964, w: 0.7278407}
+  m_LocalPosition: {x: 28.275822, y: 1.9899759, z: -0.31554955}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17536,6 +17558,8 @@ PlayableDirector:
     value: {fileID: 7541655333438458488}
   - key: {fileID: 937738886845199842, guid: 5528f4f8e2c1eb741b87ea3c4f92aa60, type: 2}
     value: {fileID: 148613930}
+  - key: {fileID: -3505820799830018583, guid: 5528f4f8e2c1eb741b87ea3c4f92aa60, type: 2}
+    value: {fileID: 119300920}
   m_ExposedReferences:
     m_References:
     - 3af21c33647821540aea942c7be03559: {fileID: 347873518}
