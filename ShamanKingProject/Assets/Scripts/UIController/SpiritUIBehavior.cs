@@ -9,6 +9,7 @@ public class SpiritUIBehavior : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSoulGageUpdate, cmd => { onSpiritUpdate(GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount); });
+        onSpiritUpdate(GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount);
     }
     
     void onSpiritUpdate(float gageAmount)
