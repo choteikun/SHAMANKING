@@ -21,7 +21,16 @@ public class RealTimePlayerData
     public PlayerCheckPointData PlayerCheckPointData = new PlayerCheckPointData();
     public int PlayerNowCheckPoint = -1;
     public int GameVolume = 10;
+    public bool[] SpecialConversionTrigger = new bool[2];
 
+    public void SpecialConversationCheck(int num)
+    {
+        if (SpecialConversionTrigger[num]==false)
+        {
+            SpecialConversionTrigger[num] = true;
+            
+        }
+    }
     public void Refresh()
     {
         PlayerPotionCount = 3;
@@ -60,7 +69,7 @@ public class RealTimePlayerData
     }
 
     public void PotionUsed()
-    {
+    {       
         if (PlayerPotionCount > 0)
         {
             PlayerPotionCount--;

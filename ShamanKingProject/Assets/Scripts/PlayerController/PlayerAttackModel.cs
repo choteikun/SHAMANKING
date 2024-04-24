@@ -441,6 +441,7 @@ public class PlayerAttackModel
         }
         else
         {
+            GameManager.Instance.MainGameMediator.RealTimePlayerData.SpecialConversationCheck(0);
             CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[0], GameManager.Instance.AttackBlockDatabase.Database[0].SkillFrame));
             currentInputCount_++;
             if (!isAttacking_)
@@ -485,6 +486,7 @@ public class PlayerAttackModel
     {
         if (cmd.Charged)
         {
+            GameManager.Instance.MainGameMediator.RealTimePlayerData.SpecialConversationCheck(0);
             CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[12], GameManager.Instance.AttackBlockDatabase.Database[12].SkillFrame));
             currentInputCount_++;
             if (!isAttacking_)
@@ -497,6 +499,7 @@ public class PlayerAttackModel
         }
         else
         {
+            GameManager.Instance.MainGameMediator.RealTimePlayerData.SpecialConversationCheck(0);
             CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[21], GameManager.Instance.AttackBlockDatabase.Database[21].SkillFrame));
             currentInputCount_++;
             if (!isAttacking_)
