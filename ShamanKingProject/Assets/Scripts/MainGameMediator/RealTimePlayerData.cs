@@ -28,7 +28,7 @@ public class RealTimePlayerData
         if (SpecialConversionTrigger[num]==false)
         {
             SpecialConversionTrigger[num] = true;
-            
+            GameManager.Instance.MainGameEvent.Send(new SystemCallSpecialConversationCommand() { TriggerNum = num });
         }
     }
     public void Refresh()

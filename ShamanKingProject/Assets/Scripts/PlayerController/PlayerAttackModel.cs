@@ -499,7 +499,7 @@ public class PlayerAttackModel
         }
         else
         {
-            GameManager.Instance.MainGameMediator.RealTimePlayerData.SpecialConversationCheck(0);
+            GameManager.Instance.MainGameMediator.RealTimePlayerData.SpecialConversationCheck(1);
             CurrentAttackInputs.Add(new AttackBlockBase(GameManager.Instance.AttackBlockDatabase.Database[21], GameManager.Instance.AttackBlockDatabase.Database[21].SkillFrame));
             currentInputCount_++;
             if (!isAttacking_)

@@ -14,8 +14,11 @@ public class GhostSizeController : MonoBehaviour
 
     void updateGhostSize()
     {
-        ghostPrefab_.transform.localScale = new Vector3(2,2,2) * (1+ 0.5f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount);
+        ghostPrefab_.transform.localScale = new Vector3(2, 2, 2) * (1 + 0.5f * GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount);
         var amount = GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageCurrentAmount / GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostSoulGageMaxAmount;
-        fire_.SetFloat("Level", amount*10);
+        if (fire_ != null)
+        {
+            fire_.SetFloat("Level", amount * 10);
+        }
     }
 }
