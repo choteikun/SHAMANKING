@@ -3887,6 +3887,7 @@ GameObject:
   - component: {fileID: 714418747}
   - component: {fileID: 714418746}
   - component: {fileID: 714418745}
+  - component: {fileID: 714418748}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -3970,6 +3971,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &714418748
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714418743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &733677337
 GameObject:
   m_ObjectHideFlags: 0
@@ -11083,6 +11101,7 @@ MonoBehaviour:
     characterControllerObj_: {fileID: 0}
     PassedFrameAfterAttack: 0
     CurrentAttackInputs: []
+  xRayShadow_: {fileID: 0}
   stickInputIndicator_: {fileID: 4826912298036871087}
   CamObject_: {fileID: 1935875546580640223}
   inputAngle_: 0
@@ -20400,6 +20419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostPrefab_: {fileID: 1792193957508103006}
+  fire_: {fileID: 0}
 --- !u!4 &1814615192777639251
 Transform:
   m_ObjectHideFlags: 0
@@ -43229,6 +43249,7 @@ MonoBehaviour:
         PlayerClearedWave: 000000000000
       PlayerNowCheckPoint: -1
       GameVolume: 10
+      SpecialConversionTrigger: 0000
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
   MissionBlockDatabase: {fileID: 0}
@@ -45636,6 +45657,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heavyAttackCharger_: 0
+  lightAttackCharger_: 0
+  heavyButtonCharging_: 0
+  lightButtonCharging_: 0
   input_: {fileID: 6035100177792774972}
   mouse_X_Horrzontal_sensitivity_: 1.05
   isAiming_: 0
@@ -48119,6 +48143,7 @@ MonoBehaviour:
   beHitTimer_: 0.2
   beGrabTimer_: 1
   executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 0}
   onHitParticle_: {fileID: 6733186204876961498}
 --- !u!33 &6733186204016371899
 MeshFilter:
@@ -48262,8 +48287,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &6733186204386336149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48727,8 +48752,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &6798573407505997740
 MonoBehaviour:
   m_ObjectHideFlags: 0
