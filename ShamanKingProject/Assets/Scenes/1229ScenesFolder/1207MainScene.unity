@@ -220,7 +220,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &19826282
 PrefabInstance:
@@ -242,7 +242,7 @@ PrefabInstance:
     - target: {fileID: 1524330169957123363, guid: f39082a76479ef64ea61e575d1dc2f9c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 41
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1524330169957123363, guid: f39082a76479ef64ea61e575d1dc2f9c,
         type: 3}
@@ -2475,8 +2475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63a5ae86422f7f4a84660825c06e63f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowBallPrefab: {fileID: 6679937665078146321, guid: fa285bf1ed063294ea9204dec1462b6d,
-    type: 3}
+  bk_EffectPrefab_: {fileID: 0}
+  shadowBallPrefab_: {fileID: 0}
   shadowBallSpawnPoint_: {fileID: 624818641}
 --- !u!114 &396048102
 MonoBehaviour:
@@ -2994,7 +2994,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 43
+  m_RootOrder: 42
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &532303282
 GameObject:
@@ -3337,7 +3337,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 38
+  m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &586684266
 GameObject:
@@ -4568,7 +4568,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 42
+  m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &731065116
 GameObject:
@@ -7542,6 +7542,7 @@ MonoBehaviour:
   hasTakenDamage_: 0
   stunTrigger_: 0
   rootTrigger_: 0
+  eliteRangedAtkTrigger_: 0
   intTypeStateOfGhostEnemy_: 0
   eliteAtkCounter_: 0
   distanceFromPlayer_: 0
@@ -7595,6 +7596,8 @@ MonoBehaviour:
   canGetGrab_: 1
   beHitTimer_: 0
   beGrabTimer_: 1
+  executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 0}
   onHitParticle_: {fileID: 817072579}
 --- !u!195 &1248257067
 NavMeshAgent:
@@ -7687,8 +7690,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &1248257069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7724,7 +7727,7 @@ Transform:
   - {fileID: 817072582}
   - {fileID: 1318074475}
   m_Father: {fileID: 0}
-  m_RootOrder: 50
+  m_RootOrder: 49
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1260588919
 GameObject:
@@ -14151,7 +14154,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 39
+  m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1773437113
 GameObject:
@@ -19765,7 +19768,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -20117,7 +20120,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 40
+  m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1912431842
 GameObject:
@@ -20687,7 +20690,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 44
+  m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2033397670
 GameObject:
@@ -22498,8 +22501,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!4 &172083196776043916
 Transform:
   m_ObjectHideFlags: 0
@@ -23562,7 +23565,7 @@ PrefabInstance:
     - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 51
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 448865872512720493, guid: 49df31686e312724d9b59b3863ad60bf,
         type: 3}
@@ -26515,6 +26518,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c560059aa16a4d49ac93d654eb9ad65, type: 3}
   - {fileID: 21300000, guid: d8a6c2b4f239d4942a20f2fc708a608a, type: 3}
   - {fileID: 21300000, guid: 555d93013c707b14fae110d0f0703f10, type: 3}
+  fourthTutorial_: []
   tutorialLastPicCount_: 0
   ticketGate_: {fileID: 1241964954287244510}
 --- !u!1 &1241964953557105636
@@ -26956,7 +26960,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 36
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1241964953731339766
 GameObject:
@@ -27059,6 +27063,10 @@ MonoBehaviour:
   startPos_: {x: 0, y: 0, z: 0}
   barMaxRange_: 116.2
   healthNumber_: {fileID: 1505934080}
+  defenceBarImage_: {fileID: 0}
+  potionRemainUI_: {fileID: 0}
+  useUI_: {fileID: 0}
+  breakUI_: {fileID: 0}
 --- !u!114 &1241964953789358192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35013,7 +35021,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 37
+  m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1241964954379804959
 MeshFilter:
@@ -36755,6 +36763,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heavyAttackCharger_: 0
+  lightAttackCharger_: 0
+  heavyButtonCharging_: 0
+  lightButtonCharging_: 0
   input_: {fileID: 1241964954822050125}
   mouse_X_Horrzontal_sensitivity_: 1.05
   isAiming_: 0
@@ -36764,6 +36775,7 @@ MonoBehaviour:
   isBiting_: 0
   isAttacking_: 0
   isJumping_: 0
+  canRevive_: 0
   aimingDelay_: 1
   buttonEastPressed_: 0
   isDebuging_: 0
@@ -39416,14 +39428,22 @@ MonoBehaviour:
       PlayerNowHealthPoint: 100
       PlayerGuardPoint: 25
       PlayerMaxGuardPoint: 25
+      PlayerGuardingResetTimer: 0
       PlayerGuardPerfectTimerFrame: 0
       PlayerGuardPerfectTimerMaxFrame: 25
       PlayerBasicAttackPercentage: 1
       PlayerInvincible: 0
       PlayerGuarding: 0
+      PlayerPotionCount: 3
       PlayerGameObject: {fileID: 0}
+      PlayerCheckPointData:
+        PlayerClearedWave: 000000000000
+      PlayerNowCheckPoint: -1
+      GameVolume: 10
+      SpecialConversionTrigger: 0000
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
+  MissionBlockDatabase: {fileID: 0}
 --- !u!224 &1241964955529490762
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39817,7 +39837,7 @@ PrefabInstance:
     - target: {fileID: 8541034091438185619, guid: cd4614c91caf26f4f97d8814f9c064f6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 34
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 8541034091438185619, guid: cd4614c91caf26f4f97d8814f9c064f6,
         type: 3}
@@ -40459,6 +40479,8 @@ MonoBehaviour:
   canGetGrab_: 1
   beHitTimer_: 0
   beGrabTimer_: 1
+  executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 0}
   onHitParticle_: {fileID: 6119167153678091068}
 --- !u!114 &1483304863780865784
 MonoBehaviour:
@@ -40492,6 +40514,7 @@ MonoBehaviour:
   hasTakenDamage_: 0
   stunTrigger_: 0
   rootTrigger_: 0
+  eliteRangedAtkTrigger_: 0
   intTypeStateOfGhostEnemy_: 0
   eliteAtkCounter_: 0
   distanceFromPlayer_: 0
@@ -43815,7 +43838,7 @@ PrefabInstance:
     - target: {fileID: 2836632283595059872, guid: 69fbde2e7557d904e801a35b190a25c8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 35
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 2836632283595059872, guid: 69fbde2e7557d904e801a35b190a25c8,
         type: 3}
@@ -48872,7 +48895,7 @@ PrefabInstance:
     - target: {fileID: 2815099289546251531, guid: b0167da084559d847baa4e3955bfac81,
         type: 3}
       propertyPath: m_RootOrder
-      value: 45
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 2815099289546251531, guid: b0167da084559d847baa4e3955bfac81,
         type: 3}
@@ -55572,11 +55595,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2e4c56ea991ad4788eb35c090185ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UncleGhostAnimator: {fileID: 0}
   player_Stats_:
     Player_DodgeDistance: 3.5
     Player_DodgeSpeed: 0.35
     Player_Speed: 0
-    Player_ChargingSpeed: 2.5
+    Player_GuardingSpeed: 2.5
     Player_DashSpeed: 20
     Player_DashTime: 0.15
     Grounded: 1
@@ -55590,7 +55614,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     Aiming: 0
-    Charging: 0
+    Guarding: 0
     Falling: 0
     SpeedChangeRate: 10
     Player_InputMagnitude: 0
@@ -55613,6 +55637,7 @@ MonoBehaviour:
     characterControllerObj_: {fileID: 0}
     PassedFrameAfterAttack: 0
     CurrentAttackInputs: []
+  xRayShadow_: {fileID: 0}
   stickInputIndicator_: {fileID: 216567262}
   CamObject_: {fileID: 6350426926159942574}
   inputAngle_: 0
@@ -57904,6 +57929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostPrefab_: {fileID: 5490092863622347211}
+  fire_: {fileID: 0}
 --- !u!1 &5490092863622347211
 GameObject:
   m_ObjectHideFlags: 0
@@ -68584,6 +68610,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88037f0aea81b44f974e5309d16b4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackMoverEnabled_: 0
+  executionAttackMoverEnabled_: 0
+  heavyAttackMoverEnabled_: 0
+  knockBackEnabled_: 0
 --- !u!114 &5717628474718875029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69580,7 +69610,7 @@ Transform:
   - {fileID: 5878934407849340310}
   - {fileID: 5878934408493979556}
   m_Father: {fileID: 0}
-  m_RootOrder: 49
+  m_RootOrder: 48
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!114 &5878934407289920364
 MonoBehaviour:
@@ -69726,6 +69756,8 @@ MonoBehaviour:
   canGetGrab_: 1
   beHitTimer_: 0
   beGrabTimer_: 1
+  executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 0}
   onHitParticle_: {fileID: 5878934407849340313}
 --- !u!114 &5878934407289920368
 MonoBehaviour:
@@ -69759,6 +69791,7 @@ MonoBehaviour:
   hasTakenDamage_: 0
   stunTrigger_: 0
   rootTrigger_: 0
+  eliteRangedAtkTrigger_: 0
   intTypeStateOfGhostEnemy_: 0
   eliteAtkCounter_: 0
   distanceFromPlayer_: 0
@@ -79880,7 +79913,7 @@ PrefabInstance:
     - target: {fileID: 6342764836179381641, guid: 4827936d923035b4b898dc973926f64d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 46
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 6342764836179381641, guid: 4827936d923035b4b898dc973926f64d,
         type: 3}
@@ -85315,8 +85348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63a5ae86422f7f4a84660825c06e63f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadowBallPrefab: {fileID: 6679937665078146321, guid: fa285bf1ed063294ea9204dec1462b6d,
-    type: 3}
+  bk_EffectPrefab_: {fileID: 0}
+  shadowBallPrefab_: {fileID: 0}
   shadowBallSpawnPoint_: {fileID: 2084330558140712559}
 --- !u!4 &7692501156770820295
 Transform:
@@ -85572,7 +85605,7 @@ Transform:
   - {fileID: 4460748853945554454}
   - {fileID: 2173455270078114842}
   m_Father: {fileID: 0}
-  m_RootOrder: 47
+  m_RootOrder: 46
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &7741469680945660068
 MonoBehaviour:
@@ -86083,7 +86116,7 @@ PrefabInstance:
     - target: {fileID: 2174916211191195846, guid: fa285bf1ed063294ea9204dec1462b6d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 48
+      value: 47
       objectReference: {fileID: 0}
     - target: {fileID: 2174916211191195846, guid: fa285bf1ed063294ea9204dec1462b6d,
         type: 3}
@@ -88537,8 +88570,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!1 &8241952347829316054
 GameObject:
   m_ObjectHideFlags: 0
@@ -91754,6 +91787,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1241964954116721740}
     m_Modifications:
+    - target: {fileID: 1505934079, guid: 64f196f86528fd841aa7713a98bf929c, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844077605413368696, guid: 64f196f86528fd841aa7713a98bf929c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5173898829776961964, guid: 64f196f86528fd841aa7713a98bf929c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258936022713194189, guid: 64f196f86528fd841aa7713a98bf929c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765389267870653877, guid: 64f196f86528fd841aa7713a98bf929c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8765389268143040915, guid: 64f196f86528fd841aa7713a98bf929c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -91868,6 +91925,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765389268883636814, guid: 64f196f86528fd841aa7713a98bf929c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765389268948163470, guid: 64f196f86528fd841aa7713a98bf929c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082285026354246918, guid: 64f196f86528fd841aa7713a98bf929c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64f196f86528fd841aa7713a98bf929c, type: 3}
@@ -93173,6 +93245,7 @@ MonoBehaviour:
   hasTakenDamage_: 0
   stunTrigger_: 0
   rootTrigger_: 0
+  eliteRangedAtkTrigger_: 0
   intTypeStateOfGhostEnemy_: 0
   eliteAtkCounter_: 0
   distanceFromPlayer_: 0
@@ -93226,6 +93299,8 @@ MonoBehaviour:
   canGetGrab_: 1
   beHitTimer_: 0
   beGrabTimer_: 1
+  executionEffectPrefab_: {fileID: 0}
+  shakeObj_: {fileID: 0}
   onHitParticle_: {fileID: 4460748853945554451}
 --- !u!1 &9056623022078431938
 GameObject:
