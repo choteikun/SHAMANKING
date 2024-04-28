@@ -15,7 +15,7 @@ public enum FirstBossState
 }
 /**************************************************
 * Description
-*   該腳本主要放置一些讓行為樹使用的變量(Variable Mappings require a C# property)
+* 該腳本主要放置一些讓行為樹使用的變量(Variable Mappings require a C# property)
 **************************************************/
 [RequireComponent(typeof(Rigidbody))]
 public class FirstBossVariables : MonoBehaviour
@@ -28,6 +28,7 @@ public class FirstBossVariables : MonoBehaviour
     [Tooltip("Boss跳撲速度")]
     public float FirstBossJumpForwardSpeed;
 
+    [Tooltip("切換Boss狀態用的Int參數")]
     public int IntTypeStateOfFirstBoss { get { return intTypeStateOfFirstBoss_; } set { intTypeStateOfFirstBoss_ = value; } }
     private int intTypeStateOfFirstBoss_;
     public int IntTypeOfBossFace { get { return intTypeOfBossFace_; } set { intTypeOfBossFace_ = value; } }
@@ -75,6 +76,7 @@ public class FirstBossVariables : MonoBehaviour
 
     #endregion
 
+    #region -Boss Trigger Probability-
     public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
     [SerializeField, Tooltip("更新玩家位置的觸發器")]
     private bool updatePosTrigger_;
@@ -90,6 +92,7 @@ public class FirstBossVariables : MonoBehaviour
     public bool RootTrigger { get { return rootTrigger_; } set { rootTrigger_ = value; } }
     [SerializeField, Tooltip("禁錮觸發器")]
     private bool rootTrigger_;
+    #endregion
 
     public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
     [SerializeField, Tooltip("PlayerObject")]

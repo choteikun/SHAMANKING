@@ -5,28 +5,28 @@ using Gamemanager;
 
 public class FirstBossAnimator : MonoBehaviour
 {
-    Animator anim;
-    FirstBossVariables firstBossVariables;
+    Animator anim_;
+    FirstBossVariables firstBossVariables_;
 
     bool firstBossDeadTrigger_;
 
     private void Awake()
     {
         firstBossDeadTrigger_ = false;
-        anim = GetComponent<Animator>();
-        firstBossVariables = GetComponentInParent<FirstBossVariables>();
+        anim_ = GetComponent<Animator>();
+        firstBossVariables_ = GetComponentInParent<FirstBossVariables>();
     }
     private void Update()
     {
-        if (firstBossVariables.PreludeTrigger)
+        if (firstBossVariables_.PreludeTrigger)
         {
-            anim.SetBool("Prelude", true);
+            anim_.SetBool("Prelude", true);
         }
         else
         {
-            anim.SetBool("Prelude", false);
+            anim_.SetBool("Prelude", false);
         }
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Helldog_Dead") && !firstBossDeadTrigger_)
+        if (anim_.GetCurrentAnimatorStateInfo(0).IsName("Helldog_Dead") && !firstBossDeadTrigger_)
         {
             GameManager.Instance.HellDogGameEvent.Send(new BossCallDeadCommand());
             firstBossDeadTrigger_ = true;
@@ -34,6 +34,6 @@ public class FirstBossAnimator : MonoBehaviour
     }
     private void OnAnimatorMove()
     {
-        SendMessageUpwards("OnUpdateRootMotion", anim);
+        SendMessageUpwards("OnUpdateRootMotion", anim_);
     }
 }

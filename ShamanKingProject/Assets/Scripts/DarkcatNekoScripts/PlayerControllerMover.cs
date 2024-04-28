@@ -102,7 +102,7 @@ public class PlayerControllerMover
             }
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { DashToGrabTarget(cmd); });
-        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAnimationMovementEvent, cmd => { animationMovement(cmd.Distance, cmd.Frame); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAnimationMovementEvent, cmd => { animationMovement(cmd.Distance, cmd.Frame); });
     }
 
     public void Update()
