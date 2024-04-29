@@ -13,6 +13,7 @@ public class PlayerDataModel
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccessForData, async cmd =>
         {
             PlayerStatCalculator.PlayerAddOrMinusSpirit(cmd.AttackAddSoul);
+            if (Gamepad.current == null) return;
             // 触发手柄震动
             Gamepad.current.SetMotorSpeeds(0.05f,0.05f);
 

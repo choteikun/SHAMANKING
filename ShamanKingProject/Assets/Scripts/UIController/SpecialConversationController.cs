@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SpecialConversationController : MonoBehaviour
@@ -10,10 +11,8 @@ public class SpecialConversationController : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallSpecialConversation, cmd => { updateBlockPos(); });
     }
-
-    void updateBlockPos()
+    private void Update()
     {
-        specialConversation_.gameObject.SetActive(true);
         var supportAimObjectToRectTransform = Camera.main.WorldToScreenPoint(uncleObj_.transform.position);
         Vector2 localPosition;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform_, supportAimObjectToRectTransform, null, out localPosition))
@@ -22,5 +21,11 @@ public class SpecialConversationController : MonoBehaviour
             specialConversation_.rectTransform.anchoredPosition = localPosition;
             //Debug.Log(localPosition);
         }
+    }
+    async void updateBlockPos()
+    {
+        specialConversation_.gameObject.SetActive(true);
+        await UniTask.Delay(1000);
+        specialConversation_.gameObject.SetActive(false);
     }
 }

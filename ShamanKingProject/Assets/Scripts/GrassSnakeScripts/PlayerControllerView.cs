@@ -66,7 +66,7 @@ public class PlayerControllerView : MonoBehaviour
     }
     void Start()
     {
-        if(xRayShadow_ == null)
+        if (xRayShadow_ == null)
         {
             try
             {
@@ -78,7 +78,7 @@ public class PlayerControllerView : MonoBehaviour
                 throw;
             }
         }
-        
+
         DOVirtual.Float(1.5f, -0.5f, 0.01f, value =>
         {
             Vector4 currentParams = test_[0].GetVector("_DissolveParams");
@@ -93,14 +93,14 @@ public class PlayerControllerView : MonoBehaviour
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemAttackAllow, cmd =>
         {
-            
-                //playerModel_.transform.rotation = stickInputIndicator_.transform.rotation;
-                playerModel_.transform.DORotateQuaternion(stickInputIndicator_.transform.rotation, 0.15f);
-            
+
+            //playerModel_.transform.rotation = stickInputIndicator_.transform.rotation;
+            playerModel_.transform.DORotateQuaternion(stickInputIndicator_.transform.rotation, 0.15f);
+
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayerDirection);
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnAimingButtonTrigger, onAimButtonTrigger);
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGuardSkillOut,cmd=> { onPlayerGuardingButtonTrigger(cmd.GuardingIsOut); } );
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGuardSkillOut, cmd => { onPlayerGuardingButtonTrigger(cmd.GuardingIsOut); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemGetTarget, cmd => { onTargetGetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemResetTarget, cmd => { onTargetResetObject(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerLightAttack, cmd => { cancelMoving(); });
@@ -112,7 +112,7 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerBeAttackByEnemySuccess, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnEnemyAttackSuccess, cmd => { playerModelTurn(cmd); });
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerSuccessParry, cmd => { playerModelTurn(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll,  cmd => { cancelMoving();});
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerRoll, cmd => { cancelMoving(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnStartRollMovementAnimation, cmd => { testRoll(); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAnimationEvents, cmd =>
         {
@@ -123,7 +123,7 @@ public class PlayerControllerView : MonoBehaviour
         });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { player_Stats_.Player_CanMove = true; });
 
-        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit &&( cmd.HitObjecctTag == HitObjecctTag.Biteable|| cmd.HitObjecctTag == HitObjecctTag.Enemy)).Subscribe(cmd => aimingInterrupt());
+        GameManager.Instance.MainGameEvent.OnPlayerLaunchActionFinish.Where(cmd => cmd.Hit && (cmd.HitObjecctTag == HitObjecctTag.Biteable || cmd.HitObjecctTag == HitObjecctTag.Enemy)).Subscribe(cmd => aimingInterrupt());
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerControllerMovement, getPlayer_SprintState);
         playerAnimatorView_.Start(player_Stats_);
         playerControllerMover_.Start(player_Stats_);
@@ -131,6 +131,10 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject = this.gameObject;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { DashToGrabTarget(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { onPlayerDead(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => 
+        {
+            if (cmd.AttackInputType != AttackInputType.ExecutionAttack) return;
+            playerModel_.transform.rotation = Quaternion.Euler(Vector3.zero); });
     }
 
     #region - Player取得方向指令 -
