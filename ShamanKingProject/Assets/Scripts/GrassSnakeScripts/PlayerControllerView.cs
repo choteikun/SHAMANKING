@@ -131,10 +131,10 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject = this.gameObject;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { DashToGrabTarget(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { onPlayerDead(); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => 
-        {
-            if (cmd.AttackInputType != AttackInputType.ExecutionAttack) return;
-            playerModel_.transform.rotation = Quaternion.Euler(Vector3.zero); });
+        //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => 
+        //{
+        //    if (cmd.AttackInputType != AttackInputType.ExecutionAttack) return;
+        //    playerModel_.transform.rotation = Quaternion.Euler(Vector3.zero); });
     }
 
     #region - Player取得方向指令 -
