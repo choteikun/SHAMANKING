@@ -3,6 +3,7 @@ using Gamemanager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ExecutionCameraSystem : MonoBehaviour
 {
@@ -15,8 +16,11 @@ public class ExecutionCameraSystem : MonoBehaviour
     [SerializeField] Animator Animator_;
     [SerializeField] CharacterController cc_;
     [SerializeField] GameObject playerModel_;
+
+    NavMeshAgent eliteGhostEnemyNavMeshAgent_;
     void Start()
     {
+        eliteGhostEnemyNavMeshAgent_ = enemyObject_.GetComponent<NavMeshAgent>();
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { changePos(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerMovementInterruptionFinish, cmd => { mainCam_.SetActive(true); executionCam_.SetActive(false);  });
        
@@ -39,9 +43,13 @@ public class ExecutionCameraSystem : MonoBehaviour
     {
         if (cmd.AttackInputType == AttackInputType.ExecutionAttack)
         {
-            Animator_.CrossFadeInFixedTime("Dolly_Rig_Dolly_RigAction_001", 0.25f);            
+            Animator_.CrossFadeInFixedTime("Dolly_Rig_Dolly_RigAction_001", 0.25f);
+
+            //enemyObject_.GetComponent<NavMeshAgent>().SetDestination(enemyPos_.transform.position);
+            eliteGhostEnemyNavMeshAgent_.enabled = false;
             enemyObject_.transform.position = enemyPos_.transform.position;
             enemyObject_.transform.rotation = enemyPos_.transform.rotation;
+            eliteGhostEnemyNavMeshAgent_.enabled = true;
             cc_.enabled = false;
             playerObj_.transform.position = playerPos_.transform.position;
             playerObj_.transform.rotation = playerPos_.transform.rotation;
