@@ -13,8 +13,9 @@ public class PunishmentMachine : MonoBehaviour
     [SerializeField] GameObject innerJudgement_;
     [SerializeField] GameObject outerJudgement_;
     [SerializeField] Image centerImage_;
-    [SerializeField] Image innerImage_;
+    [SerializeField] GameObject outerImage_;
     [SerializeField] Vector3 centerScale_;
+    [SerializeField] Vector3 outerScale_;
 
     [SerializeField] int centerHintSec_;
     [SerializeField] int outerHintSec_;
@@ -34,8 +35,10 @@ public class PunishmentMachine : MonoBehaviour
         centerHitBox_.SetActive(true);
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 213 });
         await UniTask.DelayFrame(3);
+        innerJudgement_.SetActive(false);
         Destroy(centerHitBox_);
         outerHint_.SetActive(true);
+        outerImage_.transform.DOScale(outerScale_, 3.5f);
         outerJudgement_.SetActive(true);
         await UniTask.Delay(outerHintSec_);
         outerHint_.SetActive(false);
