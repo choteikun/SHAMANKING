@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Gamemanager;
+using Cysharp.Threading.Tasks;
 
 public class FirstFloorTransfer : MonoBehaviour
 {
@@ -9,10 +11,12 @@ public class FirstFloorTransfer : MonoBehaviour
     {
         SceneManager.LoadScene("0220MainScene 1");
     }
-    private void OnTriggerEnter(Collider other)
+    private async void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            GameManager.Instance.MainGameEvent.Send(new SystemCallSceneFadeOutCommand());
+            await UniTask.Delay(1750);
             ToFirstFloorScene();
         }
     }
