@@ -140,4 +140,12 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     {
         GameManager.Instance.HellDogGameEvent.Send(new BossCallUltCamTransfer() { trigger = false });
     }
+    public void FlameThrowerAnimationStart()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallFlameThrowerCommand());
+    }
+    public void DashAnimationStart()
+    {
+        GameManager.Instance.HellDogGameEvent.Send(new BossCallDashCommand());
+    }
 }

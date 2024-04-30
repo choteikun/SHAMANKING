@@ -20,4 +20,6 @@ public class HellDogGameEventPack : GameEventPack
     public IObservable<BossCallDeadCommand> OnBossCallDeadCommand => getSubject<BossCallDeadCommand>();
     public IObservable<BossCallUltCamTransfer> OnBossCallUltCamTransfer => getSubject<BossCallUltCamTransfer>();
     public IObservable<BossFireTrackBallTrigger> OnBossFireTrackBallTrigger => getSubject<BossFireTrackBallTrigger>();
+    public IObservable <BossCallFlameThrowerCommand> OnBossCallFlameThrower => getSubject<BossCallFlameThrowerCommand>();
+    public IObservable<BossCallDashCommand> OnBossCallDash => getSubject<BossCallDashCommand>();
 }
