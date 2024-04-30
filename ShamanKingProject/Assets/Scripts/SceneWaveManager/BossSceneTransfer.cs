@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 public class BossSceneTransfer : EnviormentMachineBehaviorBase
 {
@@ -33,8 +34,10 @@ public class BossSceneTransfer : EnviormentMachineBehaviorBase
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerEnterOrLeaveEnviormentObjectCommand() { EnterOrLeave = false, NowEnterEnviormentObject = this.gameObject });
     }
-    public override void EnviormaneMachinePossessInteract()
+    async public override void EnviormaneMachinePossessInteract()
     {
+        GameManager.Instance.MainGameEvent.Send(new SystemCallSceneFadeOutCommand());
+        await UniTask.Delay(1750);
         ToBossScene();
         onExit();
         //this.gameObject.SetActive(false);
