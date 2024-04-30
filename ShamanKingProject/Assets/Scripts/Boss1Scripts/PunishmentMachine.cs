@@ -35,7 +35,7 @@ public class PunishmentMachine : MonoBehaviour
         centerHitBox_.SetActive(true);
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 213 });
         await UniTask.DelayFrame(3);
-        innerJudgement_.SetActive(false);
+        delayClose();
         Destroy(centerHitBox_);
         outerHint_.SetActive(true);
         outerImage_.transform.DOScale(outerScale_, 3.5f);
@@ -51,4 +51,10 @@ public class PunishmentMachine : MonoBehaviour
         await UniTask.DelayFrame(50);
         Destroy(gameObject);
     }
+    async void delayClose()
+    {
+         await UniTask.Delay(1000);
+        innerJudgement_.SetActive(false);
+    }
 }
+
