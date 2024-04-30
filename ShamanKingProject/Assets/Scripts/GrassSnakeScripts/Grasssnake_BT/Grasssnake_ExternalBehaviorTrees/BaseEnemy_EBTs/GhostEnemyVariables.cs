@@ -66,6 +66,9 @@ public class GhostEnemyVariables : MonoBehaviour
     public Collider GhostEnemyCollider { get { return ghostEnemyCollider_; } set { ghostEnemyCollider_ = value; } }
     [SerializeField]
     private Collider ghostEnemyCollider_;
+    public string GhostEnemyHurtAnimationName { get { return ghostEnemyHurtAnimationName_; } set { ghostEnemyHurtAnimationName_ = value; } }
+    [SerializeField]
+    private string ghostEnemyHurtAnimationName_;
 
     void Start()
     {
@@ -105,6 +108,18 @@ public class GhostEnemyVariables : MonoBehaviour
             if (cmd.AttackTarget == this.gameObject)
             {
                 hasTakenDamage_ = true;
+                switch (cmd.AttackInputType)
+                {
+                    case AttackInputType.LightAttack:
+                        GhostEnemyHurtAnimationName = "GhostEnemy_Hurt1";
+                        break;
+                    case AttackInputType.HeavyAttack:
+                        GhostEnemyHurtAnimationName = "GhostEnemy_Hurt2";
+                        break;
+                    default:
+                        break;
+                }
+
                 await UniTask.DelayFrame(1);
                 hasTakenDamage_ = false;
             }

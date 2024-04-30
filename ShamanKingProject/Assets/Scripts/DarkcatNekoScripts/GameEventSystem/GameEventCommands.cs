@@ -227,6 +227,7 @@ namespace Gamemanager
         public int AttackAddSoul;
         public float EnemyHealthPercentage;
         public float EnemyBreakPercentage;
+        public AttackInputType EnemyAttackInputType;
         public PlayerAttackSuccessResponse(PlayerAttackSuccessCommand cmd, float enemyHealthPercentage, float enemyBreakPercentage)
         {
             CollidePoint = cmd.CollidePoint;
@@ -235,6 +236,7 @@ namespace Gamemanager
             AttackAddSoul = cmd.AddSoulGage;
             EnemyHealthPercentage = enemyHealthPercentage;
             EnemyBreakPercentage = enemyBreakPercentage;
+            EnemyAttackInputType = cmd.AttackInputType;
         }
     }
 
