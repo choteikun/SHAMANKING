@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using Gamemanager;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class PunishmentMachine : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class PunishmentMachine : MonoBehaviour
     [SerializeField] GameObject centerHitBox_;
     [SerializeField] GameObject innerJudgement_;
     [SerializeField] GameObject outerJudgement_;
+    [SerializeField] Image centerImage_;
+    [SerializeField] Image innerImage_;
+    [SerializeField] Vector3 centerScale_;
 
     [SerializeField] int centerHintSec_;
     [SerializeField] int outerHintSec_;
@@ -22,6 +27,7 @@ public class PunishmentMachine : MonoBehaviour
     async void punishmentAttack()
     {
         centerHint_.SetActive(true);
+        centerImage_.transform.DOScale(centerScale_, 3);
         innerJudgement_.SetActive(true);
         await UniTask.Delay(centerHintSec_);
         centerHint_.SetActive(false);
