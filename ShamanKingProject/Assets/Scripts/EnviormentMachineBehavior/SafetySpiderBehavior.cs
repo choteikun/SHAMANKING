@@ -26,13 +26,13 @@ public class SafetySpiderBehavior : EnviormentMachineBehaviorBase
         GameManager.Instance.MainGameEvent.Send(new PlayerEnterOrLeaveEnviormentObjectCommand() { EnterOrLeave = false, NowEnterEnviormentObject = this.gameObject });
     }
     public override void EnviormaneMachinePossessInteract()
-    {      
-        // playCheckPointAnimator();      
+    {
+        playSpidertAnimator();      
         onExit();
         this.gameObject.SetActive(false);
     }
     void playSpidertAnimator()
     {
-        //checkPointAnimator_.CrossFadeInFixedTime("Armature_009_touch_bake", 0.15f);
+        spiderAnimator_.CrossFadeInFixedTime("SpiderRun", 0.15f);
     }
 }

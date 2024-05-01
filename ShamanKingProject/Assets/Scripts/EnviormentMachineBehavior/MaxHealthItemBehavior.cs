@@ -1,9 +1,7 @@
 using Gamemanager;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MaxHealthItemBehavoir : EnviormentMachineBehaviorBase
+public class MaxHealthItemBehavior : EnviormentMachineBehaviorBase
 {
     private void OnTriggerEnter(Collider other)
     {
