@@ -31,7 +31,7 @@ public class NearbyEnemyChecker : MonoBehaviour
         Collider[] nearbyTargets = Physics.OverlapSphere(transform.position, noticeZone, targetLayers);
         if (nearbyTargets.Length <= 0)
         {
-            Debug.Log("Cant find"); return false;
+            //Debug.Log("Cant find"); return false;
         }
         foreach (var item in nearbyTargets)
         {
