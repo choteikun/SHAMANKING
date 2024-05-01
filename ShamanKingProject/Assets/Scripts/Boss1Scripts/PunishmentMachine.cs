@@ -29,6 +29,7 @@ public class PunishmentMachine : MonoBehaviour
     {
         centerHint_.SetActive(true);
         centerImage_.transform.DOScale(centerScale_, 3);
+        centerImage_.transform.DOLocalRotate(new Vector3(0, 0, 180f), 3f);
         innerJudgement_.SetActive(true);
         await UniTask.Delay(centerHintSec_);
         centerHint_.SetActive(false);
