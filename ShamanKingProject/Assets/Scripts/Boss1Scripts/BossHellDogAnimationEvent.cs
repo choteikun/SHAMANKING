@@ -9,10 +9,15 @@ public class BossHellDogAnimationEvent : MonoBehaviour
 {
     FirstBossVariables firstBossVariables;
     [SerializeField] GameObject bk_EffectPrefab_;
+    [SerializeField] GameObject player_Obstacle_;
     [SerializeField] VisualEffect[] bossVfxs;
     void Awake()
     {
         firstBossVariables = GetComponentInParent<FirstBossVariables>();
+        if(player_Obstacle_ == null)
+        {
+            player_Obstacle_ = GameObject.Find("PlayerObstacle").gameObject;
+        }
         for (int i = 0; i <= 4; i++)
         {
             if (bossVfxs[i] == null)
@@ -70,8 +75,10 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     }
     public void JumpAtkLocate()
     {
+        player_Obstacle_.SetActive(false);
         GameManager.Instance.HellDogGameEvent.Send(new BossCallJumpAttackLocateCommand());
     }
+
     public void JumpAtkColliderSpawn()
     {
         var attackManagerPrefab = GameContainer.Get<DataManager>().GetDataByID<GameEffectTemplete>(20).PrefabPath;
@@ -79,13 +86,18 @@ public class BossHellDogAnimationEvent : MonoBehaviour
         pos.y = 12f;
         var attackManagerObject = Instantiate(attackManagerPrefab, pos, Quaternion.identity);
     }
-
+    public void PlayerObstacleColliderOn()
+    {
+        player_Obstacle_.SetActive(true);
+    }
     public void BossFlameThrowerTriggerOn()
     {
+        player_Obstacle_.SetActive(false);
         GameManager.Instance.HellDogGameEvent.Send(new BossCallFlameThrowerSwitchCommand() { TurnedOn = true });
     }
     public void BossFlameThrowerTriggerOff()
     {
+        player_Obstacle_.SetActive(true);
         GameManager.Instance.HellDogGameEvent.Send(new BossCallFlameThrowerSwitchCommand() { TurnedOn = false });
     }
 
