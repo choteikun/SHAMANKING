@@ -34,6 +34,11 @@ public class FirstBossVariables : MonoBehaviour
     public int IntTypeOfBossFace { get { return intTypeOfBossFace_; } set { intTypeOfBossFace_ = value; } }
     [SerializeField, Tooltip("檢查現在Boss的面具用的Int參數")]
     private int intTypeOfBossFace_;
+
+    public float BossFaceDissolveAmount { get { return bossFaceDissolveAmount_; } set { bossFaceDissolveAmount_ = value; } }
+    [SerializeField, Tooltip("切換Boss面具Dissolve效果的Float參數")]
+    private float bossFaceDissolveAmount_;
+
     public int FaceChangeCounter { get { return faceChangeCounter_; } set { faceChangeCounter_ = value; } }
     [SerializeField, Tooltip("Boss換臉計數器")]
     private int faceChangeCounter_;
@@ -311,6 +316,10 @@ public class FirstBossVariables : MonoBehaviour
     void explosionJudgmentEnd()
     {
         TirednessTrigger = false;
+    }
+    void bossFaceDissolveAmountControl()
+    {
+        
     }
     public void OnUpdateRootMotion(Animator anim)
     {
