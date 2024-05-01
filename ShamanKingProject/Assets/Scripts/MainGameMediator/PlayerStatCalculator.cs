@@ -35,6 +35,13 @@ public static class PlayerStatCalculator
         {
         }
     }
+    public static void PlayerAddMaxHealth(float amount)
+    {
+        var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
+        realTimePlayerData.PlayerMaxHealthPoint = Mathf.Clamp(realTimePlayerData.PlayerMaxHealthPoint + amount, 0, 9999);
+        realTimePlayerData.PlayerNowHealthPoint = realTimePlayerData.PlayerMaxHealthPoint;
+        GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
+    }
 
     public static void PlayerGuardingSwitch(bool trigger)
     {
