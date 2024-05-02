@@ -20,7 +20,7 @@ public class XRayShadow : MonoBehaviour
     //決定生成殘影的開關
     public bool ShadowTrigger;
 
-    [SerializeField,Tooltip("Player模型的mesh一共有五個(Body,Cloth(inside),Cloth(other),Cloth(outside),Hair)")]
+    [SerializeField,Tooltip("Player模型的mesh一共有六個(Body,Cloth(inside),Cloth(other),Cloth(outside),Hair,Hair001)")]
     //模型所擁有的網格數據
     SkinnedMeshRenderer[] meshRender_;
 
@@ -39,7 +39,7 @@ public class XRayShadow : MonoBehaviour
             }
             catch (NullReferenceException)
             {
-                Debug.LogError("請將Player模型的mesh一共有五個(Body,Cloth(inside),Cloth(other),Cloth(outside),Hair)新增至meshRender_裡");
+                Debug.LogError("Player模型的mesh一共有六個(Body,Cloth(inside),Cloth(other),Cloth(outside),Hair,Hair001)新增至meshRender_裡");
                 throw;
             }
         }
