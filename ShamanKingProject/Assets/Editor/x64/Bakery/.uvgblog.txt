@@ -5609,3 +5609,72 @@ Running halffloat2hdr "C:\Users\user\AppData\Local\Temp\frender/0220MainScene 1_
 Running halffloat2hdr "C:\Users\user\AppData\Local\Temp\frender/0220MainScene 1_LMA3_final_RNM0.lz4" "D:/FORK/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0220MainScene 1_LMA3_RNM0.hdr" 1024
 Running halffloat2hdr "C:\Users\user\AppData\Local\Temp\frender/0220MainScene 1_LMA3_final_RNM1.lz4" "D:/FORK/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0220MainScene 1_LMA3_RNM1.hdr" 1024
 Running halffloat2hdr "C:\Users\user\AppData\Local\Temp\frender/0220MainScene 1_LMA3_final_RNM2.lz4" "D:/FORK/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0220MainScene 1_LMA3_RNM2.hdr" 1024
+2024-5-2
+Rendering UV GBuffer for 0229MainSceneF1_LMA4 115
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV tangent...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for 0229MainSceneF1_LMA3 115
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV tangent...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for probes 256
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\User\AppData\Local\Temp\frender" "uvpos_0229MainSceneF1_LMA3.lz4" 2 0 1 0
+Running ftraceRTX fixpos12 "C:\Users\User\AppData\Local\Temp\frender" "uvpos_0229MainSceneF1_LMA4.lz4" 2 0 0 0
+Running ftraceRTX ao "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_ao" 8 16 1
+Running ftraceRTX ao "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_ao" 8 16 0
+Running ftraceRTX batchpointlightprobeshlegacy "C:\Users\User\AppData\Local\Temp\frender" "PointBatch_2_0_0" 1924 0 2 batchpointlight_2_0_0.bin
+Running ftraceRTX batchpointlightprobeshlegacy "C:\Users\User\AppData\Local\Temp\frender" "PointBatch_2_1_5" 1924 0 2 batchpointlight_2_1_5.bin
+Running ftraceRTX addmul "C:\Users\User\AppData\Local\Temp\frender" "probes" 4 0 2 comp_2.bin
+Running ftraceRTX batchpointlightrnmlegacy "C:\Users\User\AppData\Local\Temp\frender" "PointBatch_1_0_0" 900 0 1 batchpointlight_1_0_0.bin
+Running ftraceRTX batchpointlightrnmlegacy "C:\Users\User\AppData\Local\Temp\frender" "PointBatch_1_1_5" 900 0 1 batchpointlight_1_1_5.bin
+Running ftraceRTX addmul "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3" 4 0 1 comp_1.bin
+Running ftraceRTX batchpointlightrnmlegacy "C:\Users\User\AppData\Local\Temp\frender" "PointBatch_0_0_2" 900 0 0 batchpointlight_0_0_2.bin
+Running ftraceRTX batchpointlightrnmlegacy "C:\Users\User\AppData\Local\Temp\frender" "PointBatch_0_3_5" 900 0 0 batchpointlight_0_3_5.bin
+Running ftraceRTX addmul "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_diffuse" 4 16 1 "gi_0229MainSceneF1_LMA30.bin" "0229MainSceneF1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_diffuse" 4 16 0 "gi_0229MainSceneF1_LMA40.bin" "0229MainSceneF1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgiprobesh "C:\Users\User\AppData\Local\Temp\frender" "probes_final" 1924 16 2 "gi_probes1.bin" "probes_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgirnm "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_final" 900 16 1 "gi_0229MainSceneF1_LMA31.bin" "0229MainSceneF1_LMA3_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgirnm "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_final" 900 16 0 "gi_0229MainSceneF1_LMA41.bin" "0229MainSceneF1_LMA4_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX addsh "C:\Users\User\AppData\Local\Temp\frender" "probes_final_" 4 0 2 shcomp_2.bin
+Running ftraceRTX add "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_final_RNM0.lz4" 4 0 1 rnm0comp_1.bin
+Running ftraceRTX addao "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_final_RNM0.lz4" 4 0 1 addao_1_0.bin
+Running denoiserOIDN c "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM0.lz4" "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM0.lz4" 2048 0
+Running ftraceRTX add "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_final_RNM1.lz4" 4 0 1 rnm1comp_1.bin
+Running ftraceRTX addao "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_final_RNM1.lz4" 4 0 1 addao_1_1.bin
+Running denoiserOIDN c "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM1.lz4" "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM1.lz4" 2048 0
+Running ftraceRTX add "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_final_RNM2.lz4" 4 0 1 rnm2comp_1.bin
+Running ftraceRTX addao "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA3_final_RNM2.lz4" 4 0 1 addao_1_2.bin
+Running denoiserOIDN c "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM2.lz4" "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM2.lz4" 2048 0
+Running seamfixer "C:\Users\User\AppData\Local\Temp\frender" "1" "0229MainSceneF1_LMA3_final_RNM0.lz4" "0229MainSceneF1_LMA3_final_RNM1.lz4" "0229MainSceneF1_LMA3_final_RNM2.lz4"
+Running ftraceRTX add "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_final_RNM0.lz4" 4 0 0 rnm0comp_0.bin
+Running ftraceRTX addao "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_final_RNM0.lz4" 4 0 0 addao_0_0.bin
+Running denoiserOIDN c "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM0.lz4" "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM0.lz4" 2048 0
+Running ftraceRTX add "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_final_RNM1.lz4" 4 0 0 rnm1comp_0.bin
+Running ftraceRTX addao "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_final_RNM1.lz4" 4 0 0 addao_0_1.bin
+Running denoiserOIDN c "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM1.lz4" "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM1.lz4" 2048 0
+Running ftraceRTX add "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_final_RNM2.lz4" 4 0 0 rnm2comp_0.bin
+Running ftraceRTX addao "C:\Users\User\AppData\Local\Temp\frender" "0229MainSceneF1_LMA4_final_RNM2.lz4" 4 0 0 addao_0_2.bin
+Running denoiserOIDN c "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM2.lz4" "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM2.lz4" 2048 0
+Running seamfixer "C:\Users\User\AppData\Local\Temp\frender" "0" "0229MainSceneF1_LMA4_final_RNM0.lz4" "0229MainSceneF1_LMA4_final_RNM1.lz4" "0229MainSceneF1_LMA4_final_RNM2.lz4"
+Running halffloat2hdr "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM0.lz4" "C:/YUKI/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0229MainSceneF1_LMA3_RNM0.hdr" 1024
+Running halffloat2hdr "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM1.lz4" "C:/YUKI/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0229MainSceneF1_LMA3_RNM1.hdr" 1024
+Running halffloat2hdr "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA3_final_RNM2.lz4" "C:/YUKI/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0229MainSceneF1_LMA3_RNM2.hdr" 1024
+Running halffloat2hdr "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM0.lz4" "C:/YUKI/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0229MainSceneF1_LMA4_RNM0.hdr" 1024
+Running halffloat2hdr "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM1.lz4" "C:/YUKI/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0229MainSceneF1_LMA4_RNM1.hdr" 1024
+Running halffloat2hdr "C:\Users\User\AppData\Local\Temp\frender/0229MainSceneF1_LMA4_final_RNM2.lz4" "C:/YUKI/SHAMANKING/ShamanKingProject/Assets/BakeryLightmaps/0229MainSceneF1_LMA4_RNM2.hdr" 1024
+Symbol file LoadedFromMemory is not a mono symbol file
+Symbol file LoadedFromMemory is not a mono symbol file
+Symbol file LoadedFromMemory is not a mono symbol file
+Symbol file LoadedFromMemory is not a mono symbol file
+Symbol file LoadedFromMemory is not a mono symbol file
