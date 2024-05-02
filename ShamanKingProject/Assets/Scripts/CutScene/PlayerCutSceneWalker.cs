@@ -13,7 +13,10 @@ public class PlayerCutSceneWalker : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new CutSceneOverStartControlCommand());
     }
-
+    public void CallCamBlur()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerExecuteCamFeedBackCommand());
+    }
     public void SwitchToBossPlayScene()
     {
         SceneManager.LoadScene("0301BossPlayScene");
