@@ -15,6 +15,8 @@ public class PlayerHealthUIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI potionRemainUI_;
     [SerializeField] GameObject useUI_;
     [SerializeField] GameObject breakUI_;
+    [SerializeField] Animator useAni_;
+    [SerializeField] Animator breakAni_;
 
     Tweener redHealthBarTweener_;
     Tweener grayHealthBarTweener_;
@@ -64,5 +66,6 @@ public class PlayerHealthUIController : MonoBehaviour
     void playerEnterOrLeaveEnviormentMachine(bool enterOrLeave)
     {
         useUI_.SetActive(enterOrLeave);
+        useAni_.CrossFadeInFixedTime("UseTrigger", 0.1f);
     }
 }
