@@ -62,10 +62,12 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     }
     public void SystemCallSprintColliderOn()
     {
+        player_Obstacle_.SetActive(false);
         GameManager.Instance.HellDogGameEvent.Send(new BossCallSprintColliderSwitchCommand() { OnOrOff = true });
     }
     public void SystemCallSprintColliderOff()
     {
+        player_Obstacle_.SetActive(true);
         GameManager.Instance.HellDogGameEvent.Send(new BossCallSprintColliderSwitchCommand() { OnOrOff = false });
     }
     public void AnimationCallSpawnPunishmentManager()
@@ -92,12 +94,10 @@ public class BossHellDogAnimationEvent : MonoBehaviour
     }
     public void BossFlameThrowerTriggerOn()
     {
-        player_Obstacle_.SetActive(false);
         GameManager.Instance.HellDogGameEvent.Send(new BossCallFlameThrowerSwitchCommand() { TurnedOn = true });
     }
     public void BossFlameThrowerTriggerOff()
-    {
-        player_Obstacle_.SetActive(true);
+    {        
         GameManager.Instance.HellDogGameEvent.Send(new BossCallFlameThrowerSwitchCommand() { TurnedOn = false });
     }
 
