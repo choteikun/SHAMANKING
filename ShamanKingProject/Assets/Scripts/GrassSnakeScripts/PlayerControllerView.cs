@@ -51,6 +51,8 @@ public class PlayerControllerView : MonoBehaviour
 
     [SerializeField]
     Material[] test_;
+    [SerializeField]
+    Material face_;
 
     [SerializeField]
     LayerMask groundLayer_;   
@@ -88,8 +90,12 @@ public class PlayerControllerView : MonoBehaviour
             foreach (var item in test_)
             {
                 item.SetVector("_DissolveParams", currentParams);
-            }
+            }           
         }).OnComplete(() => { });
+        DOVirtual.Float(0, 1f, 0.01f, value =>
+        {
+            face_.SetFloat("_Dissolve", value);
+        });
 
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemAttackAllow, cmd =>
         {
@@ -329,8 +335,13 @@ public class PlayerControllerView : MonoBehaviour
             foreach (var item in test_)
             {
                 item.SetVector("_DissolveParams", currentParams);
-            }
+            }            
         }).OnComplete(() => { });
+        DOVirtual.Float(1f, 0f, 0.1f, value =>
+        {
+
+            face_.SetFloat("_Dissolve", value);
+        });
         await UniTask.Delay(((int)(player_Stats_.Player_DodgeSpeed*1000) - 20));       
         PlayerStatCalculator.PlayerInvincibleSwitch(false);
         if (xRayShadow_ != null) { xRayShadow_.ShadowTrigger = false; }
@@ -344,8 +355,14 @@ public class PlayerControllerView : MonoBehaviour
             foreach (var item in test_)
             {
                 item.SetVector("_DissolveParams", currentParams);
-            }
+            }            
         }).SetEase(Ease.InSine).OnComplete(() => { });
+        await UniTask.Delay(300);
+        DOVirtual.Float(0f, 1f, 0.3f, value =>
+        {
+
+            face_.SetFloat("_Dissolve", value);
+        });
 
     }
     public IEnumerator MoveToPosition(Vector3 target, float duration)
