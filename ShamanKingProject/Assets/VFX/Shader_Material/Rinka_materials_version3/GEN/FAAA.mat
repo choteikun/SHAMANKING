@@ -7,12 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GenshinCelShaderURP_V4.1
+  m_Name: FAAA
   m_Shader: {fileID: 4800000, guid: c649e13f6a1015941b7b57c31e31853c, type: 3}
   m_ValidKeywords:
+  - ENABLE_BLOOM_MASK
   - ENABLE_METAL_SPECULAR
   - ENABLE_RAMP_SHADOW
-  - _SHADERENUM_BASE
+  - _SHADERENUM_FACE
   m_InvalidKeywords:
   - _ENABLELAMBERT_ON
   - _ENABLEOUTLINE_ON
@@ -45,7 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bdd380f83d1dcad4c9e8b65d338c697f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 604e2d23fadabe64586671b732e424c4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalMap:
@@ -57,23 +58,23 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampMap:
-        m_Texture: {fileID: 2800000, guid: 69ccec382378db942957b0ebea0455ce, type: 3}
+        m_Texture: {fileID: 2800000, guid: 49d7b7e58a48e4c459ca770534b40ff0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _Alpha: 1
     - _BlendOp: 0
-    - _BlinnPhongSpecularGloss: 5
+    - _BlinnPhongSpecularGloss: 10
     - _BlinnPhongSpecularIntensity: 1
     - _BloomFactor: 1
     - _BrightIntensity: 1
     - _CharacterIntensity: 5
     - _ClipScale: 0.5
     - _Cull: 2
-    - _DarkIntensity: 0
-    - _DarkShadowArea: 0.5
-    - _DarkShadowSmooth: 0.05
+    - _DarkIntensity: 0.31
+    - _DarkShadowArea: 0.05
+    - _DarkShadowSmooth: 0
     - _DarkSideRimPow: 10
     - _DarkSideRimSmooth: 1
     - _DstBlendMode: 0
@@ -81,7 +82,7 @@ Material:
     - _EmissionBloomFactor: 0
     - _EnableAlphaClipping: 0
     - _EnableAutoColor: 0
-    - _EnableBloomMask: 0
+    - _EnableBloomMask: 1
     - _EnableEmission: 0
     - _EnableFaceShadowMap: 0
     - _EnableLambert: 1
@@ -93,13 +94,13 @@ Material:
     - _EnableRimOther: 0
     - _EnableRims: 1
     - _EnableSpecular: 1
-    - _FaceDarkIntensity: 0
+    - _FaceDarkIntensity: 1.61
     - _FaceShadowMapPow: 0.2
-    - _FaceShadowOffset: 0
+    - _FaceShadowOffset: -0.48
     - _FixDarkShadow: 1
-    - _FixLightY: 0
+    - _FixLightY: 10
     - _IgnoreLightY: 0
-    - _IsFace: 0
+    - _IsFace: 1
     - _IsNight: 0
     - _LightThreshold: 0.76
     - _MetalSpecularGloss: 0.5
@@ -112,15 +113,15 @@ Material:
     - _OutlineZOffsetMaskRemapStart: 0
     - _RampAOLerp: 1
     - _RampIntensity: 1
-    - _RampShadowRange: 0.994
+    - _RampShadowRange: 0.82
     - _ReceiveShadowMappingAmount: 0.75
     - _ReceiveShadowMappingPosOffset: 0
     - _RimOffsets: 0.057
-    - _RimPow: 1
-    - _RimSmooth: 0.07
+    - _RimPow: 0
+    - _RimSmooth: 0.12
     - _RimThresholds: 0.72
-    - _ShaderEnum: 0
-    - _ShadowArea: 1
+    - _ShaderEnum: 2
+    - _ShadowArea: 0.1
     - _ShadowRampLerp: 1
     - _SpecMulti: 1
     - _SrcBlendMode: 1
@@ -134,7 +135,7 @@ Material:
     - _WorldLightInfluence: 0
     - _ZWrite: 1
     m_Colors:
-    - _DarkShadowMultColor: {r: 0, g: 0.15458491, b: 0.1792453, a: 1}
+    - _DarkShadowMultColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
     - _DarkSideRimColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColors: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionMapChannelMask: {r: 1, g: 1, b: 1, a: 0}

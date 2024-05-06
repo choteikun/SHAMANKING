@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GenshinCelShaderURP_V4.1
+  m_Name: GenshinCelShaderURP_V4.1 2
   m_Shader: {fileID: 4800000, guid: c649e13f6a1015941b7b57c31e31853c, type: 3}
   m_ValidKeywords:
   - ENABLE_METAL_SPECULAR
   - ENABLE_RAMP_SHADOW
-  - _SHADERENUM_BASE
+  - _SHADERENUM_HAIR
   m_InvalidKeywords:
   - _ENABLELAMBERT_ON
   - _ENABLEOUTLINE_ON
@@ -25,9 +25,7 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    IgnoreProjection: False
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -45,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bdd380f83d1dcad4c9e8b65d338c697f, type: 3}
+        m_Texture: {fileID: 2800000, guid: ca908ef58383b9347b2ec94fa1b07699, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalMap:
@@ -57,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampMap:
-        m_Texture: {fileID: 2800000, guid: 69ccec382378db942957b0ebea0455ce, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -106,7 +104,7 @@ Material:
     - _MetalSpecularIntensity: 1
     - _OtherRimPow: 10
     - _OtherRimSmooth: 0.01
-    - _OutlineWidth: 1.03
+    - _OutlineWidth: 0.71
     - _OutlineZOffset: 1
     - _OutlineZOffsetMaskRemapEnd: 1
     - _OutlineZOffsetMaskRemapStart: 0
@@ -117,9 +115,9 @@ Material:
     - _ReceiveShadowMappingPosOffset: 0
     - _RimOffsets: 0.057
     - _RimPow: 1
-    - _RimSmooth: 0.07
+    - _RimSmooth: 0.06
     - _RimThresholds: 0.72
-    - _ShaderEnum: 0
+    - _ShaderEnum: 1
     - _ShadowArea: 1
     - _ShadowRampLerp: 1
     - _SpecMulti: 1

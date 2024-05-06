@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GenshinCelShaderURP_V4.1
+  m_Name: GenshinCelShaderURP_V4.1 1
   m_Shader: {fileID: 4800000, guid: c649e13f6a1015941b7b57c31e31853c, type: 3}
   m_ValidKeywords:
   - ENABLE_METAL_SPECULAR
   - ENABLE_RAMP_SHADOW
-  - _SHADERENUM_BASE
+  - _SHADERENUM_FACE
   m_InvalidKeywords:
   - _ENABLELAMBERT_ON
   - _ENABLEOUTLINE_ON
@@ -25,9 +25,7 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    IgnoreProjection: False
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -45,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bdd380f83d1dcad4c9e8b65d338c697f, type: 3}
+        m_Texture: {fileID: 2800000, guid: af4b6b66dfef2c542b85bbd4533ef486, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalMap:
@@ -72,12 +70,12 @@ Material:
     - _ClipScale: 0.5
     - _Cull: 2
     - _DarkIntensity: 0
-    - _DarkShadowArea: 0.5
+    - _DarkShadowArea: 0.91
     - _DarkShadowSmooth: 0.05
     - _DarkSideRimPow: 10
     - _DarkSideRimSmooth: 1
     - _DstBlendMode: 0
-    - _Emission: 0
+    - _Emission: 7.4
     - _EmissionBloomFactor: 0
     - _EnableAlphaClipping: 0
     - _EnableAutoColor: 0
@@ -106,7 +104,7 @@ Material:
     - _MetalSpecularIntensity: 1
     - _OtherRimPow: 10
     - _OtherRimSmooth: 0.01
-    - _OutlineWidth: 1.03
+    - _OutlineWidth: 0.71
     - _OutlineZOffset: 1
     - _OutlineZOffsetMaskRemapEnd: 1
     - _OutlineZOffsetMaskRemapStart: 0
@@ -117,10 +115,10 @@ Material:
     - _ReceiveShadowMappingPosOffset: 0
     - _RimOffsets: 0.057
     - _RimPow: 1
-    - _RimSmooth: 0.07
+    - _RimSmooth: 0.06
     - _RimThresholds: 0.72
-    - _ShaderEnum: 0
-    - _ShadowArea: 1
+    - _ShaderEnum: 2
+    - _ShadowArea: 0.27
     - _ShadowRampLerp: 1
     - _SpecMulti: 1
     - _SrcBlendMode: 1
@@ -134,7 +132,7 @@ Material:
     - _WorldLightInfluence: 0
     - _ZWrite: 1
     m_Colors:
-    - _DarkShadowMultColor: {r: 0, g: 0.15458491, b: 0.1792453, a: 1}
+    - _DarkShadowMultColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _DarkSideRimColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColors: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionMapChannelMask: {r: 1, g: 1, b: 1, a: 0}

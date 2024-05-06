@@ -7,13 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GenshinCelShaderURP_V4.1
+  m_Name: GenshinCelShaderURP_V4.1 3
   m_Shader: {fileID: 4800000, guid: c649e13f6a1015941b7b57c31e31853c, type: 3}
   m_ValidKeywords:
+  - ENABLE_BLOOM_MASK
   - ENABLE_METAL_SPECULAR
   - ENABLE_RAMP_SHADOW
   - _SHADERENUM_BASE
   m_InvalidKeywords:
+  - _ENABLEEMISSION_ON
   - _ENABLELAMBERT_ON
   - _ENABLEOUTLINE_ON
   - _ENABLERIMDS_ON
@@ -45,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bdd380f83d1dcad4c9e8b65d338c697f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1e530bece954f274eaa3162c7f7d18c1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalMap:
@@ -57,7 +59,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RampMap:
-        m_Texture: {fileID: 2800000, guid: 69ccec382378db942957b0ebea0455ce, type: 3}
+        m_Texture: {fileID: 2800000, guid: bb02e2c340c850f4d8de7dcbcede7113, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -71,18 +73,18 @@ Material:
     - _CharacterIntensity: 5
     - _ClipScale: 0.5
     - _Cull: 2
-    - _DarkIntensity: 0
+    - _DarkIntensity: 0.25
     - _DarkShadowArea: 0.5
     - _DarkShadowSmooth: 0.05
     - _DarkSideRimPow: 10
     - _DarkSideRimSmooth: 1
     - _DstBlendMode: 0
-    - _Emission: 0
-    - _EmissionBloomFactor: 0
+    - _Emission: 11.1
+    - _EmissionBloomFactor: 6.6
     - _EnableAlphaClipping: 0
     - _EnableAutoColor: 0
-    - _EnableBloomMask: 0
-    - _EnableEmission: 0
+    - _EnableBloomMask: 1
+    - _EnableEmission: 1
     - _EnableFaceShadowMap: 0
     - _EnableLambert: 1
     - _EnableMetalSpecular: 1
@@ -93,7 +95,7 @@ Material:
     - _EnableRimOther: 0
     - _EnableRims: 1
     - _EnableSpecular: 1
-    - _FaceDarkIntensity: 0
+    - _FaceDarkIntensity: 2
     - _FaceShadowMapPow: 0.2
     - _FaceShadowOffset: 0
     - _FixDarkShadow: 1
@@ -115,10 +117,10 @@ Material:
     - _RampShadowRange: 0.994
     - _ReceiveShadowMappingAmount: 0.75
     - _ReceiveShadowMappingPosOffset: 0
-    - _RimOffsets: 0.057
-    - _RimPow: 1
-    - _RimSmooth: 0.07
-    - _RimThresholds: 0.72
+    - _RimOffsets: 0.254
+    - _RimPow: 4.6
+    - _RimSmooth: 0.001
+    - _RimThresholds: 2
     - _ShaderEnum: 0
     - _ShadowArea: 1
     - _ShadowRampLerp: 1
@@ -141,9 +143,9 @@ Material:
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
     - _OtherRimColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimColors: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
+    - _RimColors: {r: 4, g: 0.799027, b: 0, a: 1}
+    - _ShadowColor: {r: 1, g: 0.63872534, b: 0, a: 1}
     - _ShadowMultColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 1, g: 0.9858491, b: 0.9858491, a: 1}
   m_BuildTextureStacks: []
