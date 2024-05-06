@@ -7,7 +7,6 @@ public class AttackFeedbackBehavior : MonoBehaviour
 {
     [SerializeField] GameObject mainCM_;
     [SerializeField] GameObject parryCM_;
-    [SerializeField] CinemachineVirtualCamera vCamera_;
     [SerializeField] private CinemachineImpulseSource impulseSource_;
     [SerializeField] float force_;
     [SerializeField] int delayFrame_ = 10;

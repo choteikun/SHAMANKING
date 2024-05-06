@@ -6,7 +6,6 @@ public class EnemyLockOn : MonoBehaviour
     [SerializeField]
     Transform currentTarget;
     //Animator anim;
-    [SerializeField] GameObject enemyTarget_Locator;
     [SerializeField] LayerMask targetLayers;
 
     //[Header("Settings")]
@@ -166,7 +165,6 @@ public class EnemyLockOn : MonoBehaviour
         //lockOnCanvas.position = pos;
         //lockOnCanvas.localScale = Vector3.one * ((cam.position - pos).magnitude * crossHair_Scale);
 
-        enemyTarget_Locator.transform.position = pos;
         Vector3 dir = currentTarget.position - targetCameraFollowedObject_.transform.position;
         dir.y = 0;
         Quaternion rot = Quaternion.LookRotation(dir);

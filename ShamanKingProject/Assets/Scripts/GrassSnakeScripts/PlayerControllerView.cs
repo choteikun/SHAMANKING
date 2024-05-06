@@ -47,9 +47,6 @@ public class PlayerControllerView : MonoBehaviour
     GameObject playerModel_;
 
     [SerializeField]
-    GameObject dashPointTest;
-
-    [SerializeField]
     Material[] test_;
     [SerializeField]
     Material face_;
@@ -212,7 +209,6 @@ public class PlayerControllerView : MonoBehaviour
     void playerModelTurn(EnemyAttackSuccessCommand cmd)
     {
         Debug.Log(cmd.AttackerPos);
-        dashPointTest.transform.position = cmd.AttackerPos;
         // 計算物件A到座標B的方向向量
         Vector3 direction = cmd.AttackerPos - playerModel_.transform.position;
         direction.y = 0;
@@ -225,7 +221,6 @@ public class PlayerControllerView : MonoBehaviour
     void playerModelTurn(PlayerSuccessParryCommand cmd)
     {
         Debug.Log(cmd.CollidePoint);
-        dashPointTest.transform.position = cmd.AttackerPos;
         // 計算物件A到座標B的方向向量
         Vector3 direction = cmd.AttackerPos - playerModel_.transform.position;
         direction.y = 0;
@@ -321,7 +316,6 @@ public class PlayerControllerView : MonoBehaviour
             // 在這裡您可以使用hitPoint來進一步處理碰撞點
         }
         Debug.Log(GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject.name);
-        dashPointTest.transform.position = final;
         //this.gameObject.transform.DOMove(final, player_Stats_.Player_DodgeSpeed).SetEase(Ease.InSine);
         StartCoroutine(MoveToPosition(final, player_Stats_.Player_DodgeSpeed));
         PlayerStatCalculator.PlayerInvincibleSwitch(true);
