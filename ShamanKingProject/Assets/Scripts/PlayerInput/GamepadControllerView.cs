@@ -210,14 +210,23 @@ public class GamepadControllerView : MonoBehaviour
         else
         {
             isAttacking_ = true;
-            GameManager.Instance.MainGameEvent.Send(new PlayerLightAttackButtonCommand() { Charged = lightAttackCharger_});
+            GameManager.Instance.MainGameEvent.Send(new PlayerLightAttackButtonCommand() { Charged = lightAttackCharger_ });
             lightAttackCharger_ = false;
         }
         Debug.Log("Attack!");
     }
     void OnPlayerHeavyAttackCharge()
     {
-        if (heavyButtonCharging_==false) return;
+        if (heavyButtonCharging_ == false) return;
+        heavyAttackCharger_ = true;
+        GameManager.Instance.UIGameEvent.Send(new DebugUIHeavyAttackCharge());
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 4 });
+        GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackChargeFinishCommand());
+        Debug.Log("PlayerHeavyAttackCharge!");
+    }
+    void OnPlayerTutorialHeavyAttackCharge()
+    {
+        if (heavyButtonCharging_ == false) return;
         heavyAttackCharger_ = true;
         GameManager.Instance.UIGameEvent.Send(new DebugUIHeavyAttackCharge());
         GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 4 });
@@ -245,6 +254,27 @@ public class GamepadControllerView : MonoBehaviour
         GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() { Charged = heavyAttackCharger_ });
         Debug.Log("HeavyAttack!" + heavyAttackCharger_);
         heavyAttackCharger_ = false;
+    }
+    async void OnPlayerTutorialHeavyAttack()
+    {
+        if (isGuarding_)
+        {
+            GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());
+        }
+        if (isAiming_ || isJumping_) return;
+        await UniTask.DelayFrame(1);
+        if (lightButtonCharging_)
+        {
+            playerCancelLightCharge();
+        }
+        if (heavyAttackCharger_)
+        {
+            isAttacking_ = true;
+            GameManager.Instance.MainGameEvent.Send(new PlayerHeavyAttackButtonCommand() { Charged = heavyAttackCharger_ });
+            Debug.Log("HeavyAttack!" + heavyAttackCharger_);
+            input_.SwitchCurrentActionMap("MainGameplay");
+            heavyAttackCharger_ = false;
+        }
     }
     async void OnPlayerUltimate()
     {
@@ -278,7 +308,7 @@ public class GamepadControllerView : MonoBehaviour
         isAttacking_ = true;
         GameManager.Instance.MainGameEvent.Send(new PlayerExecutionAttackCommand() { });
         Debug.Log("Attack!");
-    }    
+    }
 
     void OnPlayerPossessCancel()
     {
@@ -361,7 +391,7 @@ public class GamepadControllerView : MonoBehaviour
 
     void OnPlayerGuard(InputValue value)
     {
-        if (isJumping_ ) return;
+        if (isJumping_) return;
         if (heavyButtonCharging_)
         {
             playerCancelHeavyCharge();
@@ -370,7 +400,7 @@ public class GamepadControllerView : MonoBehaviour
         {
             playerCancelLightCharge();
         }
-        isGuarding_ = value.isPressed;       
+        isGuarding_ = value.isPressed;
         //isAiming_ = isGuarding_;
         GameManager.Instance.MainGameEvent.Send(new PlayerGuardingButtonCommand() { GuardingButtonIsPressed = isGuarding_ });
         Debug.Log(isGuarding_ + "Guarding");
@@ -432,7 +462,16 @@ public class GamepadControllerView : MonoBehaviour
         if (switcher)
         {
             heavyButtonCharging_ = true;
-        }        
+        }
+        GameManager.Instance.MainGameEvent.Send(new PlayerChargeSwitchCommand { Switch = switcher });
+    }
+    void OnPlayerTutorialChargeButton(InputValue value)
+    {
+        var switcher = value.isPressed;
+        if (switcher)
+        {
+            heavyButtonCharging_ = true;
+        }
         GameManager.Instance.MainGameEvent.Send(new PlayerChargeSwitchCommand { Switch = switcher });
     }
     void OnPlayerLightAttackChargeButton(InputValue value)
@@ -446,13 +485,13 @@ public class GamepadControllerView : MonoBehaviour
     void playerCancelHeavyCharge()
     {
         heavyAttackCharger_ = false;
-        heavyButtonCharging_ =false;
+        heavyButtonCharging_ = false;
         GameManager.Instance.MainGameEvent.Send(new PlayerChargeSwitchCommand { Switch = false });
     }
     void playerCancelLightCharge()
     {
-        lightAttackCharger_=false;
-        lightButtonCharging_ =false;
+        lightAttackCharger_ = false;
+        lightButtonCharging_ = false;
     }
 }
 

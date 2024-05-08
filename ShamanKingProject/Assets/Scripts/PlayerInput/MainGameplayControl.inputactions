@@ -1019,6 +1019,107 @@
             ]
         },
         {
+            "name": "PlayerTutorialHeavyAttack",
+            "id": "8b9624ab-e00e-4c33-85b6-00254e18ef93",
+            "actions": [
+                {
+                    "name": "PlayerTutorialHeavyAttack",
+                    "type": "Button",
+                    "id": "2816230c-6c35-45b2-928f-efb388ed4047",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerTutorialHeavyAttackCharge",
+                    "type": "Button",
+                    "id": "590e5bfc-25fc-41ea-966d-b9b2e63c448f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlayerTutorialChargeButton",
+                    "type": "Button",
+                    "id": "051cde97-f22d-41f0-8377-14d41ffe2b53",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b6f95150-3c32-4174-a98d-0eb5ff836c4b",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerTutorialHeavyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c641a3b9-2587-48cf-a226-e67a8c7b7283",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerTutorialHeavyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7fcc9dcb-3de5-4370-be29-7f1bd7fa82ea",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Hold(duration=1.2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerTutorialHeavyAttackCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e104381-1533-4177-896d-62d76e334e0d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Hold(duration=1.2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerTutorialHeavyAttackCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b75f93e9-a1d1-4d07-a557-302ab614e62e",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerTutorialChargeButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e598808-4efb-4d70-a5f1-7df0a000caa7",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerTutorialChargeButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "PlayerGameOverUIInput",
             "id": "be83a182-5ff3-4adb-b8b9-4597303c12a5",
             "actions": [
