@@ -233,6 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 22496680}
   - component: {fileID: 11424526}
+  - component: {fileID: 7601053374662699854}
   m_Layer: 5
   m_Name: Basic Standard Dialogue UI 1
   m_TagString: Untagged
@@ -304,6 +305,24 @@ MonoBehaviour:
     - {fileID: 191022}
   addEventSystemIfNeeded: 1
   verifyPanelAssignments: 1
+--- !u!114 &7601053374662699854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3559213a7bc704ea50a063ccbc8a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameplayType_: 2
+  dialogueBG_: {fileID: 11439330}
+  inputType_:
+  - {fileID: 21300000, guid: 5c77a761c4efbff498507d6e4e143a2d, type: 3}
+  - {fileID: 21300000, guid: 8e2523c9ef97978438f81a5a30ba8872, type: 3}
+  - {fileID: 21300000, guid: cc39c05ac8b23b648a76ef8727f0d5cd, type: 3}
 --- !u!1 &105778
 GameObject:
   m_ObjectHideFlags: 0
@@ -2760,7 +2779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

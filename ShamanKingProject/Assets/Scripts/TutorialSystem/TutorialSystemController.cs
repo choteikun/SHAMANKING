@@ -4,18 +4,32 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using PixelCrushers.DialogueSystem;
+using Adobe.Substance;
 
 public class TutorialSystemController : MonoBehaviour
 {
+    [SerializeField] NowGameplayType gameplayType;
     [SerializeField] GameObject tutorialCanvas_;
     [SerializeField] Image tutorialPic_;
     [SerializeField] Sprite[] firstTutorial_;
     [SerializeField] Sprite[] secondTutorial_;
     [SerializeField] Sprite[] thirdTutorial_;
     [SerializeField] Sprite[] fourthTutorial_;
+    [SerializeField] Sprite[] firstTutorial_PS;
+    [SerializeField] Sprite[] secondTutorial_PS;
+    [SerializeField] Sprite[] thirdTutorial_PS;
+    [SerializeField] Sprite[] fourthTutorial_PS;
+    [SerializeField] Sprite[] firstTutorial_XB;
+    [SerializeField] Sprite[] secondTutorial_XB;
+    [SerializeField] Sprite[] thirdTutorial_XB;
+    [SerializeField] Sprite[] fourthTutorial_XB;
     [SerializeField] int tutorialLastPicCount_;
     [SerializeField] List<Sprite[]> tempTutorials = new List<Sprite[]>();
+    [SerializeField] List<Sprite[]> tempTutorials_PS = new List<Sprite[]>();
+    [SerializeField] List<Sprite[]> tempTutorials_XB = new List<Sprite[]>();
     [SerializeField] GameObject ticketGate_;
+    [SerializeField] int nowTurtorial_;
+    [SerializeField] int nowPage_;
     private void Start()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallTutorial, cmd => { callTutorial(cmd); });
@@ -24,6 +38,14 @@ public class TutorialSystemController : MonoBehaviour
         tempTutorials.Add(secondTutorial_);
         tempTutorials.Add(thirdTutorial_);
         tempTutorials.Add(fourthTutorial_);
+        tempTutorials_PS.Add(fourthTutorial_PS);
+        tempTutorials_PS.Add(firstTutorial_PS);
+        tempTutorials_PS.Add(secondTutorial_PS);
+        tempTutorials_PS.Add(thirdTutorial_PS);
+        tempTutorials_XB.Add(firstTutorial_XB);
+        tempTutorials_XB.Add(secondTutorial_XB);
+        tempTutorials_XB.Add(thirdTutorial_XB);
+        tempTutorials_XB.Add(fourthTutorial_XB);
     }
 
     void callTutorial(SystemCallTutorialCommand cmd)
@@ -33,23 +55,26 @@ public class TutorialSystemController : MonoBehaviour
         tempTutorialSystem((int)cmd.TutorialID);
     }
 
-    void tempTutorialSystem(int tutorialID)//壞掉的
+    void tempTutorialSystem(int tutorialID)
     {
-        tutorialPic_.sprite = tempTutorials[tutorialID][0];
+        nowTurtorial_ = tutorialID;
+        nowPage_ = 0;
+       
         tutorialLastPicCount_ = tempTutorials[tutorialID].Count();
     }
 
     void tempNextPage(PlayerTutorialNextPageCommand cmd)
     {
         Debug.LogError("NextPage");
-        tutorialLastPicCount_--;
+        tutorialLastPicCount_--;       
         if (tutorialLastPicCount_ == 0)
         {
             closeTutorial((int)cmd.TutorialID);
         }
         else
         {
-            tutorialPic_.sprite = tempTutorials[(int)cmd.TutorialID][tempTutorials[(int)cmd.TutorialID].Count() - tutorialLastPicCount_];
+            nowPage_ = tempTutorials[(int)cmd.TutorialID].Count() - tutorialLastPicCount_;
+            //tutorialPic_.sprite = tempTutorials[(int)cmd.TutorialID][tempTutorials[(int)cmd.TutorialID].Count() - tutorialLastPicCount_];
         }
     }
 
@@ -79,6 +104,23 @@ public class TutorialSystemController : MonoBehaviour
                 DialogueManager.StartConversation("chapter 1_4_2");
                 GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[3] });
                 return;
+        }
+    }
+    private void Update()
+    {
+        switch (gameplayType)
+        {
+            case NowGameplayType.PlayStation:
+                tutorialPic_.sprite = tempTutorials_PS[nowTurtorial_][nowPage_];
+                break;
+            case NowGameplayType.XBox:
+                tutorialPic_.sprite = tempTutorials_XB[nowTurtorial_][nowPage_];
+                break;
+            case NowGameplayType.Keyboard:
+                tutorialPic_.sprite = tempTutorials[nowTurtorial_][nowPage_];
+                break;
+            default:
+                break;
         }
     }
 }

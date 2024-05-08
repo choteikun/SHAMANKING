@@ -577,6 +577,10 @@ namespace Gamemanager
     {
 
     }
+    public class SystemCallInputTypeChangeCommand:GameEventMessageBase
+    {
+        public NowGameplayType GameplayType;
+    }
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {
