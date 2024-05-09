@@ -82865,6 +82865,7 @@ GameObject:
   - component: {fileID: 6035100176357580443}
   - component: {fileID: 6035100176357580445}
   - component: {fileID: 6035100176357580444}
+  - component: {fileID: 6035100176357580446}
   m_Layer: 5
   m_Name: SupportAimPointImage
   m_TagString: Untagged
@@ -82912,7 +82913,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6d677aa776dc76945a914a515e8f06e5, type: 3}
+  m_Sprite: {fileID: -1679443268, guid: 26baa6e35f82d984d80def6f95a9a1d3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -82930,6 +82931,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6035100176357580442}
   m_CullTransparentMesh: 1
+--- !u!95 &6035100176357580446
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035100176357580442}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9936db2a94a3eeb40b30e1ba17acdaea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6035100176461980960
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -83830,6 +83852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9bf9a76237ae441b0d16c5ae47dd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameplayType: 0
   tutorialCanvas_: {fileID: 6035100178108505934}
   tutorialPic_: {fileID: 6035100177421247043}
   firstTutorial_:
@@ -83845,8 +83868,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fd23acbc7e4e09e46b322d2cd62ca243, type: 3}
   - {fileID: 21300000, guid: 548b45dca03b4d24aa49bd82c7cb4064, type: 3}
   fourthTutorial_: []
+  firstTutorial_PS: []
+  secondTutorial_PS: []
+  thirdTutorial_PS: []
+  fourthTutorial_PS: []
+  firstTutorial_XB: []
+  secondTutorial_XB: []
+  thirdTutorial_XB: []
+  fourthTutorial_XB: []
   tutorialLastPicCount_: 0
   ticketGate_: {fileID: 0}
+  nowTurtorial_: 0
+  nowPage_: 0
 --- !u!1 &6035100177071625462
 GameObject:
   m_ObjectHideFlags: 0
