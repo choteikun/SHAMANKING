@@ -1,6 +1,4 @@
 using Gamemanager;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WrathPhantomAnimationEvents : MonoBehaviour
