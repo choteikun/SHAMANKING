@@ -9,10 +9,8 @@ public enum WrathPhantomState
 {
     //思考狀態
     WrathPhantomState_THINKING,
-    //近戰模式
-    WrathPhantomState_MELEEATKMODE,
-    //遠程模式
-    WrathPhantomState_RANGEDATKMODE
+    //一般進攻模式
+    WrathPhantomState_OffensiveMode
 }
 /**************************************************
 * Description
@@ -42,9 +40,25 @@ public class WrathPhantomVariables : MonoBehaviour
     private int rangedAtkCounter_;
 
     #region -Boss Skill Probability-
+    public float MementoMoriProbability { get { return mementoMoriProbability_; } set { mementoMoriProbability_ = value; } }
+    [Tooltip("終有一死技能機率")]
+    private float mementoMoriProbability_;
+    public float MementoVitaProbability { get { return mementoVitaProbability_; } set { mementoVitaProbability_ = value; } }
+    [Tooltip("只此一生技能機率")]
+    private float mementoVitaProbability_;
+    public float MorsCertaProbability { get { return morsCertaProbability_; } set { morsCertaProbability_ = value; } }
+    [Tooltip("生死有常技能機率")]
+    private float morsCertaProbability_;
     #endregion
 
-    #region -Boss Trigger Probability-
+    #region -Boss Trigger-
+    public bool PreludeTrigger { get { return preludeTrigger_; } set { preludeTrigger_ = value; } }
+    [SerializeField, Tooltip("開場白行為觸發器")]
+    private bool preludeTrigger_;
+    public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
+    [SerializeField, Tooltip("更新玩家位置的觸發器")]
+    private bool updatePosTrigger_;
+
     #endregion
 
 
@@ -52,6 +66,12 @@ public class WrathPhantomVariables : MonoBehaviour
     public GameObject PlayerObj { get { return playerObj_; } set { playerObj_ = value; } }
     [SerializeField, Tooltip("PlayerObject")]
     private GameObject playerObj_;
+    public Rigidbody Rigidbody { get { return rb_; } set { rb_ = value; } }
+    [SerializeField, Tooltip("BossRigidbody")]
+    private Rigidbody rb_;
+    public Collider WrathPhantomCollider { get { return wrathPhantomCollider_; } set { wrathPhantomCollider_ = value; } }
+    [SerializeField, Tooltip("BossCollider")]
+    private Collider wrathPhantomCollider_;
 
     [Tooltip("Root Motion的位移量 用於腳本運用Root Motion")]
     private Vector3 deltaPos_;
@@ -59,6 +79,10 @@ public class WrathPhantomVariables : MonoBehaviour
     private void Start()
     {
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
+        Rigidbody = GetComponent<Rigidbody>();
+        if (!WrathPhantomCollider) { WrathPhantomCollider = GameObject.Find("WrathPhantomCollider").GetComponent<Collider>(); }
+        PreludeTrigger = false;
+        IntTypeStateOfWrathPhantom = 2;
     }
     private void Update()
     {

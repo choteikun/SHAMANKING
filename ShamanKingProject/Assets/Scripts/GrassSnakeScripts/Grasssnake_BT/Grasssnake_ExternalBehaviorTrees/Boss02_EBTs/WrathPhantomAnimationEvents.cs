@@ -1,18 +1,12 @@
+using Gamemanager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WrathPhantomAnimationEvents : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void BossCurAnimationEnd()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameManager.Instance.MainGameEvent.Send(new BossCurAnimationEndCommand());
     }
 }

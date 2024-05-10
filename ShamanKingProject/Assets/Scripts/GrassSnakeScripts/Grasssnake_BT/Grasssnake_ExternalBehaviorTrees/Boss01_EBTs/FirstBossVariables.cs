@@ -35,6 +35,7 @@ public class FirstBossVariables : MonoBehaviour
     [SerializeField, Tooltip("檢查現在Boss的面具用的Int參數")]
     private int intTypeOfBossFace_;
 
+    #region -Boss Counter-
     public int FaceChangeCounter { get { return faceChangeCounter_; } set { faceChangeCounter_ = value; } }
     [SerializeField, Tooltip("Boss換臉計數器")]
     private int faceChangeCounter_;
@@ -47,6 +48,7 @@ public class FirstBossVariables : MonoBehaviour
     public float ExplosionJudgmentTimer { get { return explosionJudgmentTimer_; } set { explosionJudgmentTimer_ = value; } }
     [SerializeField, Tooltip("審判之炎爆計時器")]
     private float explosionJudgmentTimer_;
+    #endregion
 
     public float DistanceFromPlayer { get { return distanceFromPlayer_; } set { distanceFromPlayer_ = value; } }
     [SerializeField, Tooltip("與玩家的距離")]
@@ -77,7 +79,7 @@ public class FirstBossVariables : MonoBehaviour
 
     #endregion
 
-    #region -Boss Trigger Probability-
+    #region -Boss Trigger-
     public bool UpdatePosTrigger { get { return updatePosTrigger_; } set { updatePosTrigger_ = value; } }
     [SerializeField, Tooltip("更新玩家位置的觸發器")]
     private bool updatePosTrigger_;
