@@ -44,6 +44,7 @@ public class PlayerEffectManager : MonoBehaviour
         {
             //蓄力特效播放
             playerChargeEffects_[0].Play();
+            
         }
         else
         {
@@ -58,6 +59,8 @@ public class PlayerEffectManager : MonoBehaviour
         playerChargeEffects_[1].Play();
         //蓄力完成後的特效播放
         playerChargeEffects_[2].Play();
+        //蓄力完成瞬間的提示音效播放
+        GameManager.Instance.MainGameEvent.Send(new GameCallSoundEffectGenerate() { SoundEffectID = 5 });
     }
 
     void Update()
