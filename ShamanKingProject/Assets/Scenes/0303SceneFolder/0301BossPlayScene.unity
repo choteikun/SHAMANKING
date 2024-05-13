@@ -10280,6 +10280,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.9952145, y: 7.9964943, z: 3.0410047}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2142219109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4758060096423626598, guid: 64f196f86528fd841aa7713a98bf929c,
+    type: 3}
+  m_PrefabInstance: {fileID: 287215823}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2142219110 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7932675000902673686, guid: 64f196f86528fd841aa7713a98bf929c,
+    type: 3}
+  m_PrefabInstance: {fileID: 287215823}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2146356064
 GameObject:
   m_ObjectHideFlags: 0
@@ -54471,7 +54495,7 @@ MonoBehaviour:
   attackFollowTarget_: {fileID: 559051508809836615}
   throwAttackStartFollowTarget_: {fileID: 1373393799564050482}
   throwAttackFollowTarget_: {fileID: 1373393799722914564}
-  worldUseFollowTarget_: {fileID: 0}
+  worldUseFollowTarget_: {fileID: 6035100176702449594}
   positionSmoothSpeed_: 15
   rotationSmoothSpeed_: 15
   rb_: {fileID: 6147094383737483446}
@@ -82529,6 +82553,7 @@ GameObject:
   - component: {fileID: 6035100176130826388}
   - component: {fileID: 6035100176130826389}
   - component: {fileID: 6035100176130826390}
+  - component: {fileID: 6035100176130826391}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -82577,6 +82602,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCam_: {fileID: 6035100178054139889}
   bossUltCam_: {fileID: 1439337522}
+--- !u!114 &6035100176130826391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035100176130826387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c9b53d196e05c43886afbdc1525b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameplayType_: 2
 --- !u!1 &6035100176247269707
 GameObject:
   m_ObjectHideFlags: 0
@@ -83359,6 +83397,17 @@ MonoBehaviour:
   breakUI_: {fileID: 287215825}
   useAni_: {fileID: 287215831}
   breakAni_: {fileID: 1208678061}
+  useImage_: {fileID: 2142219110}
+  breakImage_: {fileID: 2142219109}
+  gameplayType_: 2
+  useSprites:
+  - {fileID: 21300000, guid: 6d8d38c27b617224e97978f990c4b42d, type: 3}
+  - {fileID: 21300000, guid: 3b0696a8e0596ad4295846832bd0f20a, type: 3}
+  - {fileID: 21300000, guid: c9b54660b3cd4e3428c11102c59db78a, type: 3}
+  breakSprites:
+  - {fileID: 21300000, guid: e53f8affd7b2b5242b521bb79236754e, type: 3}
+  - {fileID: 21300000, guid: 7348ade28be68304eb7eeca330178636, type: 3}
+  - {fileID: 21300000, guid: e7adee9e7fb8e5943b402c8b40ca9057, type: 3}
 --- !u!114 &6035100176729765361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83990,6 +84039,7 @@ MonoBehaviour:
       PlayerNowCheckPoint: -1
       GameVolume: 10
       SpecialConversionTrigger: 0000
+      NowGameplayType: 2
   AttackBlockDatabase: {fileID: 11400000, guid: ffaabd9ac803d1f439df1be0d8fabc72,
     type: 2}
   MissionBlockDatabase: {fileID: 0}

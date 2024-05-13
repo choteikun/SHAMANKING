@@ -13,4 +13,8 @@ public class MissionBlockObject : ScriptableObject
 
     [SerializeField]
     public Sprite InputTutorialPicture;
+    [SerializeField]
+    public Sprite InputTutorialPicture_PS;
+    [SerializeField]
+    public Sprite InputTutorialPicture_XB;
 }

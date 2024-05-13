@@ -17,6 +17,13 @@ public class PlayerHealthUIController : MonoBehaviour
     [SerializeField] GameObject breakUI_;
     [SerializeField] Animator useAni_;
     [SerializeField] Animator breakAni_;
+    [SerializeField] Image useImage_;
+    [SerializeField] Image breakImage_;
+    [SerializeField] NowGameplayType gameplayType_;
+    [SerializeField]
+    Sprite[] useSprites;
+    [SerializeField]
+    Sprite[] breakSprites;
 
     Tweener redHealthBarTweener_;
     Tweener grayHealthBarTweener_;
@@ -30,6 +37,7 @@ public class PlayerHealthUIController : MonoBehaviour
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallDefenceUIUpdate, cmd => { playerDefenceBarUpdate(cmd.Percentage); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerPlayerEnterOrLeaveEnviormentObject, cmd => { playerEnterOrLeaveEnviormentMachine(cmd.EnterOrLeave); });
         GameManager.Instance.UIGameEvent.SetSubscribe(GameManager.Instance.UIGameEvent.OnSystemCallCanBreakUIUpdate, cmd => { breakUI_.SetActive(cmd.CanBreak); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallInputTypeChange, cmd => { gameplayType_ = cmd.GameplayType; });
         playerHealthChangeAnimation();
         playerPotionRemainUIUpdate();
     }
@@ -67,5 +75,25 @@ public class PlayerHealthUIController : MonoBehaviour
     {
         useUI_.SetActive(enterOrLeave);
         useAni_.CrossFadeInFixedTime("UseTrigger", 0.1f);
+    }
+    private void Update()
+    {
+        switch (gameplayType_)
+        {
+            case NowGameplayType.PlayStation:
+                useImage_.sprite = useSprites[0];
+                breakImage_.sprite = breakSprites[0];
+                break;
+            case NowGameplayType.XBox:
+                useImage_.sprite = useSprites[1];
+                breakImage_.sprite = breakSprites[1];
+                break;
+            case NowGameplayType.Keyboard:
+                useImage_.sprite = useSprites[2];
+                breakImage_.sprite = breakSprites[2];
+                break;
+            default:
+                break;
+        }
     }
 }

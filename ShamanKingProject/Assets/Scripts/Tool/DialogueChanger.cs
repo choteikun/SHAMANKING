@@ -11,11 +11,12 @@ public class DialogueChanger : MonoBehaviour
     // Update is called once per frame
     private void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallInputTypeChange, cmd => { gameplayType_ = cmd.GameplayType; });
+       // GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallInputTypeChange, cmd => { gameplayType_ = cmd.GameplayType; });
     }
     void Update()
     {
-        switch (gameplayType_)
+        if (GameManager.Instance.MainGameMediator == null) return;
+        switch (GameManager.Instance.MainGameMediator.RealTimePlayerData.NowGameplayType)
         {
             case NowGameplayType.PlayStation:
                 dialogueBG_.sprite = inputType_[0];

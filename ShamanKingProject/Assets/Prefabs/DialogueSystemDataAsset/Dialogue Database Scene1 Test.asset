@@ -4650,7 +4650,9 @@ MonoBehaviour:
       conditionPriority: 2
       outgoingLinks: []
       conditionsString: 
-      userScript: ConversationEnd()
+      userScript: 'ConversationEnd();
+
+        CallTutorialSystem(0);'
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -4811,7 +4813,9 @@ MonoBehaviour:
       conditionsString: 
       userScript: 'CallFirstSceneCameraTransfer(0);
 
-        StandConversationStart();'
+        StandConversationStart();
+
+        ChangeContinueButtonToAlways()'
       onExecute:
         m_PersistentCalls:
           m_Calls: []
@@ -5366,7 +5370,7 @@ MonoBehaviour:
       canvasRect:
         serializedVersion: 2
         x: 159
-        y: 577
+        y: 574
         width: 160
         height: 30
     entryGroups: []

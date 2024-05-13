@@ -1,10 +1,10 @@
 using Gamemanager;
+using PixelCrushers.DialogueSystem;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using PixelCrushers.DialogueSystem;
-using Adobe.Substance;
 
 public class TutorialSystemController : MonoBehaviour
 {
@@ -34,14 +34,15 @@ public class TutorialSystemController : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallTutorial, cmd => { callTutorial(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerTutorialNextPage, cmd => { tempNextPage(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallInputTypeChange, cmd => { gameplayType = cmd.GameplayType; });
         tempTutorials.Add(firstTutorial_);
         tempTutorials.Add(secondTutorial_);
         tempTutorials.Add(thirdTutorial_);
         tempTutorials.Add(fourthTutorial_);
-        tempTutorials_PS.Add(fourthTutorial_PS);
         tempTutorials_PS.Add(firstTutorial_PS);
         tempTutorials_PS.Add(secondTutorial_PS);
         tempTutorials_PS.Add(thirdTutorial_PS);
+        tempTutorials_PS.Add(fourthTutorial_PS);
         tempTutorials_XB.Add(firstTutorial_XB);
         tempTutorials_XB.Add(secondTutorial_XB);
         tempTutorials_XB.Add(thirdTutorial_XB);
@@ -59,14 +60,14 @@ public class TutorialSystemController : MonoBehaviour
     {
         nowTurtorial_ = tutorialID;
         nowPage_ = 0;
-       
+
         tutorialLastPicCount_ = tempTutorials[tutorialID].Count();
     }
 
     void tempNextPage(PlayerTutorialNextPageCommand cmd)
     {
         Debug.LogError("NextPage");
-        tutorialLastPicCount_--;       
+        tutorialLastPicCount_--;
         if (tutorialLastPicCount_ == 0)
         {
             closeTutorial((int)cmd.TutorialID);
@@ -91,8 +92,15 @@ public class TutorialSystemController : MonoBehaviour
         switch (tutorialID)
         {
             case 0:
-                GameManager.Instance.MainGameEvent.Send(new SystemCallWaveStartCommand() { SceneName = "Scene1", WaveID = 0 });
-                GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[0] });
+                if (SceneManager.GetActiveScene().buildIndex == 5)
+                {
+                    GameManager.Instance.MainGameEvent.Send(new SystemCallWaveStartCommand() { SceneName = "Scene1", WaveID = 0 });
+                    GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[0] });
+                }
+                if (SceneManager.GetActiveScene().buildIndex == 3)
+                {
+                    GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[4] });
+                }
                 return;
             case 1:
                 GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[2] });
@@ -100,7 +108,7 @@ public class TutorialSystemController : MonoBehaviour
             case 2:
                 GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[1] });
                 return;
-                case 3:
+            case 3:
                 DialogueManager.StartConversation("chapter 1_4_2");
                 GameManager.Instance.UIGameEvent.Send(new SystemCallMissionUIUpdateCommand() { MissionData = GameManager.Instance.MissionBlockDatabase.Database[3] });
                 return;

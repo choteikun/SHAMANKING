@@ -66,6 +66,12 @@ public static class PlayerStatCalculator
     {
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerCheckPointData.PlayerClearedWave[waveID] = true;
     }
+    public static void ChangePlayerInputType(NowGameplayType type)
+    {
+        var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
+        realTimePlayerData.NowGameplayType = type;
+        GameManager.Instance.MainGameEvent.Send(new SystemCallInputTypeChangeCommand() { GameplayType = type });
+    }
     async static void StartCountingAsync()
     {
         await CountAsync();

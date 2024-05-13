@@ -22,6 +22,7 @@ public class RealTimePlayerData
     public int PlayerNowCheckPoint = -1;
     public int GameVolume = 10;
     public bool[] SpecialConversionTrigger = new bool[2];
+    public NowGameplayType NowGameplayType = NowGameplayType.Keyboard;
 
     public void SpecialConversationCheck(int num)
     {

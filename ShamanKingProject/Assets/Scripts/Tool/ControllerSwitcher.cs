@@ -18,10 +18,10 @@ public class ControllerSwitcher : MonoBehaviour
                 {
                     if (gamepad is XInputController)
                     {
-                        if (gameplayType_!=NowGameplayType.XBox)
+                        if (gameplayType_ != NowGameplayType.XBox)
                         {
                             gameplayType_ = NowGameplayType.XBox;
-                            GameManager.Instance.MainGameEvent.Send(new SystemCallInputTypeChangeCommand() { GameplayType = gameplayType_ });
+                            PlayerStatCalculator.ChangePlayerInputType(gameplayType_);
                         }
                     }
                     if (gamepad is DualShockGamepad)
@@ -29,32 +29,32 @@ public class ControllerSwitcher : MonoBehaviour
                         if (gameplayType_ != NowGameplayType.PlayStation)
                         {
                             gameplayType_ = NowGameplayType.PlayStation;
-                            GameManager.Instance.MainGameEvent.Send(new SystemCallInputTypeChangeCommand() { GameplayType = gameplayType_ });
+                            PlayerStatCalculator.ChangePlayerInputType(gameplayType_);
                         }
                     }
                 }
             }
-        }     
-        if (Input.anyKeyDown && !AnyJoystickButtonPressed())
-        {
-            if (gameplayType_ != NowGameplayType.Keyboard)
+            if (Input.anyKeyDown && !AnyJoystickButtonPressed())
             {
-                gameplayType_ = NowGameplayType.Keyboard;
-                GameManager.Instance.MainGameEvent.Send(new SystemCallInputTypeChangeCommand() { GameplayType = gameplayType_ });
+                if (gameplayType_ != NowGameplayType.Keyboard)
+                {
+                    gameplayType_ = NowGameplayType.Keyboard;
+                    PlayerStatCalculator.ChangePlayerInputType(gameplayType_);
+                }
             }
         }
-    }
-    bool AnyJoystickButtonPressed()
-    {
-        // 检查手柄按钮是否被按下
-        for (int i = 0; i < 20; i++) // 假设手柄最多有20个按钮
+        bool AnyJoystickButtonPressed()
         {
-            if (Input.GetKey(KeyCode.JoystickButton0 + i))
+            // 检查手柄按钮是否被按下
+            for (int i = 0; i < 20; i++) // 假设手柄最多有20个按钮
             {
-                return true;
+                if (Input.GetKey(KeyCode.JoystickButton0 + i))
+                {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 }
 
