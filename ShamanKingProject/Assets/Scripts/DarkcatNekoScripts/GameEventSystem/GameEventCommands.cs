@@ -544,7 +544,10 @@ namespace Gamemanager
     {
 
     }
+    public class PlayerUltimateAttackFinishCommand : GameEventMessageBase
+    {
 
+    }
     public class PlayerExecuteCamFeedBackCommand:GameEventMessageBase
     {
 

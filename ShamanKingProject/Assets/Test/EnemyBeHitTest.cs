@@ -27,6 +27,9 @@ public class EnemyBeHitTest : MonoBehaviour
     public float BlueShieldSettingParameter { get { return blueShieldSettingParameter_; } set { blueShieldSettingParameter_ = value; } }
     [SerializeField] float blueShieldSettingParameter_;
 
+    public bool HitByUltimate { get { return hitByUltimate_; } set { hitByUltimate_ = value; } }
+    [SerializeField, Tooltip("是否被大招擊中")] bool hitByUltimate_ = false;
+
     [SerializeField] bool beenHurt_ = false; //是否在戰鬥狀態
     [SerializeField] int avoidDamageTicks_ = 0;//已經脫離戰鬥狀態幾幀
     [SerializeField] int maxNeedAvoidDamegeTicks_ = 250;//脫離戰鬥需要幾幀
@@ -57,6 +60,8 @@ public class EnemyBeHitTest : MonoBehaviour
         EliteGhostEnemyHpLocker = true;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { checkDamage(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccess, cmd => { checkGrab(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimatePrepareSuccess, cmd => { HitByUltimate = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimateAttackFinish, cmd => { HitByUltimate = false; });
     }
     async void checkDamage(PlayerAttackSuccessCommand cmd)
     {
