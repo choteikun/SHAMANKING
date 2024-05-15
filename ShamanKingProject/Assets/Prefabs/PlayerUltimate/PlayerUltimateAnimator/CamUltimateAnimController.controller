@@ -1,13 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-327376113404835299
+--- !u!1102 &-7962211445926537693
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dolly_Rig_002_Dolly_Rig_002Action_002_3
+  m_Name: Dolly_Rig_CamAction1
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,7 +20,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 873dae875f98e60438d1bd1966d810c7, type: 2}
+  m_Motion: {fileID: 7400000, guid: 57f4efbcd586f574cb618a973561647c, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-993365948178434322
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Dolly_Rig_CamAction3
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: e9431d37cc079544f8fd6dabdb564a02, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -74,14 +100,14 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &5074785295189857886
+--- !u!1102 &5566216563784520439
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dolly_Rig_001_Dolly_Rig_001Action_2
+  m_Name: Dolly_Rig_CamAction2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -100,32 +126,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &6677338738416938741
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Dolly_Rig_Dolly_RigAction_001_1
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 10fc13bfb500f9145bd45f3375093c26, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1107 &7948990296366711577
 AnimatorStateMachine:
   serializedVersion: 6
@@ -139,14 +139,14 @@ AnimatorStateMachine:
     m_State: {fileID: 3855024387382627039}
     m_Position: {x: 270, y: -100, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 5074785295189857886}
-    m_Position: {x: 480, y: -40, z: 0}
+    m_State: {fileID: -7962211445926537693}
+    m_Position: {x: 270, y: -50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 6677338738416938741}
-    m_Position: {x: 510, y: 100, z: 0}
+    m_State: {fileID: 5566216563784520439}
+    m_Position: {x: 270, y: 0, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -327376113404835299}
-    m_Position: {x: 540, y: 20, z: 0}
+    m_State: {fileID: -993365948178434322}
+    m_Position: {x: 270, y: 50, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
