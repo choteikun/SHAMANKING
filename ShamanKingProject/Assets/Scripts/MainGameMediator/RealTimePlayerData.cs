@@ -23,6 +23,7 @@ public class RealTimePlayerData
     public int GameVolume = 10;
     public bool[] SpecialConversionTrigger = new bool[2];
     public NowGameplayType NowGameplayType = NowGameplayType.Keyboard;
+    public bool ToFloor1_ = false;
 
     public void SpecialConversationCheck(int num)
     {
@@ -34,6 +35,7 @@ public class RealTimePlayerData
     }
     public void Refresh()
     {
+        ToFloor1_ = false;
         PlayerPotionCount = 3;
         GhostSoulGageCurrentAmount = 0;
         PlayerNowHealthPoint = PlayerMaxHealthPoint;

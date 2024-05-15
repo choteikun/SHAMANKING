@@ -278,6 +278,7 @@ public class GamepadControllerView : MonoBehaviour
     }
     async void OnPlayerUltimate()
     {
+        if (GameManager.Instance.MainGameMediator.RealTimePlayerData.ToFloor1_ == false) return;
         if (isGuarding_)
         {
             GameManager.Instance.MainGameEvent.Send(new SystemStopGuardingCommand());

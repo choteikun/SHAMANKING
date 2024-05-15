@@ -15,6 +15,7 @@ public class FirstFloorTransfer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GameManager.Instance.MainGameMediator.RealTimePlayerData.ToFloor1_ = true;
             GameManager.Instance.MainGameEvent.Send(new SystemCallSceneFadeOutCommand());
             await UniTask.Delay(1750);
             ToFirstFloorScene();
