@@ -123,17 +123,20 @@ public class FirstBossVariables : MonoBehaviour
 
     private bool isJumpAttacking_ = false;
     public bool isPillarTriggering;
-
-    void Start()
+    private void Awake()
     {
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCallBossSceneCutScene, cmd => { preludeTrigger_ = true; });
+        
+    }
+    void Start()
+    {
         GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossCallJumpAttackLocate, cmd => { locatePlayerPosition(); });
         GameManager.Instance.HellDogGameEvent.SetSubscribe(GameManager.Instance.HellDogGameEvent.OnBossPunishmentAttackEnd, cmd => { explosionJudgmentEnd(); });
 
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         Rigidbody = GetComponent<Rigidbody>();
         if (!FirstBossCollider) { FirstBossCollider = GameObject.Find("FirstBossCollider").GetComponent<Collider>(); }
-        PreludeTrigger = false;
+        //PreludeTrigger = false;
         IntTypeStateOfFirstBoss = 2;
     }
     void FixedUpdate()
