@@ -196,4 +196,5 @@ public class MainGameEventPack : GameEventPack
     public IObservable<SystemCallSpecialConversationCommand> OnSystemCallSpecialConversation => getSubject<SystemCallSpecialConversationCommand>();
     public IObservable<SystemCallSceneFadeOutCommand> OnSystemCallSceneFadeOut => getSubject<SystemCallSceneFadeOutCommand>();
     public IObservable<SystemCallInputTypeChangeCommand> OnSystemCallInputTypeChange => getSubject<SystemCallInputTypeChangeCommand>();
+    public IObservable<CallUltimateTransferStart> OnCallUltimateTransferStart => getSubject<CallUltimateTransferStart>();
 }

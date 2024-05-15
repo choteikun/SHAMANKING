@@ -584,6 +584,11 @@ namespace Gamemanager
     {
         public NowGameplayType GameplayType;
     }
+    public class CallUltimateTransferStart:GameEventMessageBase
+    {
+                
+    }
+
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

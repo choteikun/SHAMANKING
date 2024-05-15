@@ -24,6 +24,10 @@ public class AttackColliderBehavior : MonoBehaviour
     private async void Start()
     {
         await UniTask.DelayFrame(lastFrame_);
+        if (hitEnemyCount_>0&&attackInputType_==AttackInputType.UltimatePrepare&&GameManager.Instance.MainGameMediator.RealTimePlayerData.GhostNowGageBlockAmount == 4)
+        {
+            GameManager.Instance.MainGameEvent.Send(new CallUltimateTransferStart());
+        }
         Destroy(this.gameObject);
     }
     private void OnTriggerEnter(Collider other)
