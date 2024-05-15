@@ -120,4 +120,8 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new PlayerExecuteCamFeedBackCommand());
     }
+    public void CallUltimateTransferStart()
+    {
+        GameManager.Instance.MainGameEvent.Send(new CallUltimateTransferStart());
+    }
 }

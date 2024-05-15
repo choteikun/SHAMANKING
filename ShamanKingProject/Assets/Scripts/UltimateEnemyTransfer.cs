@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gamemanager;
+using UnityEngine.AI;
 
 public class UltimateEnemyTransfer : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class UltimateEnemyTransfer : MonoBehaviour
     [SerializeField] Transform[] FinalDestination;
     void Start()
     {
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { addToTransferList(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCallUltimateTransferStart, cmd => { transfer(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { Debug.LogError("add"); addToTransferList(cmd); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCallUltimateTransferStart, cmd => { Debug.LogError("Transfer"); transfer(); });
     }
 
     
@@ -26,8 +27,10 @@ public class UltimateEnemyTransfer : MonoBehaviour
         if (cmd.AttackInputType != AttackInputType.UltimatePrepare) return;
         if (beUltCount<9)
         {
-            beUltCount++;
             beUltimateEnemy.Add(cmd.AttackTarget);
+            originPos_[beUltCount] = beUltimateEnemy[beUltCount].transform.position;
+            originRotation_[beUltCount] = beUltimateEnemy[beUltCount].transform.rotation.eulerAngles;
+            beUltCount++;
         }
     }
     void transfer()
@@ -35,9 +38,9 @@ public class UltimateEnemyTransfer : MonoBehaviour
               
         for (int i = 0; i < beUltimateEnemy.Count; i++)
         {
-            originPos_[i] = beUltimateEnemy[i].transform.position;
-            originRotation_[i] = beUltimateEnemy[i].transform.rotation.eulerAngles;
-            beUltimateEnemy[i].transform.position = FinalDestination[i].position;
+            Debug.Log(FinalDestination[i].position);
+            beUltimateEnemy[i].GetComponent<NavMeshAgent>().Warp(FinalDestination[i].position);
+            //beUltimateEnemy[i].transform.position =;
             beUltimateEnemy[i].transform.rotation = FinalDestination[i].rotation;
         }
     }
