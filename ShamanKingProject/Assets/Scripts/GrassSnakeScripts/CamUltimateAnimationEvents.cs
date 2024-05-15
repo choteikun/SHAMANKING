@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Gamemanager;
+using UnityEngine;
 
 public class CamUltimateAnimationEvents : MonoBehaviour
 {
@@ -10,13 +8,20 @@ public class CamUltimateAnimationEvents : MonoBehaviour
     [SerializeField]
     GameObject[] allCamActionObj_;
     [SerializeField]
-    int delayClose_;
+    float delayClose_;
     [SerializeField]
     GameObject[] firstWaveWeaponObject_;
+    [SerializeField]
+    GameObject attackCollider1;
+    [SerializeField]
+    GameObject attackCollider2;
+    [SerializeField]
+    GameObject attackPoint_;
+
     void Start()
     {
         camAnim_ = GetComponent<Animator>();
-         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimatePrepareSuccess, cmd => { ultimateAttackStart(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimatePrepareSuccess, cmd => { ultimateAttackStart(); });
     }
     public void Dolly_Rig_CamAction1_To_CamAction2()
     {
@@ -30,16 +35,16 @@ public class CamUltimateAnimationEvents : MonoBehaviour
     }
     public async void CloseAll_Dolly_Rig_Cam()
     {
-        await UniTask.Delay(delayClose_ * 1000);
+        await UniTask.Delay((int)(delayClose_ * 1000f));
         GameManager.Instance.MainGameEvent.Send(new PlayerUltimateAttackFinishCommand());
-        for (int i = 0;i< allCamActionObj_.Length; i++)
+        for (int i = 0; i < allCamActionObj_.Length; i++)
         {
             allCamActionObj_[i].SetActive(false);
         }
     }
     void ultimateAttackStart()
     {
-        allCamActionObj_[0].SetActive(true);      
+        allCamActionObj_[0].SetActive(true);
         camAnim_.CrossFadeInFixedTime("Dolly_Rig_CamAction1", 0);
     }
     void cancelWeapon()
@@ -48,5 +53,17 @@ public class CamUltimateAnimationEvents : MonoBehaviour
         {
             firstWaveWeaponObject_[i].SetActive(false);
         }
+    }
+    void spawnAttackCollider1()
+    {
+        var collider = Instantiate(attackCollider1, attackPoint_.transform.position, Quaternion.identity);
+    }
+    void spawnAttackCollider2()
+    {
+        var collider = Instantiate(attackCollider1, attackPoint_.transform.position, Quaternion.identity);
+    }
+    void camFeedBack()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerExecuteCamFeedBackCommand());
     }
 }
