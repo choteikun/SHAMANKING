@@ -13,6 +13,8 @@ public class UltimateWeaponAnimator : MonoBehaviour
     }
     public void ultimateAttackStart()
     {
+        gameObject.SetActive(true);
         weaponAnim_.CrossFadeInFixedTime("PlayerUltimateAnimation", 0);
     }
+   
 }
