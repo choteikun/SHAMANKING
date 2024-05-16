@@ -70,7 +70,14 @@ public class RealTimePlayerData
         PlayerGuarding = false;
         GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
     }
-
+    public void CheckPointIn()
+    {
+        PlayerPotionCount = 3;
+        PlayerNowHealthPoint = PlayerMaxHealthPoint;
+        PlayerInvincible = false;
+        PlayerGuarding = false;
+        GameManager.Instance.UIGameEvent.Send(new UICallPlayerHealthBarUIUpdateCommand());
+    }
     public void PotionUsed()
     {       
         if (PlayerPotionCount > 0)

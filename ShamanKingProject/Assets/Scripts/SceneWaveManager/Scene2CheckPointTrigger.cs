@@ -30,7 +30,7 @@ public class Scene2CheckPointTrigger : EnviormentMachineBehaviorBase
     public override void EnviormaneMachinePossessInteract()
     {
         playCheckPointAnimator();
-        GameManager.Instance.MainGameMediator.RealTimePlayerData.Revive();
+        GameManager.Instance.MainGameMediator.RealTimePlayerData.CheckPointIn();
         GameManager.Instance.MainGameEvent.Send(new SystemCallWaveClearCommand() { SceneName = "Scene2", WaveID = 3 });
         onExit();
         //this.gameObject.SetActive(false);
