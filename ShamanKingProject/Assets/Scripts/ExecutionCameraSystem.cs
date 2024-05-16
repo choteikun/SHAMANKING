@@ -43,7 +43,7 @@ public class ExecutionCameraSystem : MonoBehaviour
     {
         if (cmd.AttackInputType == AttackInputType.ExecutionAttack)
         {
-            Animator_.CrossFadeInFixedTime("metarig_metarigAction", 0.25f);
+            Animator_.CrossFadeInFixedTime("Action", 0.25f);
 
             //enemyObject_.GetComponent<NavMeshAgent>().SetDestination(enemyPos_.transform.position);
             eliteGhostEnemyNavMeshAgent_.enabled = false;
