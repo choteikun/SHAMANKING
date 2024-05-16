@@ -22,6 +22,7 @@ public class ToBossSceneButton : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
+            GameManager.Instance.MainGameMediator.RealTimePlayerData.ToFloor1_ = true;
             SceneManager.LoadScene("0301BossPlayScene");
         }
         if (Input.GetKeyDown(KeyCode.M))

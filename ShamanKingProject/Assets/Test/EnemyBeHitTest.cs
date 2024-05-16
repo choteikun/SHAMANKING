@@ -60,7 +60,7 @@ public class EnemyBeHitTest : MonoBehaviour
         EliteGhostEnemyHpLocker = true;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd => { checkDamage(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccess, cmd => { checkGrab(cmd); });
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimatePrepareSuccess, cmd => { HitByUltimate = true; });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCallUltimateTransferStart, cmd => { HitByUltimate = true; });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimateAttackFinish, cmd => { HitByUltimate = false; });
     }
     async void checkDamage(PlayerAttackSuccessCommand cmd)
@@ -190,6 +190,10 @@ public class EnemyBeHitTest : MonoBehaviour
     }
     private void FixedUpdate() //脫離戰鬥後減少bk值
     {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            BreakPoint = MaxBreakPoint;
+        }
         if (beenHurt_)
         {
             avoidDamageTicks_++;

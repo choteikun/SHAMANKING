@@ -124,4 +124,8 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         GameManager.Instance.MainGameEvent.Send(new CallUltimateTransferStart());
     }
+    public void SmallUltEnd()
+    {
+        GameManager.Instance.MainGameEvent.Send(new PlayerUltimateAttackFinishCommand());
+    }
 }

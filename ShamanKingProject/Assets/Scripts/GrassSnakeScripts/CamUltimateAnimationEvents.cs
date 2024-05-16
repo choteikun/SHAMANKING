@@ -21,7 +21,12 @@ public class CamUltimateAnimationEvents : MonoBehaviour
     void Start()
     {
         camAnim_ = GetComponent<Animator>();
-        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerUltimatePrepareSuccess, cmd => { ultimateAttackStart(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCallUltimateTransferStart, cmd => {
+           
+
+            ultimateAttackStart(); 
+            
+        });
     }
     public void Dolly_Rig_CamAction1_To_CamAction2()
     {
