@@ -149,6 +149,10 @@ public class EnemyBeHitTest : MonoBehaviour
         {
             damage = damage * 0.1f;
         }
+        else if(attackInputType == AttackInputType.UltimateDamage)
+        {
+            damage = damage * 0.1f;
+        }
         BreakPoint += damage;
         if (BreakPoint >= MaxBreakPoint)
         {

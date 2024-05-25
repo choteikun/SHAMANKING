@@ -588,6 +588,11 @@ namespace Gamemanager
     {
                 
     }
+    public class CallGuardParticle:GameEventMessageBase
+    {
+        public bool trigger;
+    }
+
     #region 行為樹給FSM的通知
     public class BT_SwitchStateMessage : GameEventMessageBase
     {

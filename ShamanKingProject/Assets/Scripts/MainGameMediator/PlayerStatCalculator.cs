@@ -47,6 +47,7 @@ public static class PlayerStatCalculator
     {
         var realTimePlayerData = GameManager.Instance.MainGameMediator.RealTimePlayerData;
         realTimePlayerData.PlayerGuarding = trigger;
+        GameManager.Instance.MainGameEvent.Send(new CallGuardParticle() { trigger = trigger });
         if (trigger)
         {
             //realTimePlayerData.PlayerGuardPoint = realTimePlayerData.PlayerMaxGuardPoint;

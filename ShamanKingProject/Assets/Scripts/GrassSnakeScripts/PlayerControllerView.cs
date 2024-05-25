@@ -52,7 +52,9 @@ public class PlayerControllerView : MonoBehaviour
     Material face_;
 
     [SerializeField]
-    LayerMask groundLayer_;   
+    LayerMask groundLayer_;
+    [SerializeField]
+    Animator guardParticle_;
 
 
     void Awake()
@@ -134,6 +136,7 @@ public class PlayerControllerView : MonoBehaviour
         GameManager.Instance.MainGameMediator.RealTimePlayerData.PlayerGameObject = this.gameObject;
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerGrabSuccessForPlayer, cmd => { DashToGrabTarget(cmd); });
         GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnSystemCallPlayerGameover, cmd => { onPlayerDead(); });
+        GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnCallGuardParticle, cmd => { guardParticleSwitch(cmd); });
         //GameManager.Instance.MainGameEvent.SetSubscribe(GameManager.Instance.MainGameEvent.OnPlayerAttackSuccess, cmd =>
         //{
         //    if (cmd.AttackInputType != AttackInputType.ExecutionAttack) return;
@@ -230,6 +233,17 @@ public class PlayerControllerView : MonoBehaviour
 
         // 將物件A的Rotation設定為計算出的旋轉
         playerModel_.transform.rotation = rotation;
+    }
+    void guardParticleSwitch(CallGuardParticle cmd)
+    {
+        if (cmd.trigger)
+        {
+            guardParticle_.CrossFadeInFixedTime("onHand", 0.1f);
+        }
+        else
+        {
+            guardParticle_.CrossFadeInFixedTime("backHand", 0.1f);
+        }
     }
     void stickInputIndicator()
     {

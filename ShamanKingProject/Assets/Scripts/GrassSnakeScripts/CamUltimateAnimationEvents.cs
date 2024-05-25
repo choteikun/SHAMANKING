@@ -65,7 +65,7 @@ public class CamUltimateAnimationEvents : MonoBehaviour
     }
     void spawnAttackCollider2()
     {
-        var collider = Instantiate(attackCollider1, attackPoint_.transform.position, Quaternion.identity);
+        var collider = Instantiate(attackCollider2, attackPoint_.transform.position, Quaternion.identity);
     }
     void camFeedBack()
     {

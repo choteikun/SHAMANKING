@@ -868,6 +868,7 @@ public enum AttackInputType
     Ultimate,
     UltimatePrepare,
     Guard,
+    UltimateDamage,
 }
 
 
