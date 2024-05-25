@@ -7899,6 +7899,7 @@ GameObject:
   - component: {fileID: 1439586600}
   - component: {fileID: 1439586599}
   - component: {fileID: 1439586598}
+  - component: {fileID: 1439586605}
   m_Layer: 20
   m_Name: PlayerObstacle
   m_TagString: Untagged
@@ -7928,7 +7929,7 @@ BoxCollider:
   m_GameObject: {fileID: 1439586597}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.9875258, y: 1.2506894, z: 1.3493149}
   m_Center: {x: -0.021852912, y: -0.0002864155, z: 0.17465709}
@@ -7997,6 +7998,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1439586605
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439586597}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0.25}
 --- !u!1 &1472877668
 GameObject:
   m_ObjectHideFlags: 0
@@ -90772,8 +90786,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &6147094383737483455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103819,8 +103833,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!1 &8195304433111189566
 GameObject:
   m_ObjectHideFlags: 0
