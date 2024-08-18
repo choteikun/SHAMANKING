@@ -14,7 +14,7 @@ Shader "Custom/Xray"
 		_Pow("Pow Factor", float) = 1
 	}
 
-		SubShader
+	SubShader
 	{
 		// 設置為透明渲染&隊列
 		Tags { "RenderType" = "Transparent" "Queue" = "Transparent"}
